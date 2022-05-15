@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx?browser", "../../../app/routes/index.tsx"],
+  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx\";", "import Logo from \"../images/Logo.svg\"\nimport stylesUrl from \"~/styles/index.css\";\n\nexport const links = () => {\n  return [{ rel: \"stylesheet\", href: stylesUrl }];\n};\n\nexport default function IndexRoute() {\n  return (\n    <div>\n      <div className=\"header\">\n        <img src={Logo} alt=\"logo\" />\n        <ul>\n          <li className=\"active\">Homie</li>\n          <li>Projects</li>\n          <li>Blog</li>\n          <li>Contact</li>\n        </ul>\n      </div>\n\n      <h1>This is an h1j</h1>\n      <h2>This is an h2</h2>\n      <p>This is a p</p>\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;AAAA;;;ACAA;;;;;;;;;AAGO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAGtB,sBAAsB;AACnC,SACE,oCAAC,OAAD,MACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD;AAAA,IAAK,KAAK;AAAA,IAAM,KAAI;AAAA,MACpB,oCAAC,MAAD,MACE,oCAAC,MAAD;AAAA,IAAI,WAAU;AAAA,KAAS,UACvB,oCAAC,MAAD,MAAI,aACJ,oCAAC,MAAD,MAAI,SACJ,oCAAC,MAAD,MAAI,cAIR,oCAAC,MAAD,MAAI,mBACJ,oCAAC,MAAD,MAAI,kBACJ,oCAAC,KAAD,MAAG;AAAA;",
+  "names": []
+}

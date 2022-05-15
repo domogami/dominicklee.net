@@ -1,0 +1,12 @@
+@import "../abstracts/all.scss";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: $bg-color;
+}
+

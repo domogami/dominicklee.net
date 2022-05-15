@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&display=swap");
+html {
+  scroll-behavior: smooth;
+  background-color: #EFEFEF; }
+
+body {
+  font-family: "Asap Condensed", -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  background: #EFEFEF;
+  color: #105157; }
+
+h1 {
+  font-family: 'Asap Condensed', sans-serif;
+  font-size: 8em;
+  font-weight: 400; }
+
+h2 {
+  font-family: 'Asap', sans-serif;
+  font-size: 3em; }
+
+h3 {
+  font-family: 'Asap', sans-serif;
+  font-size: 1.5em; }
+
+p {
+  font-family: 'Asap', sans-serif;
+  font-size: 1.5em; }
+
+.accent {
+  color: #2DB67E; }
+
+.active {
+  color: #2DB67E; }
+
+.header img {
+  width: 50px; }
+
+.header {
+  padding: 20px;
+  z-index: 2;
+  display: inline-block; }
