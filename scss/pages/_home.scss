@@ -1,0 +1,27 @@
+@import "../abstracts/all.scss";
+
+.home {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & h1 {
+    font-size: 7em;
+    text-align: right;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  & .vert-rectangle {
+    width: 5px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: $dark;
+    align-self: center;
+  }
+  & img {
+    padding-left: 40px;
+    width: 400px;
+    height: 400px;
+  }
+} 

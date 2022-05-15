@@ -1,5 +1,5 @@
 {
-  "version": "3c5b2a5c",
+  "version": "1280ceb3",
   "entry": {
     "module": "/build/entry.client-YMYLWBUP.js",
     "imports": [
@@ -21,12 +21,12 @@
       "id": "routes/index",
       "parentId": "root",
       "index": true,
-      "module": "/build/routes/index-LYDTY6CG.js",
+      "module": "/build/routes/index-YNUBUZGM.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-3C5B2A5C.js"
+  "url": "/build/manifest-1280CEB3.js"
 }

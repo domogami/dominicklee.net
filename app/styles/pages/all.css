@@ -1,0 +1,21 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .home h1 {
+    font-size: 7em;
+    text-align: right;
+    padding-left: 40px;
+    padding-right: 40px; }
+  .home .vert-rectangle {
+    width: 5px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: #105157;
+    align-self: center; }
+  .home img {
+    padding-left: 40px;
+    width: 400px;
+    height: 400px; }
