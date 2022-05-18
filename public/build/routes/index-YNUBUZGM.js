@@ -12,7 +12,7 @@ init_react();
 init_react();
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-MXF7EG6F.css";
+var app_default = "/build/_assets/app-7NENUZC2.css";
 
 // app/components/header.tsx
 init_react();
