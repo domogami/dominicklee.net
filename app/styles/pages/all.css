@@ -82,11 +82,18 @@ p {
     color: #abb2bf;
     font-family: "JetBrains Mono"; }
   .startpage-containter h1 {
-    padding-top: 50px;
+    padding-top: 30px;
     color: #abb2bf;
     font-family: "JetBrains Mono";
     font-size: 4em;
     text-align: center; }
+  .startpage-containter h2 {
+    color: #abb2bf;
+    font-family: "JetBrains Mono";
+    padding: 50px 0;
+    font-size: 1.4em;
+    text-align: center;
+    background-color: #282c34; }
 
 .startpage-hero-container {
   width: 100vw;

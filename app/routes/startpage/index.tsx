@@ -13,10 +13,18 @@ export default function Index() {
     { name: 'remix', link: 'https://remix.run/docs/en/v1' },
   ];
   const sectionTwo = [
-    { name: 'amazon', link: 'https://www.amazonuniversity.jobs/communitylogin' },
-    { name: 'seattle', link: 'https://docs.google.com/spreadsheets/d/1svMX1JvXCcojulCv4LPBB5YL9wpiQsXD1r_l4-xSh4U/edit?usp=sharing' },
-    { name: 'commute', link: 'https://www.google.com/maps/dir//Institute+For+Systems+Biology,+401+Terry+Ave+N,+Seattle,+WA+98109/@47.6219859,-122.3406299,15z/data=!3m1!4b1!4m13!4m12!1m0!1m5!1m1!1s0x5490150242acab75:0x5b8f4e4b0f0b5350!2m2!1d-122.3373956!2d47.6223926!2m3!6e0!7e2!8j1652688000!3e0' },
-
+    {
+      name: 'amazon',
+      link: 'https://www.amazonuniversity.jobs/communitylogin',
+    },
+    {
+      name: 'seattle',
+      link: 'https://docs.google.com/spreadsheets/d/1svMX1JvXCcojulCv4LPBB5YL9wpiQsXD1r_l4-xSh4U/edit?usp=sharing',
+    },
+    {
+      name: 'commute',
+      link: 'https://www.google.com/maps/dir//Institute+For+Systems+Biology,+401+Terry+Ave+N,+Seattle,+WA+98109/@47.6219859,-122.3406299,15z/data=!3m1!4b1!4m13!4m12!1m0!1m5!1m1!1s0x5490150242acab75:0x5b8f4e4b0f0b5350!2m2!1d-122.3373956!2d47.6223926!2m3!6e0!7e2!8j1652688000!3e0',
+    },
   ];
   const sectionThree = [
     { name: 'github', link: 'https://github.com' },

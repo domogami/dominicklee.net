@@ -1,5 +1,5 @@
 {
-  "version": "37072292",
+  "version": "2078af1f",
   "entry": {
     "module": "/build/entry.client-EU7DHBSL.js",
     "imports": [
@@ -54,7 +54,7 @@
       "id": "routes/startpage",
       "parentId": "root",
       "path": "startpage",
-      "module": "/build/routes/startpage-LZRRWO4Q.js",
+      "module": "/build/routes/startpage-FNHBP4AG.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
@@ -64,7 +64,7 @@
       "id": "routes/startpage/index",
       "parentId": "routes/startpage",
       "index": true,
-      "module": "/build/routes/startpage/index-TYHSRXSJ.js",
+      "module": "/build/routes/startpage/index-RF7VM2KC.js",
       "imports": [
         "/build/_shared/chunk-4PGGUHA2.js"
       ],
@@ -74,5 +74,5 @@
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-37072292.js"
+  "url": "/build/manifest-2078AF1F.js"
 }
