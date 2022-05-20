@@ -1,13 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap');
 
-$accent-1: #2DB67E;
+$accent-1: #2db67e;
 $text-dark: #105157;
 $dark: #105157;
-$bg-color: #EFEFEF;
+$bg-color: #efefef;
 
 // Spacing
 $spacing-md: 16px;
 $spacing-lg: 32px;
 
 $border-radius: 12px;
-$jetbrains: 'JetBrains Mono'
+$jetbrains: 'JetBrains Mono';
+
+// OneDark
+$one-dark-text: #abb2bf;
+$one-dark-bg: #282c34;
+$one-dark-green: #98c379;
+$one-dark-red: #e06c75;
+$one-dark-yellow: #e5c07b;
+$one-dark-blue: #61afef;
