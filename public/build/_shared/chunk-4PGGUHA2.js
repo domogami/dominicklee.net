@@ -1,5 +1,5 @@
 // app/styles/app.css
-var app_default = "/build/_assets/app-GTIT5EZS.css";
+var app_default = "/build/_assets/app-S5PXKUWK.css";
 
 export {
   app_default

@@ -7,5 +7,10 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: $bg-color;
+}
+body {
+  transition: all 0.7s ease-in-out;
+  @include themed() {
+      background-color: t('bg');
+  }
 }

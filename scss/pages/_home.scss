@@ -16,7 +16,9 @@
     width: 5px;
     height: 250px;
     border-radius: 10px;
-    background-color: $dark;
+    @include themed() {
+      background: t('text');
+    }
     align-self: center;
   }
   & img {

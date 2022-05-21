@@ -5,30 +5,41 @@
   width: 100vw;
   height: 100vh;
   margin: auto;
-  background-color: $one-dark-bg;
+  @include themed() {
+    color: t('text');
+    background: t('bg');
+  }
   z-index: 2;
   & .green-text {
     font-family: $jetbrains;
-    color: $accent-1;
+    @include themed() {
+      color: t('g');
+    }
   }
   & p {
-    color: $one-dark-text;
+    @include themed() {
+      color: t('text');
+    }
     font-family: $jetbrains;
   }
   & h1 {
     padding-top: 30px;
-    color: $one-dark-text;
     font-family: $jetbrains;
     font-size: 4em;
     text-align: center;
+    @include themed() {
+      color: t('text');
+    }
   }
   & h2 {
-    color: $one-dark-text;
     font-family: $jetbrains;
     padding: 50px 0;
     font-size: 1.4em;
     text-align: center;
-    background-color: $one-dark-bg;
+    @include themed() {
+      color: t('text');
+      background: t('bg');
+    }
   }
 }
 
@@ -36,7 +47,11 @@
   width: 100vw;
   margin: auto;
   z-index: 1;
-  background-color: $one-dark-bg;
+  @include themed() {
+    color: t('text');
+    background: t('bg');
+  }
+
   .startpage-hero {
     width: 90vw;
     max-width: 700px;
@@ -58,7 +73,10 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       border-radius: 20px;
-      border: 1px solid $one-dark-text;
+      @include themed() {
+        border: t('border');
+        background: t('bg');
+      }
     }
   }
   p {
@@ -123,7 +141,9 @@
   }
 
   & a {
-    color: $one-dark-text;
+    @include themed() {
+      color: t('text');
+    }
     text-decoration: none;
     font-size: 1.5em;
     font-family: $jetbrains;

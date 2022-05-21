@@ -10,7 +10,7 @@ export default function Index() {
   const sectionOne = [
     { name: 'stack', link: 'https://stackoverflow.com/' },
     { name: 'google', link: 'https://google.com' },
-    { name: 'remix', link: 'https://remix.run/docs/en/v1' },
+    { name: 'dom', link: 'localhost:3000/' },
   ];
   const sectionTwo = [
     {

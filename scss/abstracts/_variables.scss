@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap');
 
+@use 'sass:map';
+
 $accent-1: #2db67e;
 $text-dark: #105157;
 $dark: #105157;
@@ -19,3 +21,58 @@ $one-dark-green: #98c379;
 $one-dark-red: #e06c75;
 $one-dark-yellow: #e5c07b;
 $one-dark-blue: #61afef;
+$one-dark-cyan: #56b6c2;
+$one-dark-magenta: #c678dd;
+
+$text--light: #105157;
+$text--dark: #abb2bf;
+$bg--light: #efefef;
+$bg--dark: #282c34;
+$green--light: #2db67e;
+$green--dark: #2db67e;
+
+$themes: (
+  lightMode: (
+    bg: $bg--light,
+    text: $text--light,
+    border: 1px solid $text--light,
+    g: $green--light,
+    b: #61AFEF,
+    r: #E06C75,
+    p: #E5C07B,
+    y: #C678DD,
+  ),
+  darkMode: (
+    bg: $bg--dark,
+    text: $text--dark,
+    border: 1px solid $text--dark,
+    g: $green--dark,
+    b: #61AFEF,
+    r: #E06C75,
+    p: #C678DD, 
+    y: #E5C07B,
+  ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}

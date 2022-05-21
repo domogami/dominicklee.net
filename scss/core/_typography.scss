@@ -8,8 +8,10 @@ body {
     sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  background: $bg-color;
-  color: $text-dark;
+  @include themed() {
+    color: t('text');
+    background: t('bg');
+  }
   font-weight: 400;
 }
 h1 {

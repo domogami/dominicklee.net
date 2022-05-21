@@ -1,4 +1,4 @@
-import Logo from '../images/Logo.svg';
+import Logo from '../images/Logo_Transparent.svg';
 import { useState } from 'react';
 
 export default function Header() {

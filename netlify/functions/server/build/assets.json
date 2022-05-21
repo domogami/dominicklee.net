@@ -1,5 +1,5 @@
 {
-  "version": "2078af1f",
+  "version": "a50c05ff",
   "entry": {
     "module": "/build/entry.client-EU7DHBSL.js",
     "imports": [
@@ -11,7 +11,7 @@
     "root": {
       "id": "root",
       "path": "",
-      "module": "/build/root-WV5CFAGX.js",
+      "module": "/build/root-XIAYDFCV.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
@@ -41,9 +41,9 @@
       "id": "routes/index",
       "parentId": "root",
       "index": true,
-      "module": "/build/routes/index-AR2ED6NQ.js",
+      "module": "/build/routes/index-TIXAKAAY.js",
       "imports": [
-        "/build/_shared/chunk-4PGGUHA2.js"
+        "/build/_shared/chunk-DSVRKA52.js"
       ],
       "hasAction": false,
       "hasLoader": false,
@@ -54,7 +54,7 @@
       "id": "routes/startpage",
       "parentId": "root",
       "path": "startpage",
-      "module": "/build/routes/startpage-FNHBP4AG.js",
+      "module": "/build/routes/startpage-42IICQMY.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
@@ -64,9 +64,9 @@
       "id": "routes/startpage/index",
       "parentId": "routes/startpage",
       "index": true,
-      "module": "/build/routes/startpage/index-RF7VM2KC.js",
+      "module": "/build/routes/startpage/index-6WJBN6NY.js",
       "imports": [
-        "/build/_shared/chunk-4PGGUHA2.js"
+        "/build/_shared/chunk-DSVRKA52.js"
       ],
       "hasAction": false,
       "hasLoader": false,
@@ -74,5 +74,5 @@
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-2078AF1F.js"
+  "url": "/build/manifest-A50C05FF.js"
 }

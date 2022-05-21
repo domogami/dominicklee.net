@@ -1,5 +1,5 @@
 import hexagon from '~/images/hexagon.svg';
-import logo from '~/images/Logo.svg';
+import logo from '~/images/Logo_Transparent.svg';
 
 export default function Home() {
   return (

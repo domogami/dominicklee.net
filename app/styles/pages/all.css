@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@use 'sass:map';
 .home {
   width: 100vw;
   height: 100vh;
@@ -19,28 +20,44 @@
     width: 5px;
     height: 250px;
     border-radius: 10px;
-    background-color: #105157;
     align-self: center; }
+    .theme--lightMode .home .vert-rectangle {
+      background: #105157; }
+    .theme--darkMode .home .vert-rectangle {
+      background: #abb2bf; }
   .home img {
     padding-left: 40px;
     width: 400px;
     height: 400px; }
 
+@use 'sass:map';
+@use 'sass:map';
 * {
   box-sizing: border-box;
   margin: 0; }
 
 html {
-  scroll-behavior: smooth;
-  background-color: #efefef; }
+  scroll-behavior: smooth; }
 
+body {
+  transition: all 0.7s ease-in-out; }
+  .theme--lightMode body {
+    background-color: #efefef; }
+  .theme--darkMode body {
+    background-color: #282c34; }
+
+@use 'sass:map';
 body {
   font-family: 'Asap Condensed', -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  background: #efefef;
-  color: #105157;
   font-weight: 400; }
+  .theme--lightMode body {
+    color: #105157;
+    background: #efefef; }
+  .theme--darkMode body {
+    color: #abb2bf;
+    background: #282c34; }
 
 h1 {
   font-family: 'Asap Condensed', sans-serif;
@@ -73,33 +90,56 @@ p {
   width: 100vw;
   height: 100vh;
   margin: auto;
-  background-color: #282c34;
   z-index: 2; }
-  .startpage-containter .green-text {
-    font-family: "JetBrains Mono";
-    color: #2db67e; }
-  .startpage-containter p {
+  .theme--lightMode .startpage-containter {
+    color: #105157;
+    background: #efefef; }
+  .theme--darkMode .startpage-containter {
     color: #abb2bf;
+    background: #282c34; }
+  .startpage-containter .green-text {
     font-family: "JetBrains Mono"; }
+    .theme--lightMode .startpage-containter .green-text {
+      color: #2db67e; }
+    .theme--darkMode .startpage-containter .green-text {
+      color: #2db67e; }
+  .startpage-containter p {
+    font-family: "JetBrains Mono"; }
+    .theme--lightMode .startpage-containter p {
+      color: #105157; }
+    .theme--darkMode .startpage-containter p {
+      color: #abb2bf; }
   .startpage-containter h1 {
     padding-top: 30px;
-    color: #abb2bf;
     font-family: "JetBrains Mono";
     font-size: 4em;
     text-align: center; }
+    .theme--lightMode .startpage-containter h1 {
+      color: #105157; }
+    .theme--darkMode .startpage-containter h1 {
+      color: #abb2bf; }
   .startpage-containter h2 {
-    color: #abb2bf;
     font-family: "JetBrains Mono";
     padding: 50px 0;
     font-size: 1.4em;
-    text-align: center;
-    background-color: #282c34; }
+    text-align: center; }
+    .theme--lightMode .startpage-containter h2 {
+      color: #105157;
+      background: #efefef; }
+    .theme--darkMode .startpage-containter h2 {
+      color: #abb2bf;
+      background: #282c34; }
 
 .startpage-hero-container {
   width: 100vw;
   margin: auto;
-  z-index: 1;
-  background-color: #282c34; }
+  z-index: 1; }
+  .theme--lightMode .startpage-hero-container {
+    color: #105157;
+    background: #efefef; }
+  .theme--darkMode .startpage-hero-container {
+    color: #abb2bf;
+    background: #282c34; }
   .startpage-hero-container .startpage-hero {
     width: 90vw;
     max-width: 700px;
@@ -119,8 +159,13 @@ p {
       margin: auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      border-radius: 20px;
-      border: 1px solid #abb2bf; }
+      border-radius: 20px; }
+      .theme--lightMode .startpage-hero-container .startpage-hero .startpage-grid {
+        border: 1px solid #105157;
+        background: #efefef; }
+      .theme--darkMode .startpage-hero-container .startpage-hero .startpage-grid {
+        border: 1px solid #abb2bf;
+        background: #282c34; }
   .startpage-hero-container p {
     color: #abb2bf;
     font-family: "JetBrains Mono"; }
@@ -169,8 +214,11 @@ p {
     display: grid;
     grid-template-rows: repeat(auto); }
   .grid-item-container a {
-    color: #abb2bf;
     text-decoration: none;
     font-size: 1.5em;
     font-family: "JetBrains Mono";
     transition: 0.3s ease-in-out; }
+    .theme--lightMode .grid-item-container a {
+      color: #105157; }
+    .theme--darkMode .grid-item-container a {
+      color: #abb2bf; }

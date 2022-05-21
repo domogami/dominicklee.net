@@ -21,8 +21,9 @@ export const useDate = () => {
   })}\n\n`;
 
   const hour = today.getHours();
-  const wish = `Good ${(hour < 12 && 'Morning') || (hour < 17 && 'Afternoon') || 'Evening'
-    } `;
+  const wish = `Good ${
+    (hour < 12 && 'Morning') || (hour < 17 && 'Afternoon') || 'Evening'
+  } `;
 
   const time = today.toLocaleTimeString(locale, {
     hour: 'numeric',
@@ -45,7 +46,9 @@ export default function Startpage() {
         Welcome Back <span className="green-text">Dom</span>{' '}
       </h1>
       <Outlet />
-      <h2 id="date">{todaysDate.date} | {todaysDate.time} | {todaysDate.wish}</h2>
+      <h2 id="date">
+        {todaysDate.date} | {todaysDate.time} | {todaysDate.wish}
+      </h2>
     </div>
   );
 }
