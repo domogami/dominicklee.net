@@ -1,7 +1,7 @@
 @import '../abstracts/all.scss';
 
 .header-container {
-  width: 100vw;
+  width: 100%;
   align-items: center;
   position: absolute;
 }
@@ -21,8 +21,11 @@
     width: 60px;
   }
   & ul {
+    display: none;
+    @include breakpoint(md) {
+      display: flex;
+    }
     list-style: none;
-    display: flex;
     flex-direction: row;
     margin: auto;
   }

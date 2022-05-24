@@ -1,18 +1,29 @@
 @import '../abstracts/all.scss';
 
 .home {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  @include breakpoint(md) {
+    flex-direction: row;
+  }
   align-items: center;
   justify-content: center;
   & h1 {
     font-size: 7em;
-    text-align: right;
+    text-align: center;
     padding-left: 40px;
     padding-right: 40px;
+    @include breakpoint(md) {
+      text-align: right;
+    }
   }
   & .vert-rectangle {
+    @include breakpoint(md) {
+      display: inline;
+    }
+    display: none;
     width: 5px;
     height: 250px;
     border-radius: 10px;
