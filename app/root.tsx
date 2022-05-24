@@ -8,7 +8,6 @@ import {
 } from 'remix';
 import type { MetaFunction } from 'remix';
 import ThemeProvider from './components/ThemeProvider';
-import ThemeSetter from './components/ThemeSetter';
 
 export const meta: MetaFunction = () => {
   return { title: "I'm Dominick Lee" };
@@ -25,7 +24,6 @@ export default function App() {
       </head>
       <ThemeProvider>
         <body>
-          <ThemeSetter />
           <Outlet />
           <ScrollRestoration />
           <Scripts />

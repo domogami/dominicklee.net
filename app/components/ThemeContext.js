@@ -2,7 +2,7 @@
 import React from 'react';
 
 export const initialThemeState = {
-  theme: 'lightMode',
+  theme: 'Dark',
   setTheme: () => null,
 };
 

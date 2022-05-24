@@ -4,7 +4,7 @@
 
 $accent-1: #2db67e;
 $text-dark: #105157;
-$dark: #105157;
+/* $dark: #105157; */
 $bg-color: #efefef;
 
 // Spacing
@@ -32,25 +32,25 @@ $green--light: #2db67e;
 $green--dark: #2db67e;
 
 $themes: (
-  lightMode: (
+  Light: (
     bg: $bg--light,
     text: $text--light,
     border: 1px solid $text--light,
     g: $green--light,
-    b: #61AFEF,
-    r: #E06C75,
-    p: #E5C07B,
-    y: #C678DD,
+    b: #61afef,
+    r: #e06c75,
+    p: #e5c07b,
+    y: #c678dd,
   ),
-  darkMode: (
+  Dark: (
     bg: $bg--dark,
     text: $text--dark,
     border: 1px solid $text--dark,
     g: $green--dark,
-    b: #61AFEF,
-    r: #E06C75,
-    p: #C678DD, 
-    y: #E5C07B,
+    b: #61afef,
+    r: #e06c75,
+    p: #c678dd,
+    y: #e5c07b,
   ),
 );
 

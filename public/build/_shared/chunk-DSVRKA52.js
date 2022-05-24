@@ -1,5 +1,5 @@
 // app/styles/app.css
-var app_default = "/build/_assets/app-S5PXKUWK.css";
+var app_default = "/build/_assets/app-IKANDCHV.css";
 
 // app/images/Logo_Transparent.svg
 var Logo_Transparent_default = "/build/_assets/Logo_Transparent-HXC24UL2.svg";

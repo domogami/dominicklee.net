@@ -6,7 +6,7 @@ My personal side but reimagined
 
 ## Project Todo
 
-- [X] Toggleable Theme
+- [x] Toggleable Theme
 - [ ] Better [Prettier Rules](https://prettier.io/docs/en/options.html)
 - [ ] [Prisma vs Mongoose](https://dev.to/somsubhra1/journey-from-mongoose-to-prisma-orm-for-mongodb-3j21)
 

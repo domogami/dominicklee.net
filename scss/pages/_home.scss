@@ -27,3 +27,22 @@
     height: 400px;
   }
 }
+.section-header {
+  margin-left: 0;
+  width: 100vw;
+  & h2 {
+    font-size: 4em;
+    margin: auto;
+    text-align: center;
+    padding: 5px 20px;
+  }
+  & .fancy-rectangle {
+    margin: auto;
+    width: 270px;
+    height: 5px;
+    border-radius: 5px;
+    @include themed() {
+      background-color: t('g');
+    }
+  }
+}

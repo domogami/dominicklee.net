@@ -1,4 +1,5 @@
 import Logo from '../images/Logo_Transparent.svg';
+import ThemeSetter from './ThemeSetter';
 import { useState } from 'react';
 
 export default function Header() {
@@ -21,12 +22,16 @@ export default function Header() {
             <a href="/#contact"> Contact</a>
           </li>
         </ul>
-        <div
-          className={`menu-btn${menuIsOpen ? ' open' : ''}`}
-          onClick={() => setMenuIsOpen(!menuIsOpen)}
-        >
-          <div className="menu-btn__burger"></div>
-        </div>
+        {true ? (
+          <ThemeSetter />
+        ) : (
+          <div
+            className={`menu-btn${menuIsOpen ? ' open' : ''}`}
+            onClick={() => setMenuIsOpen(!menuIsOpen)}
+          >
+            <div className="menu-btn__burger"></div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,6 @@ html {
 body {
   transition: all 0.7s ease-in-out;
   @include themed() {
-      background-color: t('bg');
+    background-color: t('bg');
   }
 }

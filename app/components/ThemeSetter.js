@@ -7,7 +7,11 @@ export default function ThemeSetter() {
   const { theme, setTheme } = useContext(ThemeContext);
 
   return (
-    <select value={theme} onChange={(e) => setTheme(e.currentTarget.value)}>
+    <select
+      className="theme-selector"
+      value={theme}
+      onChange={(e) => setTheme(e.currentTarget.value)}
+    >
       {themeOptions.map((option, idx) => (
         <option value={option.value} key={idx}>
           {option.value}
@@ -17,4 +21,4 @@ export default function ThemeSetter() {
   );
 }
 
-const themeOptions = [{ value: 'lightMode' }, { value: 'darkMode' }];
+const themeOptions = [{ value: 'Light' }, { value: 'Dark' }];
