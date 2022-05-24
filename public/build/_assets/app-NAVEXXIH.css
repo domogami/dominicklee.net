@@ -582,7 +582,6 @@ p {
     .theme--Dark .startpage-containter h1 {
       color: #abb2bf; }
   .startpage-containter h2 {
-    transition: all 0.7s ease-in-out;
     font-family: "JetBrains Mono";
     padding: 50px 0;
     font-size: 1.4em;
@@ -606,7 +605,6 @@ p {
     color: #abb2bf;
     background: #282c34; }
   .startpage-hero-container .startpage-hero {
-    transition: all 0.7s ease-in-out;
     width: 90vw;
     max-width: 700px;
     margin: auto;
@@ -619,7 +617,6 @@ p {
       width: 400px;
       margin: auto; }
     .startpage-hero-container .startpage-hero .startpage-grid {
-      transition: all 0.7s ease-in-out;
       padding: 45px 30px;
       width: 80vw;
       max-width: 800px;
@@ -637,40 +634,35 @@ p {
     color: #abb2bf;
     font-family: "JetBrains Mono"; }
 
-.grid-item-container:nth-child(1) {
-  transition: all 0.7s ease-in-out; }
-  .grid-item-container:nth-child(1) h3 {
-    color: #61afef; }
-  .grid-item-container:nth-child(1) a:hover {
-    color: #61afef;
-    transition: 0.3s ease-in-out; }
+.grid-item-container:nth-child(1) h3 {
+  color: #61afef; }
 
-.grid-item-container:nth-child(2) {
-  transition: all 0.7s ease-in-out; }
-  .grid-item-container:nth-child(2) h3 {
-    color: #e06c75; }
-  .grid-item-container:nth-child(2) a:hover {
-    color: #e06c75;
-    transition: 0.3s ease-in-out; }
+.grid-item-container:nth-child(1) a:hover {
+  color: #61afef;
+  transition: 0.3s ease-in-out; }
 
-.grid-item-container:nth-child(3) {
-  transition: all 0.7s ease-in-out; }
-  .grid-item-container:nth-child(3) h3 {
-    color: #e5c07b; }
-  .grid-item-container:nth-child(3) a:hover {
-    color: #e5c07b;
-    transition: 0.3s ease-in-out; }
+.grid-item-container:nth-child(2) h3 {
+  color: #e06c75; }
 
-.grid-item-container:nth-child(4) {
-  transition: all 0.7s ease-in-out; }
-  .grid-item-container:nth-child(4) h3 {
-    color: #2db67e; }
-  .grid-item-container:nth-child(4) a:hover {
-    color: #2db67e;
-    transition: 0.3s ease-in-out; }
+.grid-item-container:nth-child(2) a:hover {
+  color: #e06c75;
+  transition: 0.3s ease-in-out; }
+
+.grid-item-container:nth-child(3) h3 {
+  color: #e5c07b; }
+
+.grid-item-container:nth-child(3) a:hover {
+  color: #e5c07b;
+  transition: 0.3s ease-in-out; }
+
+.grid-item-container:nth-child(4) h3 {
+  color: #2db67e; }
+
+.grid-item-container:nth-child(4) a:hover {
+  color: #2db67e;
+  transition: 0.3s ease-in-out; }
 
 .grid-item-container {
-  transition: all 0.7s ease-in-out;
   margin: auto auto auto auto; }
   .grid-item-container h3 {
     text-align: left;

@@ -606,7 +606,6 @@ p {
     color: #abb2bf;
     background: #282c34; }
   .startpage-hero-container .startpage-hero {
-    transition: all 0.7s ease-in-out;
     width: 90vw;
     max-width: 700px;
     margin: auto;
@@ -619,7 +618,6 @@ p {
       width: 400px;
       margin: auto; }
     .startpage-hero-container .startpage-hero .startpage-grid {
-      transition: all 0.7s ease-in-out;
       padding: 45px 30px;
       width: 80vw;
       max-width: 800px;

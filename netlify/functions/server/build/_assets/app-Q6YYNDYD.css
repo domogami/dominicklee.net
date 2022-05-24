@@ -619,7 +619,6 @@ p {
       width: 400px;
       margin: auto; }
     .startpage-hero-container .startpage-hero .startpage-grid {
-      transition: all 0.7s ease-in-out;
       padding: 45px 30px;
       width: 80vw;
       max-width: 800px;

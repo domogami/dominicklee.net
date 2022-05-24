@@ -2,6 +2,7 @@
 @import '../core/all.scss';
 
 .startpage-containter {
+  transition: all 0.7s ease-in-out;
   width: 100vw;
   height: 100vh;
   margin: auto;
@@ -32,6 +33,7 @@
     }
   }
   & h2 {
+  transition: all 0.7s ease-in-out;
     font-family: $jetbrains;
     padding: 50px 0;
     font-size: 1.4em;
@@ -44,6 +46,7 @@
 }
 
 .startpage-hero-container {
+  transition: all 0.7s ease-in-out;
   width: 100vw;
   margin: auto;
   z-index: 1;
@@ -53,6 +56,7 @@
   }
 
   .startpage-hero {
+  transition: all 0.7s ease-in-out;
     width: 90vw;
     max-width: 700px;
     margin: auto;
@@ -66,6 +70,7 @@
       margin: auto;
     }
     & .startpage-grid {
+  transition: all 0.7s ease-in-out;
       padding: 45px 30px;
       width: 80vw;
       max-width: 800px;
@@ -86,6 +91,7 @@
 }
 
 .grid-item-container:nth-child(1) {
+  transition: all 0.7s ease-in-out;
   & h3 {
     color: $one-dark-blue;
   }
@@ -95,6 +101,7 @@
   }
 }
 .grid-item-container:nth-child(2) {
+  transition: all 0.7s ease-in-out;
   & h3 {
     color: $one-dark-red;
   }
@@ -104,6 +111,7 @@
   }
 }
 .grid-item-container:nth-child(3) {
+  transition: all 0.7s ease-in-out;
   & h3 {
     color: $one-dark-yellow;
   }
@@ -113,6 +121,7 @@
   }
 }
 .grid-item-container:nth-child(4) {
+  transition: all 0.7s ease-in-out;
   & h3 {
     color: $accent-1;
   }
@@ -122,6 +131,7 @@
   }
 }
 .grid-item-container {
+  transition: all 0.7s ease-in-out;
   margin: auto auto auto auto;
   & h3 {
     text-align: left;

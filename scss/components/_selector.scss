@@ -1,4 +1,5 @@
 @import '../abstracts/all.scss';
+@import '../core/all.scss';
 
 .theme-selector {
   text-decoration: none;
@@ -17,4 +18,27 @@
     background-color: t('bg');
     color: t('text');
   }
+}
+
+.startpage-containter {
+  .theme-selector {
+    text-decoration: none;
+    border: none;
+    font-family: $jetbrains;
+    font-size: 1em;
+    font-weight: inherit;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.7s ease-in-out;
+    @include themed() {
+      background-color: t('bg');
+      color: t('text');
+    }
+}
+
+
 }
