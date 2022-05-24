@@ -1,5 +1,5 @@
 {
-  "version": "2848074e",
+  "version": "eac7b457",
   "entry": {
     "module": "/build/entry.client-EU7DHBSL.js",
     "imports": [
@@ -40,14 +40,42 @@
       "hasCatchBoundary": false,
       "hasErrorBoundary": false
     },
+    "routes/drinks": {
+      "id": "routes/drinks",
+      "parentId": "root",
+      "path": "drinks",
+      "module": "/build/routes/drinks-ISRIEQJX.js",
+      "imports": [
+        "/build/_shared/chunk-4PGGUHA2.js"
+      ],
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/drinks/index": {
+      "id": "routes/drinks/index",
+      "parentId": "routes/drinks",
+      "index": true,
+      "module": "/build/routes/drinks/index-FTTZMFIH.js",
+      "imports": [
+        "/build/_shared/chunk-4ICENICD.js",
+        "/build/_shared/chunk-QDAOBHV5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
     "routes/index": {
       "id": "routes/index",
       "parentId": "root",
       "index": true,
-      "module": "/build/routes/index-KAUPQEOI.js",
+      "module": "/build/routes/index-HF55BCGG.js",
       "imports": [
+        "/build/_shared/chunk-LCZZKLOE.js",
         "/build/_shared/chunk-4ICENICD.js",
-        "/build/_shared/chunk-DSVRKA52.js"
+        "/build/_shared/chunk-4PGGUHA2.js"
       ],
       "hasAction": false,
       "hasLoader": false,
@@ -71,9 +99,10 @@
       "id": "routes/startpage/index",
       "parentId": "routes/startpage",
       "index": true,
-      "module": "/build/routes/startpage/index-6WJBN6NY.js",
+      "module": "/build/routes/startpage/index-JFLUV4RL.js",
       "imports": [
-        "/build/_shared/chunk-DSVRKA52.js"
+        "/build/_shared/chunk-LCZZKLOE.js",
+        "/build/_shared/chunk-4PGGUHA2.js"
       ],
       "hasAction": false,
       "hasLoader": false,
@@ -81,5 +110,5 @@
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-2848074E.js"
+  "url": "/build/manifest-EAC7B457.js"
 }

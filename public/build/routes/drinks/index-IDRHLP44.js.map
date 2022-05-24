@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks/index.tsx?browser", "../../../../app/routes/drinks/index.tsx"],
+  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks/index.tsx\";", "import stylesUrl from '~/styles/app.css';\n\nexport const links = () => {\n  return [{ rel: 'stylesheet', href: stylesUrl }];\n};\n\nexport default function Index() {\n  return (\n    <div className=\"drinks-container\">\n      <h2>Beach dog</h2>\n      <p></p>\n      <ol>\n        <li>1/2 oz - Ammartto</li>\n      </ol>\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;;;ACAA;AAEO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAGtB,iBAAiB;AAC9B,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD,MAAI,cACJ,oCAAC,KAAD,OACA,oCAAC,MAAD,MACE,oCAAC,MAAD,MAAI;AAAA;",
+  "names": []
+}
