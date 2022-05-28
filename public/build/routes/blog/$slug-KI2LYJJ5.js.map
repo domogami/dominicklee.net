@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/$slug.tsx?browser", "../../../../app/routes/blog/$slug.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/$slug.tsx\";", "import { useLoaderData } from 'remix';\nimport invariant from 'tiny-invariant';\nimport { getPost } from '~/post';\n\nexport let loader = async ({ params }) => {\n  invariant(params.slug, 'expected params.slug');\n  return getPost(params.slug);\n};\n\nexport default function PostSlug() {\n  let post = useLoaderData();\n  return (\n    <div\n      className=\"postDisplay\"\n      dangerouslySetInnerHTML={{ __html: post.html }}\n    />\n  );\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;;;ACAA;AASe,oBAAoB;AACjC,MAAI,OAAO;AACX,SACE,oCAAC,OAAD;AAAA,IACE,WAAU;AAAA,IACV,yBAAyB,EAAE,QAAQ,KAAK;AAAA;AAAA;",
+  "names": []
+}

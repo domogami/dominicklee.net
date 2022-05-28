@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/index.tsx?browser", "../../../../app/routes/blog/index.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/index.tsx\";", "export let loader = () => {\n  return getPosts();\n};\n\nexport default function Index() {\n  return (\n    <div className=\"blog-container\">\n      <div className=\"blog-hero\">\n        <h1>\n          Welcome to <br />\n          my <span className=\"accent\">Blog</span>\n        </h1>\n        <div className=\"rectangle-container\">\n          <div className=\"fancy-rectangle\" />\n        </div>\n      </div>\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;AAAA;;;ACAA;AAIe,iBAAiB;AAC9B,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD,MAAI,eACS,oCAAC,MAAD,OAAM,OACd,oCAAC,QAAD;AAAA,IAAM,WAAU;AAAA,KAAS,UAE9B,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA;AAAA;",
+  "names": []
+}
