@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx?browser", "../../../app/routes/startpage.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx\";", "import { Outlet } from 'remix';\n\nexport default function Startpage() {\n  return (\n    <div className=\"startpage-containter\"> <h1> Welcome Back <span className=\"green-text\">Dom</span> </h1>\n      <Outlet />\n\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;;;ACAA;AAEe,qBAAqB;AAClC,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KAAuB,KAAC,oCAAC,MAAD,MAAI,kBAAc,oCAAC,QAAD;AAAA,IAAM,WAAU;AAAA,KAAa,QAAU,MAC9F,oCAAC,gCAAD;AAAA;",
-  "names": []
-}

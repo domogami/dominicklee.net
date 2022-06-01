@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -10,6 +9,7 @@ datasource db {
 
 model posts {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
+  editorjs String
   markdown String
   slug     String
   title    String

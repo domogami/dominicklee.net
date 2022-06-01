@@ -1,4 +1,4 @@
-import { getPosts } from '~/post.js';
+import { getPosts } from '~/post.ts';
 import { Link, Outlet, useLoaderData } from 'remix';
 
 export let loader = () => {

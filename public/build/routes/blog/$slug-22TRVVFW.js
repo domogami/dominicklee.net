@@ -1,0 +1,1 @@
+import{g as r}from"/build/_shared/chunk-6QSLARX2.js";import{f as e,g as t}from"/build/_shared/chunk-TOAMQMCD.js";t();t();function o(){let l=r();return e.createElement("div",{className:"postDisplay",dangerouslySetInnerHTML:{__html:l.html}})}export{o as default};

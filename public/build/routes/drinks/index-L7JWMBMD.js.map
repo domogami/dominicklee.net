@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks/index.tsx?browser", "../../../../app/routes/drinks/index.tsx"],
-  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks/index.tsx\";", "import stylesUrl from '~/styles/app.css';\n\nexport const links = () => {\n  return [{ rel: 'stylesheet', href: stylesUrl }];\n};\n\nexport default function Index() {\n  return (\n    <div className=\"drinks\">\n      <h2>Beach dog</h2>\n      <ol>\n        <li>1/2 oz - Ammaretto</li>\n        <li>1 oz - Malibu Pineapple</li>\n        <li>1 oz - Kalua</li>\n        <li>Shake with crushed ice</li>\n        <li>Top with 2 oz of chilled Nitro Pepsi freshly poured</li>\n      </ol>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;;;ACAA;AAEO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAGtB,iBAAiB;AAC9B,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD,MAAI,cACJ,oCAAC,MAAD,MACE,oCAAC,MAAD,MAAI,uBACJ,oCAAC,MAAD,MAAI,4BACJ,oCAAC,MAAD,MAAI,iBACJ,oCAAC,MAAD,MAAI,2BACJ,oCAAC,MAAD,MAAI;AAAA;",
-  "names": []
-}

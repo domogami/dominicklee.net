@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx?browser"],
-  "sourcesContent": ["export * from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx\";"],
-  "mappings": ";;;;;AAAA;",
-  "names": []
-}

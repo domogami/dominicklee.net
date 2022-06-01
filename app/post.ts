@@ -40,11 +40,12 @@ export async function getPostEdit(slug) {
   let title = foundSlug.title;
   // since we are editing and not rendering we want to pull the original markdown value stored in the db
   let markdown = foundSlug.markdown;
+  let editorjs = foundSlug.editorjs;
   // we need to cleanup our database connection
   prisma.$disconnect();
 
   // let's send back the slug, the title, and our markdown converted to html
-  return { id, slug, title, markdown };
+  return { id, slug, title, markdown, editorjs };
 }
 
 export async function createPost(post) {
@@ -56,6 +57,7 @@ export async function createPost(post) {
       title: post.title,
       slug: post.slug,
       markdown: post.markdown,
+      editorjs: post.editorjs,
     },
   });
 
@@ -78,6 +80,7 @@ export async function updatePost(post) {
       title: post.title,
       slug: post.slug,
       markdown: post.markdown,
+      editorjs: post.editorjs,
     },
   });
 

@@ -8,11 +8,15 @@ import {
   useLoaderData,
 } from 'remix';
 import { updatePost } from '~/post';
+import Editor from '~/components/editor.client';
+import { ClientOnly } from 'remix-utils';
 
 export let loader = async ({ params }) => {
   invariant(params.edit, 'expected params.edit');
   return getPostEdit(params.edit);
 };
+
+var editorjsData = null;
 
 export let action = async ({ request }) => {
   let formData = await request.formData();
@@ -22,10 +26,13 @@ export let action = async ({ request }) => {
   let markdown = formData.get('markdown');
   let id = formData.get('id');
 
+  let editorjs = editorjsData;
+
   let errors = {};
   if (!title) errors.title = true;
   if (!slug) errors.slug = true;
   if (!markdown) errors.markdown = true;
+  if (!editorjs) errors.editorjs = true;
 
   if (Object.keys(errors).length) {
     return errors;
@@ -36,14 +43,19 @@ export let action = async ({ request }) => {
     id,
     title,
     slug,
-    markdown
+    markdown,
+    editorjs
   );
-  await updatePost({ id, title, slug, markdown });
+  await updatePost({ id, title, slug, markdown, editorjs });
 
   return redirect('/admin');
 };
 
 export default function PostSlug() {
+  // function saveData(editorjsData) {
+  //   post.editorjs = editorjsData;
+  //   editorjs = editorjsData;
+  // }
   let errors = useActionData();
   let transition = useTransition();
   let post = useLoaderData();

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage/index.tsx?browser", "../../../../app/routes/startpage/index.tsx"],
-  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage/index.tsx\";", "import stylesUrl from \"~/styles/app.css\";\nimport startpageImage from \"~/images/hexagon.svg\"\n\nexport const links = () => {\n  return [{ rel: \"stylesheet\", href: stylesUrl }];\n};\n\nexport default function Index() {\n  return (\n    <div className=\"startpage-hero-container\">\n      <div className=\"startpage-hero\">\n        <img src={startpageImage} />\n        <p>Index Route for startpage</p>\n      </div>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;;;ACAA;;;;;;AAGO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAGtB,iBAAiB;AAC9B,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD;AAAA,IAAK,KAAK;AAAA,MACV,oCAAC,KAAD,MAAG;AAAA;",
-  "names": []
-}

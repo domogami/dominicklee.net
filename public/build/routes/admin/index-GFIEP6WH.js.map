@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx?browser", "../../../../app/routes/admin/index.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx\";", "import { Link } from 'remix';\n\nexport default function AdminIndex() {\n  return (\n    <div className=\"adminNewPostLink\">\n      <Link to=\"new\">\n        {' '}\n        <button className=\"adminNewPostButton\">Create a New Post</button>\n      </Link>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;;;ACAA;AAEe,sBAAsB;AACnC,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD;AAAA,IAAM,IAAG;AAAA,KACN,KACD,oCAAC,UAAD;AAAA,IAAQ,WAAU;AAAA,KAAqB;AAAA;",
-  "names": []
-}

@@ -1,12 +1,16 @@
-import { Link } from 'remix';
+import Editor from '~/components/editor.client';
+import { ClientOnly } from 'remix-utils';
+import '~/types/editor';
 
+import { createReactEditorJS } from 'react-editor-js';
+import { EDITOR_JS_TOOLS } from '~/components/editorjsPlugins';
+const ReactEditorJS = createReactEditorJS();
+import '~/types/editor';
 export default function AdminIndex() {
   return (
     <div className="adminNewPostLink">
-      <Link to="new">
-        {' '}
-        <button className="adminNewPostButton">Create a New Post</button>
-      </Link>
+      <ClientOnly>{() => <Editor />}</ClientOnly>
+      <button>Save Article</button>
     </div>
   );
 }

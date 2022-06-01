@@ -1,5 +1,5 @@
 {
-  "version": "fce09e0b",
+  "version": "d5540200",
   "entry": {
     "module": "/build/entry.client-7M54UGJL.js",
     "imports": [
@@ -44,7 +44,7 @@
       "id": "routes/admin/index",
       "parentId": "routes/admin",
       "index": true,
-      "module": "/build/routes/admin/index-PQOYA3NG.js",
+      "module": "/build/routes/admin/index-ALBNXQ2W.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
@@ -167,5 +167,5 @@
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-FCE09E0B.js"
+  "url": "/build/manifest-D5540200.js"
 }

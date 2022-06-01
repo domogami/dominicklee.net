@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx?browser", "../../../app/routes/startpage.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx\";", "import { Outlet } from 'remix';\n\nexport default function Startpage() {\n  const locale = 'en';\n  const [today, setDate] = React.useState(new Date());\n  return (\n    <div className=\"startpage-containter\">\n      <h1>\n        Welcome Back <span className=\"green-text\">Dom</span>{' '}\n      </h1>\n      <h2 id=\"date\">{`${today}, ${hour}:${minute}:${second} | ${day}/${month}/${year}`}</h2>\n      <Outlet />\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;;;ACAA;AAEe,qBAAqB;AAClC,QAAM,SAAS;AACf,QAAM,CAAC,OAAO,WAAW,MAAM,SAAS,IAAI;AAC5C,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD,MAAI,iBACW,oCAAC,QAAD;AAAA,IAAM,WAAU;AAAA,KAAa,QAAW,MAEvD,oCAAC,MAAD;AAAA,IAAI,IAAG;AAAA,KAAQ,GAAG,UAAU,QAAQ,UAAU,YAAY,OAAO,SAAS,SAC1E,oCAAC,gCAAD;AAAA;",
-  "names": []
-}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx?browser", "../../../app/routes/admin.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx\";", "import { Outlet, Link, useLoaderData } from 'remix';\nimport { getPosts } from '~/post';\n\n//create a stylesheet ref for the admin.css file\n// export let links = () => {\n//   return [{ rel: 'stylesheet', href: adminStyles }];\n// };\n\nexport let loader = () => {\n  return getPosts();\n};\n\nexport default function Admin() {\n  let posts = useLoaderData();\n  return (\n    <div className=\"admin\">\n      <h1 className=\"adminTitle\">Admin</h1>\n      <nav>\n        <p>Click on a post to edit the blog post</p>\n        <ul>\n          {posts.map((post) => (\n            <li key={post.slug}>\n              <Link to={post.slug}>{post.title}</Link>\n            </li>\n          ))}\n        </ul>\n        <main>\n          {/* Outlet renders the /admin/index.jsx */}\n          <Outlet />\n        </main>\n      </nav>\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;;;AAAA;;;ACAA;AAYe,iBAAiB;AAC9B,MAAI,QAAQ;AACZ,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD;AAAA,IAAI,WAAU;AAAA,KAAa,UAC3B,oCAAC,OAAD,MACE,oCAAC,KAAD,MAAG,0CACH,oCAAC,MAAD,MACG,MAAM,IAAI,CAAC,SACV,oCAAC,MAAD;AAAA,IAAI,KAAK,KAAK;AAAA,KACZ,oCAAC,MAAD;AAAA,IAAM,IAAI,KAAK;AAAA,KAAO,KAAK,WAIjC,oCAAC,QAAD,MAEE,oCAAC,QAAD;AAAA;",
+  "names": []
+}

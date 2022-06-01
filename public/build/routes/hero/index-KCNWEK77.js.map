@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/hero/index.tsx?browser", "../../../../app/routes/hero/index.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/hero/index.tsx\";", "\n\nexport default function Hero() {\n  return (\n    <div>\n      <h1>HeroPage</h1>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;AAAA;;;ACAA;AAEe,gBAAgB;AAC7B,SACE,oCAAC,OAAD,MACE,oCAAC,MAAD,MAAI;AAAA;",
-  "names": []
-}
