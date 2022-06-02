@@ -382,7 +382,7 @@ var ThemeContext = import_react.default.createContext(initialThemeState);
 var ThemeContext_default = ThemeContext;
 
 // app/components/ThemeProvider.js
-var ThemeProvider = ({ children }) => {
+var ThemeProvider = (props) => {
   const [theme, setTheme] = (0, import_react2.useState)(initialThemeState.theme);
   if (typeof window !== "undefined") {
     const localStorage2 = window.localStorage;
@@ -400,23 +400,30 @@ var ThemeProvider = ({ children }) => {
     value: { theme, setTheme }
   }, /* @__PURE__ */ import_react2.default.createElement("div", {
     className: `theme--${theme}`
-  }, children));
+  }, props.children));
 };
 var ThemeProvider_default = ThemeProvider;
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/root.tsx
+var import_react3 = require("react");
 var meta = () => {
   return { title: "I'm Dominick Lee" };
 };
 function App() {
+  const [theme, setTheme] = (0, import_react3.useState)("Dark");
   return /* @__PURE__ */ React.createElement("html", {
-    lang: "en"
+    lang: "en",
+    className: `theme--${theme}`
   }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement("meta", {
     charSet: "utf-8"
   }), /* @__PURE__ */ React.createElement("meta", {
     name: "viewport",
     content: "width=device-width,initial-scale=1"
-  }), /* @__PURE__ */ React.createElement(import_remix2.Meta, null), /* @__PURE__ */ React.createElement(import_remix2.Links, null)), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement(ThemeProvider_default, null, /* @__PURE__ */ React.createElement(import_remix2.Outlet, null), /* @__PURE__ */ React.createElement(import_remix2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_remix2.Scripts, null), /* @__PURE__ */ React.createElement(import_remix2.LiveReload, null))));
+  }), /* @__PURE__ */ React.createElement(import_remix2.Meta, null), /* @__PURE__ */ React.createElement(import_remix2.Links, null)), /* @__PURE__ */ React.createElement("body", {
+    className: `theme--${theme}`
+  }, /* @__PURE__ */ React.createElement(ThemeProvider_default, null, /* @__PURE__ */ React.createElement(import_remix2.Outlet, {
+    context: [theme, setTheme]
+  }), /* @__PURE__ */ React.createElement(import_remix2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_remix2.Scripts, null), /* @__PURE__ */ React.createElement(import_remix2.LiveReload, null))));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx
@@ -429,14 +436,17 @@ init_react();
 
 // app/components/ThemeSetter.js
 init_react();
-var import_react3 = __toESM(require("react"));
-function ThemeSetter() {
-  const { theme, setTheme } = (0, import_react3.useContext)(ThemeContext_default);
-  return /* @__PURE__ */ import_react3.default.createElement("select", {
+var import_react4 = __toESM(require("react"));
+function ThemeSetter(props) {
+  const { theme, setTheme } = (0, import_react4.useContext)(ThemeContext_default);
+  return /* @__PURE__ */ import_react4.default.createElement("select", {
     className: "theme-selector",
     value: theme,
-    onChange: (e) => setTheme(e.currentTarget.value)
-  }, themeOptions.map((option, idx) => /* @__PURE__ */ import_react3.default.createElement("option", {
+    onChange: (e) => {
+      setTheme(e.currentTarget.value);
+      props.changeTheme(e.currentTarget.value);
+    }
+  }, themeOptions.map((option, idx) => /* @__PURE__ */ import_react4.default.createElement("option", {
     value: option.value,
     key: idx
   }, option.value)));
@@ -445,11 +455,11 @@ var themeOptions = [{ value: "Light" }, { value: "Dark" }];
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx
 var import_remix3 = __toESM(require_remix());
-var import_react4 = __toESM(require("react"));
+var import_react5 = __toESM(require("react"));
 var useDate = () => {
   const locale = "en";
-  const [today, setDate] = import_react4.default.useState(new Date());
-  import_react4.default.useEffect(() => {
+  const [today, setDate] = import_react5.default.useState(new Date());
+  import_react5.default.useEffect(() => {
     const timer = setInterval(() => {
       setDate(new Date());
     }, 60 * 1e3);
@@ -478,13 +488,13 @@ var useDate = () => {
 };
 function Startpage() {
   let todaysDate = useDate();
-  return /* @__PURE__ */ import_react4.default.createElement("div", {
+  return /* @__PURE__ */ import_react5.default.createElement("div", {
     className: "startpage-containter"
-  }, /* @__PURE__ */ import_react4.default.createElement("h1", null, "Welcome Back ", /* @__PURE__ */ import_react4.default.createElement("span", {
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "Welcome Back ", /* @__PURE__ */ import_react5.default.createElement("span", {
     className: "green-text"
-  }, "Dom"), " "), /* @__PURE__ */ import_react4.default.createElement(import_remix3.Outlet, null), /* @__PURE__ */ import_react4.default.createElement("h2", {
+  }, "Dom"), " "), /* @__PURE__ */ import_react5.default.createElement(import_remix3.Outlet, null), /* @__PURE__ */ import_react5.default.createElement("h2", {
     id: "date"
-  }, todaysDate.date, " | ", todaysDate.time, " | ", todaysDate.wish, " |", " ", /* @__PURE__ */ import_react4.default.createElement(ThemeSetter, null)));
+  }, todaysDate.date, " | ", todaysDate.time, " | ", todaysDate.wish, " |", " ", /* @__PURE__ */ import_react5.default.createElement(ThemeSetter, null)));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage/index.tsx
@@ -496,7 +506,7 @@ __export(startpage_exports2, {
 init_react();
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-4LC7CYEM.css";
+var app_default = "/build/_assets/app-YIHXR7F5.css";
 
 // app/images/Logo_Transparent.svg
 var Logo_Transparent_default = "/build/_assets/Logo_Transparent-HXC24UL2.svg";
@@ -884,9 +894,9 @@ init_react();
 
 // app/components/header.tsx
 init_react();
-var import_react5 = require("react");
-function Header() {
-  const [menuIsOpen, setMenuIsOpen] = (0, import_react5.useState)(false);
+var import_react6 = require("react");
+function Header(props) {
+  const [menuIsOpen, setMenuIsOpen] = (0, import_react6.useState)(false);
   return /* @__PURE__ */ React.createElement("div", {
     className: "header-container"
   }, /* @__PURE__ */ React.createElement("div", {
@@ -910,7 +920,9 @@ function Header() {
     className: "non-active"
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/#contact"
-  }, " Contact"))), true ? /* @__PURE__ */ React.createElement(ThemeSetter, null) : /* @__PURE__ */ React.createElement("div", {
+  }, " Contact"))), true ? /* @__PURE__ */ React.createElement(ThemeSetter, {
+    changeTheme: props.changeTheme
+  }) : /* @__PURE__ */ React.createElement("div", {
     className: `menu-btn${menuIsOpen ? " open" : ""}`,
     onClick: () => setMenuIsOpen(!menuIsOpen)
   }, /* @__PURE__ */ React.createElement("div", {
@@ -995,11 +1007,15 @@ function Home() {
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx
+var import_react7 = require("@remix-run/react");
 var links4 = () => {
   return [{ rel: "stylesheet", href: app_default }];
 };
-function IndexRoute() {
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Header, null), /* @__PURE__ */ React.createElement(Home, null));
+function IndexRoute(props) {
+  const [theme, setTheme] = (0, import_react7.useOutletContext)();
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Header, {
+    changeTheme: (theme2) => setTheme(theme2)
+  }), /* @__PURE__ */ React.createElement(Home, null));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog.tsx
@@ -1072,7 +1088,7 @@ function Index3() {
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
 init_react();
-var assets_manifest_default = { "version": "5796ad35", "entry": { "module": "/build/entry.client-Z2ULS5EM.js", "imports": ["/build/_shared/chunk-X6VKNDRM.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-SNZVBSWZ.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-AMQPU3DS.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-DHZVVMY4.js", "imports": void 0, "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-YUEDKA5K.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-36AWI5SC.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-IKXVJWPD.js", "imports": ["/build/_shared/chunk-RVN65BDJ.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-QK5VDWQN.js", "/build/_shared/chunk-DW27GLYA.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-IWZIBVZ3.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-ZEAU25KS.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-P67VYJKG.js", "imports": ["/build/_shared/chunk-DW27GLYA.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-GE6KPPKK.js", "imports": ["/build/_shared/chunk-QK5VDWQN.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-WXC6KLCN.js", "imports": ["/build/_shared/chunk-RVN65BDJ.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-QK5VDWQN.js", "/build/_shared/chunk-DW27GLYA.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-E7UR6RQN.js", "imports": ["/build/_shared/chunk-QK5VDWQN.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-2NDKPPJY.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-DW27GLYA.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-5796AD35.js" };
+var assets_manifest_default = { "version": "bcf8f207", "entry": { "module": "/build/entry.client-7PW2EFXI.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-VBGWNZZV.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-LHN3HFX2.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-3VWLZWRS.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-ZEAT66GE.js", "imports": void 0, "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-6IWIWZP6.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-AXII3XQF.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-TSMTZWCH.js", "imports": ["/build/_shared/chunk-VIC56RAU.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-4R5Z63P6.js", "/build/_shared/chunk-QS54CCCN.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-NX6KWBZQ.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-QL4357TX.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-4JLOOJ6E.js", "imports": ["/build/_shared/chunk-QS54CCCN.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-WI2TPPUB.js", "imports": ["/build/_shared/chunk-4R5Z63P6.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-6U4ATJAW.js", "imports": ["/build/_shared/chunk-VIC56RAU.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-4R5Z63P6.js", "/build/_shared/chunk-QS54CCCN.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-TKZJ3UQJ.js", "imports": ["/build/_shared/chunk-4R5Z63P6.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-JM7HXUAZ.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-QS54CCCN.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-BCF8F207.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports };

@@ -3,8 +3,15 @@ import { EDITOR_JS_TOOLS } from './editorjsPlugins';
 const ReactEditorJS = createReactEditorJS();
 
 export default function Editor() {
+  // async function onSave() {
+  //   const outputData = await this.editorInstance.save();
+  //   console.log("outputData", outputData);
+  // }
   return (
     <>
+      {/* <button onClick={this.onSave.bind(this)} type="button"> */}
+      {/*   Save Content (check console output) */}
+      {/* </button> */}
       <ReactEditorJS
         tools={EDITOR_JS_TOOLS}
         defaultValue={{

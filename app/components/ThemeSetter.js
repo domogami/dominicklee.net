@@ -3,14 +3,17 @@ import React, { useContext } from 'react';
 
 import ThemeContext from './ThemeContext';
 
-export default function ThemeSetter() {
+export default function ThemeSetter(props) {
   const { theme, setTheme } = useContext(ThemeContext);
 
   return (
     <select
       className="theme-selector"
       value={theme}
-      onChange={(e) => setTheme(e.currentTarget.value)}
+      onChange={(e) => {
+        setTheme(e.currentTarget.value);
+        props.changeTheme(e.currentTarget.value);
+      }}
     >
       {themeOptions.map((option, idx) => (
         <option value={option.value} key={idx}>

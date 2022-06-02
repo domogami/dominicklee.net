@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ThemeContext, { initialThemeState } from './ThemeContext';
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = (props) => {
   const [theme, setTheme] = useState(initialThemeState.theme);
   if (typeof window !== 'undefined') {
     const localStorage = window.localStorage;
@@ -22,7 +22,7 @@ const ThemeProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
-      <div className={`theme--${theme}`}>{children}</div>
+      <div className={`theme--${theme}`}>{props.children}</div>
     </ThemeContext.Provider>
   );
 };

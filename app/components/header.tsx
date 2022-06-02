@@ -2,7 +2,7 @@ import Logo from '../images/Logo_Transparent.svg';
 import ThemeSetter from './ThemeSetter';
 import { useState } from 'react';
 
-export default function Header() {
+export default function Header(props) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   return (
     <div className="header-container">
@@ -23,7 +23,7 @@ export default function Header() {
           </li>
         </ul>
         {true ? (
-          <ThemeSetter />
+          <ThemeSetter changeTheme={props.changeTheme} />
         ) : (
           <div
             className={`menu-btn${menuIsOpen ? ' open' : ''}`}
