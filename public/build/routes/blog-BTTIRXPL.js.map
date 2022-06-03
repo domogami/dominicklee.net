@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog.tsx?browser", "../../../app/routes/blog.tsx"],
+  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog.tsx\";", "import { Outlet } from 'remix';\nimport Header from '~/components/header';\nimport stylesUrl from '~/styles/app.css';\n\nexport const links = () => {\n  return [{ rel: 'stylesheet', href: stylesUrl }];\n};\nexport type themeSet = {\n  theme: String;\n};\n\nexport default function Blog() {\n  const [theme, setTheme] = useOutletContext<themeSet>();\n  return (\n    <div>\n      <Header changeTheme={(theme) => setTheme(theme)} />\n      <Outlet />\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;;;ACAA;AAIO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAMtB,gBAAgB;AAC7B,QAAM,CAAC,OAAO,YAAY;AAC1B,SACE,oCAAC,OAAD,MACE,oCAAC,QAAD;AAAA,IAAQ,aAAa,CAAC,WAAU,SAAS;AAAA,MACzC,oCAAC,QAAD;AAAA;",
+  "names": []
+}

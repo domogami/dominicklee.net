@@ -17,16 +17,16 @@ export async function getPost(slug) {
   let title = foundSlug.title;
   // using marked, we are going to convert the markdown into HTML so the blog post can render as entered in Markdown.
   let html = marked(foundSlug.markdown);
+  let editorjs = foundSlug.editorjs;
   // we need to cleanup our database connection
   prisma.$disconnect();
 
   // let's send back the slug, the title, and our markdown converted to html
-  return { id, slug, title, html };
+  return { id, slug, title, html, editorjs };
 }
 
 //when we edit the post we want to return different data including the ID field
 export async function getPostEdit(slug) {
-  //setup our prisma connection
   await prisma.$connect();
 
   // we will find the first database entry that matches the passed slug
@@ -41,7 +41,7 @@ export async function getPostEdit(slug) {
   // since we are editing and not rendering we want to pull the original markdown value stored in the db
   let markdown = foundSlug.markdown;
   let editorjs = foundSlug.editorjs;
-  // we need to cleanup our database connection
+
   prisma.$disconnect();
 
   // let's send back the slug, the title, and our markdown converted to html
@@ -49,7 +49,6 @@ export async function getPostEdit(slug) {
 }
 
 export async function createPost(post) {
-  //Prisma connection
   await prisma.$connect();
   // prisma create
   await prisma.posts.create({
@@ -61,14 +60,12 @@ export async function createPost(post) {
     },
   });
 
-  // cleanup prisma connection
   prisma.$disconnect();
   // let's send back the slug we created
   return getPost(post.slug);
 }
 
 export async function updatePost(post) {
-  //Prisma connection
   await prisma.$connect();
   // prisma create
   console.log('updatePost id', post.id);
@@ -84,7 +81,6 @@ export async function updatePost(post) {
     },
   });
 
-  // cleanup prisma connection
   prisma.$disconnect();
   // let's send back the slug we created
   return getPost(post.slug);
@@ -92,12 +88,11 @@ export async function updatePost(post) {
 
 // async function since we will be loading external data
 export async function getPosts() {
-  // await prisma connection
   await prisma.$connect();
   // let's grab all posts using findMany()
   // the posts in prisma.posts is the collection we created in Mongo.db
   const allPosts = await prisma.posts.findMany();
-  // let's cleanup our connection
+
   prisma.$disconnect();
   // let's see what we are returning
   //  console.log(allPosts)

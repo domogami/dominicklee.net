@@ -1,0 +1,9 @@
+@import '../abstracts/all.scss';
+
+.admin-container {
+  transition: all 0.7s ease-in-out;
+  @include themed() {
+    color: t('text');
+    background: t('bg');
+  }
+}

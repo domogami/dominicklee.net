@@ -10,33 +10,32 @@ import {
 import { updatePost } from '~/post';
 import Editor from '~/components/editor.client';
 import { ClientOnly } from 'remix-utils';
+import { useState } from 'react';
 
 export let loader = async ({ params }) => {
   invariant(params.edit, 'expected params.edit');
   return getPostEdit(params.edit);
 };
 
-var editorjsData = null;
-
 export let action = async ({ request }) => {
+  console.log('going to submit form');
   let formData = await request.formData();
 
   let title = formData.get('title');
   let slug = formData.get('slug');
   let markdown = formData.get('markdown');
+  let editorjs = formData.get('editorjs');
   let id = formData.get('id');
 
-  let editorjs = editorjsData;
+  // let errors = {};
+  // if (!title) errors.title = true;
+  // if (!slug) errors.slug = true;
+  // if (!markdown) errors.markdown = true;
+  // if (!editorjs) errors.editorjs = true;
 
-  let errors = {};
-  if (!title) errors.title = true;
-  if (!slug) errors.slug = true;
-  if (!markdown) errors.markdown = true;
-  if (!editorjs) errors.editorjs = true;
-
-  if (Object.keys(errors).length) {
-    return errors;
-  }
+  // if (Object.keys(errors).length) {
+  //   return errors;
+  // }
 
   console.log(
     'calling updatePost with id, title, slug, markdown: ',
@@ -50,17 +49,20 @@ export let action = async ({ request }) => {
 
   return redirect('/admin');
 };
-
+// let savedData = null;
 export default function PostSlug() {
-  // function saveData(editorjsData) {
-  //   post.editorjs = editorjsData;
-  //   editorjs = editorjsData;
-  // }
   let errors = useActionData();
   let transition = useTransition();
   let post = useLoaderData();
+  const [savedData, setSavedData] = useState('{}');
+  // const [savedOutput, setSavedOutput] = useState('{}');
+
+  // const passFunction = (saveOutput) => {
+  //   setSavedData(saveOutput);
+  // };
+
   return (
-    <Form method="post">
+    <Form reloadDocument method="post">
       <p>
         <input className="hiddenBlogID" name="id" value={post.id}></input>
       </p>
@@ -86,13 +88,22 @@ export default function PostSlug() {
         <label htmlFor="markdown">Markdown:</label>{' '}
         {errors?.markdown && <em>Markdown is required</em>}
         <br />
-        <textarea
-          defaultValue={post.markdown}
-          name="markdown"
+        <ClientOnly>
+          {() => (
+            <Editor
+              previousData={post.editorjs}
+              saveOutput={savedData}
+              save={(savedData: any) => setSavedData(savedData)}
+            />
+          )}
+        </ClientOnly>
+        <input
+          defaultValue={post.editorjs}
+          name="editorjs"
+          value={savedData}
           id=""
-          rows={20}
-          cols={30}
-        />
+        ></input>
+        <textarea defaultValue={post.markdown} name="markdown" id="" />
       </p>
       <p>
         <button type="submit">

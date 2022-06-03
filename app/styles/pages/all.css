@@ -16,6 +16,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Asap&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=JetBrains+Mono&display=swap");
 @use 'sass:map';
 /* $dark: #105157; */
 @use 'sass:map';
@@ -441,3 +451,95 @@ p {
   100% {
     transform: translateX(0px);
     opacity: 1; } }
+
+@use 'sass:map';
+/* $dark: #105157; */
+@use 'sass:map';
+/* $dark: #105157; */
+.admin-container {
+  transition: all 0.7s ease-in-out; }
+  .theme--Light .admin-container {
+    color: #105157;
+    background: #efefef; }
+  .theme--Dark .admin-container {
+    color: #abb2bf;
+    background: #282c34; }
+
+@use 'sass:map';
+/* $dark: #105157; */
+@use 'sass:map';
+/* $dark: #105157; */
+@use 'sass:map';
+/* $dark: #105157; */
+@use 'sass:map';
+/* $dark: #105157; */
+* {
+  box-sizing: border-box;
+  margin: 0; }
+
+html {
+  scroll-behavior: smooth; }
+  .theme--Light html {
+    background-color: #efefef; }
+  .theme--Dark html {
+    background-color: #282c34; }
+
+body {
+  transition: all 0.7s ease-in-out; }
+  .theme--Light body {
+    background-color: #efefef; }
+  .theme--Dark body {
+    background-color: #282c34; }
+
+@use 'sass:map';
+/* $dark: #105157; */
+@use 'sass:map';
+/* $dark: #105157; */
+body {
+  font-family: 'Asap Condensed', -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400; }
+  .theme--Light body {
+    color: #105157;
+    background: #efefef; }
+  .theme--Dark body {
+    color: #abb2bf;
+    background: #282c34; }
+
+h1 {
+  font-family: 'Asap Condensed', sans-serif;
+  font-size: 8em;
+  font-weight: 400;
+  line-height: 0.9em; }
+
+h2 {
+  font-family: 'Asap', sans-serif;
+  font-size: 3em;
+  font-weight: 400; }
+
+h3 {
+  font-family: 'Asap', sans-serif;
+  font-size: 1.5em;
+  font-weight: 400; }
+
+p {
+  font-family: 'Asap', sans-serif;
+  font-size: 1.5em;
+  font-weight: 400; }
+
+.accent {
+  color: #2db67e; }
+
+.active {
+  color: #2db67e; }
+
+.blog-post-container {
+  padding-top: 100px;
+  margin: auto;
+  width: 100%; }
+  .blog-post-container .codex-editor {
+    margin: auto;
+    width: 100%; }
+    .blog-post-container .codex-editor .ce-paragraph cdx-block {
+      font-size: 20px; }
