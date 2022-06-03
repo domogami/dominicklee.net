@@ -543,3 +543,15 @@ p {
     width: 100%; }
     .blog-post-container .codex-editor .ce-paragraph cdx-block {
       font-size: 20px; }
+
+.blog-post-html {
+  position: relative;
+  max-width: 900px;
+  margin: auto !important;
+  padding-top: 100px;
+  /* padding: 150px 20px auto 20px; */
+  /* margin: 150px auto auto auto; */ }
+  .blog-post-html p {
+    margin: auto !important;
+    /* width: fit-content; */
+    /* max-width: 400; */ }

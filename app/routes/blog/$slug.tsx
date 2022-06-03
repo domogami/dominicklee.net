@@ -1,8 +1,7 @@
 import { useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { getPost } from '~/post';
-
-import Editor from '~/components/readOnlyEditor.client';
+import EditorjsReact from '~/components/editorjsReact.client';
 import { ClientOnly } from 'remix-utils';
 
 export let loader = async ({ params }) => {
@@ -12,12 +11,16 @@ export let loader = async ({ params }) => {
 
 export default function PostSlug() {
   let post = useLoaderData();
-
   return (
     <>
-      <div className="blog-post-container">
-        <ClientOnly>{() => <Editor previousData={post.editorjs} />}</ClientOnly>
-      </div>
+      {/* <section className="blog-post-html"> */}
+      <ClientOnly>
+        {() => <EditorjsReact previousData={post.editorjs} />}
+      </ClientOnly>
+      {/*</section>*/}
+      {/* <div className="blog-post-container"> */}
+      {/*   <ClientOnly>{() => <Editor previousData={post.editorjs} />}</ClientOnly> */}
+      {/* </div> */}
       {/* <div */}
       {/*   className="postDisplay" */}
       {/*   dangerouslySetInnerHTML={{ __html: post.html }} */}
