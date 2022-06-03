@@ -9,12 +9,14 @@ export default function Home() {
   return (
     <>
       <div className="home">
-        <h1>
-          <span className="accent">Dom</span>
-          <br />
-          Lee
-        </h1>
-        <div className="vert-rectangle" />
+        <div className='text-bar'>
+          <h1>
+            <span className="accent">Dom</span>
+            <br />
+            Lee
+          </h1>
+          <div className="vert-rectangle" />
+        </div>
         <img src={logo} />
       </div>
       <div className="projects" id="projects">

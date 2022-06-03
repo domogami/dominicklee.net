@@ -34,24 +34,44 @@
   width: 100%;
   height: 100vh;
   display: flex;
+  margin: auto;
   flex-direction: column;
   align-items: center;
   justify-content: center; }
   @media (min-width: 48em) {
     .home {
       flex-direction: row; } }
+  .home .text-bar {
+    overflow: hidden;
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 0;
+    animation: animateHeroText 0.1s ease-in-out forwards;
+    animation-delay: 1s; }
   .home h1 {
     font-size: 7em;
     text-align: center;
     padding-left: 40px;
-    padding-right: 40px; }
+    padding-right: 40px;
+    animation: animateHeader 2s ease-in-out forwards;
+    animation-delay: 1.4s;
+    overflow: hidden;
+    opacity: 0;
+    z-index: -2; }
     @media (min-width: 48em) {
       .home h1 {
         text-align: right; } }
   .home .vert-rectangle {
+    overflow: hidden;
+    animation: lineIn 0.7s ease-in-out forwards;
+    animation-delay: 0.7s;
     display: none;
     width: 5px;
     height: 250px;
+    z-index: 2;
     border-radius: 10px;
     align-self: center; }
     @media (min-width: 48em) {
@@ -63,8 +83,12 @@
       background: #abb2bf; }
   .home img {
     padding-left: 40px;
+    margin-left: 0;
     width: 400px;
-    height: 400px; }
+    height: 400px;
+    transform: translateX(-50%);
+    animation: animateHeroImage 1s ease-in-out forwards;
+    animation-delay: 0.5s; }
 
 .section-header {
   margin-left: 0;
@@ -83,6 +107,32 @@
       background-color: #2db67e; }
     .theme--Dark .section-header .fancy-rectangle {
       background-color: #2db67e; }
+
+@keyframes animateHeroText {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes animateHeroImage {
+  0% {
+    transform: translateX(-50%); }
+  100% {
+    transform: translateX(0px); } }
+
+@keyframes lineIn {
+  0% {
+    height: 1em; }
+  100% {
+    height: 20em; } }
+
+@keyframes animateHeader {
+  0% {
+    transform: translateX(200px);
+    opacity: 0; }
+  100% {
+    transform: translateX(0px);
+    opacity: 1; } }
 
 @use 'sass:map';
 /* $dark: #105157; */
