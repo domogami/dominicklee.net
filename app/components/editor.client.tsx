@@ -95,7 +95,7 @@ export default function Editor(props: any) {
           simpleImage: SimpleImage,
         }}
         defaultValue={JSON.parse(props.previousData)}
-      // readOnly={true}
+        // readOnly={true}
       />
       <button onClick={handleSave} type='button'>
         Save Content
