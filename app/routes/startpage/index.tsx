@@ -37,14 +37,14 @@ export default function Index() {
     { name: 'unixporn', link: 'https://reddit.com/r/unixporn' },
   ];
   return (
-    <div className="startpage-hero-container">
-      <div className="startpage-hero">
+    <div className='startpage-hero-container'>
+      <div className='startpage-hero'>
         <img src={startpageImage} />
-        <div className="startpage-grid">
-          <StartpageGridItem title="~/dev" links={sectionOne} />
-          <StartpageGridItem title="~/work" links={sectionTwo} />
-          <StartpageGridItem title="~/code" links={sectionThree} />
-          <StartpageGridItem title="~/fun" links={sectionFour} />
+        <div className='startpage-grid'>
+          <StartpageGridItem title='~/dev' links={sectionOne} />
+          <StartpageGridItem title='~/work' links={sectionTwo} />
+          <StartpageGridItem title='~/code' links={sectionThree} />
+          <StartpageGridItem title='~/fun' links={sectionFour} />
         </div>
       </div>
     </div>

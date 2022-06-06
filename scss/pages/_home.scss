@@ -28,10 +28,10 @@
     padding-left: 40px;
     padding-right: 40px;
     animation: animateHeader 2s ease-in-out forwards;
-      animation-delay: 1.4s;
-      overflow: hidden;
-      opacity: 0;
-      z-index: -2;
+    animation-delay: 1.4s;
+    overflow: hidden;
+    opacity: 0;
+    z-index: -2;
     @include breakpoint(md) {
       text-align: right;
     }
@@ -40,13 +40,13 @@
     @include breakpoint(md) {
       display: inline;
     }
-      overflow: hidden;
-      animation: lineIn 0.7s ease-in-out forwards;
-      animation-delay: 0.7s;
+    overflow: hidden;
+    animation: lineIn 0.7s ease-in-out forwards;
+    animation-delay: 0.7s;
     display: none;
     width: 5px;
     height: 250px;
-      z-index: 2;
+    z-index: 2;
     border-radius: 10px;
     align-self: center;
     @include themed() {
@@ -58,10 +58,9 @@
     margin-left: 0;
     width: 400px;
     height: 400px;
-  transform: translateX(-50%);
+    transform: translateX(-50%);
     animation: animateHeroImage 1s ease-in-out forwards;
     animation-delay: 0.5s;
-
   }
 }
 .section-header {
@@ -85,19 +84,19 @@
 }
 @keyframes animateHeroText {
   0% {
-  opacity: 0;
-}
+    opacity: 0;
+  }
   100% {
-  opacity: 1;
-}
+    opacity: 1;
+  }
 }
 @keyframes animateHeroImage {
   0% {
-  transform: translateX(-50%);
-}
+    transform: translateX(-50%);
+  }
   100% {
-  transform: translateX(0px);
-}
+    transform: translateX(0px);
+  }
 }
 @keyframes lineIn {
   0% {

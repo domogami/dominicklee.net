@@ -6,4 +6,7 @@
     color: t('text');
     background: t('bg');
   }
+  & .hidenEditorField {
+    opacity: 0;
+  }
 }

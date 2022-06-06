@@ -7,8 +7,8 @@ export const links = () => {
 
 export default function Drinks() {
   return (
-    <div className="drinks-containter">
-      <h1 className="drinks-title">Max's Drinks</h1>
+    <div className='drinks-containter'>
+      <h1 className='drinks-title'>Max's Drinks</h1>
       <Outlet />
     </div>
   );

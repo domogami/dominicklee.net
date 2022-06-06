@@ -13,13 +13,15 @@ export const meta: MetaFunction = () => {
   return { title: "I'm Dominick Lee" };
 };
 
+import S3 from 'aws-sdk/clients/s3';
+
 export default function App() {
   const [theme, setTheme] = useState('Dark');
   return (
-    <html lang="en" className={`theme--${theme}`}>
+    <html lang='en' className={`theme--${theme}`}>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Meta />
         <Links />
       </head>

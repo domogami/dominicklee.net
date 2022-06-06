@@ -24,8 +24,8 @@ export default function Admin(props) {
   return (
     <>
       <Header changeTheme={(theme) => setTheme(theme)} />
-      <div className="admin-container">
-        <h1 className="adminTitle">Admin</h1>
+      <div className='admin-container'>
+        <h1 className='adminTitle'>Admin Dom</h1>
         <nav>
           <p>Click on a post to edit the blog post</p>
           <ul>

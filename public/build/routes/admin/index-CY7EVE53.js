@@ -1,0 +1,1 @@
+import{h as t,i as o}from"/build/_shared/chunk-2ADOHOB6.js";o();o();function r(){return t.createElement("div",{className:"adminNewPostLink"},t.createElement("button",null,"Save Article"))}export{r as default};

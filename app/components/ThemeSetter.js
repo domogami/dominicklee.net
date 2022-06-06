@@ -8,7 +8,7 @@ export default function ThemeSetter(props) {
 
   return (
     <select
-      className="theme-selector"
+      className='theme-selector'
       value={theme}
       onChange={(e) => {
         setTheme(e.currentTarget.value);

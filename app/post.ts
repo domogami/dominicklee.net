@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { marked } from 'marked';
 const prisma = new PrismaClient();
+import upload from './s3.server';
 
 export async function getPost(slug) {
   //setup our prisma connection
@@ -97,4 +98,8 @@ export async function getPosts() {
   // let's see what we are returning
   //  console.log(allPosts)
   return allPosts;
+}
+
+export async function uploadImage(file: any) {
+  return await upload(file);
 }

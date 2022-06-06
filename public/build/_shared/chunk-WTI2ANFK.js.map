@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../app/components/ThemeSetter.js", "../../../app/components/ThemeContext.js"],
-  "sourcesContent": ["//ThemeSetter.js\nimport React, { useContext } from 'react';\n\nimport ThemeContext from './ThemeContext';\n\nexport default function ThemeSetter() {\n  const { theme, setTheme } = useContext(ThemeContext);\n\n  return (\n    <select\n      className=\"theme-selector\"\n      value={theme}\n      onChange={(e) => setTheme(e.currentTarget.value)}\n    >\n      {themeOptions.map((option, idx) => (\n        <option value={option.value} key={idx}>\n          {option.value}\n        </option>\n      ))}\n    </select>\n  );\n}\n\nconst themeOptions = [{ value: 'Light' }, { value: 'Dark' }];\n", "// ThemeContext.js\nimport React from 'react';\n\nexport const initialThemeState = {\n  theme: 'Dark',\n  setTheme: () => null,\n};\n\nconst ThemeContext = React.createContext(initialThemeState);\nexport default ThemeContext;\n"],
-  "mappings": ";;;;;;;AAAA;AACA,oBAAkC;;;ACDlC;AACA,mBAAkB;AAEX,IAAM,oBAAoB;AAAA,EAC/B,OAAO;AAAA,EACP,UAAU,MAAM;AAAA;AAGlB,IAAM,eAAe,qBAAM,cAAc;AACzC,IAAO,uBAAQ;;;ADJA,uBAAuB;AACpC,QAAM,EAAE,OAAO,aAAa,8BAAW;AAEvC,SACE,oDAAC,UAAD;AAAA,IACE,WAAU;AAAA,IACV,OAAO;AAAA,IACP,UAAU,CAAC,MAAM,SAAS,EAAE,cAAc;AAAA,KAEzC,aAAa,IAAI,CAAC,QAAQ,QACzB,oDAAC,UAAD;AAAA,IAAQ,OAAO,OAAO;AAAA,IAAO,KAAK;AAAA,KAC/B,OAAO;AAAA;AAOlB,IAAM,eAAe,CAAC,EAAE,OAAO,WAAW,EAAE,OAAO;",
-  "names": []
-}

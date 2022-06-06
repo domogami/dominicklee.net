@@ -1,6 +1,6 @@
 export default function StartpageGridItem(props) {
   return (
-    <div className="grid-item-container">
+    <div className='grid-item-container'>
       <h3>{props.title}</h3>
       <ul>
         {props.links.map(function (d, idx) {

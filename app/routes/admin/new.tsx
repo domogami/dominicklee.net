@@ -41,28 +41,28 @@ export default function NewPost() {
     document.getElementById('slugInput').value = slug.toLowerCase();
   };
   return (
-    <Form method="post">
+    <Form method='post'>
       <p>
-        <label htmlFor="">
+        <label htmlFor=''>
           Post Title: {errors?.title && <em>Title is required</em>}{' '}
-          <input onChange={handleChange} type="text" name="title" />
+          <input onChange={handleChange} type='text' name='title' />
         </label>
       </p>
       <p>
-        <label htmlFor="">
+        <label htmlFor=''>
           {' '}
           Post Slug: {errors?.slug && <em>Slug is required</em>}
-          <input placeholder={slug} id="slugInput" type="text" name="slug" />
+          <input placeholder={slug} id='slugInput' type='text' name='slug' />
         </label>
       </p>
       <p>
-        <label htmlFor="markdown">Markdown:</label>{' '}
+        <label htmlFor='markdown'>Markdown:</label>{' '}
         {errors?.markdown && <em>Markdown is required</em>}
         <br />
-        <textarea name="markdown" id="" rows={20} cols={30} />
+        <textarea name='markdown' id='' rows={20} cols={30} />
       </p>
       <p>
-        <button type="submit">
+        <button type='submit'>
           {transition.submission ? 'Creating...' : 'Create Post'}
         </button>
       </p>

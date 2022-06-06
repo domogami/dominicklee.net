@@ -27,15 +27,15 @@ export let action = async ({ request }) => {
   let editorjs = formData.get('editorjs');
   let id = formData.get('id');
 
-  // let errors = {};
-  // if (!title) errors.title = true;
-  // if (!slug) errors.slug = true;
-  // if (!markdown) errors.markdown = true;
-  // if (!editorjs) errors.editorjs = true;
+  let errors: any = {};
+  if (!title) errors.title = true;
+  if (!slug) errors.slug = true;
+  if (!markdown) errors.markdown = true;
+  if (!editorjs) errors.editorjs = true;
 
-  // if (Object.keys(errors).length) {
-  //   return errors;
-  // }
+  if (Object.keys(errors).length) {
+    return errors;
+  }
 
   console.log(
     'calling updatePost with id, title, slug, markdown: ',
@@ -55,37 +55,33 @@ export default function PostSlug() {
   let transition = useTransition();
   let post = useLoaderData();
   const [savedData, setSavedData] = useState('{}');
-  // const [savedOutput, setSavedOutput] = useState('{}');
-
-  // const passFunction = (saveOutput) => {
-  //   setSavedData(saveOutput);
-  // };
 
   return (
-    <Form reloadDocument method="post">
+    <Form reloadDocument method='post'>
+      <h1>Edit Post</h1>
       <p>
-        <input className="hiddenBlogID" name="id" value={post.id}></input>
+        <input className='hiddenBlogID' name='id' value={post.id}></input>
       </p>
       <p>
-        <label htmlFor="">
+        <label htmlFor=''>
           Post Title: {errors?.title && <em>Title is required</em>}{' '}
-          <input type="text" name="title" defaultValue={post.title} />
+          <input type='text' name='title' defaultValue={post.title} />
         </label>
       </p>
       <p>
-        <label htmlFor="">
+        <label htmlFor=''>
           {' '}
           Post Slug: {errors?.slug && <em>Slug is required</em>}
           <input
             defaultValue={post.slug}
-            id="slugInput"
-            type="text"
-            name="slug"
+            id='slugInput'
+            type='text'
+            name='slug'
           />
         </label>
       </p>
       <p>
-        <label htmlFor="markdown">Markdown:</label>{' '}
+        <label htmlFor='markdown'>Markdown from editorjs:</label>{' '}
         {errors?.markdown && <em>Markdown is required</em>}
         <br />
         <ClientOnly>
@@ -97,19 +93,19 @@ export default function PostSlug() {
             />
           )}
         </ClientOnly>
-        <input
-          defaultValue={post.editorjs}
-          name="editorjs"
-          value={savedData}
-          id=""
-        ></input>
-        <textarea defaultValue={post.markdown} name="markdown" id="" />
+        <textarea defaultValue={post.markdown} name='markdown' id='' />
       </p>
       <p>
-        <button type="submit">
+        <button type='submit'>
           {transition.submission ? 'Updating...' : 'Update Post'}
         </button>
       </p>
+      <input
+        defaultValue={post.editorjs}
+        name='editorjs'
+        value={savedData}
+        className='hidenEditorField'
+      ></input>
     </Form>
   );
 }

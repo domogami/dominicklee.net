@@ -42,12 +42,12 @@ export const useDate = () => {
 export default function Startpage() {
   let todaysDate = useDate();
   return (
-    <div className="startpage-containter">
+    <div className='startpage-containter'>
       <h1>
-        Welcome Back <span className="green-text">Dom</span>{' '}
+        Welcome Back <span className='green-text'>Dom</span>{' '}
       </h1>
       <Outlet />
-      <h2 id="date">
+      <h2 id='date'>
         {todaysDate.date} | {todaysDate.time} | {todaysDate.wish} |{' '}
         <ThemeSetter />
       </h2>
