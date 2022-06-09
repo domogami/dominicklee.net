@@ -10,10 +10,18 @@ import type { MetaFunction } from 'remix';
 import ThemeProvider from './components/ThemeProvider';
 import { useState } from 'react';
 export const meta: MetaFunction = () => {
-  return { title: "I'm Dominick Lee" };
+  return {
+    title: "I'm Dominick Lee",
+    description: "Everything Software Engineering",
+    keywords: 'Dominick,Lee',
+    'twitter:image': 'https://dominicklee.com/awesome.png',
+    'twitter:card': 'summary_large_image',
+    'twitter:creator': '@domogami',
+    'twitter:site': '@dom3lee',
+    'twitter:title': 'Hey, I\'m Dom',
+    'twitter:description': 'Everything Software Engineering',
+  };
 };
-
-import S3 from 'aws-sdk/clients/s3';
 
 export default function App() {
   const [theme, setTheme] = useState('Dark');

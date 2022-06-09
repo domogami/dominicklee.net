@@ -1,6 +1,10 @@
 import React from 'react';
+
+// Allow editorjs init
 import { createReactEditorJS } from 'react-editor-js';
 const ReactEditorJS = createReactEditorJS();
+
+// Imports for editorjs plugins
 import Embed from '@editorjs/embed';
 import Table from '@editorjs/table';
 import List from '@editorjs/list';
@@ -18,8 +22,8 @@ import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
 
 const axios = require('axios').default;
-
 import { uploadImage } from '~/post';
+
 export async function loader({ request }) {
   return await uploadImage(request);
 }
