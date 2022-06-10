@@ -14,7 +14,7 @@ export default function Blog() {
   const [theme, setTheme] = useOutletContext<themeSet>();
   return (
     <div>
-      <Header changeTheme={(theme) => setTheme(theme)} />
+      <Header theme={theme} changeTheme={(theme) => setTheme(theme)} />
       <Outlet />
     </div>
   );

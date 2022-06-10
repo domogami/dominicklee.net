@@ -12,7 +12,7 @@ export default function IndexRoute(props) {
   const [theme, setTheme] = useOutletContext<themeSet>();
   return (
     <>
-      <Header changeTheme={(theme) => setTheme(theme)} />
+      <Header theme={theme} changeTheme={(theme) => setTheme(theme)} />
       <Home />
     </>
   );

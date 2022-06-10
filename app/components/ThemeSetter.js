@@ -1,15 +1,16 @@
 //ThemeSetter.js
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import ThemeContext from './ThemeContext';
 
 export default function ThemeSetter(props) {
   const { theme, setTheme } = useContext(ThemeContext);
 
+  // const [theme, setTheme] = useState(initialThemeState.theme);
   return (
     <select
       className='theme-selector'
-      value={theme}
+      value={props.theme}
       onChange={(e) => {
         setTheme(e.currentTarget.value);
         props.changeTheme(e.currentTarget.value);

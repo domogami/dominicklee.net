@@ -23,7 +23,7 @@ export default function Header(props) {
           </li>
         </ul>
         {true ? (
-          <ThemeSetter changeTheme={props.changeTheme} />
+          <ThemeSetter theme={props.theme} changeTheme={props.changeTheme} />
         ) : (
           <div
             className={`menu-btn${menuIsOpen ? ' open' : ''}`}

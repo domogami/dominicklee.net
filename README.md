@@ -7,6 +7,7 @@ My personal side but reimagined
 ## Project Todo
 
 - [x] Toggleable Theme
+  - [ ] Bug with theme appearing dark at beginning regardless of choice
 - [ ] Better [Prettier Rules](https://prettier.io/docs/en/options.html)
 - [ ] [Prisma vs Mongoose](https://dev.to/somsubhra1/journey-from-mongoose-to-prisma-orm-for-mongodb-3j21)
 

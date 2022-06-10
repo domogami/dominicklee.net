@@ -1,10 +1,12 @@
 // ThemeProvider.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ThemeContext, { initialThemeState } from './ThemeContext';
 
+// TODO - bug with light mode not appearing first
 const ThemeProvider = (props) => {
   const [theme, setTheme] = useState(initialThemeState.theme);
-  if (typeof window !== 'undefined') {
+  // const { theme, setTheme } = useContext(ThemeContext);
+  if (typeof document !== 'undefined') {
     const localStorage = window.localStorage;
   }
 
@@ -12,17 +14,22 @@ const ThemeProvider = (props) => {
     const savedThemeLocal = localStorage.getItem('globalTheme');
 
     if (!!savedThemeLocal) {
-      setTheme(savedThemeLocal);
+      // setTheme(() => setTheme(savedThemeLocal));
+      props.setTheme(savedThemeLocal);
+      // theme = savedThemeLocal;
+      console.log(savedThemeLocal);
+      console.log(props.theme);
+      console.log('THe theme');
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('globalTheme', theme);
-  }, [theme]);
+    localStorage.setItem('globalTheme', props.theme);
+  }, [props.theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
-      <div className={`theme--${theme}`}>{props.children}</div>
+      <div className={`theme--${props.theme}`}>{props.children}</div>
     </ThemeContext.Provider>
   );
 };
