@@ -28,7 +28,7 @@
     "@editorjs/table": "^2.0.2",
     "@editorjs/warning": "^1.2.0",
     "@netlify/functions": "^0.10.0",
-    "@prisma/client": "^3.14.0",
+    "@prisma/client": "^3.15.1",
     "@remix-run/netlify": "^1.1.1",
     "@remix-run/node": "^1.5.1",
     "@remix-run/react": "^1.5.1",
@@ -42,7 +42,6 @@
     "marked": "^4.0.16",
     "multer": "^1.4.5-lts.1",
     "node-sass": "^7.0.1",
-    "prisma": "^3.14.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-editor-js": "^2.0.6",
@@ -58,6 +57,7 @@
     "@types/react-dom": "^17.0.9",
     "cross-env": "^7.0.3",
     "prettier": "2.6.2",
+    "prisma": "^3.15.1",
     "typescript": "^4.1.2"
   },
   "engines": {

@@ -21,6 +21,7 @@ export default function Index() {
       <ul>
         {posts.map((post) => (
           <li className='postList' key={post.slug}>
+            <img src={post.coverUrl} />
             <Link className='postTitle' to={post.slug}>
               {post.title}
             </Link>

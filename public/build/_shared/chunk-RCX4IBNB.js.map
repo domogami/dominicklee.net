@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/components/ThemeContext.js"],
+  "sourcesContent": ["// ThemeContext.js\nimport React from 'react';\n\nlet initialTheme = 'Light';\nif (typeof document !== 'undefined') {\n  const localStorage = window.localStorage;\n  const savedThemeLocal = localStorage.getItem('globalTheme');\n  initialTheme = savedThemeLocal;\n}\n\nexport const initialThemeState = {\n  theme: initialTheme,\n  setTheme: () => null,\n};\n\nconst ThemeContext = React.createContext(initialThemeState);\nexport default ThemeContext;\n"],
+  "mappings": ";;;;;;;AAAA;AACA,mBAAkB;AAElB,IAAI,eAAe;AACnB,IAAI,OAAO,aAAa,aAAa;AACnC,QAAM,eAAe,OAAO;AAC5B,QAAM,kBAAkB,aAAa,QAAQ;AAC7C,iBAAe;AAAA;AAGV,IAAM,oBAAoB;AAAA,EAC/B,OAAO;AAAA,EACP,UAAU,MAAM;AAAA;AAGlB,IAAM,eAAe,qBAAM,cAAc;AACzC,IAAO,uBAAQ;",
+  "names": []
+}

@@ -8,8 +8,9 @@ datasource db {
 }
 
 model posts {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  editorjs String
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  coverUrl String
+  editorjs String?
   markdown String
   slug     String
   title    String

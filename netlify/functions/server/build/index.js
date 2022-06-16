@@ -399,9 +399,6 @@ var ThemeProvider = (props) => {
     const savedThemeLocal = localStorage.getItem("globalTheme");
     if (!!savedThemeLocal) {
       props.setTheme(savedThemeLocal);
-      console.log(savedThemeLocal);
-      console.log(props.theme);
-      console.log("THe theme");
     }
   }, []);
   (0, import_react2.useEffect)(() => {
@@ -700,8 +697,10 @@ var import_remix5 = __toESM(require_remix());
 // app/components/header.tsx
 init_react();
 var import_react6 = require("react");
+var import_react_router_dom = require("react-router-dom");
 function Header(props) {
   const [menuIsOpen, setMenuIsOpen] = (0, import_react6.useState)(false);
+  const location = (0, import_react_router_dom.useLocation)();
   return /* @__PURE__ */ React.createElement("div", {
     className: "header-container"
   }, /* @__PURE__ */ React.createElement("div", {
@@ -710,7 +709,7 @@ function Header(props) {
     src: Logo_Transparent_default,
     alt: "logo"
   }), /* @__PURE__ */ React.createElement("ul", null, /* @__PURE__ */ React.createElement("li", {
-    className: "active"
+    className: location.pathname === "/" ? "active" : "non-active"
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/"
   }, "Home")), /* @__PURE__ */ React.createElement("li", {
@@ -718,7 +717,7 @@ function Header(props) {
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/#projects"
   }, " Projects")), /* @__PURE__ */ React.createElement("li", {
-    className: "non-active"
+    className: location.pathname === "/blog" ? "active" : "non-active"
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/blog"
   }, " Blog")), /* @__PURE__ */ React.createElement("li", {
@@ -749,11 +748,12 @@ async function getPost(slug) {
     }
   });
   let id = foundSlug.id;
+  let coverUrl2 = foundSlug.coverUrl;
   let title = foundSlug.title;
   let html = (0, import_marked.marked)(foundSlug.markdown);
   let editorjs = foundSlug.editorjs;
   prisma.$disconnect();
-  return { id, slug, title, html, editorjs };
+  return { id, slug, coverUrl: coverUrl2, title, html, editorjs };
 }
 async function getPostEdit(slug) {
   await prisma.$connect();
@@ -764,10 +764,11 @@ async function getPostEdit(slug) {
   });
   let id = foundSlug.id;
   let title = foundSlug.title;
+  let coverUrl2 = foundSlug.coverUrl;
   let markdown = foundSlug.markdown;
   let editorjs = foundSlug.editorjs;
   prisma.$disconnect();
-  return { id, slug, title, markdown, editorjs };
+  return { id, slug, coverUrl: coverUrl2, title, markdown, editorjs };
 }
 async function createPost(post) {
   await prisma.$connect();
@@ -776,7 +777,8 @@ async function createPost(post) {
       title: post.title,
       slug: post.slug,
       markdown: post.markdown,
-      editorjs: post.editorjs
+      editorjs: post.editorjs,
+      coverUrl: post.coverUrl
     }
   });
   prisma.$disconnect();
@@ -793,7 +795,8 @@ async function updatePost(post) {
       title: post.title,
       slug: post.slug,
       markdown: post.markdown,
-      editorjs: post.editorjs
+      editorjs: post.editorjs,
+      coverUrl: post.coverUrl
     }
   });
   prisma.$disconnect();
@@ -843,23 +846,33 @@ var import_remix6 = __toESM(require_remix());
 var import_editor = __toESM(require_editor());
 var import_remix_utils = require("remix-utils");
 var import_react8 = require("react");
+var axios = require("axios").default;
 var loader2 = async ({ params }) => {
   (0, import_tiny_invariant.default)(params.edit, "expected params.edit");
   return getPostEdit(params.edit);
 };
 var action2 = async ({ request }) => {
+  console.log("request:");
+  console.log(request);
   console.log("going to submit form");
   let formData = await request.formData();
   let title = formData.get("title");
+  let coverImg = formData.get("cover");
   let slug = formData.get("slug");
   let markdown = formData.get("markdown");
   let editorjs = formData.get("editorjs");
   let id = formData.get("id");
+  console.log("AWS Upload");
+  console.log(coverImg);
+  const responseFromAWS = await axios({
+    method: "post",
+    url: "/.netlify/functions/uploadImage",
+    data: coverImg.name
+  });
+  console.log(responseFromAWS.data.url);
   let errors = {};
   if (!title)
     errors.title = true;
-  if (!slug)
-    errors.slug = true;
   if (!markdown)
     errors.markdown = true;
   if (!editorjs)
@@ -867,8 +880,8 @@ var action2 = async ({ request }) => {
   if (Object.keys(errors).length) {
     return errors;
   }
-  console.log("calling updatePost with id, title, slug, markdown: ", id, title, slug, markdown, editorjs);
-  await updatePost({ id, title, slug, markdown, editorjs });
+  console.log("calling updatePost with id, title, slug, markdown: ", id, title, coverUrl, slug, markdown, editorjs);
+  await updatePost({ id, title, coverUrl, slug, markdown, editorjs });
   return (0, import_remix6.redirect)("/admin");
 };
 function PostSlug() {
@@ -876,6 +889,12 @@ function PostSlug() {
   let transition = (0, import_remix6.useTransition)();
   let post = (0, import_remix6.useLoaderData)();
   const [savedData, setSavedData] = (0, import_react8.useState)("{}");
+  const [isSelected, setIsSelected] = (0, import_react8.useState)(false);
+  const [selectedFile, setSelectedFile] = (0, import_react8.useState)(null);
+  const imageUpload = (event) => {
+    console.log(event.target.files[0]);
+    setIsSelected(true);
+  };
   return /* @__PURE__ */ React.createElement(import_remix6.Form, {
     reloadDocument: true,
     method: "post"
@@ -890,6 +909,15 @@ function PostSlug() {
     name: "title",
     defaultValue: post.title
   }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: ""
+  }, "Post Cover: ", (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ React.createElement("em", null, "Cover is required"), " ", /* @__PURE__ */ React.createElement("input", {
+    type: "file",
+    name: "cover",
+    value: selectedFile,
+    onChange: imageUpload
+  }))), /* @__PURE__ */ React.createElement("img", {
+    src: post.coverUrl
+  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
   }, " ", "Post Slug: ", (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ React.createElement("em", null, "Slug is required"), /* @__PURE__ */ React.createElement("input", {
     defaultValue: post.slug,
@@ -1157,7 +1185,9 @@ function Index3() {
   }))), /* @__PURE__ */ React.createElement("ul", null, posts.map((post) => /* @__PURE__ */ React.createElement("li", {
     className: "postList",
     key: post.slug
-  }, /* @__PURE__ */ React.createElement(import_remix10.Link, {
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: post.coverUrl
+  }), /* @__PURE__ */ React.createElement(import_remix10.Link, {
     className: "postTitle",
     to: post.slug
   }, post.title)))), " ");
@@ -1165,7 +1195,7 @@ function Index3() {
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
 init_react();
-var assets_manifest_default = { "version": "866b82c2", "entry": { "module": "/build/entry.client-7PW2EFXI.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-VBGWNZZV.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-NG7YOZUY.js", "imports": ["/build/_shared/chunk-O2ARXD2P.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-IUETVWOG.js", "imports": ["/build/_shared/chunk-7BBTKS27.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-6O7HVKT3.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-HTW6RWE5.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-KHKBXMUJ.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-7LJMF2KO.js", "imports": ["/build/_shared/chunk-7BBTKS27.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-JCDAONLR.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-6ZGUJAF3.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-OGFBQI2H.js", "imports": ["/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-OM7HH5BW.js", "imports": ["/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-O2ARXD2P.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-SDBL6B2K.js", "imports": ["/build/_shared/chunk-7BBTKS27.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-CZVE2B2W.js", "imports": ["/build/_shared/chunk-TYX4ZAYS.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-JOJFDC4B.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/uploadImage": { "id": "routes/uploadImage", "parentId": "root", "path": "uploadImage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/uploadImage-MVDLJ74W.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-866B82C2.js" };
+var assets_manifest_default = { "version": "678213f0", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-LEOFFT2Z.js", "imports": ["/build/_shared/chunk-O2ARXD2P.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-IPTZB3YQ.js", "imports": ["/build/_shared/chunk-V73QMEIP.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-RVZPBAFK.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-HTW6RWE5.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-JEWDR3PE.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-H4C4VD7W.js", "imports": ["/build/_shared/chunk-V73QMEIP.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-2ON3NH4S.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-VCVFYH7M.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-6ENW62H5.js", "imports": ["/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-OM7HH5BW.js", "imports": ["/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-O2ARXD2P.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-HK7JL4FO.js", "imports": ["/build/_shared/chunk-V73QMEIP.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-TYX4ZAYS.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-X45YMMJ5.js", "imports": ["/build/_shared/chunk-TYX4ZAYS.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-JOJFDC4B.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/uploadImage": { "id": "routes/uploadImage", "parentId": "root", "path": "uploadImage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/uploadImage-MVDLJ74W.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-678213F0.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports };

@@ -14,12 +14,7 @@ const ThemeProvider = (props) => {
     const savedThemeLocal = localStorage.getItem('globalTheme');
 
     if (!!savedThemeLocal) {
-      // setTheme(() => setTheme(savedThemeLocal));
       props.setTheme(savedThemeLocal);
-      // theme = savedThemeLocal;
-      console.log(savedThemeLocal);
-      console.log(props.theme);
-      console.log('THe theme');
     }
   }, []);
 
