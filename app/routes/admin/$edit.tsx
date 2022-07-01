@@ -18,44 +18,26 @@ export let loader = async ({ params }) => {
   return getPostEdit(params.edit);
 };
 
+// NOTE: This function submits the form data for a new post
 export let action = async ({ request }) => {
-  console.log("request:");
-  console.log(request);
-  console.log('going to submit form');
+  // Get the form data
   let formData = await request.formData();
-
+  // Parse the form data
   let title = formData.get('title');
-  let coverImg = formData.get('cover');
+  let coverUrl = formData.get('coverUrl');
   let slug = formData.get('slug');
   let markdown = formData.get('markdown');
   let editorjs = formData.get('editorjs');
   let id = formData.get('id');
 
-  console.log("AWS Upload");
-  console.log(coverImg);
+  console.log('Check the cover image');
+  console.log(coverUrl);
 
-  const responseFromAWS = await axios({
-    method: 'post',
-    url: '/.netlify/functions/uploadImage',
-    data: coverImg.name,
-  });
-  console.log(responseFromAWS.data.url);
-  // console.log('ATTEMPTING PUT');
-  // const putResponse = await fetch(responseFromAWS.data.url, {
-  //   method: 'PUT',
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  //   body: coverImg,
-  // });
-  // const imageUrl = putResponse.url.split('?')[0];
-  // const coverUrl = imageUrl;
-  // let coverUrl = "https://doms-personal-blog-images.s3.us-west-1.amazonaws.com/Logo_Transparent.png";
-  // let coverUrl = coverImg.name;
-
+  // Error handling
   let errors: any = {};
   if (!title) errors.title = true;
-  // if (!coverUrl) if (!slug) errors.slug = true;
+  if (!coverUrl) errors.coverUrl = true;
+  if (!slug) errors.slug = true;
   if (!markdown) errors.markdown = true;
   if (!editorjs) errors.editorjs = true;
 
@@ -76,19 +58,38 @@ export let action = async ({ request }) => {
 
   return redirect('/admin');
 };
+
 // let savedData = null;
 export default function PostSlug() {
   let errors = useActionData();
   let transition = useTransition();
   let post = useLoaderData();
   const [savedData, setSavedData] = useState('{}');
+  const [coverUrl, setCoverUrl] = useState(post.coverUrl);
   const [isSelected, setIsSelected] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
 
-  const imageUpload = (event) => {
-    console.log(event.target.files[0]);
+  async function imageUpload(event) {
+    let file = event.target.files[0];
+    const responseFromAWS = await axios({
+      method: 'post',
+      url: '/.netlify/functions/uploadImage',
+      data: file.name,
+    });
+    console.log(responseFromAWS.data.url);
+    console.log('ATTEMPTING PUT');
+    const putResponse = await fetch(responseFromAWS.data.url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: file,
+    });
+    const imageUrl = putResponse.url.split('?')[0];
+    setCoverUrl(imageUrl);
     setIsSelected(true);
   };
+
   return (
     <Form reloadDocument method='post'>
       <h1>Edit Post</h1>
@@ -104,9 +105,20 @@ export default function PostSlug() {
       <p>
         <label htmlFor=''>
           Post Cover: {errors?.coverUrl && <em>Cover is required</em>}{' '}
-          <input type='file' name='cover' value={selectedFile} onChange={imageUpload} />
+          <input
+            type='file'
+            name='cover'
+            value={selectedFile}
+            onChange={imageUpload}
+          />
         </label>
       </p>
+      <p className='hiddenBlogID'>
+        <label htmlFor=''>
+          <input type='text' name='coverUrl' defaultValue={coverUrl} />
+        </label>
+      </p>
+      {/* {isSelected ? <img src={coverUrl}></img> : <></>} */}
       <img src={post.coverUrl} />
       <p>
         <label htmlFor=''>

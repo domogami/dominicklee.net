@@ -1,6 +1,8 @@
 import ThemeSetter from '../components/ThemeSetter';
+import { useOutletContext } from '@remix-run/react';
 import { Outlet } from 'remix';
 import React from 'react';
+
 export const useDate = () => {
   const locale = 'en';
   const [today, setDate] = React.useState(new Date()); // Save the current date to be able to trigger an update
@@ -40,6 +42,7 @@ export const useDate = () => {
 };
 
 export default function Startpage() {
+  const [theme, setTheme] = useOutletContext<themeSet>();
   let todaysDate = useDate();
   return (
     <div className='startpage-containter'>
@@ -49,7 +52,7 @@ export default function Startpage() {
       <Outlet />
       <h2 id='date'>
         {todaysDate.date} | {todaysDate.time} | {todaysDate.wish} |{' '}
-        <ThemeSetter />
+        <ThemeSetter theme={theme} changeTheme={(theme) => setTheme(theme)} />
       </h2>
     </div>
   );
