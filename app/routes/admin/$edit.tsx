@@ -45,21 +45,11 @@ export let action = async ({ request }) => {
     return errors;
   }
 
-  console.log(
-    'calling updatePost with id, title, slug, markdown: ',
-    id,
-    title,
-    coverUrl,
-    slug,
-    markdown,
-    editorjs
-  );
   await updatePost({ id, title, coverUrl, slug, markdown, editorjs });
 
   return redirect('/admin');
 };
 
-// let savedData = null;
 export default function PostSlug() {
   let errors = useActionData();
   let transition = useTransition();
@@ -67,7 +57,7 @@ export default function PostSlug() {
   const [savedData, setSavedData] = useState('{}');
   const [coverUrl, setCoverUrl] = useState(post.coverUrl);
   const [isSelected, setIsSelected] = useState(false);
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState('');
 
   async function imageUpload(event) {
     let file = event.target.files[0];
@@ -88,7 +78,7 @@ export default function PostSlug() {
     const imageUrl = putResponse.url.split('?')[0];
     setCoverUrl(imageUrl);
     setIsSelected(true);
-  };
+  }
 
   return (
     <Form reloadDocument method='post'>

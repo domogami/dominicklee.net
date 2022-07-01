@@ -4,12 +4,18 @@
 
 My personal side but reimagined
 
-## Project Todo
+## Project Todo List
+- [ ] Style Blog Page
+- [ ] Style Admin Page
+- [ ] Style Edit Page
+- [ ] Style Blog Post Page
+- [ ] Fix and style New Post Page
 
-- [x] Toggleable Theme
-  - [ ] Bug with theme appearing dark at beginning regardless of choice
+## Bugs
+- [ ] Bug with theme flashing white regardless of theme selection
+
+## Additional Features
 - [ ] Better [Prettier Rules](https://prettier.io/docs/en/options.html)
-- [ ] [Prisma vs Mongoose](https://dev.to/somsubhra1/journey-from-mongoose-to-prisma-orm-for-mongodb-3j21)
 
 ### [Startpage](https://the-awesome-domogami-site.netlify.app/startpage)
 
@@ -19,3 +25,5 @@ I created a startpage that I use as my web browser homepage and new tab default 
 
 Inspiration from [startpages](https://startpages.github)
 Really enjoyed this [homepage](https://fxzzi.github.io/catStartpage/) by [Fazzi](https://github.com/Fxzzi?tab=repositories)
+
+More startpages here [r/startpages](https://www.reddit.com/r/startpages/)
