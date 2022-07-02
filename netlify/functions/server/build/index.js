@@ -532,7 +532,7 @@ __export(startpage_exports2, {
 init_react();
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-CJM6GWKM.css";
+var app_default = "/build/_assets/app-YCXV43QL.css";
 
 // app/images/Logo_Transparent.svg
 var Logo_Transparent_default = "/build/_assets/Logo_Transparent-HXC24UL2.svg";
@@ -802,7 +802,7 @@ function Admin(props) {
     changeTheme: (theme2) => setTheme(theme2)
   }), /* @__PURE__ */ React.createElement("div", {
     className: "admin-container"
-  }, /* @__PURE__ */ React.createElement(import_remix5.Outlet, null), /* @__PURE__ */ React.createElement("h3", null, "Post's to edit"), /* @__PURE__ */ React.createElement("div", {
+  }, /* @__PURE__ */ React.createElement(import_remix5.Outlet, null), /* @__PURE__ */ React.createElement("h3", null, "Posts to edit"), /* @__PURE__ */ React.createElement("div", {
     className: "fancy-rectangle"
   }), /* @__PURE__ */ React.createElement("ul", {
     className: "post-list"
@@ -900,11 +900,12 @@ function PostSlug() {
   return /* @__PURE__ */ React.createElement(import_remix6.Form, {
     reloadDocument: true,
     method: "post"
-  }, /* @__PURE__ */ React.createElement("h1", null, "Edit Post"), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("input", {
-    className: "hiddenBlogID",
-    name: "id",
-    value: post.id
-  })), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "edit-post-container"
+  }, /* @__PURE__ */ React.createElement("h2", null, "Edit Post"), /* @__PURE__ */ React.createElement("img", {
+    className: "cover-preview",
+    src: post.coverUrl
+  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
   }, "Post Title: ", (errors == null ? void 0 : errors.title) && /* @__PURE__ */ React.createElement("em", null, "Title is required"), " ", /* @__PURE__ */ React.createElement("input", {
     type: "text",
@@ -917,17 +918,7 @@ function PostSlug() {
     name: "cover",
     value: selectedFile,
     onChange: imageUpload
-  }))), /* @__PURE__ */ React.createElement("p", {
-    className: "hiddenBlogID"
-  }, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, /* @__PURE__ */ React.createElement("input", {
-    type: "text",
-    name: "coverUrl",
-    defaultValue: coverUrl
-  }))), /* @__PURE__ */ React.createElement("img", {
-    src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
+  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
   }, " ", "Post Slug: ", (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ React.createElement("em", null, "Slug is required"), /* @__PURE__ */ React.createElement("input", {
     defaultValue: post.slug,
@@ -950,8 +941,19 @@ function PostSlug() {
     defaultValue: post.editorjs,
     name: "editorjs",
     value: savedData,
-    className: "hidenEditorField"
-  }));
+    className: "hiddenEditorField"
+  }), /* @__PURE__ */ React.createElement("label", {
+    htmlFor: ""
+  }, /* @__PURE__ */ React.createElement("input", {
+    className: "hidden",
+    type: "text",
+    name: "coverUrl",
+    defaultValue: coverUrl
+  })), /* @__PURE__ */ React.createElement("input", {
+    className: "hidden",
+    name: "id",
+    value: post.id
+  })));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx
@@ -977,22 +979,32 @@ __export(new_exports, {
 });
 init_react();
 var import_remix8 = __toESM(require_remix());
+var import_editor2 = __toESM(require_editor());
+var import_remix_utils2 = require("remix-utils");
+var import_react10 = require("react");
+var axios2 = require("axios").default;
 var action2 = async ({ request }) => {
   let formData = await request.formData();
   let title = formData.get("title");
+  let coverUrl = formData.get("coverUrl");
   let slug = formData.get("slug");
   let description = formData.get("description");
+  let editorjs = formData.get("editorjs");
   let errors = {};
   if (!title)
     errors.title = true;
+  if (!coverUrl)
+    errors.coverUrl = true;
   if (!slug)
     errors.slug = true;
   if (!description)
     errors.description = true;
+  if (!editorjs)
+    errors.editorjs = true;
   if (Object.keys(errors).length) {
     return errors;
   }
-  await createPost({ title, slug, description });
+  await createPost({ title, coverUrl, slug, description, editorjs });
   return (0, import_remix8.redirect)("/admin");
 };
 function NewPost() {
@@ -1004,15 +1016,45 @@ function NewPost() {
     slug = text.replace(/\s/g, "-");
     document.getElementById("slugInput").value = slug.toLowerCase();
   };
+  const [savedData, setSavedData] = (0, import_react10.useState)("");
+  const [coverUrl, setCoverUrl] = (0, import_react10.useState)("");
+  const [isSelected, setIsSelected] = (0, import_react10.useState)(false);
+  const [selectedFile, setSelectedFile] = (0, import_react10.useState)("");
+  async function imageUpload(event) {
+    let file = event.target.files[0];
+    const responseFromAWS = await axios2({
+      method: "post",
+      url: "/.netlify/functions/uploadImage",
+      data: file.name
+    });
+    console.log(responseFromAWS.data.url);
+    console.log("ATTEMPTING PUT");
+    const putResponse = await fetch(responseFromAWS.data.url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: file
+    });
+    const imageUrl = putResponse.url.split("?")[0];
+    setCoverUrl(imageUrl);
+    setIsSelected(true);
+  }
   return /* @__PURE__ */ React.createElement(import_remix8.Form, {
+    reloadDocument: true,
     method: "post"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "new-post-container"
   }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
   }, "Post Title: ", (errors == null ? void 0 : errors.title) && /* @__PURE__ */ React.createElement("em", null, "Title is required"), " ", /* @__PURE__ */ React.createElement("input", {
     onChange: handleChange,
     type: "text",
     name: "title"
-  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
+  }))), /* @__PURE__ */ React.createElement("img", {
+    className: "cover-preview",
+    src: coverUrl
+  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
   }, " ", "Post Slug: ", (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ React.createElement("em", null, "Slug is required"), /* @__PURE__ */ React.createElement("input", {
     placeholder: slug,
@@ -1021,14 +1063,34 @@ function NewPost() {
     name: "slug"
   }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
-  }, "Description:"), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("textarea", {
+  }, "Post Cover: ", (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ React.createElement("em", null, "Cover is required"), " ", /* @__PURE__ */ React.createElement("input", {
+    type: "file",
+    name: "cover",
+    value: selectedFile,
+    onChange: imageUpload
+  }))), /* @__PURE__ */ React.createElement("p", null, "Insert Description:", /* @__PURE__ */ React.createElement("label", {
+    htmlFor: ""
+  }, /* @__PURE__ */ React.createElement("input", {
+    defaultValue: "",
     name: "description",
-    id: "",
-    rows: 20,
-    cols: 30
+    id: ""
+  })), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_remix_utils2.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editor2.default, {
+    previousData: "{}",
+    saveOutput: savedData,
+    save: (savedData2) => setSavedData(savedData2)
+  }))), /* @__PURE__ */ React.createElement("input", {
+    name: "editorjs",
+    defaultValue: savedData,
+    value: savedData
+  }), /* @__PURE__ */ React.createElement("label", {
+    htmlFor: ""
+  }, /* @__PURE__ */ React.createElement("input", {
+    type: "text",
+    name: "coverUrl",
+    defaultValue: coverUrl
   })), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("button", {
     type: "submit"
-  }, transition.submission ? "Creating..." : "Create Post")));
+  }, transition.submission ? "Creating..." : "Create Post"))));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx
@@ -1118,12 +1180,12 @@ function Home() {
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx
-var import_react10 = require("@remix-run/react");
+var import_react11 = require("@remix-run/react");
 var links5 = () => {
   return [{ rel: "stylesheet", href: app_default }];
 };
 function IndexRoute(props) {
-  const [theme, setTheme] = (0, import_react10.useOutletContext)();
+  const [theme, setTheme] = (0, import_react11.useOutletContext)();
   return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Header, {
     theme,
     changeTheme: (theme2) => setTheme(theme2)
@@ -1138,12 +1200,12 @@ __export(blog_exports, {
 });
 init_react();
 var import_remix9 = __toESM(require_remix());
-var import_react11 = require("@remix-run/react");
+var import_react12 = require("@remix-run/react");
 var links6 = () => {
   return [{ rel: "stylesheet", href: app_default }];
 };
 function Blog() {
-  const [theme, setTheme] = (0, import_react11.useOutletContext)();
+  const [theme, setTheme] = (0, import_react12.useOutletContext)();
   return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Header, {
     theme,
     changeTheme: (theme2) => setTheme(theme2)
@@ -1160,7 +1222,7 @@ init_react();
 var import_remix10 = __toESM(require_remix());
 var import_tiny_invariant2 = __toESM(require("tiny-invariant"));
 var import_editorjsReact = __toESM(require_editorjsReact());
-var import_remix_utils2 = require("remix-utils");
+var import_remix_utils3 = require("remix-utils");
 var loader3 = async ({ params }) => {
   (0, import_tiny_invariant2.default)(params.slug, "expected params.slug");
   return getPost(params.slug);
@@ -1172,7 +1234,7 @@ function PostSlug2() {
   }, /* @__PURE__ */ React.createElement("h1", null, post.title), /* @__PURE__ */ React.createElement("img", {
     className: "cover-image",
     src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement(import_remix_utils2.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editorjsReact.default, {
+  }), /* @__PURE__ */ React.createElement(import_remix_utils3.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editorjsReact.default, {
     previousData: post.editorjs
   })));
 }
@@ -1220,7 +1282,7 @@ function Index3() {
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
 init_react();
-var assets_manifest_default = { "version": "15aa7b9b", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-GWRHAFXO.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-DXZZUY4B.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-IU6JBL5T.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-4XZ5YJYR.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-5UVPYKBE.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-KDG5OBJW.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-J75NE6WO.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-2FZTK7XP.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-NAZ4M2AU.js", "imports": ["/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-2EFEKUBN.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-ZHOZ6XPB.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-LUDC2K26.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-VNLTU2T3.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-15AA7B9B.js" };
+var assets_manifest_default = { "version": "4a7418e4", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-GWRHAFXO.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-GOO6PAX5.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-YNGX4H22.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-22OYKGB6.js", "imports": ["/build/_shared/chunk-YTTNAVPX.js", "/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-4B345MZX.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-2C4SN4DD.js", "imports": ["/build/_shared/chunk-YTTNAVPX.js", "/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-GH56MJ6P.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-YNGX4H22.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-J75NE6WO.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-2FZTK7XP.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-VU2RKUER.js", "imports": ["/build/_shared/chunk-YNGX4H22.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-BQM6EJV3.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-LUAFHHDB.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-YNGX4H22.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-LUDC2K26.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-X6TQMN67.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-YNGX4H22.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-4A7418E4.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports };

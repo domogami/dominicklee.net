@@ -1,0 +1,1 @@
+import"/build/_shared/chunk-LYCP5ARG.js";import{e as i}from"/build/_shared/chunk-3QXOOPD6.js";import{h as n,i as o}from"/build/_shared/chunk-2ADOHOB6.js";o();o();function d(){return n.createElement("div",{className:"admin-index"},n.createElement("h2",null,"Welcome Back Dom"),n.createElement(i,{to:"/admin/new"},n.createElement("button",null,"New Post")))}export{d as default};

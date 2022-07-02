@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx?browser", "../../../../app/routes/admin/index.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx\";", "import Editor from '~/components/editor.client';\nimport { ClientOnly } from 'remix-utils';\nimport '~/types/editor';\nimport { Outlet, Link } from 'remix';\nexport default function AdminIndex() {\n  return (\n    <div className='admin-index'>\n      <h2>Welcome Back Dom</h2>\n      <Link to=\"/admin/new\"><button>New Post</button></Link>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;;;;;AAAA;;;ACAA;AAIe,sBAAsB;AACnC,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD,MAAI,qBACJ,oCAAC,MAAD;AAAA,IAAM,IAAG;AAAA,KAAa,oCAAC,UAAD,MAAQ;AAAA;",
-  "names": []
-}

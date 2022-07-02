@@ -59,7 +59,7 @@ export default function PostSlug() {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedFile, setSelectedFile] = useState('');
 
-  async function imageUpload(event) {
+  async function imageUpload(event: any) {
     let file = event.target.files[0];
     const responseFromAWS = await axios({
       method: 'post',
@@ -82,73 +82,76 @@ export default function PostSlug() {
 
   return (
     <Form reloadDocument method='post'>
-      <h1>Edit Post</h1>
-      <p>
-        <input className='hiddenBlogID' name='id' value={post.id}></input>
-      </p>
-      <p>
-        <label htmlFor=''>
-          Post Title: {errors?.title && <em>Title is required</em>}{' '}
-          <input type='text' name='title' defaultValue={post.title} />
-        </label>
-      </p>
-      <p>
-        <label htmlFor=''>
-          Post Cover: {errors?.coverUrl && <em>Cover is required</em>}{' '}
-          <input
-            type='file'
-            name='cover'
-            value={selectedFile}
-            onChange={imageUpload}
-          />
-        </label>
-      </p>
-      <p className='hiddenBlogID'>
-        <label htmlFor=''>
-          <input type='text' name='coverUrl' defaultValue={coverUrl} />
-        </label>
-      </p>
-      <img src={post.coverUrl} />
-      <p>
-        <label htmlFor=''>
-          {' '}
-          Post Slug: {errors?.slug && <em>Slug is required</em>}
-          <input
-            defaultValue={post.slug}
-            id='slugInput'
-            type='text'
-            name='slug'
-          />
-        </label>
-      </p>
-      <p>
-        Insert Description:
-        <label htmlFor=''>
-          <input defaultValue={post.description} name='description' id='' />
-        </label>{' '}
-        {errors?.description && <em>Description is required</em>}
-        <br />
-        <ClientOnly>
-          {() => (
-            <Editor
-              previousData={post.editorjs}
-              saveOutput={savedData}
-              save={(savedData: any) => setSavedData(savedData)}
+      <div className='edit-post-container'>
+        <h2>Edit Post</h2>
+        <img className='cover-preview' src={post.coverUrl} />
+        <p>
+          <label htmlFor=''>
+            Post Title: {errors?.title && <em>Title is required</em>}{' '}
+            <input type='text' name='title' defaultValue={post.title} />
+          </label>
+        </p>
+        <p>
+          <label htmlFor=''>
+            Post Cover: {errors?.coverUrl && <em>Cover is required</em>}{' '}
+            <input
+              type='file'
+              name='cover'
+              value={selectedFile}
+              onChange={imageUpload}
             />
-          )}
-        </ClientOnly>
-      </p>
-      <p>
-        <button type='submit'>
-          {transition.submission ? 'Updating...' : 'Update Post'}
-        </button>
-      </p>
-      <input
-        defaultValue={post.editorjs}
-        name='editorjs'
-        value={savedData}
-        className='hidenEditorField'
-      ></input>
+          </label>
+        </p>
+        <p>
+          <label htmlFor=''>
+            {' '}
+            Post Slug: {errors?.slug && <em>Slug is required</em>}
+            <input
+              defaultValue={post.slug}
+              id='slugInput'
+              type='text'
+              name='slug'
+            />
+          </label>
+        </p>
+        <p>
+          Insert Description:
+          <label htmlFor=''>
+            <input defaultValue={post.description} name='description' id='' />
+          </label>{' '}
+          {errors?.description && <em>Description is required</em>}
+          <br />
+          <ClientOnly>
+            {() => (
+              <Editor
+                previousData={post.editorjs}
+                saveOutput={savedData}
+                save={(savedData: any) => setSavedData(savedData)}
+              />
+            )}
+          </ClientOnly>
+        </p>
+        <p>
+          <button type='submit'>
+            {transition.submission ? 'Updating...' : 'Update Post'}
+          </button>
+        </p>
+        <input
+          defaultValue={post.editorjs}
+          name='editorjs'
+          value={savedData}
+          className='hiddenEditorField'
+        />
+        <label htmlFor=''>
+          <input
+            className='hidden'
+            type='text'
+            name='coverUrl'
+            defaultValue={coverUrl}
+          />
+        </label>
+        <input className='hidden' name='id' value={post.id}></input>
+      </div>
     </Form>
   );
 }

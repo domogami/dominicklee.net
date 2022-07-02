@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../app/components/ThemeContext.js"],
-  "sourcesContent": ["// ThemeContext.js\nimport React from 'react';\n\nexport const initialThemeState = {\n  theme: 'Light',\n  setTheme: () => null,\n};\n\nconst ThemeContext = React.createContext(initialThemeState);\nexport default ThemeContext;\n"],
-  "mappings": ";;;;;;;AAAA;AACA,mBAAkB;AAEX,IAAM,oBAAoB;AAAA,EAC/B,OAAO;AAAA,EACP,UAAU,MAAM;AAAA;AAGlB,IAAM,eAAe,qBAAM,cAAc;AACzC,IAAO,uBAAQ;",
-  "names": []
-}

@@ -7,12 +7,11 @@
     color: t('text');
     background: t('bg');
   }
-  
   & h3 {
     font-size: 3.5em;
     text-align: center;
   }
-  & .hidenEditorField {
+  & .hiddenEditorField {
     opacity: 0;
   }
   & .post-list {
@@ -61,7 +60,7 @@
     }
   }
   .fancy-rectangle {
-    margin: auto;
+    margin: 10px auto;
     width: 350px;
     height: 5px;
     border-radius: 5px;
@@ -91,4 +90,8 @@
     max-width: 1000px;
     font-size: 4.5em;
   }
+}
+
+.hidden {
+  opacity: 0;
 }

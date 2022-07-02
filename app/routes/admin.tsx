@@ -21,21 +21,22 @@ export type themeSet = {
 export default function Admin(props) {
   let posts = useLoaderData();
   const [theme, setTheme] = useOutletContext<themeSet>();
+
   return (
     <>
       <Header changeTheme={(theme) => setTheme(theme)} />
       <div className='admin-container'>
         {/* NOTE: Outlet renders the /admin/index.jsx */}
         <Outlet />
-        <h3>Post's to edit</h3>
+        <h3>Posts to edit</h3>
         <div className='fancy-rectangle' />
         <ul className='post-list'>
           {posts.map((post) => (
             <Link className='post' to={post.slug}>
               <li key={post.slug}></li>
-              <div className="post-container">
+              <div className='post-container'>
                 <img src={post.coverUrl} />
-                <div className="fancy-rectangle" />
+                <div className='fancy-rectangle' />
                 <div className='post-text'>
                   <h2>{post.title}</h2>
                   <p>{post.description}</p>
@@ -49,7 +50,8 @@ export default function Admin(props) {
   );
 }
 
-{ /*
+{
+  /*
 <nav>
           <p>Click on a post to edit the blog post</p>
           <ul>
@@ -63,4 +65,5 @@ export default function Admin(props) {
             <Outlet />
           </main>
         </nav>
-*/}
+*/
+}
