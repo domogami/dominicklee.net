@@ -7,18 +7,18 @@ export let action = async ({ request }) => {
 
   let title = formData.get('title');
   let slug = formData.get('slug');
-  let markdown = formData.get('markdown');
+  let description = formData.get('description');
 
   let errors = {};
   if (!title) errors.title = true;
   if (!slug) errors.slug = true;
-  if (!markdown) errors.markdown = true;
+  if (!description) errors.description = true;
 
   if (Object.keys(errors).length) {
     return errors;
   }
 
-  await createPost({ title, slug, markdown });
+  await createPost({ title, slug, description });
 
   return redirect('/admin');
 };
@@ -56,10 +56,10 @@ export default function NewPost() {
         </label>
       </p>
       <p>
-        <label htmlFor='markdown'>Markdown:</label>{' '}
-        {errors?.markdown && <em>Markdown is required</em>}
+        <label htmlFor=''>Description:</label>{' '}
+        {errors?.description && <em>Description is required</em>}
         <br />
-        <textarea name='markdown' id='' rows={20} cols={30} />
+        <textarea name='description' id='' rows={20} cols={30} />
       </p>
       <p>
         <button type='submit'>

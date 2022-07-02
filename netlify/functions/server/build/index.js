@@ -447,32 +447,6 @@ function App() {
   }), /* @__PURE__ */ React.createElement(import_remix2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_remix2.Scripts, null), /* @__PURE__ */ React.createElement(import_remix2.LiveReload, null))));
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/uploadImage.tsx
-var uploadImage_exports = {};
-__export(uploadImage_exports, {
-  action: () => action
-});
-init_react();
-var import_node = require("@remix-run/node");
-var import_multer = __toESM(require("multer"));
-var action = async ({ request }) => {
-  const uploadM = (0, import_multer.default)({ dest: "uploads/" });
-  uploadM.single("image");
-  if (request.method !== "POST") {
-    return (0, import_node.json)({ message: "Method not allowed" }, 405);
-  }
-  console.log(request.body);
-  console.log("made it this far");
-  console.log("Post Request Below");
-  console.log("Request Body Below");
-  return {
-    success: 1,
-    file: {
-      url: "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg"
-    }
-  };
-};
-
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx
 var startpage_exports = {};
 __export(startpage_exports, {
@@ -558,7 +532,7 @@ __export(startpage_exports2, {
 init_react();
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-FAWUASLH.css";
+var app_default = "/build/_assets/app-CJM6GWKM.css";
 
 // app/images/Logo_Transparent.svg
 var Logo_Transparent_default = "/build/_assets/Logo_Transparent-HXC24UL2.svg";
@@ -722,7 +696,7 @@ function Header(props) {
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/#projects"
   }, " Projects")), /* @__PURE__ */ React.createElement("li", {
-    className: location.pathname === "/blog" ? "active" : "non-active"
+    className: location.pathname.includes("/blog") ? "active" : "non-active"
   }, /* @__PURE__ */ React.createElement("a", {
     href: "/blog"
   }, " Blog")), /* @__PURE__ */ React.createElement("li", {
@@ -743,7 +717,6 @@ function Header(props) {
 // app/post.ts
 init_react();
 var import_client = require("@prisma/client");
-var import_marked = require("marked");
 var prisma = new import_client.PrismaClient();
 async function getPost(slug) {
   await prisma.$connect();
@@ -755,10 +728,10 @@ async function getPost(slug) {
   let id = foundSlug.id;
   let coverUrl = foundSlug.coverUrl;
   let title = foundSlug.title;
-  let html = (0, import_marked.marked)(foundSlug.markdown);
+  let description = foundSlug.description;
   let editorjs = foundSlug.editorjs;
   prisma.$disconnect();
-  return { id, slug, coverUrl, title, html, editorjs };
+  return { id, slug, coverUrl, title, description, editorjs };
 }
 async function getPostEdit(slug) {
   await prisma.$connect();
@@ -770,10 +743,10 @@ async function getPostEdit(slug) {
   let id = foundSlug.id;
   let title = foundSlug.title;
   let coverUrl = foundSlug.coverUrl;
-  let markdown = foundSlug.markdown;
+  let description = foundSlug.description;
   let editorjs = foundSlug.editorjs;
   prisma.$disconnect();
-  return { id, slug, coverUrl, title, markdown, editorjs };
+  return { id, slug, coverUrl, title, description, editorjs };
 }
 async function createPost(post) {
   await prisma.$connect();
@@ -781,7 +754,7 @@ async function createPost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown,
+      description: post.description,
       editorjs: post.editorjs,
       coverUrl: post.coverUrl
     }
@@ -799,7 +772,7 @@ async function updatePost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown,
+      description: post.description,
       editorjs: post.editorjs,
       coverUrl: post.coverUrl
     }
@@ -829,19 +802,32 @@ function Admin(props) {
     changeTheme: (theme2) => setTheme(theme2)
   }), /* @__PURE__ */ React.createElement("div", {
     className: "admin-container"
-  }, /* @__PURE__ */ React.createElement("h1", {
-    className: "adminTitle"
-  }, "Admin Dom"), /* @__PURE__ */ React.createElement("nav", null, /* @__PURE__ */ React.createElement("p", null, "Click on a post to edit the blog post"), /* @__PURE__ */ React.createElement("ul", null, posts.map((post) => /* @__PURE__ */ React.createElement("li", {
-    key: post.slug
-  }, /* @__PURE__ */ React.createElement(import_remix5.Link, {
+  }, /* @__PURE__ */ React.createElement(import_remix5.Outlet, null), /* @__PURE__ */ React.createElement("h3", null, "Post's to edit"), /* @__PURE__ */ React.createElement("div", {
+    className: "fancy-rectangle"
+  }), /* @__PURE__ */ React.createElement("ul", {
+    className: "post-list"
+  }, posts.map((post) => /* @__PURE__ */ React.createElement(import_remix5.Link, {
+    className: "post",
     to: post.slug
-  }, post.title)))), /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement(import_remix5.Outlet, null)))));
+  }, /* @__PURE__ */ React.createElement("li", {
+    key: post.slug
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "post-container"
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: post.coverUrl
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "fancy-rectangle"
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "post-text"
+  }, /* @__PURE__ */ React.createElement("h2", null, post.title), /* @__PURE__ */ React.createElement("p", null, post.description))))))));
+}
+{
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/$edit.tsx
 var edit_exports = {};
 __export(edit_exports, {
-  action: () => action2,
+  action: () => action,
   default: () => PostSlug,
   loader: () => loader2
 });
@@ -856,12 +842,12 @@ var loader2 = async ({ params }) => {
   (0, import_tiny_invariant.default)(params.edit, "expected params.edit");
   return getPostEdit(params.edit);
 };
-var action2 = async ({ request }) => {
+var action = async ({ request }) => {
   let formData = await request.formData();
   let title = formData.get("title");
   let coverUrl = formData.get("coverUrl");
   let slug = formData.get("slug");
-  let markdown = formData.get("markdown");
+  let description = formData.get("description");
   let editorjs = formData.get("editorjs");
   let id = formData.get("id");
   console.log("Check the cover image");
@@ -873,14 +859,14 @@ var action2 = async ({ request }) => {
     errors.coverUrl = true;
   if (!slug)
     errors.slug = true;
-  if (!markdown)
-    errors.markdown = true;
+  if (!description)
+    errors.description = true;
   if (!editorjs)
     errors.editorjs = true;
   if (Object.keys(errors).length) {
     return errors;
   }
-  await updatePost({ id, title, coverUrl, slug, markdown, editorjs });
+  await updatePost({ id, title, coverUrl, slug, description, editorjs });
   return (0, import_remix6.redirect)("/admin");
 };
 function PostSlug() {
@@ -948,17 +934,17 @@ function PostSlug() {
     id: "slugInput",
     type: "text",
     name: "slug"
-  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "markdown"
-  }, "Markdown from editorjs:"), " ", (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ React.createElement("em", null, "Markdown is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_remix_utils.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editor.default, {
+  }))), /* @__PURE__ */ React.createElement("p", null, "Insert Description:", /* @__PURE__ */ React.createElement("label", {
+    htmlFor: ""
+  }, /* @__PURE__ */ React.createElement("input", {
+    defaultValue: post.description,
+    name: "description",
+    id: ""
+  })), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_remix_utils.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editor.default, {
     previousData: post.editorjs,
     saveOutput: savedData,
     save: (savedData2) => setSavedData(savedData2)
-  })), /* @__PURE__ */ React.createElement("textarea", {
-    defaultValue: post.markdown,
-    name: "markdown",
-    id: ""
-  })), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("button", {
+  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("button", {
     type: "submit"
   }, transition.submission ? "Updating..." : "Update Post")), /* @__PURE__ */ React.createElement("input", {
     defaultValue: post.editorjs,
@@ -974,48 +960,51 @@ __export(admin_exports2, {
   default: () => AdminIndex
 });
 init_react();
+var import_remix7 = __toESM(require_remix());
 function AdminIndex() {
   return /* @__PURE__ */ React.createElement("div", {
-    className: "adminNewPostLink"
-  }, /* @__PURE__ */ React.createElement("button", null, "Save Article"));
+    className: "admin-index"
+  }, /* @__PURE__ */ React.createElement("h2", null, "Welcome Back Dom"), /* @__PURE__ */ React.createElement(import_remix7.Link, {
+    to: "/admin/new"
+  }, /* @__PURE__ */ React.createElement("button", null, "New Post")));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/new.tsx
 var new_exports = {};
 __export(new_exports, {
-  action: () => action3,
+  action: () => action2,
   default: () => NewPost
 });
 init_react();
-var import_remix7 = __toESM(require_remix());
-var action3 = async ({ request }) => {
+var import_remix8 = __toESM(require_remix());
+var action2 = async ({ request }) => {
   let formData = await request.formData();
   let title = formData.get("title");
   let slug = formData.get("slug");
-  let markdown = formData.get("markdown");
+  let description = formData.get("description");
   let errors = {};
   if (!title)
     errors.title = true;
   if (!slug)
     errors.slug = true;
-  if (!markdown)
-    errors.markdown = true;
+  if (!description)
+    errors.description = true;
   if (Object.keys(errors).length) {
     return errors;
   }
-  await createPost({ title, slug, markdown });
-  return (0, import_remix7.redirect)("/admin");
+  await createPost({ title, slug, description });
+  return (0, import_remix8.redirect)("/admin");
 };
 function NewPost() {
-  let errors = (0, import_remix7.useActionData)();
-  let transition = (0, import_remix7.useTransition)();
+  let errors = (0, import_remix8.useActionData)();
+  let transition = (0, import_remix8.useTransition)();
   let slug = "";
   const handleChange = (e) => {
     let text = e.target.value;
     slug = text.replace(/\s/g, "-");
     document.getElementById("slugInput").value = slug.toLowerCase();
   };
-  return /* @__PURE__ */ React.createElement(import_remix7.Form, {
+  return /* @__PURE__ */ React.createElement(import_remix8.Form, {
     method: "post"
   }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: ""
@@ -1031,9 +1020,9 @@ function NewPost() {
     type: "text",
     name: "slug"
   }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "markdown"
-  }, "Markdown:"), " ", (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ React.createElement("em", null, "Markdown is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("textarea", {
-    name: "markdown",
+    htmlFor: ""
+  }, "Description:"), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("textarea", {
+    name: "description",
     id: "",
     rows: 20,
     cols: 30
@@ -1148,7 +1137,7 @@ __export(blog_exports, {
   links: () => links6
 });
 init_react();
-var import_remix8 = __toESM(require_remix());
+var import_remix9 = __toESM(require_remix());
 var import_react11 = require("@remix-run/react");
 var links6 = () => {
   return [{ rel: "stylesheet", href: app_default }];
@@ -1158,7 +1147,7 @@ function Blog() {
   return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Header, {
     theme,
     changeTheme: (theme2) => setTheme(theme2)
-  }), /* @__PURE__ */ React.createElement(import_remix8.Outlet, null));
+  }), /* @__PURE__ */ React.createElement(import_remix9.Outlet, null));
 }
 
 // route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/$slug.tsx
@@ -1168,7 +1157,7 @@ __export(slug_exports, {
   loader: () => loader3
 });
 init_react();
-var import_remix9 = __toESM(require_remix());
+var import_remix10 = __toESM(require_remix());
 var import_tiny_invariant2 = __toESM(require("tiny-invariant"));
 var import_editorjsReact = __toESM(require_editorjsReact());
 var import_remix_utils2 = require("remix-utils");
@@ -1177,8 +1166,13 @@ var loader3 = async ({ params }) => {
   return getPost(params.slug);
 };
 function PostSlug2() {
-  let post = (0, import_remix9.useLoaderData)();
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(import_remix_utils2.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editorjsReact.default, {
+  let post = (0, import_remix10.useLoaderData)();
+  return /* @__PURE__ */ React.createElement("div", {
+    className: "blog-post-container"
+  }, /* @__PURE__ */ React.createElement("h1", null, post.title), /* @__PURE__ */ React.createElement("img", {
+    className: "cover-image",
+    src: post.coverUrl
+  }), /* @__PURE__ */ React.createElement(import_remix_utils2.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editorjsReact.default, {
     previousData: post.editorjs
   })));
 }
@@ -1190,12 +1184,12 @@ __export(blog_exports2, {
   loader: () => loader4
 });
 init_react();
-var import_remix10 = __toESM(require_remix());
+var import_remix11 = __toESM(require_remix());
 var loader4 = () => {
   return getPosts();
 };
 function Index3() {
-  let posts = (0, import_remix10.useLoaderData)();
+  let posts = (0, import_remix11.useLoaderData)();
   return /* @__PURE__ */ React.createElement("div", {
     className: "blog-container"
   }, /* @__PURE__ */ React.createElement("div", {
@@ -1206,20 +1200,27 @@ function Index3() {
     className: "rectangle-container"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "fancy-rectangle"
-  }))), /* @__PURE__ */ React.createElement("ul", null, posts.map((post) => /* @__PURE__ */ React.createElement("li", {
-    className: "postList",
+  }))), /* @__PURE__ */ React.createElement("ul", {
+    className: "post-list"
+  }, posts.map((post) => /* @__PURE__ */ React.createElement(import_remix11.Link, {
+    className: "post",
+    to: post.slug
+  }, /* @__PURE__ */ React.createElement("li", {
     key: post.slug
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "post-container"
   }, /* @__PURE__ */ React.createElement("img", {
     src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement(import_remix10.Link, {
-    className: "postTitle",
-    to: post.slug
-  }, post.title)))), " ");
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "fancy-rectangle"
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "post-text"
+  }, /* @__PURE__ */ React.createElement("h2", null, post.title), /* @__PURE__ */ React.createElement("p", null, post.description)))))), " ");
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
 init_react();
-var assets_manifest_default = { "version": "d06f0b9c", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-3REKOFWB.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-RNA7FU7P.js", "imports": ["/build/_shared/chunk-HIDSZJQ5.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-D3PHGR32.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-HTW6RWE5.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-JEWDR3PE.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-E5T4IGVD.js", "imports": ["/build/_shared/chunk-HIDSZJQ5.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-2ON3NH4S.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-VCVFYH7M.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-6ENW62H5.js", "imports": ["/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-5IF2R5RY.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-ZAW6MHK4.js", "imports": ["/build/_shared/chunk-HIDSZJQ5.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-BI55XU7A.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-JOJFDC4B.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-DSGEGN74.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/uploadImage": { "id": "routes/uploadImage", "parentId": "root", "path": "uploadImage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/uploadImage-MVDLJ74W.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-D06F0B9C.js" };
+var assets_manifest_default = { "version": "15aa7b9b", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-GWRHAFXO.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-DXZZUY4B.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-IU6JBL5T.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-4XZ5YJYR.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-5UVPYKBE.js", "imports": void 0, "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-KDG5OBJW.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-J75NE6WO.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-2FZTK7XP.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-NAZ4M2AU.js", "imports": ["/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-2EFEKUBN.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-ZHOZ6XPB.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-LUDC2K26.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-VNLTU2T3.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FTWSYC4U.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-15AA7B9B.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports };
@@ -1231,14 +1232,6 @@ var routes = {
     index: void 0,
     caseSensitive: void 0,
     module: root_exports
-  },
-  "routes/uploadImage": {
-    id: "routes/uploadImage",
-    parentId: "root",
-    path: "uploadImage",
-    index: void 0,
-    caseSensitive: void 0,
-    module: uploadImage_exports
   },
   "routes/startpage": {
     id: "routes/startpage",

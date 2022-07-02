@@ -18,7 +18,9 @@ export default function Header(props) {
             <a href='/#projects'> Projects</a>
           </li>
           <li
-            className={location.pathname === '/blog' ? 'active' : 'non-active'}
+            className={
+              location.pathname.includes('/blog') ? 'active' : 'non-active'
+            }
           >
             <a href='/blog'> Blog</a>
           </li>

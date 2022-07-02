@@ -5,17 +5,20 @@
   overflow: hidden;
   position: relative;
   & .blog-hero {
+    padding-top: 100px;
     display: flex;
     margin: auto;
     overflow: hidden;
     position: relative;
-    max-width: 600px;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: 500px;
     z-index: 1;
     & h1 {
-      padding: 50px;
+      padding: 50px 50px 50px 50px;
       font-size: 5em;
       text-align: right;
-      margin: auto 0 auto auto;
+      margin: auto 0 auto 0;
       animation: animateHeader 2s ease-in-out forwards;
       animation-delay: 0.7s;
       overflow: hidden;
@@ -38,6 +41,53 @@
         background: t('g');
       }
       z-index: 2;
+    }
+  }
+  & .post-list {
+    max-width: 1000px;
+    list-style: none;
+    margin: auto;
+    & .post {
+      @include themed() {
+        color: t('text');
+      }
+      text-decoration: none;
+      & .post-container {
+        // border-style: solid;
+        // border-width: 3px;
+        // border-radius: 20px;
+        padding: 20px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & img {
+          object-fit: cover;
+          max-width: 350px;
+          height: 350px;
+          border-radius: 20px;
+        }
+        & .fancy-rectangle {
+          width: 10px;
+          border-radius: 5px;
+          animation: lineIn 0.7s ease-in-out forwards;
+          overflow: hidden;
+          @include themed() {
+            background: t('g');
+          }
+          margin: 0 20px;
+        }
+        & .post-text {
+          & h2 {
+            text-decoration: none;
+            padding-bottom: 20px;
+          }
+          & p {
+            text-decoration: none;
+          }
+        }
+      }
     }
   }
 }

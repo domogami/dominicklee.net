@@ -1,12 +1,94 @@
 @import '../abstracts/all.scss';
 
 .admin-container {
+  padding-top: 125px;
   transition: all 0.7s ease-in-out;
   @include themed() {
     color: t('text');
     background: t('bg');
   }
+  
+  & h3 {
+    font-size: 3.5em;
+    text-align: center;
+  }
   & .hidenEditorField {
     opacity: 0;
+  }
+  & .post-list {
+    max-width: 1000px;
+    list-style: none;
+    margin: auto;
+    display: grid;
+    & .post {
+      height: 250px;
+      @include themed() {
+        color: t('text');
+      }
+      text-decoration: none;
+      & .post-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & img {
+          object-fit: cover;
+          max-width: 200px;
+          height: 200px;
+          border-radius: 20px;
+        }
+        & .fancy-rectangle {
+          width: 10px;
+          height: 90%;
+          border-radius: 5px;
+          // animation: lineIn 0.7s ease-in-out forwards;
+          overflow: hidden;
+          @include themed() {
+            background: t('g');
+          }
+          margin: 0 20px;
+        }
+        & .post-text {
+          & h2 {
+            font-size: 3em;
+            text-decoration: none;
+            padding-bottom: 20px;
+          }
+          & p {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+  .fancy-rectangle {
+    margin: auto;
+    width: 350px;
+    height: 5px;
+    border-radius: 5px;
+    @include themed() {
+      background-color: t('g');
+    }
+  }
+}
+
+.admin-index {
+  margin: auto;
+  padding: 50px;
+  text-align: center;
+  & button {
+    border-radius: 20px;
+    padding: 10px 20px;
+    @include themed() {
+      color: t('bg');
+      background-color: t('g');
+    }
+  }
+  & h2 {
+    margin: auto;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    text-align: left;
+    max-width: 1000px;
+    font-size: 4.5em;
   }
 }

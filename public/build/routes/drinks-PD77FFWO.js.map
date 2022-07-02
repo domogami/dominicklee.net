@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks.tsx?browser", "../../../app/routes/drinks.tsx"],
+  "sourcesContent": ["export { default, links } from \"/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks.tsx\";", "import { Outlet } from 'remix';\nimport stylesUrl from '~/styles/app.css';\n\nexport const links = () => {\n  return [{ rel: 'stylesheet', href: stylesUrl }];\n};\n\nexport default function Drinks() {\n  return (\n    <div className='drinks-containter'>\n      <h1 className='drinks-title'>Max's Drinks</h1>\n      <Outlet />\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;;;;;AAAA;;;ACAA;AAGO,IAAM,QAAQ,MAAM;AACzB,SAAO,CAAC,EAAE,KAAK,cAAc,MAAM;AAAA;AAGtB,kBAAkB;AAC/B,SACE,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,MAAD;AAAA,IAAI,WAAU;AAAA,KAAe,iBAC7B,oCAAC,QAAD;AAAA;",
+  "names": []
+}

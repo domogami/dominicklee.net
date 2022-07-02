@@ -8,10 +8,10 @@ datasource db {
 }
 
 model posts {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  coverUrl String
-  editorjs String?
-  markdown String
-  slug     String
-  title    String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  coverUrl    String
+  description String
+  editorjs    String
+  slug        String
+  title       String
 }

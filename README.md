@@ -5,6 +5,7 @@
 My personal side but reimagined
 
 ## Project Todo List
+
 - [ ] Style Blog Page
 - [ ] Style Admin Page
 - [ ] Style Edit Page
@@ -12,9 +13,11 @@ My personal side but reimagined
 - [ ] Fix and style New Post Page
 
 ## Bugs
+
 - [ ] Bug with theme flashing white regardless of theme selection
 
 ## Additional Features
+
 - [ ] Better [Prettier Rules](https://prettier.io/docs/en/options.html)
 
 ### [Startpage](https://the-awesome-domogami-site.netlify.app/startpage)

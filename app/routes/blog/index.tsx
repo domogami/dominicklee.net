@@ -18,14 +18,19 @@ export default function Index() {
           <div className='fancy-rectangle' />
         </div>
       </div>
-      <ul>
+      <ul className='post-list'>
         {posts.map((post) => (
-          <li className='postList' key={post.slug}>
-            <img src={post.coverUrl} />
-            <Link className='postTitle' to={post.slug}>
-              {post.title}
-            </Link>
-          </li>
+          <Link className='post' to={post.slug}>
+            <li key={post.slug}></li>
+            <div className='post-container'>
+              <img src={post.coverUrl} />
+              <div className='fancy-rectangle' />
+              <div className='post-text'>
+                <h2>{post.title}</h2>
+                <p>{post.description}</p>
+              </div>
+            </div>
+          </Link>
         ))}
       </ul>{' '}
     </div>

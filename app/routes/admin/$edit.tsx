@@ -26,7 +26,7 @@ export let action = async ({ request }) => {
   let title = formData.get('title');
   let coverUrl = formData.get('coverUrl');
   let slug = formData.get('slug');
-  let markdown = formData.get('markdown');
+  let description = formData.get('description');
   let editorjs = formData.get('editorjs');
   let id = formData.get('id');
 
@@ -38,14 +38,14 @@ export let action = async ({ request }) => {
   if (!title) errors.title = true;
   if (!coverUrl) errors.coverUrl = true;
   if (!slug) errors.slug = true;
-  if (!markdown) errors.markdown = true;
+  if (!description) errors.description = true;
   if (!editorjs) errors.editorjs = true;
 
   if (Object.keys(errors).length) {
     return errors;
   }
 
-  await updatePost({ id, title, coverUrl, slug, markdown, editorjs });
+  await updatePost({ id, title, coverUrl, slug, description, editorjs });
 
   return redirect('/admin');
 };
@@ -108,7 +108,6 @@ export default function PostSlug() {
           <input type='text' name='coverUrl' defaultValue={coverUrl} />
         </label>
       </p>
-      {/* {isSelected ? <img src={coverUrl}></img> : <></>} */}
       <img src={post.coverUrl} />
       <p>
         <label htmlFor=''>
@@ -123,8 +122,11 @@ export default function PostSlug() {
         </label>
       </p>
       <p>
-        <label htmlFor='markdown'>Markdown from editorjs:</label>{' '}
-        {errors?.markdown && <em>Markdown is required</em>}
+        Insert Description:
+        <label htmlFor=''>
+          <input defaultValue={post.description} name='description' id='' />
+        </label>{' '}
+        {errors?.description && <em>Description is required</em>}
         <br />
         <ClientOnly>
           {() => (
@@ -135,7 +137,6 @@ export default function PostSlug() {
             />
           )}
         </ClientOnly>
-        <textarea defaultValue={post.markdown} name='markdown' id='' />
       </p>
       <p>
         <button type='submit'>

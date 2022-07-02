@@ -1,10 +1,10 @@
 import { Outlet, Link, useLoaderData } from 'remix';
 import Header from '~/components/header';
 import { getPosts } from '~/post';
-
 import { useOutletContext } from '@remix-run/react';
 import stylesUrl from '~/styles/app.css';
 import { ClientOnly } from 'remix-utils';
+
 // create a stylesheet ref for the admin.css file
 export let links = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }];
@@ -25,8 +25,32 @@ export default function Admin(props) {
     <>
       <Header changeTheme={(theme) => setTheme(theme)} />
       <div className='admin-container'>
-        <h1 className='adminTitle'>Admin Dom</h1>
-        <nav>
+        {/* NOTE: Outlet renders the /admin/index.jsx */}
+        <Outlet />
+        <h3>Post's to edit</h3>
+        <div className='fancy-rectangle' />
+        <ul className='post-list'>
+          {posts.map((post) => (
+            <Link className='post' to={post.slug}>
+              <li key={post.slug}></li>
+              <div className="post-container">
+                <img src={post.coverUrl} />
+                <div className="fancy-rectangle" />
+                <div className='post-text'>
+                  <h2>{post.title}</h2>
+                  <p>{post.description}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+{ /*
+<nav>
           <p>Click on a post to edit the blog post</p>
           <ul>
             {posts.map((post) => (
@@ -36,11 +60,7 @@ export default function Admin(props) {
             ))}
           </ul>
           <main>
-            {/* Outlet renders the /admin/index.jsx */}
             <Outlet />
           </main>
         </nav>
-      </div>
-    </>
-  );
-}
+*/}

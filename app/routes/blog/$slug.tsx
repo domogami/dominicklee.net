@@ -12,19 +12,12 @@ export let loader = async ({ params }) => {
 export default function PostSlug() {
   let post = useLoaderData();
   return (
-    <>
-      {/* <section className="blog-post-html"> */}
+    <div className='blog-post-container'>
+      <h1>{post.title}</h1>
+      <img className='cover-image' src={post.coverUrl} />
       <ClientOnly>
         {() => <EditorjsReact previousData={post.editorjs} />}
       </ClientOnly>
-      {/*</section>*/}
-      {/* <div className="blog-post-container"> */}
-      {/*   <ClientOnly>{() => <Editor previousData={post.editorjs} />}</ClientOnly> */}
-      {/* </div> */}
-      {/* <div */}
-      {/*   className="postDisplay" */}
-      {/*   dangerouslySetInnerHTML={{ __html: post.html }} */}
-      {/* /> */}
-    </>
+    </div>
   );
 }

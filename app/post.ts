@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { marked } from 'marked';
 const prisma = new PrismaClient();
 import upload from './s3.server';
 
@@ -15,16 +14,12 @@ export async function getPost(slug) {
   });
   let id = foundSlug.id;
   let coverUrl = foundSlug.coverUrl;
-  //let's extract the title
   let title = foundSlug.title;
-  // using marked, we are going to convert the markdown into HTML so the blog post can render as entered in Markdown.
-  let html = marked(foundSlug.markdown);
+  let description = foundSlug.description;
   let editorjs = foundSlug.editorjs;
-  // we need to cleanup our database connection
   prisma.$disconnect();
 
-  // let's send back the slug, the title, and our markdown converted to html
-  return { id, slug, coverUrl, title, html, editorjs };
+  return { id, slug, coverUrl, title, description, editorjs };
 }
 
 //when we edit the post we want to return different data including the ID field
@@ -41,14 +36,12 @@ export async function getPostEdit(slug) {
   //let's extract the title
   let title = foundSlug.title;
   let coverUrl = foundSlug.coverUrl;
-  // since we are editing and not rendering we want to pull the original markdown value stored in the db
-  let markdown = foundSlug.markdown;
+  let description = foundSlug.description;
   let editorjs = foundSlug.editorjs;
 
   prisma.$disconnect();
 
-  // let's send back the slug, the title, and our markdown converted to html
-  return { id, slug, coverUrl, title, markdown, editorjs };
+  return { id, slug, coverUrl, title, description, editorjs };
 }
 
 export async function createPost(post) {
@@ -58,7 +51,7 @@ export async function createPost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown,
+      description: post.description,
       editorjs: post.editorjs,
       coverUrl: post.coverUrl,
     },
@@ -80,7 +73,7 @@ export async function updatePost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown,
+      description: post.description,
       editorjs: post.editorjs,
       coverUrl: post.coverUrl,
     },
