@@ -84,7 +84,7 @@ export default function PostSlug() {
     <Form reloadDocument method='post'>
       <div className='edit-post-container'>
         <h2>Edit Post</h2>
-        <img className='cover-preview' src={post.coverUrl} />
+        <img className='cover-preview' src={coverUrl} />
         <p>
           <label htmlFor=''>
             Post Title: {errors?.title && <em>Title is required</em>}{' '}

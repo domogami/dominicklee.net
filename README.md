@@ -6,11 +6,12 @@ My personal side but reimagined
 
 ## Project Todo List
 
-- [ ] Style Blog Page
-- [ ] Style Admin Page
-- [ ] Style Edit Page
-- [ ] Style Blog Post Page
-- [ ] Fix and style New Post Page
+- [x] Style Blog Page
+- [x] Style Admin Page
+- [x] Style Edit Page
+- [x] Style Blog Post Page
+- [x] Fix and style New Post Page
+- [ ] Write a blogpost lol
 
 ## Bugs
 

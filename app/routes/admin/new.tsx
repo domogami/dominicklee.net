@@ -79,22 +79,22 @@ export default function NewPost() {
   return (
     <Form reloadDocument method='post'>
       <div className='new-post-container'>
-      <p>
-        <label htmlFor=''>
-          Post Title: {errors?.title && <em>Title is required</em>}{' '}
-          <input onChange={handleChange} type='text' name='title' />
-        </label>
-      </p>
+        <p>
+          <label htmlFor=''>
+            Post Title: {errors?.title && <em>Title is required</em>}{' '}
+            <input onChange={handleChange} type='text' name='title' />
+          </label>
+        </p>
 
-      <img className='cover-preview' src={coverUrl} />
-      <p>
-        <label htmlFor=''>
-          {' '}
-          Post Slug: {errors?.slug && <em>Slug is required</em>}
-          <input placeholder={slug} id='slugInput' type='text' name='slug' />
-        </label>
-      </p>
-      <p>
+        <img className='cover-preview' src={coverUrl} />
+        <p>
+          <label htmlFor=''>
+            {' '}
+            Post Slug: {errors?.slug && <em>Slug is required</em>}
+            <input placeholder={slug} id='slugInput' type='text' name='slug' />
+          </label>
+        </p>
+        <p>
           <label htmlFor=''>
             Post Cover: {errors?.coverUrl && <em>Cover is required</em>}{' '}
             <input
@@ -105,42 +105,38 @@ export default function NewPost() {
             />
           </label>
         </p>
-      <p>
-        Insert Description:
+        <p>
+          Insert Description:
+          <label htmlFor=''>
+            <input defaultValue={''} name='description' id='' />
+          </label>{' '}
+          {errors?.description && <em>Description is required</em>}
+          <br />
+          <ClientOnly>
+            {() => (
+              <Editor
+                previousData={'{}'}
+                saveOutput={savedData}
+                save={(savedData: any) => setSavedData(savedData)}
+              />
+            )}
+          </ClientOnly>
+        </p>
+        <input name='editorjs' defaultValue={savedData} value={savedData} />
         <label htmlFor=''>
-          <input defaultValue={""} name='description' id='' />
-        </label>{' '}
-        {errors?.description && <em>Description is required</em>}
-        <br />
-        <ClientOnly>
-          {() => (
-            <Editor
-              previousData={"{}"}
-              saveOutput={savedData}
-              save={(savedData: any) => setSavedData(savedData)}
-            />
-          )}
-        </ClientOnly>
-      </p>
-      <input
-        name='editorjs'
-        defaultValue={savedData}
-        value={savedData}
-      />
-      <label htmlFor=''>
-        <input
-          // className='hidden'
-          type='text'
-          name='coverUrl'
-          defaultValue={coverUrl}
-        />
-      </label>
-      <p>
-        <button type='submit'>
-          {transition.submission ? 'Creating...' : 'Create Post'}
-        </button>
-      </p>
-     </div> 
+          <input
+            // className='hidden'
+            type='text'
+            name='coverUrl'
+            defaultValue={coverUrl}
+          />
+        </label>
+        <p>
+          <button type='submit'>
+            {transition.submission ? 'Creating...' : 'Create Post'}
+          </button>
+        </p>
+      </div>
     </Form>
   );
 }
