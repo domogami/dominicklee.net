@@ -131,9 +131,9 @@ export default function PostSlug() {
             )}
           </ClientOnly>
         </p>
-        <p>
+        <p className='savePost'>
           <button type='submit'>
-            {transition.submission ? 'Updating...' : 'Update Post'}
+            {transition.submission ? 'Saving...' : 'Save Post'}
           </button>
         </p>
         <input

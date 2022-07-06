@@ -101,9 +101,10 @@ export default function Editor(props: any) {
         defaultValue={JSON.parse(props.previousData)}
         // readOnly={true}
       />
-      <button onClick={handleSave} type='button'>
-        Save Content
-      </button>
+      {/* NOTE: Save editor.js content manually*/}
+      {/* <button onClick={handleSave} type='button'> */}
+      {/*   Save Content */}
+      {/* </button> */}
     </>
   );
 }

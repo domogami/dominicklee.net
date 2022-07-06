@@ -16,6 +16,7 @@ export let loader = () => {
 
 export type themeSet = {
   theme: String;
+  [Symbol.iterator]();
 };
 
 export default function Admin(props) {

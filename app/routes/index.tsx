@@ -7,6 +7,7 @@ export const links = () => {
 };
 export type themeSet = {
   theme: String;
+  [Symbol.iterator]();
 };
 export default function IndexRoute(props) {
   const [theme, setTheme] = useOutletContext<themeSet>();

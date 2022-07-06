@@ -25,12 +25,12 @@
       opacity: 0;
       z-index: -2;
     }
-    & .rectangle-container {
-      /*   padding-right: 30px; */
-      /*   @include themed() { */
-      /*     background: t('bg'); */
-      /*   } */
-    }
+    // & .rectangle-container {
+    /*   padding-right: 30px; */
+    /*   @include themed() { */
+    /*     background: t('bg'); */
+    /*   } */
+    // }
     & .fancy-rectangle {
       margin: auto auto auto 0px;
       width: 7px;

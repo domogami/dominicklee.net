@@ -41,6 +41,11 @@ export const useDate = () => {
   };
 };
 
+export type themeSet = {
+  theme: String;
+  [Symbol.iterator]();
+};
+
 export default function Startpage() {
   const [theme, setTheme] = useOutletContext<themeSet>();
   let todaysDate = useDate();

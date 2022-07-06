@@ -19,6 +19,20 @@
     width: 100%;
     max-width: 1000px;
   }
+  & .savePost {
+    margin: auto;
+    padding-bottom: 50px;
+    text-align: center;
+    & button {
+      margin: auto;
+      border-radius: 20px;
+      padding: 10px 20px;
+      @include themed() {
+        color: t('bg');
+        background-color: t('g');
+      }
+    }
+  }
 }
 .new-post-container {
   margin: auto;

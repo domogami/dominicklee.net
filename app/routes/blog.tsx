@@ -8,6 +8,7 @@ export const links = () => {
 };
 export type themeSet = {
   theme: String;
+  [Symbol.iterator]();
 };
 
 export default function Blog() {
