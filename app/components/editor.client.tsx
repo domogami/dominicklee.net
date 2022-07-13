@@ -20,6 +20,7 @@ import CheckList from '@editorjs/checklist';
 import Delimiter from '@editorjs/delimiter';
 import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
+import CodeBox from '@bomdi/codebox';
 
 const axios = require('axios').default;
 import { uploadImage } from '~/post';
@@ -45,7 +46,18 @@ export default function Editor(props: any) {
         onChange={handleSave}
         onInitialize={handleInitialize}
         tools={{
-          embed: Embed,
+          codeBox: {
+            class: CodeBox,
+            config: {
+              themeURL: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/atom-one-dark-reasonable.min.css', // Optional
+              themeName: 'atom-one-dark-reasonable', // Optional
+              useDefaultTheme: 'dark' // Optional. This also determines the background color of the language select drop-down
+            }
+          },
+          embed: {
+            class: Embed,
+            inlineToolbar: true,
+          },
           table: Table,
           marker: Marker,
           list: List,

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../node_modules/refractor/lang/tsx.js"],
+  "sourcesContent": ["'use strict'\nvar refractorJsx = require('./jsx.js')\nvar refractorTypescript = require('./typescript.js')\nmodule.exports = tsx\ntsx.displayName = 'tsx'\ntsx.aliases = []\nfunction tsx(Prism) {\n  Prism.register(refractorJsx)\n  Prism.register(refractorTypescript)\n  var typescript = Prism.util.clone(Prism.languages.typescript)\n  Prism.languages.tsx = Prism.languages.extend('jsx', typescript)\n}\n"],
+  "mappings": ";;;;;;;;;;;;AAAA;AAAA;AAAA;AACA,QAAI,eAAe;AACnB,QAAI,sBAAsB;AAC1B,WAAO,UAAU;AACjB,QAAI,cAAc;AAClB,QAAI,UAAU;AACd,iBAAa,OAAO;AAClB,YAAM,SAAS;AACf,YAAM,SAAS;AACf,UAAI,aAAa,MAAM,KAAK,MAAM,MAAM,UAAU;AAClD,YAAM,UAAU,MAAM,MAAM,UAAU,OAAO,OAAO;AAAA;AAAA;AAAA;",
+  "names": []
+}

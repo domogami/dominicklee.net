@@ -13,6 +13,7 @@ import CheckList from '@editorjs/checklist';
 import Delimiter from '@editorjs/delimiter';
 import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
+import CodeBox from '@bomdi/codebox';
 import upload from '~/s3.server';
 
 // function uploadFileToS3(file) {
@@ -22,6 +23,15 @@ import upload from '~/s3.server';
 // }
 
 export const EDITOR_JS_TOOLS = {
+  codeBox: {
+    class: CodeBox,
+    config: {
+      themeURL:
+        'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/atom-one-dark-reasonable.min.css', // Optional
+      themeName: 'atom-one-dark-reasonable', // Optional
+      useDefaultTheme: 'dark', // Optional. This also determines the background color of the language select drop-down
+    },
+  },
   embed: Embed,
   table: Table,
   marker: Marker,

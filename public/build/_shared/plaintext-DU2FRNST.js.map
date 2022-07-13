@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../node_modules/highlight.js/lib/languages/plaintext.js"],
+  "sourcesContent": ["module.exports = function(hljs) {\n    return {\n        disableAutodetect: true\n    };\n};"],
+  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC5B,aAAO;AAAA,QACH,mBAAmB;AAAA;AAAA;AAAA;AAAA;",
+  "names": []
+}

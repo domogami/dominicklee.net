@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../node_modules/highlight.js/lib/languages/fix.js"],
+  "sourcesContent": ["module.exports = function(hljs) {\n  return {\n    contains: [\n    {\n      begin: /[^\\u2401\\u0001]+/,\n      end: /[\\u2401\\u0001]/,\n      excludeEnd: true,\n      returnBegin: true,\n      returnEnd: false,\n      contains: [\n      {\n        begin: /([^\\u2401\\u0001=]+)/,\n        end: /=([^\\u2401\\u0001=]+)/,\n        returnEnd: true,\n        returnBegin: false,\n        className: 'attr'\n      },\n      {\n        begin: /=/,\n        end: /([\\u2401\\u0001])/,\n        excludeEnd: true,\n        excludeBegin: true,\n        className: 'string'\n      }]\n    }],\n    case_insensitive: true\n  };\n};"],
+  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,aAAO;AAAA,QACL,UAAU;AAAA,UACV;AAAA,YACE,OAAO;AAAA,YACP,KAAK;AAAA,YACL,YAAY;AAAA,YACZ,aAAa;AAAA,YACb,WAAW;AAAA,YACX,UAAU;AAAA,cACV;AAAA,gBACE,OAAO;AAAA,gBACP,KAAK;AAAA,gBACL,WAAW;AAAA,gBACX,aAAa;AAAA,gBACb,WAAW;AAAA;AAAA,cAEb;AAAA,gBACE,OAAO;AAAA,gBACP,KAAK;AAAA,gBACL,YAAY;AAAA,gBACZ,cAAc;AAAA,gBACd,WAAW;AAAA;AAAA;AAAA;AAAA;AAAA,QAGf,kBAAkB;AAAA;AAAA;AAAA;AAAA;",
+  "names": []
+}

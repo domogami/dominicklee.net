@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../node_modules/highlight.js/lib/languages/vbscript-html.js"],
+  "sourcesContent": ["module.exports = function(hljs) {\n  return {\n    subLanguage: 'xml',\n    contains: [\n      {\n        begin: '<%', end: '%>',\n        subLanguage: 'vbscript'\n      }\n    ]\n  };\n};"],
+  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,aAAO;AAAA,QACL,aAAa;AAAA,QACb,UAAU;AAAA,UACR;AAAA,YACE,OAAO;AAAA,YAAM,KAAK;AAAA,YAClB,aAAa;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
+  "names": []
+}
