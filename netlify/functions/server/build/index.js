@@ -2,317 +2,296 @@ var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require() {
+var __getProtoOf = Object.getPrototypeOf, __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
   for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+    __defProp(target, name, { get: all[name], enumerable: !0 });
+}, __copyProps = (to, from, except, desc) => {
+  if (from && typeof from == "object" || typeof from == "function")
+    for (let key of __getOwnPropNames(from))
+      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  return to;
 };
-var __reExport = (target, module2, copyDefault, desc) => {
-  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
-  }
-  return target;
-};
-var __toESM = (module2, isNodeMode) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", !isNodeMode && module2 && module2.__esModule ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
-};
-var __toCommonJS = /* @__PURE__ */ ((cache) => {
-  return (module2, temp) => {
-    return cache && cache.get(module2) || (temp = __reExport(__markAsModule({}), module2, 1), cache && cache.set(module2, temp), temp);
-  };
-})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: !0 }) : target,
+  mod
+)), __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: !0 }), mod);
 
-// node_modules/@remix-run/dev/compiler/shims/react.ts
-var React;
-var init_react = __esm({
-  "node_modules/@remix-run/dev/compiler/shims/react.ts"() {
-    React = __toESM(require("react"));
-  }
-});
-
-// node_modules/remix/index.js
-var require_remix = __commonJS({
-  "node_modules/remix/index.js"(exports) {
+// node_modules/remix/dist/index.js
+var require_dist = __commonJS({
+  "node_modules/remix/dist/index.js"(exports) {
     "use strict";
-    init_react();
-    Object.defineProperty(exports, "__esModule", { value: true });
+    Object.defineProperty(exports, "__esModule", { value: !0 });
     var node = require("@remix-run/node");
     Object.defineProperty(exports, "createCookie", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.createCookie;
       }
     });
     Object.defineProperty(exports, "createCookieSessionStorage", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.createCookieSessionStorage;
       }
     });
     Object.defineProperty(exports, "createFileSessionStorage", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.createFileSessionStorage;
       }
     });
     Object.defineProperty(exports, "createMemorySessionStorage", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.createMemorySessionStorage;
       }
     });
     Object.defineProperty(exports, "createSessionStorage", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.createSessionStorage;
       }
     });
     Object.defineProperty(exports, "unstable_createFileUploadHandler", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.unstable_createFileUploadHandler;
       }
     });
     Object.defineProperty(exports, "unstable_createMemoryUploadHandler", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.unstable_createMemoryUploadHandler;
       }
     });
     Object.defineProperty(exports, "unstable_parseMultipartFormData", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return node.unstable_parseMultipartFormData;
       }
     });
-    Object.defineProperty(exports, "__esModule", { value: true });
+    Object.defineProperty(exports, "__esModule", { value: !0 });
     var serverRuntime = require("@remix-run/server-runtime");
     Object.defineProperty(exports, "createSession", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return serverRuntime.createSession;
       }
     });
     Object.defineProperty(exports, "isCookie", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return serverRuntime.isCookie;
       }
     });
     Object.defineProperty(exports, "isSession", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return serverRuntime.isSession;
       }
     });
     Object.defineProperty(exports, "json", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return serverRuntime.json;
       }
     });
     Object.defineProperty(exports, "redirect", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return serverRuntime.redirect;
       }
     });
-    Object.defineProperty(exports, "__esModule", { value: true });
+    Object.defineProperty(exports, "__esModule", { value: !0 });
     var react = require("@remix-run/react");
     Object.defineProperty(exports, "Form", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.Form;
       }
     });
     Object.defineProperty(exports, "Link", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.Link;
       }
     });
     Object.defineProperty(exports, "Links", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.Links;
       }
     });
     Object.defineProperty(exports, "LiveReload", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.LiveReload;
       }
     });
     Object.defineProperty(exports, "Meta", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.Meta;
       }
     });
     Object.defineProperty(exports, "NavLink", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.NavLink;
       }
     });
-    Object.defineProperty(exports, "Outlet", {
-      enumerable: true,
-      get: function() {
-        return react.Outlet;
-      }
-    });
     Object.defineProperty(exports, "PrefetchPageLinks", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.PrefetchPageLinks;
       }
     });
     Object.defineProperty(exports, "RemixBrowser", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.RemixBrowser;
       }
     });
     Object.defineProperty(exports, "RemixServer", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.RemixServer;
       }
     });
     Object.defineProperty(exports, "Scripts", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.Scripts;
       }
     });
     Object.defineProperty(exports, "ScrollRestoration", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.ScrollRestoration;
       }
     });
     Object.defineProperty(exports, "useActionData", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useActionData;
       }
     });
     Object.defineProperty(exports, "useBeforeUnload", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useBeforeUnload;
       }
     });
     Object.defineProperty(exports, "useCatch", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useCatch;
       }
     });
     Object.defineProperty(exports, "useFetcher", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useFetcher;
       }
     });
     Object.defineProperty(exports, "useFetchers", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useFetchers;
       }
     });
     Object.defineProperty(exports, "useFormAction", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useFormAction;
       }
     });
-    Object.defineProperty(exports, "useHref", {
-      enumerable: true,
-      get: function() {
-        return react.useHref;
-      }
-    });
     Object.defineProperty(exports, "useLoaderData", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useLoaderData;
       }
     });
-    Object.defineProperty(exports, "useLocation", {
-      enumerable: true,
-      get: function() {
-        return react.useLocation;
-      }
-    });
     Object.defineProperty(exports, "useMatches", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useMatches;
       }
     });
-    Object.defineProperty(exports, "useNavigate", {
-      enumerable: true,
-      get: function() {
-        return react.useNavigate;
-      }
-    });
-    Object.defineProperty(exports, "useNavigationType", {
-      enumerable: true,
-      get: function() {
-        return react.useNavigationType;
-      }
-    });
-    Object.defineProperty(exports, "useOutlet", {
-      enumerable: true,
-      get: function() {
-        return react.useOutlet;
-      }
-    });
-    Object.defineProperty(exports, "useOutletContext", {
-      enumerable: true,
-      get: function() {
-        return react.useOutletContext;
-      }
-    });
-    Object.defineProperty(exports, "useParams", {
-      enumerable: true,
-      get: function() {
-        return react.useParams;
-      }
-    });
-    Object.defineProperty(exports, "useResolvedPath", {
-      enumerable: true,
-      get: function() {
-        return react.useResolvedPath;
-      }
-    });
-    Object.defineProperty(exports, "useSearchParams", {
-      enumerable: true,
-      get: function() {
-        return react.useSearchParams;
-      }
-    });
     Object.defineProperty(exports, "useSubmit", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useSubmit;
       }
     });
     Object.defineProperty(exports, "useTransition", {
-      enumerable: true,
+      enumerable: !0,
       get: function() {
         return react.useTransition;
+      }
+    });
+    Object.defineProperty(exports, "Outlet", {
+      enumerable: !0,
+      get: function() {
+        return react.Outlet;
+      }
+    });
+    Object.defineProperty(exports, "useHref", {
+      enumerable: !0,
+      get: function() {
+        return react.useHref;
+      }
+    });
+    Object.defineProperty(exports, "useLocation", {
+      enumerable: !0,
+      get: function() {
+        return react.useLocation;
+      }
+    });
+    Object.defineProperty(exports, "useNavigate", {
+      enumerable: !0,
+      get: function() {
+        return react.useNavigate;
+      }
+    });
+    Object.defineProperty(exports, "useNavigationType", {
+      enumerable: !0,
+      get: function() {
+        return react.useNavigationType;
+      }
+    });
+    Object.defineProperty(exports, "useOutlet", {
+      enumerable: !0,
+      get: function() {
+        return react.useOutlet;
+      }
+    });
+    Object.defineProperty(exports, "useOutletContext", {
+      enumerable: !0,
+      get: function() {
+        return react.useOutletContext;
+      }
+    });
+    Object.defineProperty(exports, "useParams", {
+      enumerable: !0,
+      get: function() {
+        return react.useParams;
+      }
+    });
+    Object.defineProperty(exports, "useResolvedPath", {
+      enumerable: !0,
+      get: function() {
+        return react.useResolvedPath;
+      }
+    });
+    Object.defineProperty(exports, "useSearchParams", {
+      enumerable: !0,
+      get: function() {
+        return react.useSearchParams;
       }
     });
   }
@@ -321,7 +300,6 @@ var require_remix = __commonJS({
 // empty-module:~/components/editor.client
 var require_editor = __commonJS({
   "empty-module:~/components/editor.client"(exports, module2) {
-    init_react();
     module2.exports = {};
   }
 });
@@ -329,7 +307,6 @@ var require_editor = __commonJS({
 // empty-module:~/components/editorjsReact.client
 var require_editorjsReact = __commonJS({
   "empty-module:~/components/editorjsReact.client"(exports, module2) {
-    init_react();
     module2.exports = {};
   }
 });
@@ -338,168 +315,231 @@ var require_editorjsReact = __commonJS({
 var stdin_exports = {};
 __export(stdin_exports, {
   assets: () => assets_manifest_default,
+  assetsBuildDirectory: () => assetsBuildDirectory,
   entry: () => entry,
+  publicPath: () => publicPath,
   routes: () => routes
 });
-init_react();
-
-// server-entry-module:@remix-run/dev/server-build
-init_react();
+module.exports = __toCommonJS(stdin_exports);
 
 // app/entry.server.tsx
 var entry_server_exports = {};
 __export(entry_server_exports, {
   default: () => handleRequest
 });
-init_react();
-var import_server = require("react-dom/server");
-var import_remix = __toESM(require_remix());
+var import_server = require("react-dom/server"), import_remix = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function handleRequest(request, responseStatusCode, responseHeaders, remixContext) {
-  const markup = (0, import_server.renderToString)(/* @__PURE__ */ React.createElement(import_remix.RemixServer, {
-    context: remixContext,
-    url: request.url
-  }));
-  responseHeaders.set("Content-Type", "text/html");
-  return new Response("<!DOCTYPE html>" + markup, {
+  let markup = (0, import_server.renderToString)(
+    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix.RemixServer, {
+      context: remixContext,
+      url: request.url
+    }, void 0, !1, {
+      fileName: "app/entry.server.tsx",
+      lineNumber: 12,
+      columnNumber: 5
+    }, this)
+  );
+  return responseHeaders.set("Content-Type", "text/html"), new Response("<!DOCTYPE html>" + markup, {
     status: responseStatusCode,
     headers: responseHeaders
   });
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/root.tsx
+// app/root.tsx
 var root_exports = {};
 __export(root_exports, {
   default: () => App,
   meta: () => meta
 });
-init_react();
-var import_remix2 = __toESM(require_remix());
+var import_remix2 = __toESM(require_dist());
 
 // app/components/ThemeProvider.js
-init_react();
-var import_react2 = __toESM(require("react"));
+var import_react2 = require("react");
 
 // app/components/ThemeContext.js
-init_react();
-var import_react = __toESM(require("react"));
-var initialThemeState = {
+var import_react = __toESM(require("react")), initialThemeState = {
   theme: "Dark",
   setTheme: () => null
-};
-var ThemeContext = import_react.default.createContext(initialThemeState);
-var ThemeContext_default = ThemeContext;
+}, ThemeContext = import_react.default.createContext(initialThemeState), ThemeContext_default = ThemeContext;
 
 // app/components/ThemeProvider.js
-var ThemeProvider = (props) => {
-  const [theme, setTheme] = (0, import_react2.useState)(initialThemeState.theme);
-  if (typeof document !== "undefined") {
-    const localStorage2 = window.localStorage;
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), ThemeProvider = (props) => {
+  let [theme, setTheme] = (0, import_react2.useState)(initialThemeState.theme);
+  if (typeof document < "u") {
+    let localStorage2 = window.localStorage;
   }
-  (0, import_react2.useEffect)(() => {
-    const savedThemeLocal = localStorage.getItem("globalTheme");
-    if (!!savedThemeLocal) {
-      props.setTheme(savedThemeLocal);
-    }
-  }, []);
-  (0, import_react2.useEffect)(() => {
+  return (0, import_react2.useEffect)(() => {
+    let savedThemeLocal = localStorage.getItem("globalTheme");
+    savedThemeLocal && props.setTheme(savedThemeLocal);
+  }, []), (0, import_react2.useEffect)(() => {
     localStorage.setItem("globalTheme", props.theme);
-  }, [props.theme]);
-  return /* @__PURE__ */ import_react2.default.createElement(ThemeContext_default.Provider, {
-    value: { theme, setTheme }
-  }, /* @__PURE__ */ import_react2.default.createElement("div", {
-    className: `theme--${props.theme}`
-  }, props.children));
-};
-var ThemeProvider_default = ThemeProvider;
+  }, [props.theme]), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ThemeContext_default.Provider, {
+    value: { theme, setTheme },
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: `theme--${props.theme}`,
+      children: props.children
+    }, void 0, !1, {
+      fileName: "app/components/ThemeProvider.js",
+      lineNumber: 27,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/components/ThemeProvider.js",
+    lineNumber: 26,
+    columnNumber: 5
+  }, this);
+}, ThemeProvider_default = ThemeProvider;
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/root.tsx
-var import_react3 = require("react");
-var meta = () => {
-  return {
-    title: "I'm Dominick Lee",
-    description: "Everything Software Engineering",
-    keywords: "Dominick,Lee",
-    "twitter:image": "https://dominicklee.com/awesome.png",
-    "twitter:card": "summary_large_image",
-    "twitter:creator": "@domogami",
-    "twitter:site": "@dom3lee",
-    "twitter:title": "Hey, I'm Dom",
-    "twitter:description": "Everything Software Engineering"
-  };
-};
+// app/root.tsx
+var import_react3 = require("react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), meta = () => ({
+  title: "I'm Dominick Lee",
+  description: "Everything Software Engineering",
+  keywords: "Dominick,Lee",
+  "twitter:image": "https://dominicklee.com/awesome.png",
+  "twitter:card": "summary_large_image",
+  "twitter:creator": "@domogami",
+  "twitter:site": "@dom3lee",
+  "twitter:title": "Hey, I'm Dom",
+  "twitter:description": "Everything Software Engineering"
+});
 function App() {
-  const [theme, setTheme] = (0, import_react3.useState)("Light");
-  return /* @__PURE__ */ React.createElement("html", {
+  let [theme, setTheme] = (0, import_react3.useState)("Light");
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("html", {
     lang: "en",
-    className: `theme--${theme}`
-  }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement("meta", {
-    charSet: "utf-8"
-  }), /* @__PURE__ */ React.createElement("meta", {
-    name: "viewport",
-    content: "width=device-width,initial-scale=1"
-  }), /* @__PURE__ */ React.createElement(import_remix2.Meta, null), /* @__PURE__ */ React.createElement(import_remix2.Links, null)), /* @__PURE__ */ React.createElement("body", {
-    className: `theme--${theme}`
-  }, /* @__PURE__ */ React.createElement(ThemeProvider_default, {
-    theme,
-    setTheme
-  }, /* @__PURE__ */ React.createElement(import_remix2.Outlet, {
-    context: [theme, setTheme]
-  }), /* @__PURE__ */ React.createElement(import_remix2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_remix2.Scripts, null), /* @__PURE__ */ React.createElement(import_remix2.LiveReload, null))));
+    className: `theme--${theme}`,
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("head", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("meta", {
+            charSet: "utf-8"
+          }, void 0, !1, {
+            fileName: "app/root.tsx",
+            lineNumber: 31,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("meta", {
+            name: "viewport",
+            content: "width=device-width,initial-scale=1"
+          }, void 0, !1, {
+            fileName: "app/root.tsx",
+            lineNumber: 32,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.Meta, {}, void 0, !1, {
+            fileName: "app/root.tsx",
+            lineNumber: 33,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.Links, {}, void 0, !1, {
+            fileName: "app/root.tsx",
+            lineNumber: 34,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/root.tsx",
+        lineNumber: 30,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("body", {
+        className: `theme--${theme}`,
+        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ThemeProvider_default, {
+          theme,
+          setTheme,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.Outlet, {
+              context: [theme, setTheme]
+            }, void 0, !1, {
+              fileName: "app/root.tsx",
+              lineNumber: 38,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.ScrollRestoration, {}, void 0, !1, {
+              fileName: "app/root.tsx",
+              lineNumber: 39,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.Scripts, {}, void 0, !1, {
+              fileName: "app/root.tsx",
+              lineNumber: 40,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix2.LiveReload, {}, void 0, !1, {
+              fileName: "app/root.tsx",
+              lineNumber: 41,
+              columnNumber: 54
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/root.tsx",
+          lineNumber: 37,
+          columnNumber: 9
+        }, this)
+      }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 36,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/root.tsx",
+    lineNumber: 29,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx
+// app/routes/startpage.tsx
 var startpage_exports = {};
 __export(startpage_exports, {
   default: () => Startpage,
   useDate: () => useDate
 });
-init_react();
 
 // app/components/ThemeSetter.js
-init_react();
-var import_react4 = __toESM(require("react"));
+var import_react4 = require("react");
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function ThemeSetter(props) {
-  const { theme, setTheme } = (0, import_react4.useContext)(ThemeContext_default);
-  return /* @__PURE__ */ import_react4.default.createElement("select", {
+  let { theme, setTheme } = (0, import_react4.useContext)(ThemeContext_default);
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("select", {
     className: "theme-selector",
     value: props.theme,
     onChange: (e) => {
-      setTheme(e.currentTarget.value);
-      props.changeTheme(e.currentTarget.value);
-    }
-  }, themeOptions.map((option, idx) => /* @__PURE__ */ import_react4.default.createElement("option", {
-    value: option.value,
-    key: idx
-  }, option.value)));
+      setTheme(e.currentTarget.value), props.changeTheme(e.currentTarget.value);
+    },
+    children: themeOptions.map((option, idx) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("option", {
+      value: option.value,
+      children: option.value
+    }, idx, !1, {
+      fileName: "app/components/ThemeSetter.js",
+      lineNumber: 20,
+      columnNumber: 9
+    }, this))
+  }, void 0, !1, {
+    fileName: "app/components/ThemeSetter.js",
+    lineNumber: 11,
+    columnNumber: 5
+  }, this);
 }
 var themeOptions = [{ value: "Light" }, { value: "Dark" }];
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage.tsx
-var import_react5 = require("@remix-run/react");
-var import_remix3 = __toESM(require_remix());
-var import_react6 = __toESM(require("react"));
-var useDate = () => {
-  const locale = "en";
-  const [today, setDate] = import_react6.default.useState(new Date());
+// app/routes/startpage.tsx
+var import_react5 = require("@remix-run/react"), import_remix3 = __toESM(require_dist()), import_react6 = __toESM(require("react")), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), useDate = () => {
+  let locale = "en", [today, setDate] = import_react6.default.useState(new Date());
   import_react6.default.useEffect(() => {
-    const timer = setInterval(() => {
+    let timer = setInterval(() => {
       setDate(new Date());
-    }, 60 * 1e3);
+    }, 6e4);
     return () => {
       clearInterval(timer);
     };
   }, []);
-  const day = today.toLocaleDateString(locale, { weekday: "long" });
-  const date = `${day}, ${today.getDate()} ${today.toLocaleDateString(locale, {
+  let date = `${today.toLocaleDateString(locale, { weekday: "long" })}, ${today.getDate()} ${today.toLocaleDateString(locale, {
     month: "long"
   })}
 
-`;
-  const hour = today.getHours();
-  const wish = `Good ${hour < 12 && "Morning" || hour < 17 && "Afternoon" || "Evening"} `;
-  const time = today.toLocaleTimeString(locale, {
+`, hour = today.getHours(), wish = `Good ${hour < 12 && "Morning" || hour < 17 && "Afternoon" || "Evening"} `, time = today.toLocaleTimeString(locale, {
     hour: "numeric",
-    hour12: true,
+    hour12: !0,
     minute: "numeric"
   });
   return {
@@ -509,248 +549,850 @@ var useDate = () => {
   };
 };
 function Startpage() {
-  const [theme, setTheme] = (0, import_react5.useOutletContext)();
-  let todaysDate = useDate();
-  return /* @__PURE__ */ import_react6.default.createElement("div", {
-    className: "startpage-containter"
-  }, /* @__PURE__ */ import_react6.default.createElement("h1", null, "Welcome Back ", /* @__PURE__ */ import_react6.default.createElement("span", {
-    className: "green-text"
-  }, "Dom"), " "), /* @__PURE__ */ import_react6.default.createElement(import_remix3.Outlet, null), /* @__PURE__ */ import_react6.default.createElement("h2", {
-    id: "date"
-  }, todaysDate.date, " | ", todaysDate.time, " | ", todaysDate.wish, " |", " ", /* @__PURE__ */ import_react6.default.createElement(ThemeSetter, {
-    theme,
-    changeTheme: (theme2) => setTheme(theme2)
-  })));
+  let [theme, setTheme] = (0, import_react5.useOutletContext)(), todaysDate = useDate();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "startpage-containter",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+        children: [
+          "Welcome Back ",
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+            className: "green-text",
+            children: "Dom"
+          }, void 0, !1, {
+            fileName: "app/routes/startpage.tsx",
+            lineNumber: 55,
+            columnNumber: 22
+          }, this),
+          " "
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/startpage.tsx",
+        lineNumber: 54,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix3.Outlet, {}, void 0, !1, {
+        fileName: "app/routes/startpage.tsx",
+        lineNumber: 57,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        id: "date",
+        children: [
+          todaysDate.date,
+          " | ",
+          todaysDate.time,
+          " | ",
+          todaysDate.wish,
+          " |",
+          " ",
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ThemeSetter, {
+            theme,
+            changeTheme: (theme2) => setTheme(theme2)
+          }, void 0, !1, {
+            fileName: "app/routes/startpage.tsx",
+            lineNumber: 60,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/startpage.tsx",
+        lineNumber: 58,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/startpage.tsx",
+    lineNumber: 53,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage/index.tsx
+// app/routes/startpage/index.tsx
 var startpage_exports2 = {};
 __export(startpage_exports2, {
   default: () => Index,
   links: () => links
 });
-init_react();
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-WHQ2IPP5.css";
+var app_default = "/build/_assets/app-QARIKEQX.css";
 
 // app/images/Logo_Transparent.svg
 var Logo_Transparent_default = "/build/_assets/Logo_Transparent-HXC24UL2.svg";
 
 // app/components/startpageGridItem.tsx
-init_react();
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function StartpageGridItem(props) {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "grid-item-container"
-  }, /* @__PURE__ */ React.createElement("h3", null, props.title), /* @__PURE__ */ React.createElement("ul", null, props.links.map(function(d, idx) {
-    return /* @__PURE__ */ React.createElement("li", {
-      key: idx
-    }, /* @__PURE__ */ React.createElement("a", {
-      href: d.link
-    }, d.name));
-  })));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "grid-item-container",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h3", {
+        children: props.title
+      }, void 0, !1, {
+        fileName: "app/components/startpageGridItem.tsx",
+        lineNumber: 4,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ul", {
+        children: props.links.map(function(d, idx) {
+          return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+              href: d.link,
+              children: d.name
+            }, void 0, !1, {
+              fileName: "app/components/startpageGridItem.tsx",
+              lineNumber: 9,
+              columnNumber: 15
+            }, this)
+          }, idx, !1, {
+            fileName: "app/components/startpageGridItem.tsx",
+            lineNumber: 8,
+            columnNumber: 13
+          }, this);
+        })
+      }, void 0, !1, {
+        fileName: "app/components/startpageGridItem.tsx",
+        lineNumber: 5,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/components/startpageGridItem.tsx",
+    lineNumber: 3,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/startpage/index.tsx
-var links = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
+// app/routes/startpage/index.tsx
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links = () => [{ rel: "stylesheet", href: app_default }];
 function Index() {
-  const sectionOne = [
-    { name: "stack", link: "https://stackoverflow.com/" },
-    { name: "google", link: "https://google.com" },
-    { name: "dom", link: "localhost:3000/" }
-  ];
-  const sectionTwo = [
-    {
-      name: "amazon",
-      link: "https://www.amazonuniversity.jobs/communitylogin"
-    },
-    {
-      name: "seattle",
-      link: "https://docs.google.com/spreadsheets/d/1svMX1JvXCcojulCv4LPBB5YL9wpiQsXD1r_l4-xSh4U/edit?usp=sharing"
-    },
-    {
-      name: "commute",
-      link: "https://www.google.com/maps/dir//Institute+For+Systems+Biology,+401+Terry+Ave+N,+Seattle,+WA+98109/@47.6219859,-122.3406299,15z/data=!3m1!4b1!4m13!4m12!1m0!1m5!1m1!1s0x5490150242acab75:0x5b8f4e4b0f0b5350!2m2!1d-122.3373956!2d47.6223926!2m3!6e0!7e2!8j1652688000!3e0"
-    }
-  ];
-  const sectionThree = [
-    { name: "github", link: "https://github.com" },
-    { name: "dots", link: "https://github.com/domogami/.dotfiles" },
-    { name: "web", link: "https://github.com/domogami/dominicklee.net" }
-  ];
-  const sectionFour = [
-    { name: "youtube", link: "https://youtube.com" },
-    { name: "reddit", link: "https://reddit.com" },
-    { name: "unixporn", link: "https://reddit.com/r/unixporn" }
-  ];
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "startpage-hero-container"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "startpage-hero"
-  }, /* @__PURE__ */ React.createElement("img", {
-    src: Logo_Transparent_default
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "startpage-grid"
-  }, /* @__PURE__ */ React.createElement(StartpageGridItem, {
-    title: "~/dev",
-    links: sectionOne
-  }), /* @__PURE__ */ React.createElement(StartpageGridItem, {
-    title: "~/work",
-    links: sectionTwo
-  }), /* @__PURE__ */ React.createElement(StartpageGridItem, {
-    title: "~/code",
-    links: sectionThree
-  }), /* @__PURE__ */ React.createElement(StartpageGridItem, {
-    title: "~/fun",
-    links: sectionFour
-  }))));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "startpage-hero-container",
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "startpage-hero",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+          src: Logo_Transparent_default
+        }, void 0, !1, {
+          fileName: "app/routes/startpage/index.tsx",
+          lineNumber: 42,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+          className: "startpage-grid",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(StartpageGridItem, {
+              title: "~/dev",
+              links: [
+                { name: "stack", link: "https://stackoverflow.com/" },
+                { name: "google", link: "https://google.com" },
+                { name: "dom", link: "localhost:3000/" }
+              ]
+            }, void 0, !1, {
+              fileName: "app/routes/startpage/index.tsx",
+              lineNumber: 44,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(StartpageGridItem, {
+              title: "~/work",
+              links: [
+                {
+                  name: "amazon",
+                  link: "https://www.amazonuniversity.jobs/communitylogin"
+                },
+                {
+                  name: "seattle",
+                  link: "https://docs.google.com/spreadsheets/d/1svMX1JvXCcojulCv4LPBB5YL9wpiQsXD1r_l4-xSh4U/edit?usp=sharing"
+                },
+                {
+                  name: "commute",
+                  link: "https://www.google.com/maps/dir//Institute+For+Systems+Biology,+401+Terry+Ave+N,+Seattle,+WA+98109/@47.6219859,-122.3406299,15z/data=!3m1!4b1!4m13!4m12!1m0!1m5!1m1!1s0x5490150242acab75:0x5b8f4e4b0f0b5350!2m2!1d-122.3373956!2d47.6223926!2m3!6e0!7e2!8j1652688000!3e0"
+                }
+              ]
+            }, void 0, !1, {
+              fileName: "app/routes/startpage/index.tsx",
+              lineNumber: 45,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(StartpageGridItem, {
+              title: "~/code",
+              links: [
+                { name: "github", link: "https://github.com" },
+                { name: "dots", link: "https://github.com/domogami/.dotfiles" },
+                { name: "web", link: "https://github.com/domogami/dominicklee.net" }
+              ]
+            }, void 0, !1, {
+              fileName: "app/routes/startpage/index.tsx",
+              lineNumber: 46,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(StartpageGridItem, {
+              title: "~/fun",
+              links: [
+                { name: "youtube", link: "https://youtube.com" },
+                { name: "reddit", link: "https://reddit.com" },
+                { name: "unixporn", link: "https://reddit.com/r/unixporn" }
+              ]
+            }, void 0, !1, {
+              fileName: "app/routes/startpage/index.tsx",
+              lineNumber: 47,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/routes/startpage/index.tsx",
+          lineNumber: 43,
+          columnNumber: 9
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/routes/startpage/index.tsx",
+      lineNumber: 41,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/routes/startpage/index.tsx",
+    lineNumber: 40,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks.tsx
+// app/routes/drinks.tsx
 var drinks_exports = {};
 __export(drinks_exports, {
   default: () => Drinks,
   links: () => links2
 });
-init_react();
-var import_remix4 = __toESM(require_remix());
-var links2 = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
+var import_remix4 = __toESM(require_dist());
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links2 = () => [{ rel: "stylesheet", href: app_default }];
 function Drinks() {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "drinks-containter"
-  }, /* @__PURE__ */ React.createElement("h1", {
-    className: "drinks-title"
-  }, "Max's Drinks"), /* @__PURE__ */ React.createElement(import_remix4.Outlet, null));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "drinks-containter",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+        className: "drinks-title",
+        children: "Max's Drinks"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks.tsx",
+        lineNumber: 11,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix4.Outlet, {}, void 0, !1, {
+        fileName: "app/routes/drinks.tsx",
+        lineNumber: 12,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/drinks.tsx",
+    lineNumber: 10,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/drinks/index.tsx
+// app/routes/drinks/index.tsx
 var drinks_exports2 = {};
 __export(drinks_exports2, {
   default: () => Index2,
   links: () => links3
 });
-init_react();
-var links3 = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links3 = () => [{ rel: "stylesheet", href: app_default }];
 function Index2() {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "drinks"
-  }, /* @__PURE__ */ React.createElement(ThemeSetter, {
-    className: "drinks-theme-setter"
-  }), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Beach dog"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1/2 oz - Ammaretto"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Malibu Pineapple"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Kalua"), /* @__PURE__ */ React.createElement("li", null, "Shake with crushed ice"), /* @__PURE__ */ React.createElement("li", null, "Top with 2 oz of chilled Nitro Pepsi freshly poured")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Death to Bayshore"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1 1/2 oz - Peach schnapps"), /* @__PURE__ */ React.createElement("li", null, "1 1/2 oz - watermellon liquer"), /* @__PURE__ */ React.createElement("li", null, "1/2 oz - Bourbon"), /* @__PURE__ */ React.createElement("li", null, "1/2 oz - Simple Syrup")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Blushing Thicket"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "2oz - Rose"), /* @__PURE__ */ React.createElement("li", null, "1oz - Blackberry Syrup"), /* @__PURE__ */ React.createElement("li", null, "1/2 oz Peach Schnapps")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Irish Grasshopper"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Kahlua"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Creme de Menthe"), /* @__PURE__ */ React.createElement("li", null, "Shake with cubed ice"), /* @__PURE__ */ React.createElement("li", null, "Pour over 2oz carolans")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "St. Cuthbert"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1 oz - Peach Schnapps"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Triple Sec"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Apple Brandy"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Dry Gin"), /* @__PURE__ */ React.createElement("li", null, "Shake with crushed ice and strain")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Almond Cookie"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1 1/2 oz - Ammaretto"), /* @__PURE__ */ React.createElement("li", null, "2 oz - Almond milk"), /* @__PURE__ */ React.createElement("li", null, "Shake over ice"), /* @__PURE__ */ React.createElement("li", null, "Garnish with a bar spoon of creme de menthe and cinamon")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "No Name"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "2 oz - Orange Juice"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Creme de Menthe"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Gin")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "Fruit Salad"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Pineapple Juice"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Fresh Orange Juice"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Fresh Lime"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Brandy"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Gold Kum"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Malibu"), /* @__PURE__ */ React.createElement("li", null, "Dash of orange bitters"), /* @__PURE__ */ React.createElement("li", null, "Shake with crushed ice"), /* @__PURE__ */ React.createElement("li", null, "Serve with muttled mint as garnish")), /* @__PURE__ */ React.createElement("h2", {
-    className: "drink-name"
-  }, "La Ventura"), /* @__PURE__ */ React.createElement("ol", null, /* @__PURE__ */ React.createElement("li", null, "1 oz - Malibu"), /* @__PURE__ */ React.createElement("li", null, "1 oz - Malibu Pineapple"), /* @__PURE__ */ React.createElement("li", null, "1/4 oz - Blue Curasao"), /* @__PURE__ */ React.createElement("li", null, "1 oz Triple Sec"), /* @__PURE__ */ React.createElement("li", null, "1 1/2 oz - Banana Syrup")));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "drinks",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ThemeSetter, {
+        className: "drinks-theme-setter"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 11,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Beach dog"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 12,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/2 oz - Ammaretto"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 14,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Malibu Pineapple"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 15,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Kalua"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 16,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Shake with crushed ice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 17,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Top with 2 oz of chilled Nitro Pepsi freshly poured"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 18,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 13,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Death to Bayshore"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 21,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 1/2 oz - Peach schnapps"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 23,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 1/2 oz - watermellon liquer"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 24,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/2 oz - Bourbon"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 25,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/2 oz - Simple Syrup"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 26,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 22,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Blushing Thicket"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 29,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "2oz - Rose"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 31,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1oz - Blackberry Syrup"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 32,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/2 oz Peach Schnapps"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 33,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 30,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Irish Grasshopper"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 36,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Kahlua"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 38,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Creme de Menthe"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 39,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Shake with cubed ice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 40,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Pour over 2oz carolans"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 41,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 37,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "St. Cuthbert"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 44,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Peach Schnapps"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 46,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Triple Sec"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 47,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Apple Brandy"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 48,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Dry Gin"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 49,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Shake with crushed ice and strain"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 50,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 45,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Almond Cookie"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 53,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 1/2 oz - Ammaretto"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 55,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "2 oz - Almond milk"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 56,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Shake over ice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 57,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Garnish with a bar spoon of creme de menthe and cinamon"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 58,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 54,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "No Name"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 61,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "2 oz - Orange Juice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 63,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Creme de Menthe"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 64,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Gin"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 65,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 62,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "Fruit Salad"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 67,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Pineapple Juice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 69,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Fresh Orange Juice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 70,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Fresh Lime"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 71,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Brandy"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 72,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Gold Kum"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 73,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Malibu"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 74,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Dash of orange bitters"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 75,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Shake with crushed ice"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 76,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "Serve with muttled mint as garnish"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 77,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 68,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        className: "drink-name",
+        children: "La Ventura"
+      }, void 0, !1, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 79,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ol", {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Malibu"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 81,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz - Malibu Pineapple"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 82,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1/4 oz - Blue Curasao"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 83,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 oz Triple Sec"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 84,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+            children: "1 1/2 oz - Banana Syrup"
+          }, void 0, !1, {
+            fileName: "app/routes/drinks/index.tsx",
+            lineNumber: 85,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/drinks/index.tsx",
+        lineNumber: 80,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/drinks/index.tsx",
+    lineNumber: 10,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx
+// app/routes/admin.tsx
 var admin_exports = {};
 __export(admin_exports, {
   default: () => Admin,
   links: () => links4,
   loader: () => loader
 });
-init_react();
-var import_remix5 = __toESM(require_remix());
+var import_remix5 = __toESM(require_dist());
 
 // app/components/header.tsx
-init_react();
-var import_react7 = require("react");
-var import_react_router_dom = require("react-router-dom");
+var import_react7 = require("react"), import_react_router_dom = require("react-router-dom"), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function Header(props) {
-  const [menuIsOpen, setMenuIsOpen] = (0, import_react7.useState)(false);
-  const location = (0, import_react_router_dom.useLocation)();
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "header-container"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "header"
-  }, /* @__PURE__ */ React.createElement("img", {
-    src: Logo_Transparent_default,
-    alt: "logo"
-  }), /* @__PURE__ */ React.createElement("ul", null, /* @__PURE__ */ React.createElement("li", {
-    className: location.pathname === "/" ? "active" : "non-active"
-  }, /* @__PURE__ */ React.createElement("a", {
-    href: "/"
-  }, "Home")), /* @__PURE__ */ React.createElement("li", {
-    className: "non-active"
-  }, /* @__PURE__ */ React.createElement("a", {
-    href: "/#projects"
-  }, " Projects")), /* @__PURE__ */ React.createElement("li", {
-    className: location.pathname.includes("/blog") ? "active" : "non-active"
-  }, /* @__PURE__ */ React.createElement("a", {
-    href: "/blog"
-  }, " Blog")), /* @__PURE__ */ React.createElement("li", {
-    className: "non-active"
-  }, /* @__PURE__ */ React.createElement("a", {
-    href: "/#contact"
-  }, " Contact"))), true ? /* @__PURE__ */ React.createElement(ThemeSetter, {
-    theme: props.theme,
-    changeTheme: props.changeTheme
-  }) : /* @__PURE__ */ React.createElement("div", {
-    className: `menu-btn${menuIsOpen ? " open" : ""}`,
-    onClick: () => setMenuIsOpen(!menuIsOpen)
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "menu-btn__burger"
-  }))));
+  let [menuIsOpen, setMenuIsOpen] = (0, import_react7.useState)(!1), location = (0, import_react_router_dom.useLocation)();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "header-container",
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "header",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+          src: Logo_Transparent_default,
+          alt: "logo"
+        }, void 0, !1, {
+          fileName: "app/components/header.tsx",
+          lineNumber: 12,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ul", {
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+              className: location.pathname === "/" ? "active" : "non-active",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+                href: "/",
+                children: "Home"
+              }, void 0, !1, {
+                fileName: "app/components/header.tsx",
+                lineNumber: 15,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/components/header.tsx",
+              lineNumber: 14,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+              className: "non-active",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+                href: "/#projects",
+                children: " Projects"
+              }, void 0, !1, {
+                fileName: "app/components/header.tsx",
+                lineNumber: 18,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/components/header.tsx",
+              lineNumber: 17,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+              className: location.pathname.includes("/blog") ? "active" : "non-active",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+                href: "/blog",
+                children: " Blog"
+              }, void 0, !1, {
+                fileName: "app/components/header.tsx",
+                lineNumber: 25,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/components/header.tsx",
+              lineNumber: 20,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {
+              className: "non-active",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+                href: "/#contact",
+                children: " Contact"
+              }, void 0, !1, {
+                fileName: "app/components/header.tsx",
+                lineNumber: 28,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/components/header.tsx",
+              lineNumber: 27,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/components/header.tsx",
+          lineNumber: 13,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ThemeSetter, {
+          theme: props.theme,
+          changeTheme: props.changeTheme
+        }, void 0, !1, {
+          fileName: "app/components/header.tsx",
+          lineNumber: 32,
+          columnNumber: 11
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/components/header.tsx",
+      lineNumber: 11,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/components/header.tsx",
+    lineNumber: 10,
+    columnNumber: 5
+  }, this);
 }
 
 // app/post.ts
-init_react();
 var import_client = require("@prisma/client");
 var prisma = new import_client.PrismaClient();
 async function getPost(slug) {
   await prisma.$connect();
-  const foundSlug = await prisma.posts.findFirst({
+  let foundSlug = await prisma.posts.findFirst({
     where: {
       slug
     }
-  });
-  let id = foundSlug.id;
-  let coverUrl = foundSlug.coverUrl;
-  let title = foundSlug.title;
-  let description = foundSlug.description;
-  let editorjs = foundSlug.editorjs;
-  prisma.$disconnect();
-  return { id, slug, coverUrl, title, description, editorjs };
+  }), id = foundSlug.id, coverUrl = foundSlug.coverUrl, title = foundSlug.title, description = foundSlug.description, editorjs = foundSlug.editorjs;
+  return prisma.$disconnect(), { id, slug, coverUrl, title, description, editorjs };
 }
 async function getPostEdit(slug) {
   await prisma.$connect();
-  const foundSlug = await prisma.posts.findFirst({
+  let foundSlug = await prisma.posts.findFirst({
     where: {
       slug
     }
-  });
-  let id = foundSlug.id;
-  let title = foundSlug.title;
-  let coverUrl = foundSlug.coverUrl;
-  let description = foundSlug.description;
-  let editorjs = foundSlug.editorjs;
-  prisma.$disconnect();
-  return { id, slug, coverUrl, title, description, editorjs };
+  }), id = foundSlug.id, title = foundSlug.title, coverUrl = foundSlug.coverUrl, description = foundSlug.description, editorjs = foundSlug.editorjs;
+  return prisma.$disconnect(), { id, slug, coverUrl, title, description, editorjs };
 }
 async function createPost(post) {
-  await prisma.$connect();
-  await prisma.posts.create({
+  return await prisma.$connect(), await prisma.posts.create({
     data: {
       title: post.title,
       slug: post.slug,
@@ -758,14 +1400,10 @@ async function createPost(post) {
       editorjs: post.editorjs,
       coverUrl: post.coverUrl
     }
-  });
-  prisma.$disconnect();
-  return getPost(post.slug);
+  }), prisma.$disconnect(), getPost(post.slug);
 }
 async function updatePost(post) {
-  await prisma.$connect();
-  console.log("updatePost id", post.id);
-  await prisma.posts.update({
+  return await prisma.$connect(), console.log("updatePost id", post.id), await prisma.posts.update({
     where: {
       id: post.id
     },
@@ -776,363 +1414,798 @@ async function updatePost(post) {
       editorjs: post.editorjs,
       coverUrl: post.coverUrl
     }
-  });
-  prisma.$disconnect();
-  return getPost(post.slug);
+  }), prisma.$disconnect(), getPost(post.slug);
 }
 async function getPosts() {
   await prisma.$connect();
-  const allPosts = await prisma.posts.findMany();
-  prisma.$disconnect();
-  return allPosts;
+  let allPosts = await prisma.posts.findMany();
+  return prisma.$disconnect(), allPosts;
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin.tsx
+// app/routes/admin.tsx
 var import_react8 = require("@remix-run/react");
-var links4 = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
-var loader = () => {
-  return getPosts();
-};
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links4 = () => [{ rel: "stylesheet", href: app_default }], loader = () => getPosts();
 function Admin(props) {
-  let posts = (0, import_remix5.useLoaderData)();
-  const [theme, setTheme] = (0, import_react8.useOutletContext)();
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Header, {
-    changeTheme: (theme2) => setTheme(theme2)
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "admin-container"
-  }, /* @__PURE__ */ React.createElement(import_remix5.Outlet, null), /* @__PURE__ */ React.createElement("h3", null, "Posts to edit"), /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-rectangle"
-  }), /* @__PURE__ */ React.createElement("ul", {
-    className: "post-list"
-  }, posts.map((post) => /* @__PURE__ */ React.createElement(import_remix5.Link, {
-    className: "post",
-    to: post.slug
-  }, /* @__PURE__ */ React.createElement("li", {
-    key: post.slug
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "post-container"
-  }, /* @__PURE__ */ React.createElement("img", {
-    src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-rectangle"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "post-text"
-  }, /* @__PURE__ */ React.createElement("h2", null, post.title), /* @__PURE__ */ React.createElement("p", null, post.description))))))));
-}
-{
+  let posts = (0, import_remix5.useLoaderData)(), [theme, setTheme] = (0, import_react8.useOutletContext)();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Header, {
+        changeTheme: (theme2) => setTheme(theme2)
+      }, void 0, !1, {
+        fileName: "app/routes/admin.tsx",
+        lineNumber: 28,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+        className: "admin-container",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix5.Outlet, {}, void 0, !1, {
+            fileName: "app/routes/admin.tsx",
+            lineNumber: 31,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h3", {
+            children: "Posts to edit"
+          }, void 0, !1, {
+            fileName: "app/routes/admin.tsx",
+            lineNumber: 32,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+            className: "fancy-rectangle"
+          }, void 0, !1, {
+            fileName: "app/routes/admin.tsx",
+            lineNumber: 33,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ul", {
+            className: "post-list",
+            children: posts.map((post) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix5.Link, {
+              className: "post",
+              to: post.slug,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {}, post.slug, !1, {
+                  fileName: "app/routes/admin.tsx",
+                  lineNumber: 37,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                  className: "post-container",
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+                      src: post.coverUrl
+                    }, void 0, !1, {
+                      fileName: "app/routes/admin.tsx",
+                      lineNumber: 39,
+                      columnNumber: 17
+                    }, this),
+                    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                      className: "fancy-rectangle"
+                    }, void 0, !1, {
+                      fileName: "app/routes/admin.tsx",
+                      lineNumber: 40,
+                      columnNumber: 17
+                    }, this),
+                    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                      className: "post-text",
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+                          children: post.title
+                        }, void 0, !1, {
+                          fileName: "app/routes/admin.tsx",
+                          lineNumber: 42,
+                          columnNumber: 19
+                        }, this),
+                        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+                          children: post.description
+                        }, void 0, !1, {
+                          fileName: "app/routes/admin.tsx",
+                          lineNumber: 43,
+                          columnNumber: 19
+                        }, this)
+                      ]
+                    }, void 0, !0, {
+                      fileName: "app/routes/admin.tsx",
+                      lineNumber: 41,
+                      columnNumber: 17
+                    }, this)
+                  ]
+                }, void 0, !0, {
+                  fileName: "app/routes/admin.tsx",
+                  lineNumber: 38,
+                  columnNumber: 15
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/admin.tsx",
+              lineNumber: 36,
+              columnNumber: 13
+            }, this))
+          }, void 0, !1, {
+            fileName: "app/routes/admin.tsx",
+            lineNumber: 34,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/admin.tsx",
+        lineNumber: 29,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/admin.tsx",
+    lineNumber: 27,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/$edit.tsx
+// app/routes/admin/$edit.tsx
 var edit_exports = {};
 __export(edit_exports, {
   action: () => action,
   default: () => PostSlug,
   loader: () => loader2
 });
-init_react();
 var import_tiny_invariant = __toESM(require("tiny-invariant"));
-var import_remix6 = __toESM(require_remix());
-var import_editor = __toESM(require_editor());
-var import_remix_utils = require("remix-utils");
-var import_react9 = require("react");
-var axios = require("axios").default;
-var loader2 = async ({ params }) => {
-  (0, import_tiny_invariant.default)(params.edit, "expected params.edit");
-  return getPostEdit(params.edit);
-};
-var action = async ({ request }) => {
-  let formData = await request.formData();
-  let title = formData.get("title");
-  let coverUrl = formData.get("coverUrl");
-  let slug = formData.get("slug");
-  let description = formData.get("description");
-  let editorjs = formData.get("editorjs");
-  let id = formData.get("id");
-  console.log("Check the cover image");
-  console.log(coverUrl);
+var import_remix6 = __toESM(require_dist());
+var import_editor = __toESM(require_editor()), import_remix_utils = require("remix-utils"), import_react9 = require("react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), axios = require("axios").default, loader2 = async ({ params }) => ((0, import_tiny_invariant.default)(params.edit, "expected params.edit"), getPostEdit(params.edit)), action = async ({ request }) => {
+  let formData = await request.formData(), title = formData.get("title"), coverUrl = formData.get("coverUrl"), slug = formData.get("slug"), description = formData.get("description"), editorjs = formData.get("editorjs"), id = formData.get("id");
+  console.log("Check the cover image"), console.log(coverUrl);
   let errors = {};
-  if (!title)
-    errors.title = true;
-  if (!coverUrl)
-    errors.coverUrl = true;
-  if (!slug)
-    errors.slug = true;
-  if (!description)
-    errors.description = true;
-  if (!editorjs)
-    errors.editorjs = true;
-  if (Object.keys(errors).length) {
-    return errors;
-  }
-  await updatePost({ id, title, coverUrl, slug, description, editorjs });
-  return (0, import_remix6.redirect)("/admin");
+  return title || (errors.title = !0), coverUrl || (errors.coverUrl = !0), slug || (errors.slug = !0), description || (errors.description = !0), editorjs || (errors.editorjs = !0), Object.keys(errors).length ? errors : (await updatePost({ id, title, coverUrl, slug, description, editorjs }), (0, import_remix6.redirect)("/admin"));
 };
 function PostSlug() {
-  let errors = (0, import_remix6.useActionData)();
-  let transition = (0, import_remix6.useTransition)();
-  let post = (0, import_remix6.useLoaderData)();
-  const [savedData, setSavedData] = (0, import_react9.useState)("{}");
-  const [coverUrl, setCoverUrl] = (0, import_react9.useState)(post.coverUrl);
-  const [isSelected, setIsSelected] = (0, import_react9.useState)(false);
-  const [selectedFile, setSelectedFile] = (0, import_react9.useState)("");
+  let errors = (0, import_remix6.useActionData)(), transition = (0, import_remix6.useTransition)(), post = (0, import_remix6.useLoaderData)(), [savedData, setSavedData] = (0, import_react9.useState)("{}"), [coverUrl, setCoverUrl] = (0, import_react9.useState)(post.coverUrl), [isSelected, setIsSelected] = (0, import_react9.useState)(!1), [selectedFile, setSelectedFile] = (0, import_react9.useState)("");
   async function imageUpload(event) {
-    let file = event.target.files[0];
-    const responseFromAWS = await axios({
+    let file = event.target.files[0], responseFromAWS = await axios({
       method: "post",
       url: "/.netlify/functions/uploadImage",
       data: file.name
     });
-    console.log(responseFromAWS.data.url);
-    console.log("ATTEMPTING PUT");
-    const putResponse = await fetch(responseFromAWS.data.url, {
+    console.log(responseFromAWS.data.url), console.log("ATTEMPTING PUT");
+    let imageUrl = (await fetch(responseFromAWS.data.url, {
       method: "PUT",
       headers: {
         "Content-Type": "multipart/form-data"
       },
       body: file
-    });
-    const imageUrl = putResponse.url.split("?")[0];
-    setCoverUrl(imageUrl);
-    setIsSelected(true);
+    })).url.split("?")[0];
+    setCoverUrl(imageUrl), setIsSelected(!0);
   }
-  return /* @__PURE__ */ React.createElement(import_remix6.Form, {
-    reloadDocument: true,
-    method: "post"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "edit-post-container"
-  }, /* @__PURE__ */ React.createElement("h2", null, "Edit Post"), /* @__PURE__ */ React.createElement("img", {
-    className: "cover-preview",
-    src: coverUrl
-  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, "Post Title: ", (errors == null ? void 0 : errors.title) && /* @__PURE__ */ React.createElement("em", null, "Title is required"), " ", /* @__PURE__ */ React.createElement("input", {
-    type: "text",
-    name: "title",
-    defaultValue: post.title
-  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, "Post Cover: ", (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ React.createElement("em", null, "Cover is required"), " ", /* @__PURE__ */ React.createElement("input", {
-    type: "file",
-    name: "cover",
-    value: selectedFile,
-    onChange: imageUpload
-  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, " ", "Post Slug: ", (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ React.createElement("em", null, "Slug is required"), /* @__PURE__ */ React.createElement("input", {
-    defaultValue: post.slug,
-    id: "slugInput",
-    type: "text",
-    name: "slug"
-  }))), /* @__PURE__ */ React.createElement("p", null, "Insert Description:", /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, /* @__PURE__ */ React.createElement("input", {
-    defaultValue: post.description,
-    name: "description",
-    id: ""
-  })), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_remix_utils.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editor.default, {
-    previousData: post.editorjs,
-    saveOutput: savedData,
-    save: (savedData2) => setSavedData(savedData2)
-  }))), /* @__PURE__ */ React.createElement("p", {
-    className: "savePost"
-  }, /* @__PURE__ */ React.createElement("button", {
-    type: "submit"
-  }, transition.submission ? "Saving..." : "Save Post")), /* @__PURE__ */ React.createElement("input", {
-    defaultValue: post.editorjs,
-    name: "editorjs",
-    value: savedData,
-    className: "hiddenEditorField"
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, /* @__PURE__ */ React.createElement("input", {
-    className: "hidden",
-    type: "text",
-    name: "coverUrl",
-    defaultValue: coverUrl
-  })), /* @__PURE__ */ React.createElement("input", {
-    className: "hidden",
-    name: "id",
-    value: post.id
-  })));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix6.Form, {
+    reloadDocument: !0,
+    method: "post",
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "edit-post-container",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+          children: "Edit Post"
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 86,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+          className: "cover-preview",
+          src: coverUrl
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 87,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              "Post Title: ",
+              (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Title is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 90,
+                columnNumber: 43
+              }, this),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                type: "text",
+                name: "title",
+                defaultValue: post.title
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 91,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/$edit.tsx",
+            lineNumber: 89,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 88,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              "Post Cover: ",
+              (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Cover is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 96,
+                columnNumber: 46
+              }, this),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                type: "file",
+                name: "cover",
+                value: selectedFile,
+                onChange: imageUpload
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 97,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/$edit.tsx",
+            lineNumber: 95,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 94,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              " ",
+              "Post Slug: ",
+              (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Slug is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 108,
+                columnNumber: 41
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                defaultValue: post.slug,
+                id: "slugInput",
+                type: "text",
+                name: "slug"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 109,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/$edit.tsx",
+            lineNumber: 106,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 105,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: [
+            "Insert Description:",
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+              htmlFor: "",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                defaultValue: post.description,
+                name: "description",
+                id: ""
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 120,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/routes/admin/$edit.tsx",
+              lineNumber: 119,
+              columnNumber: 11
+            }, this),
+            " ",
+            (errors == null ? void 0 : errors.description) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+              children: "Description is required"
+            }, void 0, !1, {
+              fileName: "app/routes/admin/$edit.tsx",
+              lineNumber: 122,
+              columnNumber: 35
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
+              fileName: "app/routes/admin/$edit.tsx",
+              lineNumber: 123,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix_utils.ClientOnly, {
+              children: () => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_editor.default, {
+                previousData: post.editorjs,
+                saveOutput: savedData,
+                save: (savedData2) => setSavedData(savedData2)
+              }, void 0, !1, {
+                fileName: "app/routes/admin/$edit.tsx",
+                lineNumber: 126,
+                columnNumber: 15
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/routes/admin/$edit.tsx",
+              lineNumber: 124,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 117,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          className: "savePost",
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+            type: "submit",
+            children: transition.submission ? "Saving..." : "Save Post"
+          }, void 0, !1, {
+            fileName: "app/routes/admin/$edit.tsx",
+            lineNumber: 135,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 134,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+          defaultValue: post.editorjs,
+          name: "editorjs",
+          value: savedData,
+          className: "hiddenEditorField"
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 139,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+          htmlFor: "",
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            className: "hidden",
+            type: "text",
+            name: "coverUrl",
+            defaultValue: coverUrl
+          }, void 0, !1, {
+            fileName: "app/routes/admin/$edit.tsx",
+            lineNumber: 146,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 145,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+          className: "hidden",
+          name: "id",
+          value: post.id
+        }, void 0, !1, {
+          fileName: "app/routes/admin/$edit.tsx",
+          lineNumber: 153,
+          columnNumber: 9
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/routes/admin/$edit.tsx",
+      lineNumber: 85,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/routes/admin/$edit.tsx",
+    lineNumber: 84,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/index.tsx
+// app/routes/admin/index.tsx
 var admin_exports2 = {};
 __export(admin_exports2, {
   default: () => AdminIndex
 });
-init_react();
-var import_remix7 = __toESM(require_remix());
+var import_remix7 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function AdminIndex() {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "admin-index"
-  }, /* @__PURE__ */ React.createElement("h2", null, "Welcome Back Dom"), /* @__PURE__ */ React.createElement(import_remix7.Link, {
-    to: "/admin/new"
-  }, /* @__PURE__ */ React.createElement("button", null, "New Post")));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "admin-index",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        children: "Welcome Back Dom"
+      }, void 0, !1, {
+        fileName: "app/routes/admin/index.tsx",
+        lineNumber: 5,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix7.Link, {
+        to: "/admin/new",
+        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+          children: "New Post"
+        }, void 0, !1, {
+          fileName: "app/routes/admin/index.tsx",
+          lineNumber: 7,
+          columnNumber: 9
+        }, this)
+      }, void 0, !1, {
+        fileName: "app/routes/admin/index.tsx",
+        lineNumber: 6,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/admin/index.tsx",
+    lineNumber: 4,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/admin/new.tsx
+// app/routes/admin/new.tsx
 var new_exports = {};
 __export(new_exports, {
   action: () => action2,
   default: () => NewPost
 });
-init_react();
-var import_remix8 = __toESM(require_remix());
-var import_editor2 = __toESM(require_editor());
-var import_remix_utils2 = require("remix-utils");
-var import_react10 = require("react");
-var axios2 = require("axios").default;
-var action2 = async ({ request }) => {
-  let formData = await request.formData();
-  let title = formData.get("title");
-  let coverUrl = formData.get("coverUrl");
-  let slug = formData.get("slug");
-  let description = formData.get("description");
-  let editorjs = formData.get("editorjs");
-  let errors = {};
-  if (!title)
-    errors.title = true;
-  if (!coverUrl)
-    errors.coverUrl = true;
-  if (!slug)
-    errors.slug = true;
-  if (!description)
-    errors.description = true;
-  if (!editorjs)
-    errors.editorjs = true;
-  if (Object.keys(errors).length) {
-    return errors;
-  }
-  await createPost({ title, coverUrl, slug, description, editorjs });
-  return (0, import_remix8.redirect)("/admin");
+var import_remix8 = __toESM(require_dist());
+var import_editor2 = __toESM(require_editor()), import_remix_utils2 = require("remix-utils"), import_react10 = require("react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), axios2 = require("axios").default, action2 = async ({ request }) => {
+  let formData = await request.formData(), title = formData.get("title"), coverUrl = formData.get("coverUrl"), slug = formData.get("slug"), description = formData.get("description"), editorjs = formData.get("editorjs"), errors = {};
+  return title || (errors.title = !0), coverUrl || (errors.coverUrl = !0), slug || (errors.slug = !0), description || (errors.description = !0), editorjs || (errors.editorjs = !0), Object.keys(errors).length ? errors : (await createPost({ title, coverUrl, slug, description, editorjs }), (0, import_remix8.redirect)("/admin"));
 };
 function NewPost() {
-  let errors = (0, import_remix8.useActionData)();
-  let transition = (0, import_remix8.useTransition)();
-  let slug = "";
-  const handleChange = (e) => {
-    let text = e.target.value;
-    slug = text.replace(/\s/g, "-");
-    document.getElementById("slugInput").value = slug.toLowerCase();
-  };
-  const [savedData, setSavedData] = (0, import_react10.useState)("");
-  const [coverUrl, setCoverUrl] = (0, import_react10.useState)("");
-  const [isSelected, setIsSelected] = (0, import_react10.useState)(false);
-  const [selectedFile, setSelectedFile] = (0, import_react10.useState)("");
+  let errors = (0, import_remix8.useActionData)(), transition = (0, import_remix8.useTransition)(), slug = "", handleChange = (e) => {
+    slug = e.target.value.replace(/\s/g, "-"), document.getElementById("slugInput").value = slug.toLowerCase();
+  }, [savedData, setSavedData] = (0, import_react10.useState)(""), [coverUrl, setCoverUrl] = (0, import_react10.useState)(""), [isSelected, setIsSelected] = (0, import_react10.useState)(!1), [selectedFile, setSelectedFile] = (0, import_react10.useState)("");
   async function imageUpload(event) {
-    let file = event.target.files[0];
-    const responseFromAWS = await axios2({
+    let file = event.target.files[0], responseFromAWS = await axios2({
       method: "post",
       url: "/.netlify/functions/uploadImage",
       data: file.name
     });
-    console.log(responseFromAWS.data.url);
-    console.log("ATTEMPTING PUT");
-    const putResponse = await fetch(responseFromAWS.data.url, {
+    console.log(responseFromAWS.data.url), console.log("ATTEMPTING PUT");
+    let imageUrl = (await fetch(responseFromAWS.data.url, {
       method: "PUT",
       headers: {
         "Content-Type": "multipart/form-data"
       },
       body: file
-    });
-    const imageUrl = putResponse.url.split("?")[0];
-    setCoverUrl(imageUrl);
-    setIsSelected(true);
+    })).url.split("?")[0];
+    setCoverUrl(imageUrl), setIsSelected(!0);
   }
-  return /* @__PURE__ */ React.createElement(import_remix8.Form, {
-    reloadDocument: true,
-    method: "post"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "new-post-container"
-  }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, "Post Title: ", (errors == null ? void 0 : errors.title) && /* @__PURE__ */ React.createElement("em", null, "Title is required"), " ", /* @__PURE__ */ React.createElement("input", {
-    onChange: handleChange,
-    type: "text",
-    name: "title"
-  }))), /* @__PURE__ */ React.createElement("img", {
-    className: "cover-preview",
-    src: coverUrl
-  }), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, " ", "Post Slug: ", (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ React.createElement("em", null, "Slug is required"), /* @__PURE__ */ React.createElement("input", {
-    placeholder: slug,
-    id: "slugInput",
-    type: "text",
-    name: "slug"
-  }))), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, "Post Cover: ", (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ React.createElement("em", null, "Cover is required"), " ", /* @__PURE__ */ React.createElement("input", {
-    type: "file",
-    name: "cover",
-    value: selectedFile,
-    onChange: imageUpload
-  }))), /* @__PURE__ */ React.createElement("p", null, "Insert Description:", /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, /* @__PURE__ */ React.createElement("input", {
-    defaultValue: "",
-    name: "description",
-    id: ""
-  })), " ", (errors == null ? void 0 : errors.description) && /* @__PURE__ */ React.createElement("em", null, "Description is required"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_remix_utils2.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editor2.default, {
-    previousData: "{}",
-    saveOutput: savedData,
-    save: (savedData2) => setSavedData(savedData2)
-  }))), /* @__PURE__ */ React.createElement("input", {
-    name: "editorjs",
-    defaultValue: savedData,
-    value: savedData
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: ""
-  }, /* @__PURE__ */ React.createElement("input", {
-    type: "text",
-    name: "coverUrl",
-    defaultValue: coverUrl
-  })), /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("button", {
-    type: "submit"
-  }, transition.submission ? "Creating..." : "Create Post"))));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix8.Form, {
+    reloadDocument: !0,
+    method: "post",
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "new-post-container",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              "Post Title: ",
+              (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Title is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 84,
+                columnNumber: 43
+              }, this),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                onChange: handleChange,
+                type: "text",
+                name: "title"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 85,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/new.tsx",
+            lineNumber: 83,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 82,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+          className: "cover-preview",
+          src: coverUrl
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 89,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              " ",
+              "Post Slug: ",
+              (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Slug is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 93,
+                columnNumber: 41
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                placeholder: slug,
+                id: "slugInput",
+                type: "text",
+                name: "slug"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 94,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/new.tsx",
+            lineNumber: 91,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 90,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "",
+            children: [
+              "Post Cover: ",
+              (errors == null ? void 0 : errors.coverUrl) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Cover is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 99,
+                columnNumber: 46
+              }, this),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                type: "file",
+                name: "cover",
+                value: selectedFile,
+                onChange: imageUpload
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 100,
+                columnNumber: 13
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/new.tsx",
+            lineNumber: 98,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 97,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: [
+            "Insert Description:",
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+              htmlFor: "",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                defaultValue: "",
+                name: "description",
+                id: ""
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 111,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/routes/admin/new.tsx",
+              lineNumber: 110,
+              columnNumber: 11
+            }, this),
+            " ",
+            (errors == null ? void 0 : errors.description) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+              children: "Description is required"
+            }, void 0, !1, {
+              fileName: "app/routes/admin/new.tsx",
+              lineNumber: 113,
+              columnNumber: 35
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
+              fileName: "app/routes/admin/new.tsx",
+              lineNumber: 114,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix_utils2.ClientOnly, {
+              children: () => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_editor2.default, {
+                previousData: "{}",
+                saveOutput: savedData,
+                save: (savedData2) => setSavedData(savedData2)
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.tsx",
+                lineNumber: 117,
+                columnNumber: 15
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/routes/admin/new.tsx",
+              lineNumber: 115,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 108,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+          name: "editorjs",
+          defaultValue: savedData,
+          value: savedData
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 125,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+          htmlFor: "",
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            type: "text",
+            name: "coverUrl",
+            defaultValue: coverUrl
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.tsx",
+            lineNumber: 127,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 126,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+          children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+            type: "submit",
+            children: transition.submission ? "Creating..." : "Create Post"
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.tsx",
+            lineNumber: 135,
+            columnNumber: 11
+          }, this)
+        }, void 0, !1, {
+          fileName: "app/routes/admin/new.tsx",
+          lineNumber: 134,
+          columnNumber: 9
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/routes/admin/new.tsx",
+      lineNumber: 81,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/routes/admin/new.tsx",
+    lineNumber: 80,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx
+// app/routes/index.tsx
 var routes_exports = {};
 __export(routes_exports, {
   default: () => IndexRoute,
   links: () => links5
 });
-init_react();
-
-// app/pages/home.tsx
-init_react();
 
 // app/components/projectCard.tsx
-init_react();
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function ProjectCard(props) {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "project-card-container"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "project-card"
-  }, /* @__PURE__ */ React.createElement("img", {
-    src: props.image,
-    alt: "project_photo"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-divider"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "text"
-  }, /* @__PURE__ */ React.createElement("h2", null, props.title), /* @__PURE__ */ React.createElement("p", null, props.description), /* @__PURE__ */ React.createElement("div", {
-    id: "container"
-  }, /* @__PURE__ */ React.createElement("button", {
-    className: "learn-more"
-  }, /* @__PURE__ */ React.createElement("span", {
-    className: "circle",
-    "aria-hidden": "true"
-  }, /* @__PURE__ */ React.createElement("span", {
-    className: "icon arrow"
-  })), /* @__PURE__ */ React.createElement("a", {
-    href: props.link,
-    className: "button-text"
-  }, "Learn More"))))));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "project-card-container",
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "project-card",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+          src: props.image,
+          alt: "project_photo"
+        }, void 0, !1, {
+          fileName: "app/components/projectCard.tsx",
+          lineNumber: 5,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+          className: "fancy-divider"
+        }, void 0, !1, {
+          fileName: "app/components/projectCard.tsx",
+          lineNumber: 6,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+          className: "text",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+              children: props.title
+            }, void 0, !1, {
+              fileName: "app/components/projectCard.tsx",
+              lineNumber: 8,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+              children: props.description
+            }, void 0, !1, {
+              fileName: "app/components/projectCard.tsx",
+              lineNumber: 9,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+              id: "container",
+              children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+                className: "learn-more",
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+                    className: "circle",
+                    "aria-hidden": "true",
+                    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+                      className: "icon arrow"
+                    }, void 0, !1, {
+                      fileName: "app/components/projectCard.tsx",
+                      lineNumber: 13,
+                      columnNumber: 17
+                    }, this)
+                  }, void 0, !1, {
+                    fileName: "app/components/projectCard.tsx",
+                    lineNumber: 12,
+                    columnNumber: 15
+                  }, this),
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+                    href: props.link,
+                    className: "button-text",
+                    children: "Learn More"
+                  }, void 0, !1, {
+                    fileName: "app/components/projectCard.tsx",
+                    lineNumber: 15,
+                    columnNumber: 15
+                  }, this)
+                ]
+              }, void 0, !0, {
+                fileName: "app/components/projectCard.tsx",
+                lineNumber: 11,
+                columnNumber: 13
+              }, this)
+            }, void 0, !1, {
+              fileName: "app/components/projectCard.tsx",
+              lineNumber: 10,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/components/projectCard.tsx",
+          lineNumber: 7,
+          columnNumber: 9
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/components/projectCard.tsx",
+      lineNumber: 4,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/components/projectCard.tsx",
+    lineNumber: 3,
+    columnNumber: 5
+  }, this);
 }
 
 // app/images/projects/Startpage.png
@@ -1145,151 +2218,385 @@ var OldSite_default = "/build/_assets/OldSite-QEIDNPTJ.png";
 var Dots_default = "/build/_assets/Dots-N4BNCDZI.png";
 
 // app/pages/home.tsx
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function Home() {
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
-    className: "home"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "text-bar"
-  }, /* @__PURE__ */ React.createElement("h1", null, /* @__PURE__ */ React.createElement("span", {
-    className: "accent"
-  }, "Dom"), /* @__PURE__ */ React.createElement("br", null), "Lee"), /* @__PURE__ */ React.createElement("div", {
-    className: "vert-rectangle"
-  })), /* @__PURE__ */ React.createElement("img", {
-    src: Logo_Transparent_default
-  })), /* @__PURE__ */ React.createElement("div", {
-    className: "projects",
-    id: "projects"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "section-header"
-  }, /* @__PURE__ */ React.createElement("h2", null, "Projects"), /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-rectangle"
-  })), /* @__PURE__ */ React.createElement(ProjectCard, {
-    image: Startpage_default,
-    title: "Startpage",
-    description: "This website is my default startpage that I set to open when I create a new tab or new browser window. It contains helpful quick links of my most frequently visited sites.",
-    link: "/startpage"
-  }), /* @__PURE__ */ React.createElement(ProjectCard, {
-    image: Dots_default,
-    title: "Dotfiles",
-    description: "As someone who is obsessed with optimizing my workflow, I am always improving my dotfiles. If you'd like to check them out you can follow the installation instructions in the README.md",
-    link: "https://github.com/domogami/.dotfiles"
-  }), /* @__PURE__ */ React.createElement(ProjectCard, {
-    image: OldSite_default,
-    title: "My Old Website",
-    description: "This website was my first ever attempt at making a react js site. It was built using Gatsby and deployed with Netlify. It is responsive and served as my previous portfolio.",
-    link: "https://dominicklee.net"
-  })));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+        className: "home",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+            className: "text-bar",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+                    className: "accent",
+                    children: "Dom"
+                  }, void 0, !1, {
+                    fileName: "app/pages/home.tsx",
+                    lineNumber: 14,
+                    columnNumber: 13
+                  }, this),
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
+                    fileName: "app/pages/home.tsx",
+                    lineNumber: 15,
+                    columnNumber: 13
+                  }, this),
+                  "Lee"
+                ]
+              }, void 0, !0, {
+                fileName: "app/pages/home.tsx",
+                lineNumber: 13,
+                columnNumber: 11
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                className: "vert-rectangle"
+              }, void 0, !1, {
+                fileName: "app/pages/home.tsx",
+                lineNumber: 18,
+                columnNumber: 11
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 12,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+            src: Logo_Transparent_default
+          }, void 0, !1, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 20,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/pages/home.tsx",
+        lineNumber: 11,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+        className: "projects",
+        id: "projects",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+            className: "section-header",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+                children: "Projects"
+              }, void 0, !1, {
+                fileName: "app/pages/home.tsx",
+                lineNumber: 24,
+                columnNumber: 11
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                className: "fancy-rectangle"
+              }, void 0, !1, {
+                fileName: "app/pages/home.tsx",
+                lineNumber: 25,
+                columnNumber: 11
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 23,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ProjectCard, {
+            image: Startpage_default,
+            title: "Startpage",
+            description: "This website is my default startpage that I set to open when I create a new tab or new browser window. It contains helpful quick links of my most frequently visited sites.",
+            link: "/startpage"
+          }, void 0, !1, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 27,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ProjectCard, {
+            image: Dots_default,
+            title: "Dotfiles",
+            description: "As someone who is obsessed with optimizing my workflow, I am always improving my dotfiles. If you'd like to check them out you can follow the installation instructions in the README.md",
+            link: "https://github.com/domogami/.dotfiles"
+          }, void 0, !1, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 33,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ProjectCard, {
+            image: OldSite_default,
+            title: "My Old Website",
+            description: "This website was my first ever attempt at making a react js site. It was built using Gatsby and deployed with Netlify. It is responsive and served as my previous portfolio.",
+            link: "https://dominicklee.net"
+          }, void 0, !1, {
+            fileName: "app/pages/home.tsx",
+            lineNumber: 39,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/pages/home.tsx",
+        lineNumber: 22,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/pages/home.tsx",
+    lineNumber: 10,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/index.tsx
-var import_react11 = require("@remix-run/react");
-var links5 = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
+// app/routes/index.tsx
+var import_react11 = require("@remix-run/react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links5 = () => [{ rel: "stylesheet", href: app_default }];
 function IndexRoute(props) {
-  const [theme, setTheme] = (0, import_react11.useOutletContext)();
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Header, {
-    theme,
-    changeTheme: (theme2) => setTheme(theme2)
-  }), /* @__PURE__ */ React.createElement(Home, null));
+  let [theme, setTheme] = (0, import_react11.useOutletContext)();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Header, {
+        theme,
+        changeTheme: (theme2) => setTheme(theme2)
+      }, void 0, !1, {
+        fileName: "app/routes/index.tsx",
+        lineNumber: 16,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Home, {}, void 0, !1, {
+        fileName: "app/routes/index.tsx",
+        lineNumber: 17,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/index.tsx",
+    lineNumber: 15,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog.tsx
+// app/routes/blog.tsx
 var blog_exports = {};
 __export(blog_exports, {
   default: () => Blog,
   links: () => links6
 });
-init_react();
-var import_remix9 = __toESM(require_remix());
-var import_react12 = require("@remix-run/react");
-var links6 = () => {
-  return [{ rel: "stylesheet", href: app_default }];
-};
+var import_remix9 = __toESM(require_dist());
+var import_react12 = require("@remix-run/react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links6 = () => [{ rel: "stylesheet", href: app_default }];
 function Blog() {
-  const [theme, setTheme] = (0, import_react12.useOutletContext)();
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Header, {
-    theme,
-    changeTheme: (theme2) => setTheme(theme2)
-  }), /* @__PURE__ */ React.createElement(import_remix9.Outlet, null));
+  let [theme, setTheme] = (0, import_react12.useOutletContext)();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Header, {
+        theme,
+        changeTheme: (theme2) => setTheme(theme2)
+      }, void 0, !1, {
+        fileName: "app/routes/blog.tsx",
+        lineNumber: 18,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix9.Outlet, {}, void 0, !1, {
+        fileName: "app/routes/blog.tsx",
+        lineNumber: 19,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/blog.tsx",
+    lineNumber: 17,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/$slug.tsx
+// app/routes/blog/$slug.tsx
 var slug_exports = {};
 __export(slug_exports, {
   default: () => PostSlug2,
   loader: () => loader3
 });
-init_react();
-var import_remix10 = __toESM(require_remix());
-var import_tiny_invariant2 = __toESM(require("tiny-invariant"));
-var import_editorjsReact = __toESM(require_editorjsReact());
-var import_remix_utils3 = require("remix-utils");
-var loader3 = async ({ params }) => {
-  (0, import_tiny_invariant2.default)(params.slug, "expected params.slug");
-  return getPost(params.slug);
-};
+var import_remix10 = __toESM(require_dist()), import_tiny_invariant2 = __toESM(require("tiny-invariant"));
+var import_editorjsReact = __toESM(require_editorjsReact()), import_remix_utils3 = require("remix-utils"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), loader3 = async ({ params }) => ((0, import_tiny_invariant2.default)(params.slug, "expected params.slug"), getPost(params.slug));
 function PostSlug2() {
   let post = (0, import_remix10.useLoaderData)();
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "blog-post-container"
-  }, /* @__PURE__ */ React.createElement("h1", null, post.title), /* @__PURE__ */ React.createElement("img", {
-    className: "cover-image",
-    src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement(import_remix_utils3.ClientOnly, null, () => /* @__PURE__ */ React.createElement(import_editorjsReact.default, {
-    previousData: post.editorjs
-  })));
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "blog-post-container",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+        children: post.title
+      }, void 0, !1, {
+        fileName: "app/routes/blog/$slug.tsx",
+        lineNumber: 16,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+        className: "cover-image",
+        src: post.coverUrl
+      }, void 0, !1, {
+        fileName: "app/routes/blog/$slug.tsx",
+        lineNumber: 17,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix_utils3.ClientOnly, {
+        children: () => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_editorjsReact.default, {
+          previousData: post.editorjs
+        }, void 0, !1, {
+          fileName: "app/routes/blog/$slug.tsx",
+          lineNumber: 19,
+          columnNumber: 16
+        }, this)
+      }, void 0, !1, {
+        fileName: "app/routes/blog/$slug.tsx",
+        lineNumber: 18,
+        columnNumber: 7
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/blog/$slug.tsx",
+    lineNumber: 15,
+    columnNumber: 5
+  }, this);
 }
 
-// route:/Users/dom/Documents/GitHub/dominicklee.net/app/routes/blog/index.tsx
+// app/routes/blog/index.tsx
 var blog_exports2 = {};
 __export(blog_exports2, {
   default: () => Index3,
   loader: () => loader4
 });
-init_react();
-var import_remix11 = __toESM(require_remix());
-var loader4 = () => {
-  return getPosts();
-};
+var import_remix11 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), loader4 = () => getPosts();
 function Index3() {
   let posts = (0, import_remix11.useLoaderData)();
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "blog-container"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "blog-hero"
-  }, /* @__PURE__ */ React.createElement("h1", null, "Welcome to ", /* @__PURE__ */ React.createElement("br", null), "my ", /* @__PURE__ */ React.createElement("span", {
-    className: "accent"
-  }, "Blog")), /* @__PURE__ */ React.createElement("div", {
-    className: "rectangle-container"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-rectangle"
-  }))), /* @__PURE__ */ React.createElement("ul", {
-    className: "post-list"
-  }, posts.map((post) => /* @__PURE__ */ React.createElement(import_remix11.Link, {
-    className: "post",
-    to: post.slug
-  }, /* @__PURE__ */ React.createElement("li", {
-    key: post.slug
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "post-container"
-  }, /* @__PURE__ */ React.createElement("img", {
-    src: post.coverUrl
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "fancy-rectangle"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "post-text"
-  }, /* @__PURE__ */ React.createElement("h2", null, post.title), /* @__PURE__ */ React.createElement("p", null, post.description)))))), " ");
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+    className: "blog-container",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+        className: "blog-hero",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+            children: [
+              "Welcome to ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
+                fileName: "app/routes/blog/index.tsx",
+                lineNumber: 14,
+                columnNumber: 22
+              }, this),
+              "my ",
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+                className: "accent",
+                children: "Blog"
+              }, void 0, !1, {
+                fileName: "app/routes/blog/index.tsx",
+                lineNumber: 15,
+                columnNumber: 14
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/blog/index.tsx",
+            lineNumber: 13,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+            className: "rectangle-container",
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+              className: "fancy-rectangle"
+            }, void 0, !1, {
+              fileName: "app/routes/blog/index.tsx",
+              lineNumber: 18,
+              columnNumber: 11
+            }, this)
+          }, void 0, !1, {
+            fileName: "app/routes/blog/index.tsx",
+            lineNumber: 17,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/blog/index.tsx",
+        lineNumber: 12,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("ul", {
+        className: "post-list",
+        children: posts.map((post) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix11.Link, {
+          className: "post",
+          to: post.slug,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("li", {}, post.slug, !1, {
+              fileName: "app/routes/blog/index.tsx",
+              lineNumber: 24,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+              className: "post-container",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+                  src: post.coverUrl
+                }, void 0, !1, {
+                  fileName: "app/routes/blog/index.tsx",
+                  lineNumber: 26,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                  className: "fancy-rectangle"
+                }, void 0, !1, {
+                  fileName: "app/routes/blog/index.tsx",
+                  lineNumber: 27,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+                  className: "post-text",
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+                      children: post.title
+                    }, void 0, !1, {
+                      fileName: "app/routes/blog/index.tsx",
+                      lineNumber: 29,
+                      columnNumber: 17
+                    }, this),
+                    /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+                      children: post.description
+                    }, void 0, !1, {
+                      fileName: "app/routes/blog/index.tsx",
+                      lineNumber: 30,
+                      columnNumber: 17
+                    }, this)
+                  ]
+                }, void 0, !0, {
+                  fileName: "app/routes/blog/index.tsx",
+                  lineNumber: 28,
+                  columnNumber: 15
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/blog/index.tsx",
+              lineNumber: 25,
+              columnNumber: 13
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/routes/blog/index.tsx",
+          lineNumber: 23,
+          columnNumber: 11
+        }, this))
+      }, void 0, !1, {
+        fileName: "app/routes/blog/index.tsx",
+        lineNumber: 21,
+        columnNumber: 7
+      }, this),
+      " "
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/blog/index.tsx",
+    lineNumber: 11,
+    columnNumber: 5
+  }, this);
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-init_react();
-var assets_manifest_default = { "version": "2eed97ca", "entry": { "module": "/build/entry.client-QKNVWLXS.js", "imports": ["/build/_shared/chunk-6Q7PDDRW.js", "/build/_shared/chunk-LPE6EWJY.js", "/build/_shared/chunk-XV23MX66.js"] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "module": "/build/root-GWRHAFXO.js", "imports": ["/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin": { "id": "routes/admin", "parentId": "root", "path": "admin", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin-NIYU4DEN.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DNSA7U3X.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/$edit": { "id": "routes/admin/$edit", "parentId": "routes/admin", "path": ":edit", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/$edit-RL46DDYS.js", "imports": ["/build/_shared/chunk-HQYZAPX2.js", "/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/index": { "id": "routes/admin/index", "parentId": "routes/admin", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/admin/index-4B345MZX.js", "imports": void 0, "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/admin/new": { "id": "routes/admin/new", "parentId": "routes/admin", "path": "new", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/admin/new-4QU4BR5J.js", "imports": ["/build/_shared/chunk-HQYZAPX2.js", "/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": true, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog": { "id": "routes/blog", "parentId": "root", "path": "blog", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog-O7SXJHAP.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DNSA7U3X.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/$slug": { "id": "routes/blog/$slug", "parentId": "routes/blog", "path": ":slug", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/blog/$slug-OLNBTZ4M.js", "imports": ["/build/_shared/chunk-ITZ5GJUX.js"], "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/blog/index": { "id": "routes/blog/index", "parentId": "routes/blog", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/blog/index-2FZTK7XP.js", "imports": void 0, "hasAction": false, "hasLoader": true, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks": { "id": "routes/drinks", "parentId": "root", "path": "drinks", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/drinks-QQIC6YN5.js", "imports": ["/build/_shared/chunk-DNSA7U3X.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/drinks/index": { "id": "routes/drinks/index", "parentId": "routes/drinks", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/drinks/index-XMX6U2MN.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-52ZSK2PT.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/index": { "id": "routes/index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/index-DODG6ADF.js", "imports": ["/build/_shared/chunk-K4UJZSLB.js", "/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-FS5VCY3N.js", "/build/_shared/chunk-DNSA7U3X.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage": { "id": "routes/startpage", "parentId": "root", "path": "startpage", "index": void 0, "caseSensitive": void 0, "module": "/build/routes/startpage-EFVMQGO3.js", "imports": ["/build/_shared/chunk-FS5VCY3N.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false }, "routes/startpage/index": { "id": "routes/startpage/index", "parentId": "routes/startpage", "path": void 0, "index": true, "caseSensitive": void 0, "module": "/build/routes/startpage/index-YPCFDM2V.js", "imports": ["/build/_shared/chunk-XVPQ3L2I.js", "/build/_shared/chunk-DNSA7U3X.js"], "hasAction": false, "hasLoader": false, "hasCatchBoundary": false, "hasErrorBoundary": false } }, "url": "/build/manifest-2EED97CA.js" };
+var assets_manifest_default = { version: "30d7fea6", entry: { module: "/build/entry.client-6HXQFGON.js", imports: ["/build/_shared/chunk-O36K2G7M.js", "/build/_shared/chunk-7T3FRXQK.js", "/build/_shared/chunk-R5FI2U2M.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-GKVVZJQQ.js", imports: ["/build/_shared/chunk-5AFKH5XM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin": { id: "routes/admin", parentId: "root", path: "admin", index: void 0, caseSensitive: void 0, module: "/build/routes/admin-L5XKTJ2D.js", imports: ["/build/_shared/chunk-UO4HFZXP.js", "/build/_shared/chunk-NOWOFYQO.js", "/build/_shared/chunk-BTSXJHXQ.js", "/build/_shared/chunk-JTIYFR7J.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/$edit": { id: "routes/admin/$edit", parentId: "routes/admin", path: ":edit", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/$edit-5MHXTBF3.js", imports: ["/build/_shared/chunk-6G6HLFEA.js", "/build/_shared/chunk-AUYLHJJM.js", "/build/_shared/chunk-F4VA46NK.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/index": { id: "routes/admin/index", parentId: "routes/admin", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/admin/index-D4N5WW4I.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/new": { id: "routes/admin/new", parentId: "routes/admin", path: "new", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/new-5Y7DJKUL.js", imports: ["/build/_shared/chunk-6G6HLFEA.js", "/build/_shared/chunk-F4VA46NK.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blog": { id: "routes/blog", parentId: "root", path: "blog", index: void 0, caseSensitive: void 0, module: "/build/routes/blog-YQ4VGDDX.js", imports: ["/build/_shared/chunk-UO4HFZXP.js", "/build/_shared/chunk-NOWOFYQO.js", "/build/_shared/chunk-BTSXJHXQ.js", "/build/_shared/chunk-JTIYFR7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blog/$slug": { id: "routes/blog/$slug", parentId: "routes/blog", path: ":slug", index: void 0, caseSensitive: void 0, module: "/build/routes/blog/$slug-K3GWZYPN.js", imports: ["/build/_shared/chunk-AUYLHJJM.js", "/build/_shared/chunk-F4VA46NK.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blog/index": { id: "routes/blog/index", parentId: "routes/blog", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/blog/index-PBILWQAB.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/drinks": { id: "routes/drinks", parentId: "root", path: "drinks", index: void 0, caseSensitive: void 0, module: "/build/routes/drinks-6CI6ZKM5.js", imports: ["/build/_shared/chunk-JTIYFR7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/drinks/index": { id: "routes/drinks/index", parentId: "routes/drinks", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/drinks/index-CDPNF6IN.js", imports: ["/build/_shared/chunk-BTSXJHXQ.js", "/build/_shared/chunk-5AFKH5XM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-E7EU5MJE.js", imports: ["/build/_shared/chunk-UO4HFZXP.js", "/build/_shared/chunk-NOWOFYQO.js", "/build/_shared/chunk-BTSXJHXQ.js", "/build/_shared/chunk-JTIYFR7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/startpage": { id: "routes/startpage", parentId: "root", path: "startpage", index: void 0, caseSensitive: void 0, module: "/build/routes/startpage-ACLQ7PIP.js", imports: ["/build/_shared/chunk-BTSXJHXQ.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/startpage/index": { id: "routes/startpage/index", parentId: "routes/startpage", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/startpage/index-S2TMDRSD.js", imports: ["/build/_shared/chunk-NOWOFYQO.js", "/build/_shared/chunk-JTIYFR7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-30D7FEA6.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var entry = { module: entry_server_exports };
-var routes = {
-  "root": {
+var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+  root: {
     id: "root",
     parentId: void 0,
     path: "",
@@ -1309,7 +2616,7 @@ var routes = {
     id: "routes/startpage/index",
     parentId: "routes/startpage",
     path: void 0,
-    index: true,
+    index: !0,
     caseSensitive: void 0,
     module: startpage_exports2
   },
@@ -1325,7 +2632,7 @@ var routes = {
     id: "routes/drinks/index",
     parentId: "routes/drinks",
     path: void 0,
-    index: true,
+    index: !0,
     caseSensitive: void 0,
     module: drinks_exports2
   },
@@ -1349,7 +2656,7 @@ var routes = {
     id: "routes/admin/index",
     parentId: "routes/admin",
     path: void 0,
-    index: true,
+    index: !0,
     caseSensitive: void 0,
     module: admin_exports2
   },
@@ -1365,7 +2672,7 @@ var routes = {
     id: "routes/index",
     parentId: "root",
     path: void 0,
-    index: true,
+    index: !0,
     caseSensitive: void 0,
     module: routes_exports
   },
@@ -1389,20 +2696,21 @@ var routes = {
     id: "routes/blog/index",
     parentId: "routes/blog",
     path: void 0,
-    index: true,
+    index: !0,
     caseSensitive: void 0,
     module: blog_exports2
   }
 };
-module.exports = __toCommonJS(stdin_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   assets,
+  assetsBuildDirectory,
   entry,
+  publicPath,
   routes
 });
 /**
- * @remix-run/node v1.5.1
+ * @remix-run/node v1.7.5
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -1412,7 +2720,7 @@ module.exports = __toCommonJS(stdin_exports);
  * @license MIT
  */
 /**
- * @remix-run/react v1.5.1
+ * @remix-run/react v1.7.5
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -1422,7 +2730,7 @@ module.exports = __toCommonJS(stdin_exports);
  * @license MIT
  */
 /**
- * @remix-run/server-runtime v1.5.1
+ * @remix-run/server-runtime v1.7.5
  *
  * Copyright (c) Remix Software Inc.
  *

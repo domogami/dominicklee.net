@@ -49,10 +49,11 @@ export default function Editor(props: any) {
           codeBox: {
             class: CodeBox,
             config: {
-              themeURL: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/atom-one-dark-reasonable.min.css', // Optional
+              themeURL:
+                'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/atom-one-dark-reasonable.min.css', // Optional
               themeName: 'atom-one-dark-reasonable', // Optional
-              useDefaultTheme: 'dark' // Optional. This also determines the background color of the language select drop-down
-            }
+              useDefaultTheme: 'dark', // Optional. This also determines the background color of the language select drop-down
+            },
           },
           embed: {
             class: Embed,
