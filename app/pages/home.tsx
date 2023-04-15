@@ -40,7 +40,7 @@ export default function Home() {
           image={oldsite}
           title='My Old Website'
           description='This website was my first ever attempt at making a react js site. It was built using Gatsby and deployed with Netlify. It is responsive and served as my previous portfolio.'
-          link='https://dominicklee.net'
+          link='https://doms-old-site.netlify.app/'
         />
       </div>
     </>
