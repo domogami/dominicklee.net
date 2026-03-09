@@ -77,20 +77,45 @@ function createNetlifyRequest(event) {
   return new Request(requestUrl, init);
 }
 
-function getRequestPathname(event) {
-  if (event.rawUrl) {
-    try {
-      return new URL(event.rawUrl).pathname;
-    } catch {
-      // no-op, fallback below
-    }
+function getPathnameFromValue(value) {
+  if (!value || typeof value !== 'string') return null;
+
+  if (value.startsWith('/')) {
+    return value.split('?')[0];
   }
 
-  const host = event.headers?.host || event.headers?.Host || 'localhost';
+  try {
+    return new URL(value).pathname;
+  } catch {
+    return null;
+  }
+}
+
+function getRequestPathname(event) {
+  const headers = event.headers || {};
+  const originalPathCandidates = [
+    event.path,
+    headers['x-original-url'],
+    headers['x-original-uri'],
+    headers['x-nf-original-path'],
+    headers['x-forwarded-uri'],
+    headers['x-rewrite-url'],
+  ];
+
+  for (const candidate of originalPathCandidates) {
+    const pathname = getPathnameFromValue(candidate);
+    if (!pathname || pathname === '/.netlify/functions/server') continue;
+    return pathname;
+  }
+
+  const rawPathname = getPathnameFromValue(event.rawUrl);
+  if (rawPathname) return rawPathname;
+
+  const host = headers.host || headers.Host || 'localhost';
   try {
     return new URL(`http://${host}${getRawPath(event)}`).pathname;
   } catch {
-    return event.path || '/';
+    return '/';
   }
 }
 

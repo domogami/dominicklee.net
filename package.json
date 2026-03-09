@@ -4,11 +4,13 @@
   "description": "",
   "license": "",
   "scripts": {
+    "clean:dev": "rm -rf .netlify/functions-serve public/build netlify/functions/server/build",
+    "build:dev": "remix build",
     "format": "npx prettier --write .",
     "build:css": "node-sass ./scss -o ./app/styles --output-style compressed",
     "dev:css": "npm run build:css && node-sass -rw ./scss -o ./app/styles",
     "build": "npm run format && remix build",
-    "dev": "npm run format && cross-env NODE_ENV=development netlify dev"
+    "dev": "npm run clean:dev && npm run build:dev && npm run format && cross-env NODE_ENV=development netlify dev"
   },
   "dependencies": {
     "@bomdi/codebox": "^2.0.0",
