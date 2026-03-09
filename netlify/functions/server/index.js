@@ -1,7 +1,21 @@
 const path = require('path');
+const fs = require('fs/promises');
 const { createRequestHandler } = require('@netlify/remix-adapter');
 
 const BUILD_DIR = path.join(process.cwd(), 'netlify');
+const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const CONTENT_TYPES = {
+  '.css': 'text/css; charset=utf-8',
+  '.ico': 'image/x-icon',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.map': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.txt': 'text/plain; charset=utf-8',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+};
 
 function purgeRequireCache() {
   // purge require cache on requests for "server side HMR" this won't let
@@ -63,6 +77,59 @@ function createNetlifyRequest(event) {
   return new Request(requestUrl, init);
 }
 
+function getRequestPathname(event) {
+  if (event.rawUrl) {
+    try {
+      return new URL(event.rawUrl).pathname;
+    } catch {
+      // no-op, fallback below
+    }
+  }
+
+  const host = event.headers?.host || event.headers?.Host || 'localhost';
+  try {
+    return new URL(`http://${host}${getRawPath(event)}`).pathname;
+  } catch {
+    return event.path || '/';
+  }
+}
+
+function resolvePublicBuildPath(pathname) {
+  if (!pathname.startsWith('/build/')) return null;
+
+  const relativePath = path.posix.normalize(pathname).replace(/^\/+/, '');
+  if (relativePath.startsWith('..')) return null;
+
+  const filePath = path.join(PUBLIC_DIR, relativePath);
+  if (!filePath.startsWith(`${PUBLIC_DIR}${path.sep}`)) return null;
+
+  return filePath;
+}
+
+async function maybeServeStaticBuildAsset(event) {
+  const pathname = getRequestPathname(event);
+  const filePath = resolvePublicBuildPath(pathname);
+  if (!filePath) return null;
+
+  try {
+    const body = await fs.readFile(filePath);
+    const extension = path.extname(filePath).toLowerCase();
+    const contentType = CONTENT_TYPES[extension] || 'application/octet-stream';
+
+    return {
+      statusCode: 200,
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Content-Type': contentType,
+      },
+      body: body.toString('base64'),
+      isBase64Encoded: true,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function createNetlifyResponse(response) {
   const multiValueHeaders = {};
   response.headers.forEach((value, key) => {
@@ -90,6 +157,9 @@ async function handle(event, context) {
       body: '',
     };
   }
+
+  const staticBuildAsset = await maybeServeStaticBuildAsset(event);
+  if (staticBuildAsset) return staticBuildAsset;
 
   if (process.env.NODE_ENV !== 'production') {
     purgeRequireCache();
