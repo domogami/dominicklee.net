@@ -6,6 +6,7 @@ module.exports = {
   assetsBuildDirectory: 'public/build',
   publicPath: '/build/',
   serverBuildPath: 'netlify/functions/server/build/index.js',
+  serverModuleFormat: 'cjs',
   dev: {
     port: 8002,
   },
