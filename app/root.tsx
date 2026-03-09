@@ -9,6 +9,7 @@ import {
 import type { MetaFunction } from 'remix';
 import ThemeProvider from './components/ThemeProvider';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 export const meta: MetaFunction = () => {
   return {
     title: "I'm Dominick Lee",
@@ -24,7 +25,10 @@ export const meta: MetaFunction = () => {
 };
 
 export default function App() {
-  const [theme, setTheme] = useState('Light');
+  const location = useLocation();
+  const [theme, setTheme] = useState(() =>
+    location.pathname.startsWith('/startpage') ? 'Dark' : 'Light'
+  );
   return (
     <html lang='en' className={`theme--${theme}`}>
       <head>

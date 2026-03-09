@@ -49,6 +49,16 @@ export type themeSet = {
 export default function Startpage() {
   const [theme, setTheme] = useOutletContext<themeSet>();
   let todaysDate = useDate();
+
+  React.useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      !window.localStorage.getItem('globalTheme')
+    ) {
+      setTheme('Dark');
+    }
+  }, [setTheme]);
+
   return (
     <div className='startpage-containter'>
       <h1>
