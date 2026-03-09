@@ -4,7 +4,7 @@ import { redirect } from '@remix-run/node';
 import { Form, useActionData, useLoaderData, useNavigation } from '@remix-run/react';
 import { updatePost } from '~/post';
 import Editor from '~/components/editor.client';
-import { ClientOnly } from 'remix-utils';
+import { ClientOnly } from 'remix-utils/client-only';
 import { useState } from 'react';
 const axios = require('axios').default;
 

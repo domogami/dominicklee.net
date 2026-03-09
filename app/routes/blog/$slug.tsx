@@ -2,7 +2,7 @@ import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { getPost } from '~/post';
 import EditorjsReact from '~/components/editorjsReact.client';
-import { ClientOnly } from 'remix-utils';
+import { ClientOnly } from 'remix-utils/client-only';
 
 export let loader = async ({ params }) => {
   invariant(params.slug, 'expected params.slug');

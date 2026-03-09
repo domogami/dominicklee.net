@@ -3,7 +3,7 @@ import Header from '~/components/header';
 import { getPosts } from '~/post';
 import { useOutletContext } from '@remix-run/react';
 import stylesUrl from '~/styles/app.css';
-import { ClientOnly } from 'remix-utils';
+import { ClientOnly } from 'remix-utils/client-only';
 
 // create a stylesheet ref for the admin.css file
 export let links = () => {
