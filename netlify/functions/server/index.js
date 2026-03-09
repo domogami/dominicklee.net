@@ -81,6 +81,16 @@ async function createNetlifyResponse(response) {
 }
 
 async function handle(event, context) {
+  if (event.path === '/.well-known/appspecific/com.chrome.devtools.json') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Cache-Control': 'no-store',
+      },
+      body: '',
+    };
+  }
+
   if (process.env.NODE_ENV !== 'production') {
     purgeRequireCache();
   }
