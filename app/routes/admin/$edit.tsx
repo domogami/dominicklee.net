@@ -1,12 +1,7 @@
 import invariant from 'tiny-invariant';
 import { getPostEdit } from '~/post';
-import {
-  redirect,
-  Form,
-  useActionData,
-  useTransition,
-  useLoaderData,
-} from 'remix';
+import { redirect } from '@remix-run/node';
+import { Form, useActionData, useLoaderData, useNavigation } from '@remix-run/react';
 import { updatePost } from '~/post';
 import Editor from '~/components/editor.client';
 import { ClientOnly } from 'remix-utils';
@@ -52,7 +47,7 @@ export let action = async ({ request }) => {
 
 export default function PostSlug() {
   let errors = useActionData();
-  let transition = useTransition();
+  let navigation = useNavigation();
   let post = useLoaderData();
   const [savedData, setSavedData] = useState('{}');
   const [coverUrl, setCoverUrl] = useState(post.coverUrl);
@@ -133,7 +128,7 @@ export default function PostSlug() {
         </p>
         <p className='savePost'>
           <button type='submit'>
-            {transition.submission ? 'Saving...' : 'Save Post'}
+            {navigation.state === 'submitting' ? 'Saving...' : 'Save Post'}
           </button>
         </p>
         <input

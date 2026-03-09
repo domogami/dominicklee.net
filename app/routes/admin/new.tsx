@@ -1,5 +1,5 @@
-import { isErrorResponse } from '@remix-run/react/data';
-import { redirect, Form, useActionData, useTransition } from 'remix';
+import { redirect } from '@remix-run/node';
+import { Form, useActionData, useNavigation } from '@remix-run/react';
 import { createPost } from '~/post';
 
 import Editor from '~/components/editor.client';
@@ -36,7 +36,7 @@ export default function NewPost() {
   // pull in errors from our action using the useActionData() hook
   let errors = useActionData();
   // transition will allow us to create a better user experience by updating the text of the submit button while creating the blog post
-  let transition = useTransition();
+  let navigation = useNavigation();
   // we are going to create the slug for the user
   let slug = '';
 
@@ -133,7 +133,7 @@ export default function NewPost() {
         </label>
         <p>
           <button type='submit'>
-            {transition.submission ? 'Creating...' : 'Create Post'}
+            {navigation.state === 'submitting' ? 'Creating...' : 'Create Post'}
           </button>
         </p>
       </div>

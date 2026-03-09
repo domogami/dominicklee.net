@@ -1,5 +1,5 @@
 const path = require('path');
-const { createRequestHandler } = require('@remix-run/netlify');
+const { createRequestHandler } = require('@netlify/remix-adapter');
 
 const BUILD_DIR = path.join(process.cwd(), 'netlify');
 
@@ -16,13 +16,81 @@ function purgeRequireCache() {
   }
 }
 
-exports.handler =
-  process.env.NODE_ENV === 'production'
-    ? createRequestHandler({ build: require('./build') })
-    : (event, context) => {
-        purgeRequireCache();
-        return createRequestHandler({ build: require('./build') })(
-          event,
-          context
-        );
-      };
+function getRawPath(event) {
+  let rawPath = event.path;
+  const searchParams = new URLSearchParams();
+  const queryParams = event.multiValueQueryStringParameters || {};
+
+  for (const key of Object.keys(queryParams)) {
+    const values = queryParams[key];
+    if (!values) continue;
+    for (const val of values) {
+      searchParams.append(key, val);
+    }
+  }
+
+  const rawQuery = searchParams.toString();
+  if (rawQuery) rawPath += `?${rawQuery}`;
+  return rawPath;
+}
+
+function createNetlifyRequest(event) {
+  const requestUrl =
+    process.env.NODE_ENV === 'development'
+      ? `http://${event.headers.host}${getRawPath(event)}`
+      : event.rawUrl;
+
+  const headers = new Headers();
+  const headerValues = event.multiValueHeaders || {};
+  for (const [key, values] of Object.entries(headerValues)) {
+    if (!values) continue;
+    for (const value of values) {
+      headers.append(key, value);
+    }
+  }
+
+  const init = {
+    method: event.httpMethod,
+    headers,
+  };
+
+  if (event.httpMethod !== 'GET' && event.httpMethod !== 'HEAD' && event.body) {
+    init.body = event.isBase64Encoded
+      ? Buffer.from(event.body, 'base64')
+      : event.body;
+  }
+
+  return new Request(requestUrl, init);
+}
+
+async function createNetlifyResponse(response) {
+  const multiValueHeaders = {};
+  response.headers.forEach((value, key) => {
+    if (!multiValueHeaders[key]) {
+      multiValueHeaders[key] = [];
+    }
+    multiValueHeaders[key].push(value);
+  });
+
+  return {
+    statusCode: response.status,
+    multiValueHeaders,
+    body: await response.text(),
+    isBase64Encoded: false,
+  };
+}
+
+async function handle(event, context) {
+  if (process.env.NODE_ENV !== 'production') {
+    purgeRequireCache();
+  }
+
+  const requestHandler = createRequestHandler({
+    build: require('./build'),
+  });
+  const request = createNetlifyRequest(event);
+  const response = await requestHandler(request, context);
+  return createNetlifyResponse(response);
+}
+
+exports.handler = handle;

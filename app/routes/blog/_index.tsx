@@ -1,5 +1,5 @@
-import { getPosts } from '~/post.ts';
-import { Link, Outlet, useLoaderData } from 'remix';
+import { getPosts } from '~/post';
+import { Link, useLoaderData } from '@remix-run/react';
 
 export let loader = () => {
   return getPosts();

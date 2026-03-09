@@ -5,23 +5,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from 'remix';
-import type { MetaFunction } from 'remix';
+  useLocation,
+} from '@remix-run/react';
+import type { MetaFunction } from '@remix-run/node';
 import ThemeProvider from './components/ThemeProvider';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 export const meta: MetaFunction = () => {
-  return {
-    title: "I'm Dominick Lee",
-    description: 'Everything Software Engineering',
-    keywords: 'Dominick,Lee',
-    'twitter:image': 'https://dominicklee.com/awesome.png',
-    'twitter:card': 'summary_large_image',
-    'twitter:creator': '@domogami',
-    'twitter:site': '@dom3lee',
-    'twitter:title': "Hey, I'm Dom",
-    'twitter:description': 'Everything Software Engineering',
-  };
+  return [
+    { title: "I'm Dominick Lee" },
+    { name: 'description', content: 'Everything Software Engineering' },
+    { name: 'keywords', content: 'Dominick,Lee' },
+    { name: 'twitter:image', content: 'https://dominicklee.com/awesome.png' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:creator', content: '@domogami' },
+    { name: 'twitter:site', content: '@dom3lee' },
+    { name: 'twitter:title', content: "Hey, I'm Dom" },
+    { name: 'twitter:description', content: 'Everything Software Engineering' },
+  ];
 };
 
 export default function App() {

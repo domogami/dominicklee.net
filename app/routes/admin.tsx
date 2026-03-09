@@ -1,4 +1,4 @@
-import { Outlet, Link, useLoaderData } from 'remix';
+import { Outlet, Link, useLoaderData } from '@remix-run/react';
 import Header from '~/components/header';
 import { getPosts } from '~/post';
 import { useOutletContext } from '@remix-run/react';

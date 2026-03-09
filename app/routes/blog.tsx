@@ -1,4 +1,4 @@
-import { Outlet } from 'remix';
+import { Outlet } from '@remix-run/react';
 import Header from '~/components/header';
 import stylesUrl from '~/styles/app.css';
 import { useOutletContext } from '@remix-run/react';
