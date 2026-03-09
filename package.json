@@ -5,6 +5,8 @@
   "license": "",
   "scripts": {
     "clean:dev": "rm -rf .netlify/functions-serve public/build netlify/functions/server/build",
+    "prisma:generate": "prisma generate",
+    "build:netlify": "npm run prisma:generate && remix build",
     "build:dev": "remix build",
     "format": "npx prettier --write .",
     "build:css": "node-sass ./scss -o ./app/styles --output-style compressed",
