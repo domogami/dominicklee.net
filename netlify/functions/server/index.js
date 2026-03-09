@@ -2,8 +2,9 @@ const path = require('path');
 const fs = require('fs/promises');
 const { createRequestHandler } = require('@netlify/remix-adapter');
 
-const BUILD_DIR = path.join(process.cwd(), 'netlify');
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const PROJECT_ROOT = path.resolve(__dirname, '../../..');
+const BUILD_DIR = path.join(PROJECT_ROOT, 'netlify');
+const PUBLIC_DIR = path.join(PROJECT_ROOT, 'public');
 const CONTENT_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.ico': 'image/x-icon',
@@ -173,6 +174,12 @@ async function createNetlifyResponse(response) {
 }
 
 async function handle(event, context) {
+  if (process.env.NODE_ENV === 'development' && event.path?.startsWith('/build/')) {
+    console.log(
+      `[asset-debug] cwd=${process.cwd()} projectRoot=${PROJECT_ROOT} event.path=${event.path} rawUrl=${event.rawUrl}`
+    );
+  }
+
   if (event.path === '/.well-known/appspecific/com.chrome.devtools.json') {
     return {
       statusCode: 204,
