@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/profile.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n  return {\n    contains: [\n      hljs.C_NUMBER_MODE,\n      {\n        begin: '[a-zA-Z_][\\\\da-zA-Z_]+\\\\.[\\\\da-zA-Z_]{1,3}', end: ':',\n        excludeEnd: true\n      },\n      {\n        begin: '(ncalls|tottime|cumtime)', end: '$',\n        keywords: 'ncalls tottime|10 cumtime|10 filename',\n        relevance: 10\n      },\n      {\n        begin: 'function calls', end: '$',\n        contains: [hljs.C_NUMBER_MODE],\n        relevance: 10\n      },\n      hljs.APOS_STRING_MODE,\n      hljs.QUOTE_STRING_MODE,\n      {\n        className: 'string',\n        begin: '\\\\(', end: '\\\\)$',\n        excludeBegin: true, excludeEnd: true,\n        relevance: 0\n      }\n    ]\n  };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,aAAO;AAAA,QACL,UAAU;AAAA,UACR,KAAK;AAAA,UACL;AAAA,YACE,OAAO;AAAA,YAA8C,KAAK;AAAA,YAC1D,YAAY;AAAA;AAAA,UAEd;AAAA,YACE,OAAO;AAAA,YAA4B,KAAK;AAAA,YACxC,UAAU;AAAA,YACV,WAAW;AAAA;AAAA,UAEb;AAAA,YACE,OAAO;AAAA,YAAkB,KAAK;AAAA,YAC9B,UAAU,CAAC,KAAK;AAAA,YAChB,WAAW;AAAA;AAAA,UAEb,KAAK;AAAA,UACL,KAAK;AAAA,UACL;AAAA,YACE,WAAW;AAAA,YACX,OAAO;AAAA,YAAO,KAAK;AAAA,YACnB,cAAc;AAAA,YAAM,YAAY;AAAA,YAChC,WAAW;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

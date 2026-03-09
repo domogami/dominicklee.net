@@ -174,7 +174,10 @@ async function createNetlifyResponse(response) {
 }
 
 async function handle(event, context) {
-  if (process.env.NODE_ENV === 'development' && event.path?.startsWith('/build/')) {
+  if (
+    process.env.NODE_ENV === 'development' &&
+    event.path?.startsWith('/build/')
+  ) {
     console.log(
       `[asset-debug] cwd=${process.cwd()} projectRoot=${PROJECT_ROOT} event.path=${event.path} rawUrl=${event.rawUrl}`
     );

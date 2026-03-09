@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/ebnf.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n    var commentMode = hljs.COMMENT(/\\(\\*/, /\\*\\)/);\n\n    var nonTerminalMode = {\n        className: \"attribute\",\n        begin: /^[ ]*[a-zA-Z][a-zA-Z-]*([\\s-]+[a-zA-Z][a-zA-Z]*)*/\n    };\n\n    var specialSequenceMode = {\n        className: \"meta\",\n        begin: /\\?.*\\?/\n    };\n\n    var ruleBodyMode = {\n        begin: /=/, end: /;/,\n        contains: [\n            commentMode,\n            specialSequenceMode,\n            // terminals\n            hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE\n        ]\n    };\n\n    return {\n        illegal: /\\S/,\n        contains: [\n            commentMode,\n            nonTerminalMode,\n            ruleBodyMode\n        ]\n    };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC5B,UAAI,cAAc,KAAK,QAAQ,QAAQ;AAEvC,UAAI,kBAAkB;AAAA,QAClB,WAAW;AAAA,QACX,OAAO;AAAA;AAGX,UAAI,sBAAsB;AAAA,QACtB,WAAW;AAAA,QACX,OAAO;AAAA;AAGX,UAAI,eAAe;AAAA,QACf,OAAO;AAAA,QAAK,KAAK;AAAA,QACjB,UAAU;AAAA,UACN;AAAA,UACA;AAAA,UAEA,KAAK;AAAA,UAAkB,KAAK;AAAA;AAAA;AAIpC,aAAO;AAAA,QACH,SAAS;AAAA,QACT,UAAU;AAAA,UACN;AAAA,UACA;AAAA,UACA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/clojure-repl.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n  return {\n    contains: [\n      {\n        className: 'meta',\n        begin: /^([\\w.-]+|\\s*#_)?=>/,\n        starts: {\n          end: /$/,\n          subLanguage: 'clojure'\n        }\n      }\n    ]\n  }\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,aAAO;AAAA,QACL,UAAU;AAAA,UACR;AAAA,YACE,WAAW;AAAA,YACX,OAAO;AAAA,YACP,QAAQ;AAAA,cACN,KAAK;AAAA,cACL,aAAa;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

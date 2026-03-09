@@ -29,8 +29,8 @@
     "@editorjs/simple-image": "^1.6.0",
     "@editorjs/table": "^2.4.5",
     "@editorjs/warning": "^1.4.1",
-    "@netlify/remix-adapter": "^3.0.0",
     "@netlify/functions": "^5.1.2",
+    "@netlify/remix-adapter": "2.7.0",
     "@prisma/client": "^4.16.2",
     "@remix-run/node": "^2.17.4",
     "@remix-run/react": "^2.17.4",
@@ -62,7 +62,7 @@
     "typescript": "^5.9.3"
   },
   "engines": {
-    "node": ">=22"
+    "node": "22.x"
   },
   "sideEffects": false
 }

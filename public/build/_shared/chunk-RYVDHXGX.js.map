@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/refractor/lang/xojo.js"],
-  "sourcesContent": ["'use strict'\n\nmodule.exports = xojo\nxojo.displayName = 'xojo'\nxojo.aliases = []\nfunction xojo(Prism) {\n  Prism.languages.xojo = {\n    comment: {\n      pattern: /(?:'|\\/\\/|Rem\\b).+/i,\n      inside: {\n        keyword: /^Rem/i\n      }\n    },\n    string: {\n      pattern: /\"(?:\"\"|[^\"])*\"/,\n      greedy: true\n    },\n    number: [/(?:\\b\\d+\\.?\\d*|\\B\\.\\d+)(?:E[+-]?\\d+)?/i, /&[bchou][a-z\\d]+/i],\n    symbol: /#(?:If|Else|ElseIf|Endif|Pragma)\\b/i,\n    keyword: /\\b(?:AddHandler|App|Array|As(?:signs)?|By(?:Ref|Val)|Break|Call|Case|Catch|Const|Continue|CurrentMethodName|Declare|Dim|Do(?:wnTo)?|Each|Else(?:If)?|End|Exit|Extends|False|Finally|For|Global|If|In|Lib|Loop|Me|Next|Nil|Optional|ParamArray|Raise(?:Event)?|ReDim|Rem|RemoveHandler|Return|Select|Self|Soft|Static|Step|Super|Then|To|True|Try|Ubound|Until|Using|Wend|While)\\b/i,\n    operator: /<[=>]?|>=?|[+\\-*\\/\\\\^=]|\\b(?:AddressOf|And|Ctype|IsA?|Mod|New|Not|Or|Xor|WeakAddressOf)\\b/i,\n    punctuation: /[.,;:()]/\n  }\n}\n"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAEA,WAAO,UAAU;AACjB,SAAK,cAAc;AACnB,SAAK,UAAU;AACf,kBAAc,OAAO;AACnB,YAAM,UAAU,OAAO;AAAA,QACrB,SAAS;AAAA,UACP,SAAS;AAAA,UACT,QAAQ;AAAA,YACN,SAAS;AAAA;AAAA;AAAA,QAGb,QAAQ;AAAA,UACN,SAAS;AAAA,UACT,QAAQ;AAAA;AAAA,QAEV,QAAQ,CAAC,0CAA0C;AAAA,QACnD,QAAQ;AAAA,QACR,SAAS;AAAA,QACT,UAAU;AAAA,QACV,aAAa;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

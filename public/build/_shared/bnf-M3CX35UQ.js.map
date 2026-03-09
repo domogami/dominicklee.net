@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/bnf.js"],
-  "sourcesContent": ["module.exports = function(hljs){\n  return {\n    contains: [\n      // Attribute\n      {\n        className: 'attribute',\n        begin: /</, end: />/\n      },\n      // Specific\n      {\n        begin: /::=/,\n        starts: {\n          end: /$/,\n          contains: [\n            {\n              begin: /</, end: />/\n            },\n            // Common\n            hljs.C_LINE_COMMENT_MODE,\n            hljs.C_BLOCK_COMMENT_MODE,\n            hljs.APOS_STRING_MODE,\n            hljs.QUOTE_STRING_MODE\n          ]\n        }\n      }\n    ]\n  };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAK;AAC7B,aAAO;AAAA,QACL,UAAU;AAAA,UAER;AAAA,YACE,WAAW;AAAA,YACX,OAAO;AAAA,YAAK,KAAK;AAAA;AAAA,UAGnB;AAAA,YACE,OAAO;AAAA,YACP,QAAQ;AAAA,cACN,KAAK;AAAA,cACL,UAAU;AAAA,gBACR;AAAA,kBACE,OAAO;AAAA,kBAAK,KAAK;AAAA;AAAA,gBAGnB,KAAK;AAAA,gBACL,KAAK;AAAA,gBACL,KAAK;AAAA,gBACL,KAAK;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

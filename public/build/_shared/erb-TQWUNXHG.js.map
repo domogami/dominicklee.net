@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/erb.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n  return {\n    subLanguage: 'xml',\n    contains: [\n      hljs.COMMENT('<%#', '%>'),\n      {\n        begin: '<%[%=-]?', end: '[%-]?%>',\n        subLanguage: 'ruby',\n        excludeBegin: true,\n        excludeEnd: true\n      }\n    ]\n  };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,aAAO;AAAA,QACL,aAAa;AAAA,QACb,UAAU;AAAA,UACR,KAAK,QAAQ,OAAO;AAAA,UACpB;AAAA,YACE,OAAO;AAAA,YAAY,KAAK;AAAA,YACxB,aAAa;AAAA,YACb,cAAc;AAAA,YACd,YAAY;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

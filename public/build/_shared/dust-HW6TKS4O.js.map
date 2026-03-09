@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/dust.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n  var EXPRESSION_KEYWORDS = 'if eq ne lt lte gt gte select default math sep';\n  return {\n    aliases: ['dst'],\n    case_insensitive: true,\n    subLanguage: 'xml',\n    contains: [\n      {\n        className: 'template-tag',\n        begin: /\\{[#\\/]/, end: /\\}/, illegal: /;/,\n        contains: [\n          {\n            className: 'name',\n            begin: /[a-zA-Z\\.-]+/,\n            starts: {\n              endsWithParent: true, relevance: 0,\n              contains: [\n                hljs.QUOTE_STRING_MODE\n              ]\n            }\n          }\n        ]\n      },\n      {\n        className: 'template-variable',\n        begin: /\\{/, end: /\\}/, illegal: /;/,\n        keywords: EXPRESSION_KEYWORDS\n      }\n    ]\n  };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,UAAI,sBAAsB;AAC1B,aAAO;AAAA,QACL,SAAS,CAAC;AAAA,QACV,kBAAkB;AAAA,QAClB,aAAa;AAAA,QACb,UAAU;AAAA,UACR;AAAA,YACE,WAAW;AAAA,YACX,OAAO;AAAA,YAAW,KAAK;AAAA,YAAM,SAAS;AAAA,YACtC,UAAU;AAAA,cACR;AAAA,gBACE,WAAW;AAAA,gBACX,OAAO;AAAA,gBACP,QAAQ;AAAA,kBACN,gBAAgB;AAAA,kBAAM,WAAW;AAAA,kBACjC,UAAU;AAAA,oBACR,KAAK;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,UAMf;AAAA,YACE,WAAW;AAAA,YACX,OAAO;AAAA,YAAM,KAAK;AAAA,YAAM,SAAS;AAAA,YACjC,UAAU;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}

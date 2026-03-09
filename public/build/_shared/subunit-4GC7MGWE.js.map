@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../node_modules/highlight.js/lib/languages/subunit.js"],
-  "sourcesContent": ["module.exports = function(hljs) {\n  var DETAILS = {\n    className: 'string',\n    begin: '\\\\[\\n(multipart)?', end: '\\\\]\\n'\n  };\n  var TIME = {\n    className: 'string',\n    begin: '\\\\d{4}-\\\\d{2}-\\\\d{2}(\\\\s+)\\\\d{2}:\\\\d{2}:\\\\d{2}\\.\\\\d+Z'\n  };\n  var PROGRESSVALUE = {\n    className: 'string',\n    begin: '(\\\\+|-)\\\\d+'\n  };\n  var KEYWORDS = {\n    className: 'keyword',\n    relevance: 10,\n    variants: [\n      { begin: '^(test|testing|success|successful|failure|error|skip|xfail|uxsuccess)(:?)\\\\s+(test)?' },\n      { begin: '^progress(:?)(\\\\s+)?(pop|push)?' },\n      { begin: '^tags:' },\n      { begin: '^time:' }\n    ],\n  };\n  return {\n    case_insensitive: true,\n    contains: [\n      DETAILS,\n      TIME,\n      PROGRESSVALUE,\n      KEYWORDS\n    ]\n  };\n};"],
-  "mappings": ";;;;;;AAAA;AAAA;AAAA;AAAA,WAAO,UAAU,SAAS,MAAM;AAC9B,UAAI,UAAU;AAAA,QACZ,WAAW;AAAA,QACX,OAAO;AAAA,QAAqB,KAAK;AAAA;AAEnC,UAAI,OAAO;AAAA,QACT,WAAW;AAAA,QACX,OAAO;AAAA;AAET,UAAI,gBAAgB;AAAA,QAClB,WAAW;AAAA,QACX,OAAO;AAAA;AAET,UAAI,WAAW;AAAA,QACb,WAAW;AAAA,QACX,WAAW;AAAA,QACX,UAAU;AAAA,UACR,EAAE,OAAO;AAAA,UACT,EAAE,OAAO;AAAA,UACT,EAAE,OAAO;AAAA,UACT,EAAE,OAAO;AAAA;AAAA;AAGb,aAAO;AAAA,QACL,kBAAkB;AAAA,QAClB,UAAU;AAAA,UACR;AAAA,UACA;AAAA,UACA;AAAA,UACA;AAAA;AAAA;AAAA;AAAA;AAAA;",
-  "names": []
-}
