@@ -48,12 +48,24 @@ export default function Notebook() {
   const [motion, setMotion] = useState(true);
   const [reduced, setReduced] = useState(false);
   const [photo, setPhoto] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
+    null
+  );
+  const photoGesture = useRef<{ id: number; x: number; y: number } | null>(
+    null
+  );
+  const suppressPhotoClick = useRef(false);
   const [craneKey, setCraneKey] = useState(0);
   const [headerCraneKey, setHeaderCraneKey] = useState(0);
   const menuButton = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLDivElement>(null);
   const activeMotion = motion && !reduced;
+  useEffect(() => {
+    if (!swipeDirection) return;
+    const timer = window.setTimeout(() => setSwipeDirection(null), 480);
+    return () => window.clearTimeout(timer);
+  }, [swipeDirection]);
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReduced(media.matches);
@@ -378,8 +390,42 @@ export default function Notebook() {
             />
             <div className='featured-project'>
               <button
-                className={`polaroid-stack ${photo ? 'is-flipped' : ''}`}
-                onClick={() => setPhoto((v) => !v)}
+                className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+                onPointerDown={(event) => {
+                  suppressPhotoClick.current = false;
+                  if (event.pointerType === 'mouse' || !event.isPrimary) return;
+                  photoGesture.current = {
+                    id: event.pointerId,
+                    x: event.clientX,
+                    y: event.clientY,
+                  };
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }}
+                onPointerUp={(event) => {
+                  const start = photoGesture.current;
+                  if (!start || start.id !== event.pointerId) return;
+                  photoGesture.current = null;
+                  const dx = Math.abs(event.clientX - start.x);
+                  const dy = Math.abs(event.clientY - start.y);
+                  suppressPhotoClick.current = Math.max(dx, dy) > 10;
+                  if (dx >= 40 && dx > dy * 1.5 && !swipeDirection) {
+                    if (activeMotion)
+                      setSwipeDirection(
+                        event.clientX < start.x ? 'left' : 'right'
+                      );
+                    setPhoto((v) => !v);
+                  }
+                }}
+                onPointerCancel={() => {
+                  photoGesture.current = null;
+                  suppressPhotoClick.current = true;
+                }}
+                onClick={(event) => {
+                  // A swipe also generates a click; don't swap straight back.
+                  if (event.detail === 0 || !suppressPhotoClick.current) {
+                    setPhoto((v) => !v);
+                  }
+                }}
                 aria-label='Swap SNAP75 keyboard photos'
                 aria-pressed={photo}
               >

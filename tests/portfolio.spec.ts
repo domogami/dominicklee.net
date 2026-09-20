@@ -499,3 +499,56 @@ test('navigation dot follows scroll position, footer and mobile index', async ({
   await expect(index).toHaveAttribute('aria-current', 'location');
   await expect(desktop.locator('[aria-current]')).toHaveCount(0);
 });
+
+test('polaroids swipe both ways without double swapping or blocking page scrolling', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const touch = await page.context().newCDPSession(page);
+  await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true });
+  await page.goto('/');
+  const photos = page.getByRole('button', {
+    name: 'Swap SNAP75 keyboard photos',
+  });
+  await photos.scrollIntoViewIfNeeded();
+  const box = (await photos.boundingBox())!;
+  const x = box.x + box.width / 2;
+  const y = box.y + box.height / 2;
+  async function swipe(dx: number, dy: number) {
+    await touch.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y }],
+    });
+    for (let step = 1; step <= 6; step++) {
+      await touch.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: x + (dx * step) / 6, y: y + (dy * step) / 6 }],
+      });
+    }
+    await touch.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
+  }
+  await swipe(-90, 0);
+  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+  await expect(photos).not.toHaveClass(/swipe-left/);
+  await swipe(90, 0);
+  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await expect(photos).not.toHaveClass(/swipe-right/);
+  await swipe(90, 0);
+  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+  await expect(photos).not.toHaveClass(/swipe-right/);
+  await swipe(90, 0);
+  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await expect(photos).not.toHaveClass(/swipe-right/);
+  const before = await page.evaluate(() => window.scrollY);
+  await swipe(0, -110);
+  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(before);
+  await photos.focus();
+  await page.keyboard.press('Space');
+  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+});
