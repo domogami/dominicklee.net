@@ -827,7 +827,7 @@ body:has(.notebook) {
   );
 }
 .notebook .garden .paper-banner {
-  background: var(--ink);
+  background: #0b5f5d;
   color: var(--paper);
   clip-path: polygon(
     0 0,
@@ -1566,7 +1566,7 @@ html:has(.notebook.motion-paused) {
   stroke: var(--paper);
 }
 .notebook .garden .drawn-banner {
-  --banner-paper: var(--ink);
+  --banner-paper: #0b5f5d;
   --banner-ink: var(--paper);
 }
 .notebook .contact .contact-banner {
