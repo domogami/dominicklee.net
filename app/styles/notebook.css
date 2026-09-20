@@ -1919,8 +1919,8 @@ html:has(.notebook.motion-paused) {
 .notebook .journey h4 {
   margin: 0;
   font:
-    700 23px/32px 'Kalam',
-    cursive;
+    300 23px/32px 'Lexend',
+    sans-serif;
   color: #fff7e7;
 }
 .notebook .journey p {
@@ -2143,8 +2143,7 @@ html:has(.notebook.motion-paused) {
   top: var(--kalam-baseline);
 }
 .notebook .index-row h3,
-.notebook .project-story h3,
-.notebook .journey h4 {
+.notebook .project-story h3 {
   position: relative;
   top: var(--kalam-baseline);
 }
