@@ -552,3 +552,28 @@ test('polaroids swipe both ways without double swapping or blocking page scrolli
   await page.keyboard.press('Space');
   await expect(photos).toHaveAttribute('aria-pressed', 'true');
 });
+
+test('desktop photos stay still on hover and clicks retain the selected card', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const photos = page.getByRole('button', {
+    name: 'Swap SNAP75 keyboard photos',
+  });
+  await photos.scrollIntoViewIfNeeded();
+  const front = photos.locator('.polaroid-front');
+  const back = photos.locator('.polaroid-back');
+  const original = await front.evaluate((el) => getComputedStyle(el).transform);
+  await photos.hover();
+  await expect(front).toHaveCSS('transform', original);
+  await expect(front).toHaveCSS('z-index', '2');
+  await photos.click();
+  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+  await expect(back).toHaveCSS('z-index', '3');
+  await page.mouse.move(0, 0);
+  await expect(back).toHaveCSS('z-index', '3');
+  await photos.click();
+  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await expect(front).toHaveCSS('z-index', '2');
+  await expect(back).toHaveCSS('z-index', '1');
+});

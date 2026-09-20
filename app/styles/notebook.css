@@ -660,16 +660,6 @@ body:has(.notebook) {
   transform: rotate(1deg) translate(0, -4px);
   z-index: 3;
 }
-@media (hover: hover) {
-  .notebook .polaroid-stack:hover .polaroid-front {
-    transform: rotate(-8deg) translate(-24px, 16px);
-    z-index: 1;
-  }
-  .notebook .polaroid-stack:hover .polaroid-back {
-    transform: rotate(2deg) translate(12px, -20px);
-    z-index: 3;
-  }
-}
 .notebook .status {
   color: var(--mint);
   font-size: 10px;

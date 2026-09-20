@@ -57,7 +57,7 @@ Kalam's ink sits high in its line box. `--kalam-baseline: .12em` provides an opt
 
 Standard banners are notched strips. “Now & then” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
 
-The common-thread post-it uses the reviewed rabbit-hole wording. SNAP75 polaroids have no tape; the second photo comes forward on hover, activation, tap or a horizontal swipe in either direction. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
+The common-thread post-it uses the reviewed rabbit-hole wording. SNAP75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
 
 ### Garden
 
