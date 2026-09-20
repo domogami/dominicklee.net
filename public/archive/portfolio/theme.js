@@ -1,0 +1,1 @@
+document.addEventListener('change',function(event){if(!event.target.matches('.theme-selector'))return;for(const el of [document.documentElement,document.body,document.getElementById('legacy')])el.className='theme--'+event.target.value;});

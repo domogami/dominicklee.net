@@ -1,20 +1,15 @@
-import stylesUrl from '~/styles/app.css';
-import Header from '~/components/header';
-import Home from '~/pages/home';
-import { useOutletContext } from '@remix-run/react';
-export const links = () => {
-  return [{ rel: 'stylesheet', href: stylesUrl }];
-};
-export type themeSet = {
-  theme: String;
-  [Symbol.iterator]();
-};
-export default function IndexRoute(props) {
-  const [theme, setTheme] = useOutletContext<themeSet>();
-  return (
-    <>
-      <Header theme={theme} changeTheme={(theme) => setTheme(theme)} />
-      <Home />
-    </>
-  );
+import type { LinksFunction, MetaFunction } from 'react-router';
+import Notebook from '~/components/notebook/Notebook';
+import styles from '~/styles/notebook.css?url';
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
+export const meta: MetaFunction = () => [
+  { title: 'Dominick Lee — Software, paper & everything in between' },
+  {
+    name: 'description',
+    content:
+      'The personal notebook of Dominick Lee. Software engineer, tinkerer, paper folder, calligraphy hobbyist. A collection of projects, ideas, and everyday curiosities.',
+  },
+];
+export default function Index() {
+  return <Notebook />;
 }

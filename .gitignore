@@ -1,7 +1,12 @@
-# Local Netlify folder
 .netlify
 node_modules
 .cache
 .DS_Store
 .env
-public
+build/
+.react-router/
+public/build/
+playwright-report/
+test-results/
+.env.*
+!.env.example

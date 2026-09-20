@@ -1,5 +1,5 @@
-import { Outlet } from '@remix-run/react';
-import stylesUrl from '~/styles/app.css';
+import { Outlet } from 'react-router';
+import stylesUrl from '~/styles/app.css?url';
 
 export const links = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }];

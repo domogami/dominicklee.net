@@ -1,0 +1,501 @@
+import {
+  pageIndex,
+  folio,
+  type NotebookPage,
+} from '../app/components/notebook/pageIndex';
+import { test, expect } from '@playwright/test';
+
+test('notebook loads without runtime errors and writing lives in the garden', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Dom Lee.' })).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Into the garden' })
+  ).toHaveAttribute('href', 'https://domogami.github.io/');
+  await expect(
+    page.getByRole('link', { name: 'Build one for your desk' })
+  ).toHaveAttribute('href', 'https://nullbits.co/snap/');
+  await expect(page.locator('.project-index .folio')).toHaveText([
+    'p.00 ↗',
+    'p.01 ↗',
+    'p.02 ↗',
+    'p.03 ↗',
+  ]);
+  await expect(page.locator('.section-heading > .folio')).toHaveText([
+    'p.06',
+    'p.07',
+    'p.08',
+  ]);
+  await expect(page.locator('#now .folded-banner')).toHaveCount(1);
+  await expect(page.locator('img')).toHaveCount(2);
+  await expect
+    .poll(() =>
+      page
+        .locator('img')
+        .evaluateAll((images) =>
+          images.every(
+            (img) =>
+              (img as HTMLImageElement).complete &&
+              (img as HTMLImageElement).naturalWidth > 0
+          )
+        )
+    )
+    .toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    )
+  ).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test('mobile menu opens, traps focus, closes, and navigates', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const open = page.getByRole('button', { name: 'Open menu' });
+  await open.click();
+  await expect(
+    page.getByRole('button', { name: 'Close menu' })
+  ).toHaveAttribute('aria-expanded', 'true');
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Mobile navigation' })
+      .getByRole('link', { name: 'Works' })
+  ).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByRole('button', { name: 'Close menu' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(open).toBeFocused();
+  await open.click();
+  await page
+    .getByRole('navigation', { name: 'Mobile navigation' })
+    .getByRole('link', { name: 'Contact' })
+    .click();
+  await expect(open).toHaveAttribute('aria-expanded', 'false');
+  expect(page.url()).toContain('#contact');
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    )
+  ).toBe(true);
+});
+
+test('photo stack works on touch and motion can be stopped', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const photos = page.getByRole('button', {
+    name: 'Swap SNAP75 keyboard photos',
+  });
+  await photos.click();
+  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+  await photos.click();
+  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Motion: on' }).click();
+  await expect(page.locator('.notebook')).toHaveClass(/motion-paused/);
+  await expect(
+    page.getByRole('button', { name: 'Motion: quiet' })
+  ).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('reduced motion is respected', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.notebook')).toHaveClass(/motion-paused/);
+  expect(
+    await page
+      .locator('.crane-animated path')
+      .first()
+      .evaluate((el) => getComputedStyle(el).animationName)
+  ).toBe('none');
+});
+
+test('archived UI is a separate document and retains theme switching', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: /Previous portfolio/ }).click();
+  await expect(page).toHaveURL(/\/archive\/portfolio\//);
+  await expect(page.locator('.home')).toBeVisible();
+  await expect
+    .poll(() =>
+      page
+        .locator('img')
+        .evaluateAll((images) =>
+          images.every(
+            (img) =>
+              (img as HTMLImageElement).complete &&
+              (img as HTMLImageElement).naturalWidth > 0
+          )
+        )
+    )
+    .toBe(true);
+  expect(await page.locator('.notebook').count()).toBe(0);
+  expect(
+    await page
+      .locator('script[src]')
+      .evaluateAll((items) => items.map((el) => el.getAttribute('src')))
+  ).toEqual(['/archive/portfolio/theme.js']);
+  await page
+    .getByRole('combobox', { name: 'Color theme' })
+    .selectOption('Dark');
+  await expect(page.locator('body')).toHaveClass('theme--Dark');
+  await page.getByRole('link', { name: 'Back to the new notebook' }).click();
+  expect(
+    await page
+      .locator('link[rel=stylesheet]')
+      .evaluateAll((items) =>
+        items.some((el) => el.getAttribute('href')?.includes('legacy.css'))
+      )
+  ).toBe(false);
+});
+
+test('retired blog, admin and upload URLs are unavailable', async ({
+  request,
+}) => {
+  for (const path of [
+    '/blog',
+    '/blog/old-post',
+    '/admin',
+    '/admin/new',
+    '/.netlify/functions/uploadImage',
+  ])
+    expect((await request.get(path)).status()).toBe(404);
+});
+
+test('retained projects render', async ({ page }) => {
+  await page.goto('/startpage');
+  await expect(
+    page.getByRole('heading', { name: 'Welcome Back Dom' })
+  ).toBeVisible();
+  await page
+    .getByRole('combobox', { name: 'Color theme' })
+    .selectOption('Light');
+  await expect(page.locator('body')).toHaveClass('theme--Light');
+  await page.goto('/drinks');
+  await expect(
+    page.getByRole('heading', { name: "Max's Drinks" })
+  ).toBeVisible();
+  await page
+    .getByRole('combobox', { name: 'Color theme' })
+    .selectOption('Dark');
+  await expect(page.locator('body')).toHaveClass('theme--Dark');
+});
+
+test('copy stays between grid rows at narrow and wide sizes', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true);
+    for (const selector of [
+      '.intro-copy',
+      '.project-story .grid-copy',
+      '.project-index .index-row',
+      '.now .life-list',
+      '.garden-intro',
+    ]) {
+      const offset = await page
+        .locator(selector)
+        .first()
+        .evaluate((el) => {
+          const grid = el.closest('.dot-paper,.section-grid')!;
+          return (
+            (el.getBoundingClientRect().top -
+              grid.getBoundingClientRect().top) %
+            32
+          );
+        });
+      expect(
+        Math.min(offset, 32 - offset),
+        `${selector} at ${width}px`
+      ).toBeLessThan(1);
+    }
+  }
+});
+
+test('hobby erases independently while the single-line prefix stays fixed', async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  const tagline = page.locator('.hobby-tagline');
+  const prefix = tagline.locator(':scope > text').first();
+  await expect(prefix).toHaveText('Currently distracted by');
+  const before = await prefix.boundingBox();
+  await page.clock.runFor(4300);
+  await expect(page.locator('.hobby-reveal')).toHaveClass(/erasing/);
+  await page.clock.runFor(400);
+  await expect(page.locator('.hobby-word')).toHaveText('origami');
+  await expect(page.locator('.hobby-reveal')).toHaveClass(/writing/);
+  await page.clock.runFor(650);
+  const after = await prefix.boundingBox();
+  expect(after.x).toBeCloseTo(before.x, 1);
+  expect(after.y).toBeCloseTo(before.y, 1);
+  for (const word of [
+    'calligraphy',
+    'journaling',
+    'reading',
+    'tinkering',
+    'exploring',
+    'gaming',
+    'cycling',
+    'yoyoing',
+    'coffee',
+  ]) {
+    await page.clock.runFor(4200);
+    await expect(page.locator('.hobby-reveal')).toHaveClass(/erasing/);
+    await page.clock.runFor(380);
+    await expect(page.locator('.hobby-word')).toHaveText(word);
+    await page.clock.runFor(650);
+    await expect(page.locator('.hobby-reveal')).toHaveClass(/holding/);
+  }
+  await expect(page.locator('.hobby-word')).toHaveText('coffee');
+  const bounds = await tagline.boundingBox();
+  expect(bounds.x + bounds.width).toBeLessThanOrEqual(320);
+  expect(await prefix.boundingBox()).toEqual(after);
+});
+
+test('notebook drawings reveal on entry and separators follow the grid', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('.polaroid-stack .tape')).toHaveCount(0);
+  await page.locator('#now').scrollIntoViewIfNeeded();
+  await expect(page.locator('.folded-banner')).toHaveClass(/is-drawn/);
+  await page.locator('#garden').scrollIntoViewIfNeeded();
+  await expect(page.locator('.garden-plant')).toHaveClass(/is-drawn/);
+  await expect(page.locator('#garden .animated-note')).toHaveClass(/is-drawn/);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const leader of await page.locator('.index-row > .leader').all()) {
+      const phase = await leader.evaluate((el) => {
+        const grid = el.closest('.section-grid')!;
+        const r = el.getBoundingClientRect();
+        return (r.top + r.height / 2 - grid.getBoundingClientRect().top) % 32;
+      });
+      expect(phase).toBeCloseTo(16, 0);
+    }
+  }
+});
+
+test('sticky header compacts without shifting content and index returns to top', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  const header = page.locator('.masthead');
+  const initialMain = await page
+    .locator('#main')
+    .evaluate((el) => el.getBoundingClientRect().top + scrollY);
+  await expect.poll(async () => (await header.boundingBox())?.height).toBe(96);
+  await page.evaluate(() => scrollTo(0, 500));
+  await expect.poll(async () => (await header.boundingBox())?.height).toBe(64);
+  expect((await header.boundingBox())?.y).toBe(0);
+  expect(
+    await page
+      .locator('#main')
+      .evaluate((el) => el.getBoundingClientRect().top + scrollY)
+  ).toBe(initialMain);
+  expect(
+    await page
+      .locator('.masthead-dock')
+      .evaluate((el) => getComputedStyle(el).backgroundColor)
+  ).toBe('rgb(43, 48, 52)');
+  await page.getByRole('link', { name: 'Index — back to the top' }).click();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect.poll(async () => (await header.boundingBox())?.height).toBe(96);
+});
+
+test('header crane is still initially and replays on focus with motion enabled', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const brand = page.getByRole('link', { name: 'Dom Lee home' });
+  await expect(brand.locator('.crane-animated')).toHaveCount(0);
+  await brand.focus();
+  await expect(brand.locator('.crane-animated')).toHaveCount(1);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect
+    .poll(() =>
+      brand
+        .locator('path')
+        .first()
+        .evaluate((el) => getComputedStyle(el).animationName)
+    )
+    .toBe('none');
+});
+
+test('whole contact invitation is one mail link and garden stays composed at wide sizes', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const contact = page.getByRole('link', {
+    name: 'Send an email to Dom at domogami@gmail.com',
+  });
+  await expect(contact).toHaveAttribute('href', 'mailto:domogami@gmail.com');
+  await expect(contact.locator('.contact-banner')).toHaveCount(1);
+  await expect(contact.locator('.contact-illustration')).toHaveCount(1);
+  await expect(contact.locator('a')).toHaveCount(0);
+  for (const width of [320, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const link = await page.locator('.garden-intro .text-link').boundingBox();
+    const copy = await page.locator('.garden-intro .grid-copy').boundingBox();
+    const plant = await page.locator('.garden-plant').boundingBox();
+    const intro = await page.locator('.garden-intro').boundingBox();
+    expect(link!.x).toBeCloseTo(copy!.x, 0);
+    expect(link!.y).toBeGreaterThanOrEqual(copy!.y + copy!.height);
+    expect(plant!.x + plant!.width).toBeCloseTo(intro!.x + intro!.width, 0);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true);
+  }
+});
+
+test('folio references are unique by destination and consistent throughout the notebook', async ({
+  page,
+}) => {
+  const entries = Object.values(pageIndex);
+  expect(new Set(entries.map((entry) => entry.number)).size).toBe(
+    entries.length
+  );
+  expect(new Set(entries.map((entry) => entry.href)).size).toBe(entries.length);
+  await page.goto('/');
+  const references = await page.locator('[data-page]').evaluateAll((elements) =>
+    elements.map((el) => ({
+      key: el.getAttribute('data-page')!,
+      text: el.textContent!,
+      href: el.closest('a')?.getAttribute('href'),
+    }))
+  );
+  for (const reference of references) {
+    const key = reference.key as NotebookPage;
+    expect(reference.text.trim()).toMatch(
+      new RegExp(`^${folio(key).replace('.', '\\.')}($| )`)
+    );
+    if (reference.href) expect(reference.href).toBe(pageIndex[key].href);
+  }
+  for (const key of Object.keys(pageIndex))
+    expect(references.some((reference) => reference.key === key)).toBe(true);
+});
+
+test('plant drawing replays on hover, click and keyboard without overriding quiet motion', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const plant = page.getByRole('button', {
+    name: 'Replay plant drawing animation',
+  });
+  await plant.scrollIntoViewIfNeeded();
+  await expect(plant).toHaveClass(/is-drawn/);
+  const stem = plant.locator('.plant-stem');
+  const progress = () =>
+    stem.evaluate((el) => Number(el.getAnimations()[0]?.currentTime ?? 0));
+  await expect.poll(progress).toBeGreaterThanOrEqual(1000);
+  await plant.hover();
+  await expect.poll(progress).toBeLessThan(500);
+  await expect.poll(progress).toBeGreaterThanOrEqual(1000);
+  await plant.click();
+  await expect.poll(progress).toBeLessThan(500);
+  await expect.poll(progress).toBeGreaterThanOrEqual(1000);
+  await plant.press('Enter');
+  await expect.poll(progress).toBeLessThan(500);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await plant.click();
+  await expect
+    .poll(() => stem.evaluate((el) => getComputedStyle(el).animationName))
+    .toBe('none');
+  expect(
+    await stem.evaluate((el) => getComputedStyle(el).strokeDashoffset)
+  ).toBe('0px');
+});
+
+test('both hero dot grids drift without moving the writing', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  const dots = page.locator('.hero-teal .moving-dots');
+  const y = () =>
+    dots.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
+  const before = await y();
+  const grid = await page
+    .locator('.hero-paper')
+    .evaluate((el) => getComputedStyle(el).backgroundPosition);
+  await page.evaluate(() => scrollTo({ top: 300, behavior: 'instant' }));
+  await expect.poll(y).not.toBe(before);
+  expect(Math.abs(await y())).toBeLessThanOrEqual(90);
+  expect(Math.abs((await y()) - before)).toBeGreaterThan(24);
+  expect(
+    await page
+      .locator('.hero-paper')
+      .evaluate((el) => getComputedStyle(el).backgroundPosition)
+  ).not.toBe(grid);
+  const crane = await page
+    .locator('.crane-display')
+    .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
+  expect(Math.abs(crane)).toBeLessThanOrEqual(3.5);
+  expect(crane * (await y())).toBeLessThanOrEqual(0);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(y).toBe(0);
+  expect(
+    await page
+      .locator('.hero-paper')
+      .evaluate((el) => getComputedStyle(el).backgroundPosition)
+  ).toBe('0px -16px');
+});
+
+test('navigation dot follows scroll position, footer and mobile index', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const desktop = page.getByRole('navigation', { name: 'Main navigation' });
+  const index = page.getByRole('link', { name: 'Index — back to the top' });
+  await expect(index).toHaveAttribute('aria-current', 'location');
+  for (const [id, name] of [
+    ['works', 'Works'],
+    ['now', 'Now'],
+    ['garden', 'Garden'],
+    ['contact', 'Contact'],
+  ]) {
+    await page.evaluate((id) => {
+      const el = document.getElementById(id)!;
+      scrollTo(0, el.getBoundingClientRect().top + scrollY - 100);
+    }, id);
+    await expect(desktop.getByRole('link', { name })).toHaveAttribute(
+      'aria-current',
+      'location'
+    );
+    await expect(desktop.locator('[aria-current]')).toHaveCount(1);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  await page.getByRole('button', { name: 'Open menu' }).click();
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Mobile navigation' })
+      .getByRole('link', { name: 'Contact' })
+  ).toHaveAttribute('aria-current', 'location');
+  await page.keyboard.press('Escape');
+  await index.click();
+  await expect(index).toHaveAttribute('aria-current', 'location');
+  await expect(desktop.locator('[aria-current]')).toHaveCount(0);
+});

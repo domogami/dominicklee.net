@@ -1,4 +1,4 @@
-import stylesUrl from '~/styles/app.css';
+import stylesUrl from '~/styles/app.css?url';
 import ThemeSetter from '~/components/ThemeSetter';
 
 export const links = () => {

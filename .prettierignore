@@ -1,3 +1,14 @@
-# Ignore artifacts:
-build
-app/styles/*
+node_modules/
+build/
+.netlify/
+.react-router/
+playwright-report/
+test-results/
+app/archive/
+public/
+app/styles/app.css
+app/styles/abstracts/
+app/styles/components/
+app/styles/core/
+app/styles/layout/
+app/styles/pages/

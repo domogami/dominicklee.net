@@ -1,4 +1,4 @@
-import stylesUrl from '~/styles/app.css';
+import stylesUrl from '~/styles/app.css?url';
 import startpageImage from '~/images/Logo_Transparent.svg';
 import StartpageGridItem from '~/components/startpageGridItem';
 
@@ -10,7 +10,7 @@ export default function Index() {
   const sectionOne = [
     {
       name: 'office',
-      link: 'https://dp7q8vw2s4v0r.cloudfront.net/story-editor',
+      link: 'https://domogami.github.io/',
     },
     { name: 'garden', link: 'https://domogami.github.io/' },
     { name: 'dom', link: 'https://dominicklee.net' },
@@ -42,7 +42,7 @@ export default function Index() {
   return (
     <div className='startpage-hero-container'>
       <div className='startpage-hero'>
-        <img src={startpageImage} />
+        <img src={startpageImage} alt='Origami crane' />
         <div className='startpage-grid'>
           <StartpageGridItem title='~/dev' links={sectionOne} />
           <StartpageGridItem title='~/work' links={sectionTwo} />

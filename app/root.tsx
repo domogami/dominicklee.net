@@ -1,50 +1,56 @@
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLocation,
-} from '@remix-run/react';
-import type { MetaFunction } from '@remix-run/node';
-import ThemeProvider from './components/ThemeProvider';
-import { useState } from 'react';
-export const meta: MetaFunction = () => {
-  return [
-    { title: "I'm Dominick Lee" },
-    { name: 'description', content: 'Everything Software Engineering' },
-    { name: 'keywords', content: 'Dominick,Lee' },
-    { name: 'twitter:image', content: 'https://dominicklee.com/awesome.png' },
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:creator', content: '@domogami' },
-    { name: 'twitter:site', content: '@dom3lee' },
-    { name: 'twitter:title', content: "Hey, I'm Dom" },
-    { name: 'twitter:description', content: 'Everything Software Engineering' },
-  ];
-};
-
-export default function App() {
-  const location = useLocation();
-  const [theme, setTheme] = useState(() =>
-    location.pathname.startsWith('/startpage') ? 'Dark' : 'Light'
-  );
+  isRouteErrorResponse,
+} from 'react-router';
+import type { Route } from './+types/root';
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en' className={`theme--${theme}`}>
+    <html lang='en'>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
+        <meta name='theme-color' content='#0e7c79' />
+        <link rel='icon' href='/favicon.svg?v=hexagon' type='image/svg+xml' />
         <Meta />
         <Links />
       </head>
-      <body className={`theme--${theme}`}>
-        <ThemeProvider theme={theme} setTheme={setTheme}>
-          <Outlet context={[theme, setTheme]} />
-          <ScrollRestoration />
-          <Scripts />
-          {process.env.NODE_ENV === 'development' && <LiveReload />}
-        </ThemeProvider>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
+  );
+}
+export default function App() {
+  return <Outlet />;
+}
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const missing = isRouteErrorResponse(error) && error.status === 404;
+  return (
+    <main
+      style={{
+        fontFamily: 'system-ui',
+        padding: '10vw',
+        background: '#efe7d7',
+        minHeight: '100vh',
+        boxSizing: 'border-box',
+      }}
+    >
+      <h1>
+        {missing ? 'This page has been folded away.' : 'Something went wrong.'}
+      </h1>
+      <p>
+        {missing
+          ? 'Try the notebook, or wander through my digital garden.'
+          : 'Please refresh the page and try again.'}
+      </p>
+      <a href='/'>Back to the notebook</a> ·{' '}
+      <a href='https://domogami.github.io/'>Digital garden ↗</a>
+    </main>
   );
 }

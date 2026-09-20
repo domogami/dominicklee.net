@@ -1,13 +1,14 @@
 import ThemeSetter from '../components/ThemeSetter';
-import { useOutletContext } from '@remix-run/react';
-import { Outlet } from '@remix-run/react';
+import { useOutletContext } from 'react-router';
+import { Outlet } from 'react-router';
 import React from 'react';
 
 export const useDate = () => {
   const locale = 'en';
-  const [today, setDate] = React.useState(new Date()); // Save the current date to be able to trigger an update
+  const [today, setDate] = React.useState<Date | null>(null); // Save the current date to be able to trigger an update
 
   React.useEffect(() => {
+    setDate(new Date());
     const timer = setInterval(() => {
       // Creates an interval which will update the current data every minute
       // This will trigger a rerender every component that uses the useDate hook.
@@ -18,6 +19,7 @@ export const useDate = () => {
     };
   }, []);
 
+  if (!today) return { date: '', time: '', wish: '' };
   const day = today.toLocaleDateString(locale, { weekday: 'long' });
   const date = `${day}, ${today.getDate()} ${today.toLocaleDateString(locale, {
     month: 'long',
@@ -42,8 +44,8 @@ export const useDate = () => {
 };
 
 export type themeSet = {
-  theme: String;
-  [Symbol.iterator]();
+  theme: string;
+  [Symbol.iterator](): Iterator<any>;
 };
 
 export default function Startpage() {
