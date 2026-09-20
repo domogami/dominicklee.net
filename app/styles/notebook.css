@@ -111,6 +111,13 @@
 @font-face {
   font-family: 'Lexend';
   font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Lexend-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
   font-weight: 300;
   font-display: swap;
   src: url('/fonts/Lexend-Light.ttf') format('truetype');
@@ -1919,7 +1926,7 @@ html:has(.notebook.motion-paused) {
 .notebook .journey h4 {
   margin: 0;
   font:
-    300 23px/32px 'Lexend',
+    500 23px/32px 'Lexend',
     sans-serif;
   color: #fff7e7;
 }
@@ -2940,7 +2947,7 @@ html:has(.notebook.motion-paused) {
   left: -12px;
 }
 .notebook .photo-arrow-next {
-  right: -12px;
+  right: -18px;
 }
 .notebook .photo-arrow-previous:hover {
   transform: translateX(-3px);
@@ -2956,7 +2963,7 @@ html:has(.notebook.motion-paused) {
   text-align: center;
   color: var(--mint);
   font:
-    22px/32px 'Caveat',
+    18px/32px 'Caveat',
     cursive;
 }
 @media (max-width: 600px) {

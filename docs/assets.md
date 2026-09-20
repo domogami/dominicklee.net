@@ -23,3 +23,5 @@ The supplied standalone HTML provided the WOFF2 subsets. Kalam Bold was added fr
 The legacy projects/archive retain their original font loading behavior, including Google Fonts imports. The notebook itself loads its fonts locally.
 
 Notebook typography: `Lexend-Light.ttf` (weight 300), downloaded from Google Fonts, replaces Spline Sans for notebook body copy and key labels. License: `public/fonts/lexend-OFL.txt` ([Google Fonts source](https://github.com/google/fonts/tree/main/ofl/lexend)). Original Spline Sans assets are retained for comparison.
+
+Timeline milestone headings use the self-hosted `Lexend-Medium.ttf` (weight 500), covered by the same Lexend OFL license.
