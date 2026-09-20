@@ -61,6 +61,11 @@ export default function Notebook() {
   const menu = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLDivElement>(null);
   const activeMotion = motion && !reduced;
+  const cyclePhoto = (direction: 'left' | 'right') => {
+    if (swipeDirection) return;
+    if (activeMotion) setSwipeDirection(direction);
+    setPhoto((value) => !value);
+  };
   useEffect(() => {
     if (!swipeDirection) return;
     const timer = window.setTimeout(() => setSwipeDirection(null), 480);
@@ -389,67 +394,99 @@ export default function Notebook() {
               page='works'
             />
             <div className='featured-project'>
-              <button
-                className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
-                onPointerDown={(event) => {
-                  suppressPhotoClick.current = false;
-                  if (event.pointerType === 'mouse' || !event.isPrimary) return;
-                  photoGesture.current = {
-                    id: event.pointerId,
-                    x: event.clientX,
-                    y: event.clientY,
-                  };
-                  event.currentTarget.setPointerCapture(event.pointerId);
-                }}
-                onPointerUp={(event) => {
-                  const start = photoGesture.current;
-                  if (!start || start.id !== event.pointerId) return;
-                  photoGesture.current = null;
-                  const dx = Math.abs(event.clientX - start.x);
-                  const dy = Math.abs(event.clientY - start.y);
-                  suppressPhotoClick.current = Math.max(dx, dy) > 10;
-                  if (dx >= 40 && dx > dy * 1.5 && !swipeDirection) {
-                    if (activeMotion)
-                      setSwipeDirection(
-                        event.clientX < start.x ? 'left' : 'right'
-                      );
-                    setPhoto((v) => !v);
-                  }
-                }}
-                onPointerCancel={() => {
-                  photoGesture.current = null;
-                  suppressPhotoClick.current = true;
-                }}
-                onClick={(event) => {
-                  // A swipe also generates a click; don't swap straight back.
-                  if (event.detail === 0 || !suppressPhotoClick.current) {
-                    setPhoto((v) => !v);
-                  }
-                }}
-                aria-label='Swap SNAP75 keyboard photos'
-                aria-pressed={photo}
+              <div
+                className='polaroid-gallery'
+                role='group'
+                aria-label='SNAP75 photo gallery'
               >
-                <span className='polaroid polaroid-back'>
-                  <img
-                    src='/images/snap75-top.jpg'
-                    alt='SNAP75 keyboard from above, with two OLED displays and colorful keycaps'
-                    width='1600'
-                    height='898'
-                    loading='lazy'
-                  />
-                  <span>every little detail.</span>
+                <button
+                  type='button'
+                  className='photo-arrow photo-arrow-previous'
+                  aria-label='Previous SNAP75 photo'
+                  onClick={() => cyclePhoto('right')}
+                >
+                  <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
+                    <path d='M34 17 C25 14 15 18 6 16 M16 6 Q11 12 6 16 Q11 20 16 25' />
+                  </svg>
+                </button>
+                <button
+                  className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+                  onPointerDown={(event) => {
+                    suppressPhotoClick.current = false;
+                    if (event.pointerType === 'mouse' || !event.isPrimary)
+                      return;
+                    photoGesture.current = {
+                      id: event.pointerId,
+                      x: event.clientX,
+                      y: event.clientY,
+                    };
+                    event.currentTarget.setPointerCapture(event.pointerId);
+                  }}
+                  onPointerUp={(event) => {
+                    const start = photoGesture.current;
+                    if (!start || start.id !== event.pointerId) return;
+                    photoGesture.current = null;
+                    const dx = Math.abs(event.clientX - start.x);
+                    const dy = Math.abs(event.clientY - start.y);
+                    suppressPhotoClick.current = Math.max(dx, dy) > 10;
+                    if (dx >= 40 && dx > dy * 1.5) {
+                      cyclePhoto(event.clientX < start.x ? 'left' : 'right');
+                    }
+                  }}
+                  onPointerCancel={() => {
+                    photoGesture.current = null;
+                    suppressPhotoClick.current = true;
+                  }}
+                  onClick={(event) => {
+                    // A swipe also generates a click; don't swap straight back.
+                    if (event.detail === 0 || !suppressPhotoClick.current) {
+                      setPhoto((v) => !v);
+                    }
+                  }}
+                  aria-label='Swap SNAP75 keyboard photos'
+                  aria-pressed={photo}
+                >
+                  <span className='polaroid polaroid-back'>
+                    <img
+                      src='/images/snap75-top.jpg'
+                      alt='SNAP75 keyboard from above, with two OLED displays and colorful keycaps'
+                      width='1600'
+                      height='898'
+                      loading='lazy'
+                    />
+                    <span>every little detail.</span>
+                  </span>
+                  <span className='polaroid polaroid-front'>
+                    <img
+                      src='/images/snap75-desk.jpg'
+                      alt='Hand-soldered SNAP75 keyboard on my desk'
+                      width='1600'
+                      height='898'
+                      loading='lazy'
+                    />
+                    <span>the first one I ever soldered</span>
+                  </span>
+                </button>
+                <button
+                  type='button'
+                  className='photo-arrow photo-arrow-next'
+                  aria-label='Next SNAP75 photo'
+                  onClick={() => cyclePhoto('left')}
+                >
+                  <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
+                    <path d='M6 16 C15 18 25 14 34 16 M24 6 Q29 12 34 16 Q29 20 24 25' />
+                  </svg>
+                </button>
+                <span
+                  className='photo-counter'
+                  role='status'
+                  aria-live='polite'
+                  aria-atomic='true'
+                >
+                  <span aria-hidden='true'>{photo ? '2/2' : '1/2'}</span>
+                  <span className='sr-only'>Photo {photo ? 2 : 1} of 2</span>
                 </span>
-                <span className='polaroid polaroid-front'>
-                  <img
-                    src='/images/snap75-desk.jpg'
-                    alt='Hand-soldered SNAP75 keyboard on my desk'
-                    width='1600'
-                    height='898'
-                    loading='lazy'
-                  />
-                  <span>the first one I ever soldered</span>
-                </span>
-              </button>
+              </div>
               <div className='project-story'>
                 <p className='eyebrow status'>
                   × &nbsp; Made &amp; loved · featured build ·{' '}

@@ -577,3 +577,36 @@ test('desktop photos stay still on hover and clicks retain the selected card', a
   await expect(front).toHaveCSS('z-index', '2');
   await expect(back).toHaveCSS('z-index', '1');
 });
+
+test('photo arrows loop and counter stays in sync with clicks at mobile and desktop sizes', async ({
+  page,
+}) => {
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const gallery = page.getByRole('group', { name: 'SNAP75 photo gallery' });
+    const counter = gallery.getByRole('status');
+    const photos = gallery.getByRole('button', {
+      name: 'Swap SNAP75 keyboard photos',
+    });
+    await expect(counter).toContainText('1/2');
+    await gallery.getByRole('button', { name: 'Next SNAP75 photo' }).click();
+    await expect(counter).toContainText('2/2');
+    await expect(photos).not.toHaveClass(/swipe-left/);
+    await gallery.getByRole('button', { name: 'Next SNAP75 photo' }).click();
+    await expect(counter).toContainText('1/2');
+    await expect(photos).not.toHaveClass(/swipe-left/);
+    await gallery
+      .getByRole('button', { name: 'Previous SNAP75 photo' })
+      .click();
+    await expect(counter).toContainText('2/2');
+    await expect(photos).not.toHaveClass(/swipe-right/);
+    await photos.click();
+    await expect(counter).toContainText('1/2');
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth
+      )
+    ).toBe(true);
+  }
+});
