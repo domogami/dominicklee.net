@@ -31,7 +31,7 @@ Use existing CSS variables (`--paper`, `--ink`, `--teal`, `--mint`, `--grid`, `-
 | Family        | Role                                                   |
 | ------------- | ------------------------------------------------------ |
 | Poppins       | Name, brand and structural display text                |
-| Spline Sans   | Body copy                                              |
+| Lexend (300)  | Body copy and key labels                               |
 | IBM Plex Mono | Navigation, dates/stages, folios and small labels      |
 | Kalam Bold    | Banner text, project headings and timeline headings    |
 | Caveat        | Informal notes, crane caption, index and hobby tagline |
