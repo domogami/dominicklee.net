@@ -479,7 +479,7 @@ body:has(.notebook) {
   width: 226px;
   padding: 20px 28px 24px;
   background: #cfe3d6;
-  color: var(--ink);
+  color: #0b5f5d;
   transform: rotate(3deg);
   box-shadow: 7px 9px 0 #00474440;
   margin: 16px 0 24px;
@@ -495,7 +495,7 @@ body:has(.notebook) {
 }
 .notebook .key-note dt {
   width: 12px;
-  color: #0b5f5d;
+  color: inherit;
   font: 20px/24px 'IBM Plex Mono';
 }
 .notebook .tape {
@@ -2304,7 +2304,7 @@ html:has(.notebook.motion-paused) {
   font:
     10px/18px 'IBM Plex Mono',
     monospace;
-  color: #215e53;
+  color: inherit;
 }
 .notebook .key-source span {
   text-decoration: underline;
@@ -2919,7 +2919,7 @@ html:has(.notebook.motion-paused) {
   top: calc(50% - 54px);
   width: 44px;
   height: 44px;
-  padding: 4px;
+  padding: 8px;
   border: 0;
   background: transparent;
   color: var(--mint);
@@ -2938,10 +2938,10 @@ html:has(.notebook.motion-paused) {
   stroke-linejoin: round;
 }
 .notebook .photo-arrow-previous {
-  left: -8px;
+  left: -12px;
 }
 .notebook .photo-arrow-next {
-  right: -8px;
+  right: -12px;
 }
 .notebook .photo-arrow-previous:hover {
   transform: translateX(-3px);
@@ -2957,7 +2957,7 @@ html:has(.notebook.motion-paused) {
   text-align: center;
   color: var(--mint);
   font:
-    26px/32px 'Caveat',
+    22px/32px 'Caveat',
     cursive;
 }
 @media (max-width: 600px) {
