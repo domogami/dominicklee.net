@@ -23,6 +23,7 @@ test('notebook loads without runtime errors and writing lives in the garden', as
     'p.01 ↗',
     'p.02 ↗',
     'p.03 ↗',
+    'p.14 ↗',
   ]);
   await expect(page.locator('.section-heading > .folio')).toHaveText([
     'p.06',

@@ -47,6 +47,11 @@ export const pageIndex = {
     title: 'Life Worth Living book notes',
     href: 'https://domogami.github.io/influential-works/life-worth-living',
   },
+  officeInc: {
+    number: '14',
+    title: 'Office Inc.',
+    href: 'https://domogami.github.io/side-projects/office-inc',
+  },
 } as const;
 
 export type NotebookPage = keyof typeof pageIndex;

@@ -21,6 +21,7 @@ export const personalNotes: PersonalNote[] = [
     title: 'Building Office Inc.',
     body: 'My current project is a mobile story game set on an office desk. Swipe paper cards to make choices, navigate office politics, and reach different endings.',
     annotation: 'a work in progress.',
+    link: { label: 'Peek at Office Inc. ↗', page: 'officeInc' },
   },
   {
     id: 'done',

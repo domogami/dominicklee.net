@@ -492,6 +492,19 @@ export default function Notebook() {
                   {folio('dotfiles')} ↗
                 </span>
               </a>
+              <a href={pageIndex.officeInc.href} className='index-row'>
+                <span className='index-symbol' aria-label='Task'>
+                  •
+                </span>
+                <h3>Office Inc.</h3>
+                <span className='row-description'>
+                  a story game set on an office desk
+                </span>
+                <span className='leader' />
+                <span className='folio' data-page='officeInc'>
+                  {folio('officeInc')} ↗
+                </span>
+              </a>
             </div>
           </div>
         </section>
