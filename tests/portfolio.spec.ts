@@ -91,7 +91,7 @@ test('photo stack works on touch and motion can be stopped', async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   const photos = page.getByRole('button', {
-    name: 'Swap SNAP75 keyboard photos',
+    name: 'Swap SNAP-75 keyboard photos',
   });
   await photos.click();
   await expect(photos).toHaveAttribute('aria-pressed', 'true');
@@ -427,39 +427,25 @@ test('plant drawing replays on hover, click and keyboard without overriding quie
   ).toBe('0px');
 });
 
-test('both hero dot grids drift without moving the writing', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto('/');
-  const dots = page.locator('.hero-teal .moving-dots');
-  const y = () =>
-    dots.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
-  const before = await y();
-  const grid = await page
-    .locator('.hero-paper')
-    .evaluate((el) => getComputedStyle(el).backgroundPosition);
-  await page.evaluate(() => scrollTo({ top: 300, behavior: 'instant' }));
-  await expect.poll(y).not.toBe(before);
-  expect(Math.abs(await y())).toBeLessThanOrEqual(90);
-  expect(Math.abs((await y()) - before)).toBeGreaterThan(24);
-  expect(
-    await page
-      .locator('.hero-paper')
-      .evaluate((el) => getComputedStyle(el).backgroundPosition)
-  ).not.toBe(grid);
-  const crane = await page
-    .locator('.crane-display')
-    .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
-  expect(Math.abs(crane)).toBeLessThanOrEqual(3.5);
-  expect(crane * (await y())).toBeLessThanOrEqual(0);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect.poll(y).toBe(0);
-  expect(
-    await page
-      .locator('.hero-paper')
-      .evaluate((el) => getComputedStyle(el).backgroundPosition)
-  ).toBe('0px -16px');
+test('hero uses one stationary grid across both panels', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const hero = page.locator('.hero');
+    await expect(hero).toHaveCSS('background-size', '32px 32px');
+    await expect(hero).toHaveCSS('background-position', '0px -16px');
+    for (const panel of ['.hero-paper', '.hero-teal']) {
+      await expect(page.locator(panel)).toHaveCSS('background-image', 'none');
+      await expect(page.locator(panel)).toHaveCSS(
+        'background-color',
+        'rgba(0, 0, 0, 0)'
+      );
+    }
+    await page.evaluate(() => scrollTo({ top: 300, behavior: 'instant' }));
+    await expect(hero).toHaveCSS('background-position', '0px -16px');
+    await expect(page.locator('.crane-display')).toHaveCSS('transform', 'none');
+    await expect(page.locator('[data-parallax], .moving-dots')).toHaveCount(0);
+  }
 });
 
 test('navigation dot follows scroll position, footer and mobile index', async ({
@@ -472,7 +458,7 @@ test('navigation dot follows scroll position, footer and mobile index', async ({
   await expect(index).toHaveAttribute('aria-current', 'location');
   for (const [id, name] of [
     ['works', 'Works'],
-    ['now', 'Now'],
+    ['now', 'About'],
     ['garden', 'Garden'],
     ['contact', 'Contact'],
   ]) {
@@ -508,7 +494,7 @@ test('polaroids swipe both ways without double swapping or blocking page scrolli
   await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true });
   await page.goto('/');
   const photos = page.getByRole('button', {
-    name: 'Swap SNAP75 keyboard photos',
+    name: 'Swap SNAP-75 keyboard photos',
   });
   await photos.scrollIntoViewIfNeeded();
   const box = (await photos.boundingBox())!;
@@ -558,7 +544,7 @@ test('desktop photos stay still on hover and clicks retain the selected card', a
 }) => {
   await page.goto('/');
   const photos = page.getByRole('button', {
-    name: 'Swap SNAP75 keyboard photos',
+    name: 'Swap SNAP-75 keyboard photos',
   });
   await photos.scrollIntoViewIfNeeded();
   const front = photos.locator('.polaroid-front');
@@ -584,20 +570,20 @@ test('photo arrows loop and counter stays in sync with clicks at mobile and desk
   for (const width of [320, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    const gallery = page.getByRole('group', { name: 'SNAP75 photo gallery' });
+    const gallery = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
     const counter = gallery.getByRole('status');
     const photos = gallery.getByRole('button', {
-      name: 'Swap SNAP75 keyboard photos',
+      name: 'Swap SNAP-75 keyboard photos',
     });
     await expect(counter).toContainText('1/2');
-    await gallery.getByRole('button', { name: 'Next SNAP75 photo' }).click();
+    await gallery.getByRole('button', { name: 'Next SNAP-75 photo' }).click();
     await expect(counter).toContainText('2/2');
     await expect(photos).not.toHaveClass(/swipe-left/);
-    await gallery.getByRole('button', { name: 'Next SNAP75 photo' }).click();
+    await gallery.getByRole('button', { name: 'Next SNAP-75 photo' }).click();
     await expect(counter).toContainText('1/2');
     await expect(photos).not.toHaveClass(/swipe-left/);
     await gallery
-      .getByRole('button', { name: 'Previous SNAP75 photo' })
+      .getByRole('button', { name: 'Previous SNAP-75 photo' })
       .click();
     await expect(counter).toContainText('2/2');
     await expect(photos).not.toHaveClass(/swipe-right/);
@@ -606,6 +592,108 @@ test('photo arrows loop and counter stays in sync with clicks at mobile and desk
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth
+      )
+    ).toBe(true);
+  }
+});
+
+test('key lives below the centered crane and notebook notes loop with keyboard controls', async ({
+  page,
+}) => {
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(page.locator('.hero-teal .key-note')).toHaveCount(0);
+    const notes = page.getByRole('group', { name: 'Notebook notes' });
+    await expect(notes.getByText('on my list')).toBeVisible();
+    await expect(notes.getByRole('status')).toHaveText('Note 1 of 3');
+    const next = notes.getByRole('button', { name: 'Next notebook note' });
+    await next.click();
+    await expect(
+      notes.getByRole('heading', { name: 'Off the clock' })
+    ).toBeVisible();
+    await next.focus();
+    await page.keyboard.press('Enter');
+    await expect(
+      notes.getByRole('heading', { name: 'Keep wandering' })
+    ).toBeVisible();
+    await expect(notes.getByRole('link')).toHaveAttribute(
+      'href',
+      'https://domogami.github.io/'
+    );
+    await next.click();
+    await expect(notes.getByRole('status')).toHaveText('Note 1 of 3');
+    await notes.getByRole('button', { name: 'Previous notebook note' }).click();
+    await expect(notes.getByRole('status')).toHaveText('Note 3 of 3');
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true);
+  }
+});
+
+test('header comparison switches isolated mainline and latest designs on desktop and mobile', async ({
+  page,
+}) => {
+  for (const width of [320, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(page.locator('.margin-notes')).toHaveCount(1);
+    if (width > 760) {
+      for (const label of await page
+        .locator('.desktop-nav span[data-page]')
+        .all()) {
+        await expect(label).toBeVisible();
+      }
+      const works = page
+        .getByRole('navigation', { name: 'Main navigation' })
+        .getByRole('link', { name: /Works/ });
+      await works.click();
+      await expect(works).toHaveAttribute('aria-current', 'location');
+      await expect
+        .poll(() =>
+          works.evaluate((el) => getComputedStyle(el, '::before').opacity)
+        )
+        .toBe('1');
+      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    }
+    const latestStyles = await page
+      .locator('link[rel="stylesheet"]')
+      .evaluateAll((links) => links.map((el) => (el as HTMLLinkElement).href));
+    await page.getByRole('link', { name: 'View Ally’s Edit' }).click();
+    await expect(page).toHaveURL(/\/preview\/mainline$/);
+    await expect(page.locator('.margin-notes')).toHaveCount(0);
+    await expect(page.locator('.hero .key-note')).toHaveCount(1);
+    await expect(page.locator('.hero-teal')).toHaveCSS(
+      'background-color',
+      'rgb(14, 124, 121)'
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      'content',
+      'noindex, nofollow'
+    );
+    const mainStyles = await page
+      .locator('link[rel="stylesheet"]')
+      .evaluateAll((links) => links.map((el) => (el as HTMLLinkElement).href));
+    expect(
+      mainStyles.filter((href) => !latestStyles.includes(href))
+    ).toHaveLength(1);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true);
+    await page.getByRole('link', { name: 'View Dom’s Idea' }).click();
+    await expect(page).toHaveURL('http://localhost:3000/');
+    await expect(page.locator('.margin-notes .crane')).toHaveCount(1);
+    await expect(page.locator('.hero')).toHaveCSS(
+      'background-color',
+      'rgb(239, 231, 215)'
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
       )
     ).toBe(true);
   }

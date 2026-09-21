@@ -12,8 +12,8 @@ The first two entries preserve the website generations explicitly requested by D
 | p.03  | Dotfiles repository              | https://github.com/domogami/.dotfiles                |
 | p.04  | SNAP keyboard                    | https://nullbits.co/snap/                            |
 | p.05  | Notebook introduction            | #top                                                 |
-| p.06  | Collections                      | #works                                               |
-| p.07  | Now & then                       | #now                                                 |
+| p.06  | Works                            | #works                                               |
+| p.07  | About Me                         | #now                                                 |
 | p.08  | Garden introduction on this site | #garden                                              |
 | p.09  | Contact                          | #contact                                             |
 | p.10  | Axe Sharpening note              | https://domogami.github.io/blog-posts/axe-sharpening |

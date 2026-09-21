@@ -23,8 +23,8 @@ export const pageIndex = {
     href: 'https://nullbits.co/snap/',
   },
   home: { number: '05', title: 'Notebook introduction', href: '#top' },
-  works: { number: '06', title: 'Works', href: '#works' },
-  now: { number: '07', title: 'About Me', href: '#now' },
+  works: { number: '06', title: 'Collections', href: '#works' },
+  now: { number: '07', title: 'Now & then', href: '#now' },
   garden: { number: '08', title: 'Garden introduction', href: '#garden' },
   contact: { number: '09', title: 'Contact', href: '#contact' },
   axeSharpening: {

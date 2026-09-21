@@ -16,7 +16,7 @@ This is a review copy, not a second source of live site text. Update the compone
 
 **Brand:** Dom Lee — index
 
-**Navigation:** Works · Now · Garden · Contact
+**Navigation:** Works · About · Garden · Contact
 
 **Location/role:** Seattle · Software Engineer
 
@@ -42,11 +42,11 @@ This is a review copy, not a second source of live site text. Update the compone
 
 **Attribution:** A nod to Bullet Journal / the method behind the marks ↗
 
-## Collections
+## Works
 
 **Margin note:** things I've made & keep making
 
-**Featured build:** × Made & loved · featured build · p.04 — SNAP75
+**Featured build:** × Made & loved · featured build · p.04 — SNAP-75
 
 > A split keyboard, two little screens (one with a little bongo cat), and a whole lot of weekends spent soldering. My reminder that spending time on things I use every day can make me smile.
 
@@ -63,7 +63,7 @@ This is a review copy, not a second source of live site text. Update the compone
 
 All folios belong to one global destination index: projects p.00–p.04, notebook sections p.05–p.09, garden destinations p.10–p.12. See [page-index.md](page-index.md). Repeated numbers only reference the same destination.
 
-## Now & then
+## About Me
 
 **Margin note:** a little of my life between the lines
 

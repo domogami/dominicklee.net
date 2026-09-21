@@ -1,8 +1,7 @@
-import DesignSwitch from './DesignSwitch';
+import DesignSwitch from '../../components/notebook/DesignSwitch';
 import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
-import StickyNotes from './StickyNotes';
 import HobbyTagline from './HobbyTagline';
 import {
   AnimatedNote,
@@ -16,7 +15,7 @@ import {
 const GARDEN = pageIndex.gardenWebsite.href;
 const nav = [
   { label: 'Works', page: 'works' as const },
-  { label: 'About', page: 'now' as const },
+  { label: 'Now', page: 'now' as const },
   { label: 'Garden', page: 'garden' as const },
   { label: 'Contact', page: 'contact' as const },
 ];
@@ -117,23 +116,44 @@ export default function Notebook() {
     };
   }, []);
   useEffect(() => {
-    const hero = root.current?.querySelector<HTMLElement>('.hero');
-    const paper = root.current?.querySelector<HTMLElement>('.hero-paper');
-    if (!hero || !paper) return;
-    const center = () => {
-      // Center to the nearest grid row, keeping every text line on the dots' rhythm.
-      const inset = Math.max(
-        0,
-        Math.round((hero.clientHeight - paper.offsetHeight) / 64) * 32
-      );
-      paper.style.setProperty('--hero-inset', `${inset}px`);
+    if (!activeMotion) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      root.current
+        ?.querySelectorAll<HTMLElement>('[data-parallax]')
+        .forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          // Normalize to this panel's passage through the viewport so mobile
+          // panels do not finish drifting before they scroll into view.
+          const progress = Math.max(
+            0,
+            Math.min(
+              1,
+              (window.innerHeight - rect.top) /
+                (window.innerHeight + rect.height)
+            )
+          );
+          const shift = (progress - 0.5) * 20;
+          el.style.setProperty('--drift', `${shift.toFixed(2)}px`);
+          if (el.classList.contains('hero-paper')) {
+            const paperShift = Math.min(80, Math.max(0, -rect.top) * 0.12);
+            el.style.setProperty('--paper-drift', `${paperShift.toFixed(2)}px`);
+          }
+        });
     };
-    const observer = new ResizeObserver(center);
-    observer.observe(hero);
-    observer.observe(paper);
-    center();
-    return () => observer.disconnect();
-  }, []);
+    const scroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', scroll, { passive: true });
+    window.addEventListener('resize', scroll);
+    update();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', scroll);
+      window.removeEventListener('resize', scroll);
+    };
+  }, [activeMotion]);
   useEffect(() => {
     if (!menuOpen) return;
     const previousOverflow = document.body.style.overflow;
@@ -228,7 +248,7 @@ export default function Notebook() {
               </a>
             ))}
           </nav>
-          <DesignSwitch version='latest' />
+          <DesignSwitch version='mainline' />
           <button
             ref={menuButton}
             className={`menu-toggle ${menuOpen ? 'is-open' : ''}`}
@@ -277,8 +297,8 @@ export default function Notebook() {
         </a>
       </div>
       <main id='main' inert={menuOpen}>
-        <section className='hero dot-paper' aria-labelledby='intro-heading'>
-          <div className='hero-paper'>
+        <section className='hero' aria-labelledby='intro-heading'>
+          <div className='hero-paper dot-paper' data-parallax>
             <div className='ribbon eyebrow'>Seattle · Software Engineer</div>
             <h1 id='intro-heading'>
               Dom Lee<span className='title-period'>.</span>
@@ -309,74 +329,69 @@ export default function Notebook() {
               </span>
             </div>
           </div>
-        </section>
-        <section
-          className='margin-notes dot-paper'
-          aria-label='Notes in the margins'
-        >
-          <div className='section-inner margin-notes-layout'>
-            <div className='hero-teal'>
-              <span className='corner-label'>
-                ONE SHEET. ENDLESS POSSIBILITIES.
-              </span>
-              <div className='crane-display'>
-                <button
-                  className='crane-replay'
-                  aria-label='Replay crane folding animation'
-                  onClick={() => setCraneKey((v) => v + 1)}
-                >
-                  <Crane key={craneKey} animated />
-                </button>
-                <AnimatedNote
-                  className='crane-caption'
-                  text='A few folds, a few ideas.'
-                />
-              </div>
+          <div className='hero-teal' data-parallax>
+            <div className='moving-dots' aria-hidden='true' />
+            <span className='corner-label'>
+              ONE SHEET. ENDLESS POSSIBILITIES.
+            </span>
+            <div className='crane-display'>
+              <button
+                className='crane-replay'
+                aria-label='Replay crane folding animation'
+                onClick={() => setCraneKey((v) => v + 1)}
+              >
+                <Crane key={craneKey} animated />
+              </button>
+              <AnimatedNote
+                className='crane-caption'
+                text='A few folds, a few ideas.'
+              />
             </div>
-            <StickyNotes>
-              <aside className='key-note'>
-                <span className='tape' aria-hidden='true' />
-                <h2 className='hand-note'>
-                  <AnimatedNote text='A little key' />
-                </h2>
-                <dl>
-                  <div title='Task: something actionable to do.'>
-                    <dt aria-label='Task'>•</dt>
-                    <dd>on my list</dd>
-                  </div>
-                  <div title='Task complete: the work is done.'>
-                    <dt aria-label='Task complete'>×</dt>
-                    <dd>made &amp; loved</dd>
-                  </div>
-                  <div title='Event: a dated happening, planned or recorded.'>
-                    <dt aria-label='Event'>○</dt>
-                    <dd>a little happening</dd>
-                  </div>
-                  <div title='Note: a thought, fact, or observation to remember.'>
-                    <dt aria-label='Note'>–</dt>
-                    <dd>worth a scribble</dd>
-                  </div>
-                  <div title='Migrated task: moved to the next monthly log or a collection.'>
-                    <dt aria-label='Migrated task'>&gt;</dt>
-                    <dd>carried forward</dd>
-                  </div>
-                </dl>
-                <a
-                  className='key-source'
-                  href='https://bulletjournal.com/blogs/faq/what-is-rapid-logging-understand-rapid-logging-bullets-and-signifiers'
-                >
-                  A nod to Bullet Journal
-                  <br />
-                  <span>the method behind the marks ↗</span>
-                </a>
-              </aside>
-            </StickyNotes>
+            <aside className='key-note'>
+              <span className='tape' aria-hidden='true' />
+              <h2 className='hand-note'>
+                <AnimatedNote text='A little key' />
+              </h2>
+              <dl>
+                <div title='Task: something actionable to do.'>
+                  <dt aria-label='Task'>•</dt>
+                  <dd>on my list</dd>
+                </div>
+                <div title='Task complete: the work is done.'>
+                  <dt aria-label='Task complete'>×</dt>
+                  <dd>made &amp; loved</dd>
+                </div>
+                <div title='Event: a dated happening, planned or recorded.'>
+                  <dt aria-label='Event'>○</dt>
+                  <dd>a little happening</dd>
+                </div>
+                <div title='Note: a thought, fact, or observation to remember.'>
+                  <dt aria-label='Note'>–</dt>
+                  <dd>worth a scribble</dd>
+                </div>
+                <div title='Migrated task: moved to the next monthly log or a collection.'>
+                  <dt aria-label='Migrated task'>&gt;</dt>
+                  <dd>carried forward</dd>
+                </div>
+              </dl>
+              <a
+                className='key-source'
+                href='https://bulletjournal.com/blogs/faq/what-is-rapid-logging-understand-rapid-logging-bullets-and-signifiers'
+              >
+                A nod to Bullet Journal
+                <br />
+                <span>the method behind the marks ↗</span>
+              </a>
+            </aside>
+            <span className='crane-hint'>
+              PAPER, PATIENCE &amp; A LITTLE CURIOSITY
+            </span>
           </div>
         </section>
         <section id='works' className='works section-grid'>
           <div className='section-inner'>
             <SectionHeading
-              title='Works'
+              title='Collections'
               note="things I've made & keep making"
               page='works'
             />
@@ -384,12 +399,12 @@ export default function Notebook() {
               <div
                 className='polaroid-gallery'
                 role='group'
-                aria-label='SNAP-75 photo gallery'
+                aria-label='SNAP75 photo gallery'
               >
                 <button
                   type='button'
                   className='photo-arrow photo-arrow-previous'
-                  aria-label='Previous SNAP-75 photo'
+                  aria-label='Previous SNAP75 photo'
                   onClick={() => cyclePhoto('right')}
                 >
                   <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
@@ -430,13 +445,13 @@ export default function Notebook() {
                       setPhoto((v) => !v);
                     }
                   }}
-                  aria-label='Swap SNAP-75 keyboard photos'
+                  aria-label='Swap SNAP75 keyboard photos'
                   aria-pressed={photo}
                 >
                   <span className='polaroid polaroid-back'>
                     <img
                       src='/images/snap75-top.jpg'
-                      alt='SNAP-75 keyboard from above, with two OLED displays and colorful keycaps'
+                      alt='SNAP75 keyboard from above, with two OLED displays and colorful keycaps'
                       width='1600'
                       height='898'
                       loading='lazy'
@@ -446,7 +461,7 @@ export default function Notebook() {
                   <span className='polaroid polaroid-front'>
                     <img
                       src='/images/snap75-desk.jpg'
-                      alt='Hand-soldered SNAP-75 keyboard on my desk'
+                      alt='Hand-soldered SNAP75 keyboard on my desk'
                       width='1600'
                       height='898'
                       loading='lazy'
@@ -457,7 +472,7 @@ export default function Notebook() {
                 <button
                   type='button'
                   className='photo-arrow photo-arrow-next'
-                  aria-label='Next SNAP-75 photo'
+                  aria-label='Next SNAP75 photo'
                   onClick={() => cyclePhoto('left')}
                 >
                   <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
@@ -479,7 +494,7 @@ export default function Notebook() {
                   × &nbsp; Made &amp; loved · featured build ·{' '}
                   <span data-page='snap'>{folio('snap')}</span>
                 </p>
-                <h3>SNAP-75</h3>
+                <h3>SNAP75</h3>
                 <p className='grid-copy'>
                   A split keyboard, two little screens (one with a little bongo
                   cat), and a whole lot of weekends spent soldering. My reminder
@@ -546,45 +561,37 @@ export default function Notebook() {
         <section id='now' className='now dot-paper'>
           <div className='section-inner'>
             <SectionHeading
-              title='About Me'
+              title='Now & then'
               note='a little of my life between the lines'
               page='now'
               folded
             />
             <div className='now-columns'>
-              <div className='journey'>
+              <div>
                 <h3 className='hand-note'>
-                  <AnimatedNote text='the story so far…' />
+                  <AnimatedNote text='presently…' />
                 </h3>
-                <WrittenTimeline />
-              </div>
-              <div className='presently'>
-                <aside className='todo-note' aria-labelledby='presently-title'>
-                  <h3 id='presently-title' className='hand-note'>
-                    <AnimatedNote text='presently…' />
-                  </h3>
-                  <ul className='life-list'>
-                    <li>
-                      <span>•</span> Making time for more side projects
-                    </li>
-                    <li>
-                      <span aria-label='Note'>–</span> Exploring Seattle, one
-                      cafe at a time
-                    </li>
-                    <li>
-                      <span aria-label='Note'>–</span> Filling notebooks &amp;
-                      folding paper
-                    </li>
-                    <li>
-                      <span>×</span>
-                      Start my Digital Garden
-                    </li>
-                    <li>
-                      <span>×</span>
-                      Solder my own keyboard
-                    </li>
-                  </ul>
-                </aside>
+                <ul className='life-list'>
+                  <li>
+                    <span>•</span> Making time for more side projects
+                  </li>
+                  <li>
+                    <span aria-label='Note'>–</span> Exploring Seattle, one cafe
+                    at a time
+                  </li>
+                  <li>
+                    <span aria-label='Note'>–</span> Filling notebooks &amp;
+                    folding paper
+                  </li>
+                  <li>
+                    <span>×</span>
+                    Start my Digital Garden
+                  </li>
+                  <li>
+                    <span>×</span>
+                    Solder my own keyboard
+                  </li>
+                </ul>
                 <aside className='curiosity-note'>
                   <span className='eyebrow'>The common thread</span>
                   <AnimatedNote text='curiosity and willingness to fall down rabbit holes.' />
@@ -592,6 +599,12 @@ export default function Notebook() {
                     <path d='M8 30Q40 7 64 24T116 25Q143 6 160 22T218 19M209 12 220 19 212 29' />
                   </svg>
                 </aside>
+              </div>
+              <div className='journey'>
+                <h3 className='hand-note'>
+                  <AnimatedNote text='the story so far…' />
+                </h3>
+                <WrittenTimeline />
               </div>
             </div>
           </div>
@@ -684,7 +697,7 @@ export default function Notebook() {
           </div>
           <div className='colophon'>
             <span>© {new Date().getFullYear()} Dominick Lee</span>
-            <span>PAPER, PATIENCE &amp; A LITTLE CURIOSITY</span>
+            <span>Made with intention. Always unfolding.</span>
             <button onClick={() => setMotion((v) => !v)} aria-pressed={!motion}>
               {!activeMotion ? 'Motion: quiet' : 'Motion: on'}
             </button>

@@ -18,7 +18,7 @@ The portfolio is a personal notebook: structured writing, deliberate spacing, pa
 | ---------- | --------- | ----------------------------------------- |
 | Paper      | `#efe7d7` | Main paper surface, pale banner faces     |
 | Ink        | `#252b2e` | Body copy and dark garden banner          |
-| Teal       | `#0e7c79` | Hero illustration panel and Now & then    |
+| Teal       | `#0e7c79` | Hero illustration panel and About Me      |
 | Mint       | `#43d0c1` | Handwritten index and contact annotations |
 | Charcoal   | `#2b3034` | Header, footer and sticky-header backing  |
 | Terracotta | `#a34e36` | Rotating hobby and plant pot outline      |
@@ -46,7 +46,7 @@ Kalam's ink sits high in its line box. `--kalam-baseline: .12em` provides an opt
 - Standard section padding: **64px**; page gutter: `clamp(24px, 5vw, 80px)`; inner width: **1440px** maximum.
 - Use 32px multiples for text-bearing vertical spacing. Illustration details can use smaller increments.
 - Dot leaders are 2px tall, with a 15px top margin: their centers sit 16px into the row. Keep their grid phase intact when changing typography.
-- Keep text and controls stationary during parallax. The white hero is an intentional exception to static grid backgrounds, requested after the initial design. The teal hero dots drift by up to 90px in either direction (roughly 30px of relative movement over an ordinary 300px desktop scroll), while the crane moves at a different depth by at most 3.5px. White hero dots move 12px per 100px scrolled past the panel top, capped at 80px; at the top and in quiet mode they return to the original grid position. The key stays still. Progress is normalized to the panel passing through the viewport, including on mobile.
+- The cream hero uses one stationary 32px dot grid on the parent section. Both panels are transparent, so dots remain continuous on desktop and mobile. No hero parallax or crane drift.
 - Desktop header occupies a stable 96px layout slot. Over the first 32px of scrolling, its visible height reduces to 64px. The sticky backing stays charcoal to prevent light flashes. Mobile header remains 80px.
 - Section anchor offsets are 88px desktop and 104px mobile.
 - Main responsive changes happen at 1100px and 760px; a 360px adjustment protects the compact brand. Check at 320, 390, 768, 1024, 1440 and 1920px.
@@ -55,9 +55,9 @@ Kalam's ink sits high in its line box. `--kalam-baseline: .12em` provides an opt
 
 ### Headings and paper
 
-Standard banners are notched strips. “Now & then” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
+Standard banners are notched strips. “About Me” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
 
-The common-thread post-it uses the reviewed rabbit-hole wording. SNAP75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Green hand-drawn previous/next arrows also cycle the stack, with a live handwritten 1/2 or 2/2 counter shared by every interaction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
+The common-thread post-it uses the reviewed rabbit-hole wording. SNAP-75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Green hand-drawn previous/next arrows also cycle the stack, with a live handwritten 1/2 or 2/2 counter shared by every interaction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
 
 ### Garden
 
@@ -97,3 +97,7 @@ Keep copy changes in the components and metadata. Use [writing-review.md](writin
 There is one global destination index in `app/components/notebook/pageIndex.ts`. See [page-index.md](page-index.md) for the mapping. The registry owns the number and canonical link; render labels with `folio(key)` and links with `pageIndex[key].href`. Every displayed reference carries `data-page` for consistency checks.
 
 Never derive numbers from array position or restart numbering within a section. New destinations receive the next unused number. Reordering the layout does not renumber them. A garden article and its related repository are different destinations and receive different numbers. Banner variants remain explicit props, independent of folios.
+
+### Notes below the hero
+
+The key lives in a three-note stack directly below the hero, within the home section’s folio. The crane is centered beside the note stack on the green spread, below the full-width cream introduction. It uses the original beige paper palette and subtle fold shades. Previous/next buttons loop through the key, hobby note and garden note; the active note alone contains interactive content. The layered paper and short settling animation respect reduced motion and the motion toggle. Keep this content in `StickyNotes.tsx`; the key content is passed from `Notebook.tsx`.
