@@ -195,6 +195,19 @@ test('copy stays between grid rows at narrow and wide sizes', async ({
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
+    await page.locator('.drawn-ribbon.is-drawn').waitFor();
+    await page.evaluate(() =>
+      Promise.all(
+        document
+          .getAnimations()
+          .filter((animation) =>
+            (animation as CSSAnimation).animationName?.match(
+              /^(timeline-details|hero-)/
+            )
+          )
+          .map((animation) => animation.finished)
+      )
+    );
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth

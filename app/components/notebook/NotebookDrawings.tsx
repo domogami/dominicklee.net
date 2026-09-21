@@ -27,7 +27,7 @@ function useDrawing<T extends HTMLElement>() {
   };
 }
 
-function InkLetters({ text }: { text: string }) {
+export function InkLetters({ text }: { text: string }) {
   let index = 0;
   return (
     <span className='ink-letters' aria-hidden='true'>

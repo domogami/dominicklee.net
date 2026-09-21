@@ -6,6 +6,7 @@ import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
 import {
   DrawnRibbon,
+  InkLetters,
   AnimatedNote,
   DrawnBanner,
   GardenPlant,
@@ -279,8 +280,11 @@ export default function Notebook() {
         <section className='hero dot-paper' aria-labelledby='intro-heading'>
           <div className='hero-paper'>
             <DrawnRibbon text='Seattle · Software Engineer' />
-            <h1 id='intro-heading'>
-              Dom Lee<span className='title-period'>.</span>
+            <h1 id='intro-heading' aria-label='Dom Lee.'>
+              <InkLetters text='Dom Lee' />
+              <span className='title-period' aria-hidden='true'>
+                .
+              </span>
             </h1>
             <HobbyTagline animate={activeMotion} />
             <p className='intro-copy grid-copy'>

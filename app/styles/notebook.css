@@ -3589,42 +3589,55 @@ html:has(.notebook.motion-paused) {
   }
 }
 
-/* Hero entrance: once the ribbon's outline is inked, the rest of the page
-   settles in with one calm, shared fade. Opacity and blur only, so grid
-   positions never shift; fill-mode backwards hands hover styles back after. */
+/* Hero entrance, matching the About Me section: once the ribbon's outline is
+   inked, the name is written letter by letter, its period drops in, the
+   handwritten tagline inks across, and the smaller copy slides up. */
 @media (prefers-reduced-motion: no-preference) {
   .notebook:not(.motion-paused)
-    .hero-paper:has(> .drawn-ribbon.draw-ready:not(.is-drawn))
-    > :is(h1, .tagline, .intro-copy, .hero-actions, .hero-footnote) {
-    opacity: 0;
-  }
-  .notebook:not(.motion-paused)
-    .hero-paper:has(> .drawn-ribbon.is-drawn)
-    > :is(h1, .tagline, .intro-copy, .hero-actions, .hero-footnote) {
-    animation: hero-settle 1400ms cubic-bezier(0.33, 0, 0.2, 1) 700ms backwards;
+    .hero-paper:has(> .drawn-ribbon.draw-ready:not(.is-drawn)) {
+    & h1 .ink-letter {
+      clip-path: inset(0 100% 0 0);
+    }
+    & .title-period,
+    & > :is(.tagline, .intro-copy, .hero-actions, .hero-footnote) {
+      opacity: 0;
+    }
   }
   .notebook:not(.motion-paused) .hero-paper:has(> .drawn-ribbon.is-drawn) {
+    & h1 .ink-letter {
+      animation: note-ink 90ms linear both;
+      animation-delay: calc(700ms + var(--letter-index) * 95ms);
+    }
+    & .title-period {
+      display: inline-block;
+      animation: hero-ink-drop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 1350ms
+        backwards;
+    }
     & > .tagline {
-      animation-delay: 950ms;
+      animation: note-ink 900ms ease-in-out 1650ms backwards;
     }
     & > .intro-copy {
-      animation-delay: 1200ms;
+      animation: timeline-details 550ms ease-out 2150ms backwards;
     }
     & > .hero-actions {
-      animation-delay: 1450ms;
+      animation: timeline-details 550ms ease-out 2300ms backwards;
     }
     & > .hero-footnote {
-      animation-delay: 1700ms;
+      animation: timeline-details 550ms ease-out 2450ms backwards;
     }
   }
 }
-@keyframes hero-settle {
+@keyframes hero-ink-drop {
   from {
     opacity: 0;
-    filter: blur(3px);
+    transform: translateY(-0.6em) scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.35);
   }
   to {
     opacity: 1;
-    filter: blur(0);
+    transform: none;
   }
 }
