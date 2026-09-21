@@ -101,3 +101,7 @@ Never derive numbers from array position or restart numbering within a section. 
 ### Notes below the hero
 
 The key lives in a three-note stack directly below the hero, within the home section’s folio. The crane is centered beside the note stack on the green spread, below the full-width cream introduction. It uses the original beige paper palette and subtle fold shades. Previous/next buttons loop through the key, hobby note and garden note; the active note alone contains interactive content. The layered paper and short settling animation respect reduced motion and the motion toggle. Keep this content in `StickyNotes.tsx`; the key content is passed from `Notebook.tsx`.
+
+### Final design selection
+
+Keep the full-height cream introduction with a stationary dot grid, left-aligned vertically centered text, and the beige crane beside the note stack in the green section below. The comparison control, route and frozen alternative have been removed. The hero type is slightly smaller. The key source has a static wavy underline that flows on hover or keyboard focus, respecting reduced motion.

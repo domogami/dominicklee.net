@@ -1,8 +1,7 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
-import DesignPage, { designLinks } from '~/preview/DesignPage';
-import { designComparison } from '~/preview/config';
-export const links: LinksFunction = () =>
-  designLinks(designComparison.defaultDesign);
+import Notebook from '~/components/notebook/Notebook';
+import styles from '~/styles/notebook.css?url';
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 export const meta: MetaFunction = () => [
   { title: 'Dominick Lee — Software, paper & everything in between' },
   {
@@ -12,5 +11,5 @@ export const meta: MetaFunction = () => [
   },
 ];
 export default function Index() {
-  return <DesignPage version={designComparison.defaultDesign} />;
+  return <Notebook />;
 }

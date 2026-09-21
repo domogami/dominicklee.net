@@ -633,68 +633,34 @@ test('key lives below the centered crane and notebook notes loop with keyboard c
   }
 });
 
-test('header comparison switches isolated mainline and latest designs on desktop and mobile', async ({
+test('chosen design has no comparison and key underline flows only on interaction', async ({
   page,
 }) => {
-  for (const width of [320, 1024, 1440]) {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto('/');
-    await expect(page.locator('.margin-notes')).toHaveCount(1);
-    if (width > 760) {
-      for (const label of await page
-        .locator('.desktop-nav span[data-page]')
-        .all()) {
-        await expect(label).toBeVisible();
-      }
-      const works = page
-        .getByRole('navigation', { name: 'Main navigation' })
-        .getByRole('link', { name: /Works/ });
-      await works.click();
-      await expect(works).toHaveAttribute('aria-current', 'location');
-      await expect
-        .poll(() =>
-          works.evaluate((el) => getComputedStyle(el, '::before').opacity)
-        )
-        .toBe('1');
-      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-    }
-    const latestStyles = await page
-      .locator('link[rel="stylesheet"]')
-      .evaluateAll((links) => links.map((el) => (el as HTMLLinkElement).href));
-    await page.getByRole('link', { name: 'View Ally’s Edit' }).click();
-    await expect(page).toHaveURL(/\/preview\/mainline$/);
-    await expect(page.locator('.margin-notes')).toHaveCount(0);
-    await expect(page.locator('.hero .key-note')).toHaveCount(1);
-    await expect(page.locator('.hero-teal')).toHaveCSS(
-      'background-color',
-      'rgb(14, 124, 121)'
-    );
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-      'content',
-      'noindex, nofollow'
-    );
-    const mainStyles = await page
-      .locator('link[rel="stylesheet"]')
-      .evaluateAll((links) => links.map((el) => (el as HTMLLinkElement).href));
-    expect(
-      mainStyles.filter((href) => !latestStyles.includes(href))
-    ).toHaveLength(1);
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth
-      )
-    ).toBe(true);
-    await page.getByRole('link', { name: 'View Dom’s Idea' }).click();
-    await expect(page).toHaveURL('http://localhost:3000/');
-    await expect(page.locator('.margin-notes .crane')).toHaveCount(1);
-    await expect(page.locator('.hero')).toHaveCSS(
-      'background-color',
-      'rgb(239, 231, 215)'
-    );
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth
-      )
-    ).toBe(true);
-  }
+  await page.goto('/');
+  await expect(page.locator('.design-switch')).toHaveCount(0);
+  await expect(page.locator('.margin-notes .key-note')).toHaveCount(1);
+  const link = page.locator('.key-source');
+  const underline = link.locator('span');
+  await expect(underline).toHaveCSS('animation-name', 'none');
+  expect(
+    await underline.evaluate((el) => getComputedStyle(el).backgroundImage)
+  ).toContain('data:image/svg+xml');
+  await link.hover();
+  await expect(underline).toHaveCSS('animation-name', 'key-wave-flow');
+  const phase = await underline.evaluate(
+    (el) => getComputedStyle(el).backgroundPositionX
+  );
+  await expect
+    .poll(() =>
+      underline.evaluate((el) => getComputedStyle(el).backgroundPositionX)
+    )
+    .not.toBe(phase);
+  await page.mouse.move(0, 0);
+  await expect(underline).toHaveCSS('animation-name', 'none');
+  await link.focus();
+  await expect(underline).toHaveCSS('animation-name', 'key-wave-flow');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(underline).toHaveCSS('animation-name', 'none');
+  const response = await page.goto('/preview/mainline');
+  expect(response?.status()).toBe(404);
 });

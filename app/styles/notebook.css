@@ -2297,11 +2297,21 @@ html:has(.notebook.motion-paused) {
   color: inherit;
 }
 .notebook .key-source span {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  display: inline-block;
+  padding-bottom: 5px;
+  text-decoration: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='6' viewBox='0 0 16 6'%3E%3Cpath d='M0 3Q4 0 8 3T16 3' fill='none' stroke='%230b5f5d' stroke-width='1.3'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 16px 6px;
+  background-position: 0 100%;
 }
-.notebook .key-source:hover span {
-  text-decoration-style: wavy;
+.notebook .key-source:is(:hover, :focus-visible) span {
+  animation: key-wave-flow 800ms linear infinite;
+}
+@keyframes key-wave-flow {
+  to {
+    background-position: 16px 100%;
+  }
 }
 @media (max-width: 360px) {
   .notebook .key-note {
@@ -3285,5 +3295,42 @@ html:has(.notebook.motion-paused) {
   .notebook .hero-footnote,
   .notebook .hero-footnote .folio {
     font-size: 10px;
+  }
+}
+
+/* Slightly smaller typography on the full-height introduction. */
+.notebook .hero-paper h1 {
+  font-size: clamp(60px, 6.5vw, 90px);
+}
+.notebook .hero-paper .intro-copy {
+  font-size: 21px;
+}
+.notebook .hero-paper > .ribbon {
+  font-size: 12px;
+}
+.notebook .hero-actions .button {
+  font-size: 12px;
+  padding-inline: 26px;
+}
+.notebook .hero-footnote,
+.notebook .hero-footnote .folio {
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .notebook .hero-paper h1 {
+    font-size: clamp(49px, 11.2vw, 75px);
+  }
+  .notebook .hero-paper .intro-copy {
+    font-size: 18px;
+  }
+  .notebook .hero-paper > .ribbon {
+    font-size: 9px;
+  }
+  .notebook .hero-actions .button {
+    font-size: 11px;
+  }
+  .notebook .hero-footnote,
+  .notebook .hero-footnote .folio {
+    font-size: 9px;
   }
 }

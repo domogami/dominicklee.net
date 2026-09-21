@@ -1,4 +1,3 @@
-import DesignSwitch from './DesignSwitch';
 import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
@@ -228,7 +227,6 @@ export default function Notebook() {
               </a>
             ))}
           </nav>
-          <DesignSwitch version='latest' />
           <button
             ref={menuButton}
             className={`menu-toggle ${menuOpen ? 'is-open' : ''}`}

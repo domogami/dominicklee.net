@@ -70,7 +70,7 @@ export default function HobbyTagline({ animate }: { animate: boolean }) {
         role='img'
         aria-label={`Currently distracted by ${hobbies[index]}`}
         viewBox={`0 0 ${total} 48`}
-        style={{ maxWidth: total * 1.2 }}
+        style={{ maxWidth: total * 1.12 }}
       >
         <defs>
           <clipPath id={id}>
