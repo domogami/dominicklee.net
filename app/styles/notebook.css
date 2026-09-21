@@ -3588,3 +3588,119 @@ html:has(.notebook.motion-paused) {
     letter-spacing: 1px;
   }
 }
+
+/* Hero entrance: once the ribbon's outline is inked, the rest of the page
+   writes itself in. Opacity, clip-path and blur only on measured copy, so grid
+   positions never shift; fill-mode backwards hands hover styles back after. */
+@media (prefers-reduced-motion: no-preference) {
+  .notebook:not(.motion-paused)
+    .hero-paper:has(> .drawn-ribbon.draw-ready:not(.is-drawn))
+    > :is(h1, .tagline, .intro-copy, .hero-actions, .hero-footnote) {
+    opacity: 0;
+  }
+  .notebook:not(.motion-paused) .hero-paper:has(> .drawn-ribbon.is-drawn) {
+    & > h1 {
+      animation: hero-ink-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 550ms
+        backwards;
+    }
+    & .title-period {
+      display: inline-block;
+      animation: hero-ink-drop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 1250ms
+        backwards;
+    }
+    & > .tagline {
+      animation: hero-ink-in 800ms cubic-bezier(0.22, 1, 0.36, 1) 900ms
+        backwards;
+    }
+    & > .intro-copy {
+      animation: hero-write-down 1000ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms
+        backwards;
+    }
+    & .hero-actions .button {
+      animation: hero-stamp 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 1450ms
+        backwards;
+    }
+    & .hero-actions .button + .button {
+      animation-delay: 1580ms;
+    }
+    & .hero-footnote .tiny-cross {
+      display: inline-block;
+      transform-origin: left center;
+      animation: hero-dash 450ms ease-out 1800ms backwards;
+    }
+    & .hero-footnote > :not(.tiny-cross) {
+      animation: hero-fade 700ms ease-out 1950ms backwards;
+    }
+  }
+}
+@keyframes hero-ink-in {
+  from {
+    opacity: 0;
+    clip-path: inset(-20% 100% -20% 0);
+    filter: blur(8px);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(-20% 0 -20% 0);
+    filter: blur(0);
+  }
+}
+@keyframes hero-ink-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6em) scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.35);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-write-down {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 -10% 0);
+    filter: blur(0);
+  }
+}
+@keyframes hero-stamp {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(-3deg) scale(0.92);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) rotate(0.6deg) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-dash {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
