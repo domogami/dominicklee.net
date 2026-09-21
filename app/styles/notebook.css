@@ -3610,7 +3610,8 @@ html:has(.notebook.motion-paused) {
     }
     & .title-period {
       display: inline-block;
-      animation: hero-ink-drop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 1350ms
+      transform-origin: 50% 80%;
+      animation: hero-ink-dot 650ms cubic-bezier(0.2, 0.7, 0.3, 1) 1400ms
         backwards;
     }
     & > .tagline {
@@ -3627,17 +3628,22 @@ html:has(.notebook.motion-paused) {
     }
   }
 }
-@keyframes hero-ink-drop {
+@keyframes hero-ink-dot {
+  /* A pen tap: the ink blooms from the nib, spreads a touch as it soaks in,
+     then settles into a crisp dot. */
   from {
     opacity: 0;
-    transform: translateY(-0.6em) scale(0);
+    transform: scale(0.2);
+    filter: blur(1.5px);
   }
-  60% {
-    opacity: 1;
-    transform: translateY(0) scale(1.35);
+  35% {
+    opacity: 0.85;
+    transform: scale(1.08);
+    filter: blur(0.6px);
   }
   to {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
