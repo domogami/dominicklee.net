@@ -668,7 +668,7 @@ test('journal key opens personal notes and restores keyboard focus', async ({
     const card = (await notes.boundingBox())!;
     const crane = (await page.locator('.margin-crane').boundingBox())!;
     if (width > 760) expect(card.x + card.width).toBeLessThan(crane.x);
-    else expect(card.y + card.height).toBeLessThan(crane.y);
+    else expect(crane.y + crane.height).toBeLessThan(card.y);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth

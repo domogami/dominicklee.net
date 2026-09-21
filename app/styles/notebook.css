@@ -3538,18 +3538,19 @@ html:has(.notebook.motion-paused) {
     font-size: 32px;
   }
   .notebook .margin-notes .sticky-notes {
+    grid-row: 3;
     width: calc(100% - 24px);
     max-width: 320px;
-    margin: 0;
+    margin: 32px 0 0;
     justify-self: center;
   }
   .notebook .margin-notes .key-note {
     padding: 20px;
   }
+  /* On phones the crane leads, then the little key. */
   .notebook .margin-notes .margin-crane {
     grid-column: 1;
-    grid-row: 3;
-    margin-top: 32px;
+    grid-row: 2;
   }
   .notebook .margin-crane .crane-display {
     max-width: 336px;
