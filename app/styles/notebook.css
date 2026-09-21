@@ -3301,7 +3301,7 @@ html:has(.notebook.motion-paused) {
   }
   .notebook .hero-paper > .ribbon {
     font-size: 10px;
-    padding-inline: 16px;
+    padding-inline: 26px;
     letter-spacing: 1px;
   }
   .notebook .hero-paper .intro-copy {
