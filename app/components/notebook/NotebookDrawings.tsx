@@ -120,6 +120,28 @@ export function DrawnBanner({
   );
 }
 
+export function DrawnRibbon({ text }: { text: string }) {
+  const drawing = useDrawing<HTMLParagraphElement>();
+  return (
+    <p
+      ref={drawing.ref}
+      className={`ribbon eyebrow drawn-banner drawn-ribbon ${drawing.className}`}
+    >
+      <svg viewBox='0 0 320 80' preserveAspectRatio='none' aria-hidden='true'>
+        <path
+          className='banner-face'
+          pathLength='1'
+          d='M3 4 317 4 305 40 317 76 3 76 15 40Z'
+        />
+      </svg>
+      <span className='banner-label'>
+        <span className='visually-hidden'>{text}</span>
+        <InkLetters text={text} />
+      </span>
+    </p>
+  );
+}
+
 export function GardenPlant() {
   const drawing = useDrawing<HTMLButtonElement>();
   const [replay, setReplay] = useState(0);

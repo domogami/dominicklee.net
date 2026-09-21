@@ -55,7 +55,7 @@ Kalam's ink sits high in its line box. `--kalam-baseline: .12em` provides an opt
 
 ### Headings and paper
 
-Standard banners are notched strips. “About Me” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
+Standard banners are notched strips, including the hero’s “Seattle · Software Engineer” ribbon; each draws its outline, fills, then inks its label. “About Me” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
 
 The two About post-its have a transparent container and a paper layer clipped at the 20px folded corner. Apply the drop shadow to the container so it follows the paper silhouette; do not use a rectangular box shadow or paint over the missing corner. “Presently” uses 32px padding on desktop and 24px at 1100px and below, with 16px between list entries and no extra space after the last row.
 

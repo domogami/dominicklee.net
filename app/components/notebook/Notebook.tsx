@@ -5,6 +5,7 @@ import StickyNotes from './StickyNotes';
 import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
 import {
+  DrawnRibbon,
   AnimatedNote,
   DrawnBanner,
   GardenPlant,
@@ -277,7 +278,7 @@ export default function Notebook() {
       <main id='main' inert={menuOpen}>
         <section className='hero dot-paper' aria-labelledby='intro-heading'>
           <div className='hero-paper'>
-            <div className='ribbon eyebrow'>Seattle · Software Engineer</div>
+            <DrawnRibbon text='Seattle · Software Engineer' />
             <h1 id='intro-heading'>
               Dom Lee<span className='title-period'>.</span>
             </h1>
