@@ -4,21 +4,22 @@ Folios identify destinations, not decorative page counts or positions on screen.
 
 The first two entries preserve the website generations explicitly requested by Dom. The remaining existing projects complete that collection; the current notebook follows, then the linked garden resources. This is a stable index, not a claim about the creation dates of every project.
 
-| Folio | Destination                      | Canonical link                                       |
-| ----- | -------------------------------- | ---------------------------------------------------- |
-| p.00  | My first website                 | https://doms-old-site.netlify.app/                   |
-| p.01  | Previous portfolio               | /archive/portfolio/                                  |
-| p.02  | Startpage                        | /startpage                                           |
-| p.03  | Dotfiles repository              | https://github.com/domogami/.dotfiles                |
-| p.04  | SNAP keyboard                    | https://nullbits.co/snap/                            |
-| p.05  | Notebook introduction            | #top                                                 |
-| p.06  | Works                            | #works                                               |
-| p.07  | About Me                         | #now                                                 |
-| p.08  | Garden introduction on this site | #garden                                              |
-| p.09  | Contact                          | #contact                                             |
-| p.10  | Axe Sharpening note              | https://domogami.github.io/blog-posts/axe-sharpening |
-| p.11  | Dotfiles note                    | https://domogami.github.io/blog-posts/dotfiles       |
-| p.12  | Digital garden website           | https://domogami.github.io/                          |
+| Folio | Destination                      | Canonical link                                                 |
+| ----- | -------------------------------- | -------------------------------------------------------------- |
+| p.00  | My first website                 | https://doms-old-site.netlify.app/                             |
+| p.01  | Previous portfolio               | /archive/portfolio/                                            |
+| p.02  | Startpage                        | /startpage                                                     |
+| p.03  | Dotfiles repository              | https://github.com/domogami/.dotfiles                          |
+| p.04  | SNAP keyboard                    | https://nullbits.co/snap/                                      |
+| p.05  | Notebook introduction            | #top                                                           |
+| p.06  | Works                            | #works                                                         |
+| p.07  | About Me                         | #now                                                           |
+| p.08  | Garden introduction on this site | #garden                                                        |
+| p.09  | Contact                          | #contact                                                       |
+| p.10  | Axe Sharpening note              | https://domogami.github.io/blog-posts/axe-sharpening           |
+| p.11  | Dotfiles note                    | https://domogami.github.io/blog-posts/dotfiles                 |
+| p.12  | Digital garden website           | https://domogami.github.io/                                    |
+| p.13  | Life Worth Living book notes     | https://domogami.github.io/influential-works/life-worth-living |
 
 The source of truth is `app/components/notebook/pageIndex.ts`. New destinations get the next unused number; retain old assignments when moving or renaming content. Do not recycle a retired number. Timeline stage numbers are an ordered list of milestones, not folios.
 

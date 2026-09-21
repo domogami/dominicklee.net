@@ -1929,24 +1929,46 @@ html:has(.notebook.motion-paused) {
   letter-spacing: 1px;
   transform: rotate(3deg);
 }
-.notebook .curiosity-note {
+.notebook .curiosity-note,
+.notebook .todo-note {
   position: relative;
-  width: min(100%, 330px);
-  margin-top: 64px;
-  padding: 24px;
-  color: #215e53;
-  background: #d5e3cd;
-  transform: rotate(-2deg);
-  box-shadow: 5px 7px 0 #034e492c;
+  isolation: isolate;
+  filter: drop-shadow(4px 7px 0 #034e492c);
 }
-.notebook .curiosity-note:after {
+.notebook .curiosity-note::before,
+.notebook .todo-note::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--note-paper);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    0 100%
+  );
+}
+.notebook .curiosity-note::after,
+.notebook .todo-note::after {
   content: '';
   position: absolute;
   right: 0;
   bottom: 0;
   width: 20px;
   height: 20px;
-  background: linear-gradient(135deg, #b4c5a9 50%, var(--teal) 51%);
+  background: linear-gradient(135deg, var(--note-fold) 50%, transparent 50%);
+}
+.notebook .curiosity-note {
+  --note-paper: #d5e3cd;
+  --note-fold: #b4c5a9;
+  position: relative;
+  width: min(100%, 330px);
+  margin-top: 64px;
+  padding: 24px;
+  color: #215e53;
+  transform: rotate(-2deg);
 }
 .notebook .curiosity-note .eyebrow {
   display: block;
@@ -2673,6 +2695,9 @@ html:has(.notebook.motion-paused) {
 .notebook .now .folded-banner .banner-face {
   filter: drop-shadow(0 2px 1.5px rgb(0 49 47 / 24%));
 }
+.notebook .now .folded-banner {
+  --banner-ink: #2e7d32;
+}
 
 /* Keep the garden invitation together at every viewport width. */
 .notebook .garden-intro {
@@ -3094,36 +3119,31 @@ html:has(.notebook.motion-paused) {
 
 /* A placeholder to-do sheet: keep the writing upright and on the grid. */
 .notebook .todo-note {
-  position: relative;
-  padding: 32px 24px;
+  --note-paper: #e6dfb4;
+  --note-fold: #c4bb86;
+  padding: 32px;
   color: #215e53;
-  background: #e6dfb4;
-  box-shadow: 4px 7px 0 #034e492c;
-}
-.notebook .todo-note::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(135deg, #c4bb86 50%, var(--teal) 51%);
 }
 .notebook .todo-note h3 {
   color: inherit;
+  margin-bottom: 16px;
 }
 .notebook .todo-note .life-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
   font-size: 15px;
 }
 .notebook .todo-note .life-list li {
+  min-height: 32px;
   gap: 12px;
 }
 .notebook .todo-note .life-list li > span {
   flex: 0 0 16px;
 }
-@media (min-width: 761px) and (max-width: 1100px) {
+@media (max-width: 1100px) {
   .notebook .todo-note {
-    padding-inline: 16px;
+    padding: 24px;
   }
 }
 
@@ -3332,5 +3352,207 @@ html:has(.notebook.motion-paused) {
   .notebook .hero-footnote,
   .notebook .hero-footnote .folio {
     font-size: 9px;
+  }
+}
+
+/* Personal notes are indexed by their journal marks. */
+.notebook .margin-notes-layout {
+  max-width: 1120px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 64px;
+  row-gap: 32px;
+  align-items: center;
+}
+.notebook .margins-heading {
+  grid-column: 1;
+  margin: 0;
+  padding-left: 12px;
+  color: var(--paper);
+  font-weight: 400;
+}
+.notebook .margins-heading .hand-note {
+  font-size: 36px;
+  line-height: 48px;
+}
+.notebook .margin-notes .sticky-notes {
+  grid-column: 1;
+  grid-row: 2;
+  top: auto;
+  width: min(100%, 336px);
+  justify-self: start;
+  margin-left: 12px;
+}
+.notebook .margin-notes .margin-crane {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 0;
+  padding-block: 0;
+}
+.notebook .margin-crane .crane-display {
+  width: min(100%, 420px);
+}
+.notebook .margin-crane .crane-caption {
+  font-size: 28px;
+}
+.notebook .crane-waiting path {
+  opacity: 0;
+}
+.notebook .margin-notes .key-note {
+  min-height: 400px;
+  padding: 20px 24px;
+}
+.notebook .note-index h3 {
+  font-size: 32px;
+  line-height: 40px;
+}
+.notebook .note-index-hint {
+  margin: 4px 0 12px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.notebook .note-index-list {
+  padding: 0;
+  list-style: none;
+}
+.notebook .note-index-list button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 44px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  line-height: 32px;
+  text-align: left;
+}
+.notebook .note-mark {
+  flex: 0 0 18px;
+  font:
+    22px/32px 'IBM Plex Mono',
+    monospace;
+}
+.notebook .note-index-label {
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+}
+.notebook .note-index-arrow {
+  margin-left: auto;
+  font:
+    22px 'Caveat',
+    cursive;
+  opacity: 0.55;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+.notebook .note-index-list button:is(:hover, :focus-visible) .note-index-label {
+  text-decoration: underline wavy;
+}
+.notebook .note-index-list button:is(:hover, :focus-visible) .note-index-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+.notebook .personal-note {
+  display: flex;
+  flex-direction: column;
+  background: #e9e1bb;
+}
+.notebook .note-back {
+  align-self: flex-start;
+  padding: 0;
+  min-height: 44px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font:
+    23px/32px 'Caveat',
+    cursive;
+}
+.notebook .note-back:is(:hover, :focus-visible) {
+  text-decoration: underline wavy;
+  text-underline-offset: 4px;
+}
+.notebook .personal-note-kind {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 32px;
+}
+.notebook .personal-note-kind span {
+  font-family: 'IBM Plex Mono', monospace;
+  margin-right: 8px;
+}
+.notebook .personal-note-title {
+  margin: 8px 0 16px;
+  font:
+    500 21px/32px 'Lexend',
+    sans-serif;
+}
+.notebook .personal-note-title:focus {
+  outline: none;
+}
+.notebook .personal-note-copy {
+  font-size: 15px;
+  line-height: 28px;
+}
+.notebook .personal-note .personal-note-annotation {
+  margin-top: 20px;
+  font-size: 26px;
+  line-height: 32px;
+}
+.notebook .personal-note-link {
+  align-self: flex-start;
+  margin-top: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.notebook .personal-note-front {
+  animation: personal-note-arrive 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes personal-note-arrive {
+  from {
+    opacity: 0;
+    transform: translate(18px, 5px) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .notebook .margin-notes-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .notebook .margins-heading {
+    padding-left: 12px;
+  }
+  .notebook .margins-heading .hand-note {
+    font-size: 32px;
+  }
+  .notebook .margin-notes .sticky-notes {
+    width: calc(100% - 24px);
+    max-width: 320px;
+    margin: 0;
+    justify-self: center;
+  }
+  .notebook .margin-notes .key-note {
+    padding: 20px;
+  }
+  .notebook .margin-notes .margin-crane {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 32px;
+  }
+  .notebook .margin-crane .crane-display {
+    max-width: 336px;
   }
 }

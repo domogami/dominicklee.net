@@ -110,7 +110,7 @@ test('reduced motion is respected', async ({ page }) => {
   await expect(page.locator('.notebook')).toHaveClass(/motion-paused/);
   expect(
     await page
-      .locator('.crane-animated path')
+      .locator('.margin-crane .crane path')
       .first()
       .evaluate((el) => getComputedStyle(el).animationName)
   ).toBe('none');
@@ -392,7 +392,20 @@ test('folio references are unique by destination and consistent throughout the n
     );
     if (reference.href) expect(reference.href).toBe(pageIndex[key].href);
   }
-  for (const key of Object.keys(pageIndex))
+  await page
+    .getByRole('button', { name: 'worth a scribble', exact: true })
+    .click();
+  const bookReference = page.locator(
+    '.personal-note-link [data-page="lifeWorthLiving"]'
+  );
+  await expect(bookReference).toHaveText(folio('lifeWorthLiving'));
+  await expect(page.locator('.personal-note-link')).toHaveAttribute(
+    'href',
+    pageIndex.lifeWorthLiving.href
+  );
+  for (const key of Object.keys(pageIndex).filter(
+    (key) => key !== 'lifeWorthLiving'
+  ))
     expect(references.some((reference) => reference.key === key)).toBe(true);
 });
 
@@ -597,40 +610,87 @@ test('photo arrows loop and counter stays in sync with clicks at mobile and desk
   }
 });
 
-test('key lives below the centered crane and notebook notes loop with keyboard controls', async ({
+test('journal key opens personal notes and restores keyboard focus', async ({
   page,
 }) => {
   for (const width of [320, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await expect(page.locator('.hero-teal .key-note')).toHaveCount(0);
     const notes = page.getByRole('group', { name: 'Notebook notes' });
-    await expect(notes.getByText('on my list')).toBeVisible();
-    await expect(notes.getByRole('status')).toHaveText('Note 1 of 3');
-    const next = notes.getByRole('button', { name: 'Next notebook note' });
-    await next.click();
     await expect(
-      notes.getByRole('heading', { name: 'Off the clock' })
+      page.getByRole('heading', { name: 'In the margins' })
     ).toBeVisible();
-    await next.focus();
-    await page.keyboard.press('Enter');
-    await expect(
-      notes.getByRole('heading', { name: 'Keep wandering' })
-    ).toBeVisible();
-    await expect(notes.getByRole('link')).toHaveAttribute(
+    const labels = [
+      'on my list',
+      'made & loved',
+      'a little happening',
+      'worth a scribble',
+      'carried forward',
+    ];
+    for (const label of labels) {
+      const entry = notes.getByRole('button', { name: label, exact: true });
+      await entry.focus();
+      await page.keyboard.press('Enter');
+      await expect(notes.locator('.personal-note-title')).toBeFocused();
+      if (label === 'worth a scribble') {
+        await expect(
+          notes.getByRole('heading', { name: 'Life Worth Living' })
+        ).toBeVisible();
+        await expect(
+          notes.getByRole('link', { name: /Read my book notes/ })
+        ).toHaveAttribute('href', pageIndex.lifeWorthLiving.href);
+      }
+      await page.keyboard.press('Escape');
+      await expect(entry).toBeFocused();
+    }
+    await notes
+      .getByRole('button', { name: 'made & loved', exact: true })
+      .click();
+    await notes.getByRole('button', { name: '← back to the key' }).click();
+    await expect(notes.locator('.key-source')).toHaveAttribute(
       'href',
-      'https://domogami.github.io/'
+      /bulletjournal.com/
     );
-    await next.click();
-    await expect(notes.getByRole('status')).toHaveText('Note 1 of 3');
-    await notes.getByRole('button', { name: 'Previous notebook note' }).click();
-    await expect(notes.getByRole('status')).toHaveText('Note 3 of 3');
+    const card = (await notes.boundingBox())!;
+    const crane = (await page.locator('.margin-crane').boundingBox())!;
+    if (width > 760) expect(card.x + card.width).toBeLessThan(crane.x);
+    else expect(card.y + card.height).toBeLessThan(crane.y);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth
       )
     ).toBe(true);
   }
+});
+
+test('margin crane draws on entry and supports replay and reduced motion', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const button = page.getByRole('button', {
+    name: 'Replay crane folding animation',
+  });
+  await expect(button).toHaveClass(/crane-waiting/);
+  await expect(button.locator('.crane-animated')).toHaveCount(0);
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).not.toHaveClass(/crane-waiting/);
+  await expect(button.locator('.crane-animated')).toHaveCount(1);
+  const before = await button.locator('svg').elementHandle();
+  await button.click();
+  expect(await before!.evaluate((el) => el.isConnected)).toBe(false);
+  await button.focus();
+  await page.keyboard.press('Enter');
+  await expect(button.locator('path').first()).toHaveCSS(
+    'animation-name',
+    'fold-draw'
+  );
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(button.locator('path').first()).toHaveCSS(
+    'animation-name',
+    'none'
+  );
+  await expect(button.locator('path').first()).toHaveCSS('fill-opacity', '1');
 });
 
 test('chosen design has no comparison and key underline flows only on interaction', async ({

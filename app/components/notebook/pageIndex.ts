@@ -42,6 +42,11 @@ export const pageIndex = {
     title: 'Digital garden website',
     href: 'https://domogami.github.io/',
   },
+  lifeWorthLiving: {
+    number: '13',
+    title: 'Life Worth Living book notes',
+    href: 'https://domogami.github.io/influential-works/life-worth-living',
+  },
 } as const;
 
 export type NotebookPage = keyof typeof pageIndex;

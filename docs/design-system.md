@@ -57,6 +57,8 @@ Kalam's ink sits high in its line box. `--kalam-baseline: .12em` provides an opt
 
 Standard banners are notched strips. “About Me” uses the layered ribbon: draw tails and folds first, then the front panel. Its front face has a subtle `0 2px 1.5px` dark teal shadow to separate it from the tails. Keep shadows restrained.
 
+The two About post-its have a transparent container and a paper layer clipped at the 20px folded corner. Apply the drop shadow to the container so it follows the paper silhouette; do not use a rectangular box shadow or paint over the missing corner. “Presently” uses 32px padding on desktop and 24px at 1100px and below, with 16px between list entries and no extra space after the last row.
+
 The common-thread post-it uses the reviewed rabbit-hole wording. SNAP-75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Green hand-drawn previous/next arrows also cycle the stack, with a live handwritten 1/2 or 2/2 counter shared by every interaction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
 
 ### Garden
@@ -100,7 +102,9 @@ Never derive numbers from array position or restart numbering within a section. 
 
 ### Notes below the hero
 
-The key lives in a three-note stack directly below the hero, within the home section’s folio. The crane is centered beside the note stack on the green spread, below the full-width cream introduction. It uses the original beige paper palette and subtle fold shades. Previous/next buttons loop through the key, hobby note and garden note; the active note alone contains interactive content. The layered paper and short settling animation respect reduced motion and the motion toggle. Keep this content in `StickyNotes.tsx`; the key content is passed from `Notebook.tsx`.
+“In the margins” has a handwritten heading over a journal-key index on the left and a beige crane on the right. The spread is capped at 1120px, with a 336px note stack and a 420px crane to balance the solid paper against the open drawing. Mobile stacks the notes first, capped at 320px, with a crane up to 336px wide. Notes have a 400px minimum height and grow to fit their contents; key buttons keep 44px touch targets. The five key rows open task, completed-task, event, note and migrated-task cards without changing their Bullet Journal definitions. The original method link remains on the index, with its flowing wave hover. Back-to-key and Escape restore focus to the selected row; inactive cards are unmounted. Card copy lives in `personalNotes.ts`.
+
+The book note links to Dom’s _Life Worth Living_ garden page (p.13). Event and migrated-task cards are deliberately waiting for specific entries; do not invent dated experiences. The crane animates once when its button is 45% visible, and click or keyboard activation replays it. Quiet and reduced-motion settings leave the drawing still. The layered paper and short card entrance also honor those settings.
 
 ### Final design selection
 

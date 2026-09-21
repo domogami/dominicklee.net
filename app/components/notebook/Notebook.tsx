@@ -2,6 +2,7 @@ import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
 import StickyNotes from './StickyNotes';
+import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
 import {
   AnimatedNote,
@@ -56,7 +57,6 @@ export default function Notebook() {
     null
   );
   const suppressPhotoClick = useRef(false);
-  const [craneKey, setCraneKey] = useState(0);
   const [headerCraneKey, setHeaderCraneKey] = useState(0);
   const menuButton = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
@@ -310,65 +310,14 @@ export default function Notebook() {
         </section>
         <section
           className='margin-notes dot-paper'
-          aria-label='Notes in the margins'
+          aria-labelledby='margins-heading'
         >
           <div className='section-inner margin-notes-layout'>
-            <div className='hero-teal'>
-              <span className='corner-label'>
-                ONE SHEET. ENDLESS POSSIBILITIES.
-              </span>
-              <div className='crane-display'>
-                <button
-                  className='crane-replay'
-                  aria-label='Replay crane folding animation'
-                  onClick={() => setCraneKey((v) => v + 1)}
-                >
-                  <Crane key={craneKey} animated />
-                </button>
-                <AnimatedNote
-                  className='crane-caption'
-                  text='A few folds, a few ideas.'
-                />
-              </div>
-            </div>
-            <StickyNotes>
-              <aside className='key-note'>
-                <span className='tape' aria-hidden='true' />
-                <h2 className='hand-note'>
-                  <AnimatedNote text='A little key' />
-                </h2>
-                <dl>
-                  <div title='Task: something actionable to do.'>
-                    <dt aria-label='Task'>•</dt>
-                    <dd>on my list</dd>
-                  </div>
-                  <div title='Task complete: the work is done.'>
-                    <dt aria-label='Task complete'>×</dt>
-                    <dd>made &amp; loved</dd>
-                  </div>
-                  <div title='Event: a dated happening, planned or recorded.'>
-                    <dt aria-label='Event'>○</dt>
-                    <dd>a little happening</dd>
-                  </div>
-                  <div title='Note: a thought, fact, or observation to remember.'>
-                    <dt aria-label='Note'>–</dt>
-                    <dd>worth a scribble</dd>
-                  </div>
-                  <div title='Migrated task: moved to the next monthly log or a collection.'>
-                    <dt aria-label='Migrated task'>&gt;</dt>
-                    <dd>carried forward</dd>
-                  </div>
-                </dl>
-                <a
-                  className='key-source'
-                  href='https://bulletjournal.com/blogs/faq/what-is-rapid-logging-understand-rapid-logging-bullets-and-signifiers'
-                >
-                  A nod to Bullet Journal
-                  <br />
-                  <span>the method behind the marks ↗</span>
-                </a>
-              </aside>
-            </StickyNotes>
+            <h2 id='margins-heading' className='margins-heading'>
+              <AnimatedNote text='In the margins' />
+            </h2>
+            <StickyNotes />
+            <MarginCrane motion={activeMotion} />
           </div>
         </section>
         <section id='works' className='works section-grid'>
@@ -563,7 +512,8 @@ export default function Notebook() {
                   </h3>
                   <ul className='life-list'>
                     <li>
-                      <span>•</span> Making time for more side projects
+                      <span aria-label='Task'>•</span> Building Office Inc., my
+                      mobile game (work in progress)
                     </li>
                     <li>
                       <span aria-label='Note'>–</span> Exploring Seattle, one
@@ -576,10 +526,6 @@ export default function Notebook() {
                     <li>
                       <span>×</span>
                       Start my Digital Garden
-                    </li>
-                    <li>
-                      <span>×</span>
-                      Solder my own keyboard
                     </li>
                   </ul>
                 </aside>

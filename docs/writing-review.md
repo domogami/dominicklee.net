@@ -34,7 +34,6 @@ This is a review copy, not a second source of live site text. Update the compone
 
 **Crane panel:**
 
-- ONE SHEET. ENDLESS POSSIBILITIES.
 - A few folds, a few ideas.
 - PAPER, PATIENCE & A LITTLE CURIOSITY
 
@@ -69,11 +68,10 @@ All folios belong to one global destination index: projects p.00–p.04, noteboo
 
 **presently…**
 
-- • Making time for more side projects
+- • Building Office Inc., my mobile game (work in progress)
 - – Exploring Seattle, one cafe at a time
 - – Filling notebooks & folding paper
 - × Start my Digital Garden
-- × Solder my own keyboard
 
 **Post-it:** The common thread / curiosity and willingness to fall down rabbit holes.
 
@@ -132,3 +130,23 @@ The entire invitation opens that mail address. Social destinations: GitHub `domo
 - Error page: `app/root.tsx`
 
 Archive and retained project copy is preserved separately; this review focuses on the new portfolio.
+
+## In the margins
+
+The Bullet Journal key remains the front card, with its original method link. Each mark opens a personal note. Copy is kept in `app/components/notebook/personalNotes.ts`. The reading note links to [Life Worth Living](https://domogami.github.io/influential-works/life-worth-living), a recent read confirmed by Dom. The event and carried-forward notes remain explicit placeholders awaiting a dated happening and an unfinished task to migrate.
+
+**On my list — Building Office Inc.**
+
+> My current project is a mobile story game set on an office desk. Swipe paper cards to make choices, navigate office politics, and reach different endings.
+
+**Annotation:** a work in progress.
+
+Description drawn from Office-Inc's README, CONTEXT and story outline. Keep it framed as in development; there is no public download link here.
+
+**Made & loved — The first website I built**
+
+> I kept my first website online as a little time capsule of where I started.
+
+**Annotation:** page zero, still here.
+
+**Action:** Visit the first version ↗ — p.00
