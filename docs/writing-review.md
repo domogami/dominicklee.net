@@ -111,9 +111,9 @@ The entire invitation opens that mail address. Social destinations: GitHub `domo
 
 ## Search metadata and error copy
 
-**Title:** Dominick Lee — Software, paper & everything in between
+**Title:** Dom Lee — My corner of the internet
 
-**Description:** The personal notebook of Dominick Lee. Software engineer, tinkerer, paper folder, calligraphy hobbyist. A collection of projects, ideas, and everyday curiosities.
+**Description:** Dom’s corner of the internet: software, side projects, folded paper, calligraphy, and whatever I’m curious about lately.
 
 **404:** This page has been folded away. / Try the notebook, or wander through my digital garden.
 
@@ -126,7 +126,7 @@ The entire invitation opens that mail address. Social destinations: GitHub `domo
 - Main copy/contact/links: `app/components/notebook/Notebook.tsx`
 - Hobbies: `app/components/notebook/HobbyTagline.tsx`
 - Timeline: `app/components/notebook/NotebookDrawings.tsx`
-- Search metadata: `app/routes/_index.tsx`
+- Search and link-preview copy: `app/siteMetadata.ts`; metadata tags: `app/routes/_index.tsx`
 - Error page: `app/root.tsx`
 
 Archive and retained project copy is preserved separately; this review focuses on the new portfolio.

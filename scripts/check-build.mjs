@@ -7,6 +7,7 @@ import { resolve } from 'node:path';
 const handlerPath = '.netlify/v1/functions/react-router-server.mjs';
 await access('build/server/index.js');
 await access('build/client/favicon.svg');
+await access('build/client/images/notebook-preview.png');
 const { default: handler, config } = await import(
   pathToFileURL(resolve(handlerPath))
 );

@@ -854,3 +854,64 @@ test('outbound arrows use ink SVGs instead of emoji glyphs on mobile', async ({
   ).toHaveCount(1);
   expect(await page.locator('.notebook').innerText()).not.toContain('↗');
 });
+
+test('shared-link metadata and the PNG are available without JavaScript', async ({
+  browser,
+  request,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    baseURL,
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto('/');
+    const description = await page
+      .locator('meta[name="description"]')
+      .getAttribute('content');
+    expect(description).toContain('calligraphy');
+    await expect(
+      page.locator('meta[property="og:description"]')
+    ).toHaveAttribute('content', description!);
+    await expect(
+      page.locator('meta[name="twitter:description"]')
+    ).toHaveAttribute('content', description!);
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      await page.title()
+    );
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+      'content',
+      'summary_large_image'
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      'https://dominicklee.net/'
+    );
+    const image = page.locator('meta[property="og:image"]');
+    await expect(image).toHaveCount(1);
+    const imageURL = new URL((await image.getAttribute('content'))!);
+    expect(imageURL.origin).toBe('https://dominicklee.net');
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
+      'content',
+      imageURL.href
+    );
+    const response = await request.get(imageURL.pathname);
+    expect(response.ok()).toBe(true);
+    expect(response.headers()['content-type']).toContain('image/png');
+    const png = await response.body();
+    expect(png.subarray(1, 4).toString()).toBe('PNG');
+    expect(png.readUInt32BE(16)).toBe(1200);
+    expect(png.readUInt32BE(20)).toBe(630);
+    expect(png.length).toBeLessThan(1_000_000);
+    await expect(
+      page.locator('meta[property="og:image:width"]')
+    ).toHaveAttribute('content', '1200');
+    await expect(
+      page.locator('meta[property="og:image:height"]')
+    ).toHaveAttribute('content', '630');
+  } finally {
+    await context.close();
+  }
+});

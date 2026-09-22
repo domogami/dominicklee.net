@@ -111,3 +111,11 @@ The book note links to Dom’s _Life Worth Living_ garden page (p.13). The event
 ### Final design selection
 
 Keep the full-height cream introduction with a stationary dot grid, left-aligned vertically centered text, and the beige crane beside the note stack in the green section below. The comparison control, route and frozen alternative have been removed. The hero type is slightly smaller. The key source has a static wavy underline that flows on hover or keyboard focus, respecting reduced motion.
+
+### Shared-link preview
+
+`app/siteMetadata.ts` owns the title, description, canonical URL and preview-image URL. The index route emits these as server-rendered search, Open Graph and Twitter card tags so preview crawlers do not need JavaScript. Use absolute HTTPS URLs.
+
+`public/images/notebook-preview.png` is a 1200 × 630 preview: cream paper (`#efe7d7`), pronounced 32px dots, and the existing green hexagon/crane favicon centered within a square-safe area. The editable SVG is alongside it. Regenerate both with `node scripts/generate-social-image.mjs` (uses the project's Playwright browser; Chrome locally, installed Chromium in CI). The generator reads `public/favicon.svg` to preserve the logo geometry and colors. The PNG is checked in and needs no rendering step during deployment.
+
+Messages chooses which metadata to display; supplying a description does not guarantee that its card shows it. Verify the published preview on a real device after deployment.
