@@ -38,9 +38,9 @@ export const personalNotes: PersonalNote[] = [
     mark: '○',
     label: 'a little happening',
     definition: 'Event: a dated happening, planned or recorded.',
-    title: 'A moment to remember',
-    body: 'A ride, a café visit, or a good day out. This little page is waiting for its first dated entry.',
-    annotation: 'leave a little room for life.',
+    title: 'A couple of café stops',
+    body: 'A trip to Café Hagen by Elliott Bay for a slice of cake and a game of chess. On weekends, I like to read or write at The Ugly Mug Cafe with a salmon bagel.',
+    annotation: 'cake, chess & a little reading.',
   },
   {
     id: 'note',

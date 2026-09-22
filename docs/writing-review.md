@@ -77,12 +77,12 @@ All folios belong to one global destination index: projects p.00–p.04, noteboo
 
 **the story so far…**
 
-| Stage                         | Heading                          | Details                                                                                                    |
-| ----------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 01 / High school              | Building & finding my voice      | FIRST Robotics & Debate Team                                                                               |
-| 02 / UC San Diego             | Following my curiosity           | Mathematics–Computer Science major; Cognitive Science minor; IEEE · ACM · UCSD Cycling                     |
-| 03 / Amazon Prime Video       | Prime Video Watch Party          | Synchronizing streams so friends and families could watch Prime Video together, virtually, across devices. |
-| 04 / Amazon Prime Video — NOW | Prime Video Marketing Automation | After Watch Party died... This is where I’m building today.                                                |
+| Stage                         | Heading                          | Details                                                                                                      |
+| ----------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 01 / High school              | Building & finding my voice      | FIRST Robotics & Debate Team; Teen Court · Site Council                                                      |
+| 02 / UC San Diego             | Following my curiosity           | Mathematics–Computer Science major; Cognitive Science minor; IEEE · ACM · UCSD Cycling                       |
+| 03 / Amazon Prime Video       | Prime Video Watch Party          | Synchronizing streams so friends and families could watch Prime Video together, virtually, across devices.   |
+| 04 / Amazon Prime Video — NOW | Prime Video Marketing Automation | After Watch Party died... This is where I’m building today. Helping millions of people decide what to watch. |
 
 ## Digital garden
 
@@ -133,7 +133,7 @@ Archive and retained project copy is preserved separately; this review focuses o
 
 ## In the margins
 
-The Bullet Journal key remains the front card, with its original method link. Each mark opens a personal note. Copy is kept in `app/components/notebook/personalNotes.ts`. The reading note links to [Life Worth Living](https://domogami.github.io/influential-works/life-worth-living), a recent read confirmed by Dom. The event and carried-forward notes remain explicit placeholders awaiting a dated happening and an unfinished task to migrate.
+The Bullet Journal key remains the front card, with its original method link. Each mark opens a personal note. Copy is kept in `app/components/notebook/personalNotes.ts`. The reading note links to [Life Worth Living](https://domogami.github.io/influential-works/life-worth-living), a recent read confirmed by Dom. The event note shares Dom’s Café Hagen visit and weekends at The Ugly Mug Cafe. The carried-forward note remains a placeholder awaiting an unfinished task to migrate.
 
 **On my list — Building Office Inc.**
 
@@ -150,3 +150,9 @@ Description drawn from Office-Inc's README, CONTEXT and story outline. Keep it f
 **Annotation:** page zero, still here.
 
 **Action:** Visit the first version ↗ — p.00
+
+**A little happening — A couple of café stops**
+
+> A trip to Café Hagen by Elliott Bay for a slice of cake and a game of chess. On weekends, I like to read or write at The Ugly Mug Cafe with a salmon bagel.
+
+**Annotation:** cake, chess & a little reading.

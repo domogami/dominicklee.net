@@ -106,7 +106,7 @@ Never derive numbers from array position or restart numbering within a section. 
 
 “In the margins” has a handwritten heading over a journal-key index on the left and a beige crane on the right. The spread is capped at 1120px, with a 336px note stack and a 420px crane to balance the solid paper against the open drawing. Mobile stacks the notes first, capped at 320px, with a crane up to 336px wide. Notes have a 400px minimum height and grow to fit their contents; key buttons keep 44px touch targets. The five key rows open task, completed-task, event, note and migrated-task cards without changing their Bullet Journal definitions. The original method link remains on the index, with its flowing wave hover. Back-to-key and Escape restore focus to the selected row; inactive cards are unmounted. Card copy lives in `personalNotes.ts`.
 
-The book note links to Dom’s _Life Worth Living_ garden page (p.13). Event and migrated-task cards are deliberately waiting for specific entries; do not invent dated experiences. The crane animates once when its button is 45% visible, and click or keyboard activation replays it. Quiet and reduced-motion settings leave the drawing still. The layered paper and short card entrance also honor those settings.
+The book note links to Dom’s _Life Worth Living_ garden page (p.13). The event card records Dom’s Café Hagen visit and weekend reading or writing at The Ugly Mug Cafe, without inventing dates. The migrated-task card is still waiting for a specific unfinished task. The crane animates once when its button is 45% visible, and click or keyboard activation replays it. Quiet and reduced-motion settings leave the drawing still. The layered paper and short card entrance also honor those settings.
 
 ### Final design selection
 

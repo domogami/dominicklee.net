@@ -202,7 +202,7 @@ const milestones = [
   {
     stage: '01 / High school',
     title: 'Building & finding my voice',
-    details: ['FIRST Robotics & Debate Team'],
+    details: ['FIRST Robotics & Debate Team', 'Teen Court · Site Council'],
   },
   {
     stage: '02 / UC San Diego',
@@ -223,7 +223,10 @@ const milestones = [
   {
     stage: '04 / Amazon Prime Video',
     title: 'Prime Video Marketing Automation',
-    details: ['After Watch Party died... This is where I’m building today.'],
+    details: [
+      'After Watch Party died... This is where I’m building today.',
+      'Helping millions of people decide what to watch.',
+    ],
   },
 ];
 
