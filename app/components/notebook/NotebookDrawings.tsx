@@ -1,3 +1,4 @@
+import SketchArrow from './SketchArrow';
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 
@@ -383,7 +384,7 @@ export function SketchLink({
       </svg>
       <span>{label}</span>
       <span className='sketch-arrow-link' aria-hidden='true'>
-        ↗
+        <SketchArrow />
       </span>
     </a>
   );

@@ -1,3 +1,4 @@
+import SketchArrow from './SketchArrow';
 import { useEffect, useRef, useState } from 'react';
 import { personalNotes } from './personalNotes';
 import { pageIndex, folio } from './pageIndex';
@@ -67,7 +68,7 @@ export default function StickyNotes() {
                   className='personal-note-link'
                   href={pageIndex[note.link.page].href}
                 >
-                  {note.link.label}{' '}
+                  {note.link.label} <SketchArrow />{' '}
                   <span data-page={note.link.page}>
                     {folio(note.link.page)}
                   </span>
@@ -101,7 +102,7 @@ export default function StickyNotes() {
                       </span>
                       <span className='note-index-label'>{item.label}</span>
                       <span className='note-index-arrow' aria-hidden='true'>
-                        ↗
+                        <SketchArrow />
                       </span>
                     </button>
                   </li>
@@ -113,7 +114,9 @@ export default function StickyNotes() {
               >
                 A nod to Bullet Journal
                 <br />
-                <span>the method behind the marks ↗</span>
+                <span>
+                  the method behind the marks <SketchArrow />
+                </span>
               </a>
             </aside>
           )}

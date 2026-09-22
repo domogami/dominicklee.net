@@ -59,7 +59,9 @@ Standard banners are notched strips, including the hero’s “Seattle · Softwa
 
 The two About post-its have a transparent container and a paper layer clipped at the 20px folded corner. Apply the drop shadow to the container so it follows the paper silhouette; do not use a rectangular box shadow or paint over the missing corner. “Presently” uses 32px padding on desktop and 24px at 1100px and below, with 16px between list entries and no extra space after the last row.
 
-The common-thread post-it uses the reviewed rabbit-hole wording. SNAP-75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Green hand-drawn previous/next arrows also cycle the stack, with a live handwritten 1/2 or 2/2 counter shared by every interaction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
+The common-thread post-it uses the reviewed rabbit-hole wording. SNAP-75 polaroids have no tape; the second photo comes forward on click, keyboard activation, tap or a horizontal swipe in either direction. Green hand-drawn previous/next arrows also cycle the stack, with a live handwritten 1/2 or 2/2 counter shared by every interaction. Desktop hover leaves the photos still; clicking swaps and retains the selected photo. Swiping loops through both cards with a 480ms slide-and-tuck animation, disabled when motion is quiet. The departing card starts at its actual resting transform, has no competing transition, and hands control back on animation end rather than a timer. Swipes preserve vertical page scrolling and pinch zoom; a completed swipe swaps once without triggering a second tap. Provide useful photo alt text and fixed aspect ratios. “Build one for your desk” links to the official nullbits SNAP page; swapping photos stays on the photo stack.
+
+Outbound diagonal arrows use the shared `SketchArrow` SVG, with current-color ink strokes and a short hover/focus drawing animation. Keep them decorative for screen readers and static under reduced/quiet motion; do not use Unicode arrow glyphs that mobile can render as emoji.
 
 ### Garden
 
@@ -79,7 +81,7 @@ There is deliberately no scheduled-task symbol. Arrows are not generic markers f
 
 ## Motion
 
-- Hero crane: outline and facet-fill sequence, replayable by button. Header crane: fully visible initially; replay only on hover/focus, about 1.3 seconds including stagger.
+- Hero crane: outline and facet-fill sequence, replayable by button. Header crane: fully visible initially; replay only on hover/focus, about 1.3 seconds including stagger. Clicking the header brand returns to `#top` without reloading and closes the mobile menu.
 - Banner: 800ms outline, 450ms fill starting at 750ms, letters afterward.
 - Handwritten lettering: 70ms reveal per character, 75ms stagger. Complete one letter before starting the next; preserve whole-word wrapping. This is a clipped type reveal, not a literal pen-path tracing engine.
 - Hobbies: 4200ms hold, 380ms erase, 650ms rewrite. Only the hobby changes; it is left-aligned after “Currently distracted by”. Measure Caveat after font loading and reserve enough width for the longest hobby so it stays on one line.

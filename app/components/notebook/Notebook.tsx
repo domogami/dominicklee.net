@@ -1,6 +1,7 @@
 import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
+import SketchArrow from './SketchArrow';
 import StickyNotes from './StickyNotes';
 import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
@@ -70,10 +71,8 @@ export default function Notebook() {
     setPhoto((value) => !value);
   };
   useEffect(() => {
-    if (!swipeDirection) return;
-    const timer = window.setTimeout(() => setSwipeDirection(null), 480);
-    return () => window.clearTimeout(timer);
-  }, [swipeDirection]);
+    if (!activeMotion) setSwipeDirection(null);
+  }, [activeMotion]);
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReduced(media.matches);
@@ -194,9 +193,10 @@ export default function Notebook() {
         <header className='masthead'>
           <div className='brand-with-index'>
             <a
-              href='/'
+              href={pageIndex.home.href}
               className='brand'
               aria-label='Dom Lee home'
+              onClick={() => setMenuOpen(false)}
               onMouseEnter={() => {
                 if (activeMotion) setHeaderCraneKey((key) => key + 1);
               }}
@@ -273,7 +273,7 @@ export default function Notebook() {
           a few pages of my corner of the internet.
         </span>
         <a className='menu-garden' href={GARDEN} tabIndex={menuOpen ? 0 : -1}>
-          Visit the digital garden ↗
+          Visit the digital garden <SketchArrow />
         </a>
       </div>
       <main id='main' inert={menuOpen}>
@@ -297,7 +297,10 @@ export default function Notebook() {
                 See the works <span>↘</span>
               </a>
               <a className='button button-outline' href={GARDEN}>
-                Into the garden <span>↗</span>
+                Into the garden{' '}
+                <span>
+                  <SketchArrow />
+                </span>
               </a>
             </div>
             <div className='hero-footnote'>
@@ -350,6 +353,11 @@ export default function Notebook() {
                 </button>
                 <button
                   className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+                  onAnimationEnd={(event) => {
+                    if (event.animationName === 'photo-cycle') {
+                      setSwipeDirection(null);
+                    }
+                  }}
                   onPointerDown={(event) => {
                     suppressPhotoClick.current = false;
                     if (event.pointerType === 'mouse' || !event.isPrimary)
@@ -378,7 +386,10 @@ export default function Notebook() {
                   }}
                   onClick={(event) => {
                     // A swipe also generates a click; don't swap straight back.
-                    if (event.detail === 0 || !suppressPhotoClick.current) {
+                    if (
+                      !swipeDirection &&
+                      (event.detail === 0 || !suppressPhotoClick.current)
+                    ) {
                       setPhoto((v) => !v);
                     }
                   }}
@@ -439,7 +450,10 @@ export default function Notebook() {
                   smile.
                 </p>
                 <a className='text-link' href={pageIndex.snap.href}>
-                  Build one for your desk <span>↗</span>
+                  Build one for your desk{' '}
+                  <span>
+                    <SketchArrow />
+                  </span>
                 </a>
                 <AnimatedNote
                   className='photo-note'
@@ -454,7 +468,7 @@ export default function Notebook() {
                 <span className='row-description'>where it all started</span>
                 <span className='leader' />
                 <span className='folio' data-page='firstWebsite'>
-                  {folio('firstWebsite')} ↗
+                  {folio('firstWebsite')} <SketchArrow />
                 </span>
               </a>
               <a href={pageIndex.previousPortfolio.href} className='index-row'>
@@ -465,7 +479,7 @@ export default function Notebook() {
                 </span>
                 <span className='leader' />
                 <span className='folio' data-page='previousPortfolio'>
-                  {folio('previousPortfolio')} ↗
+                  {folio('previousPortfolio')} <SketchArrow />
                 </span>
               </a>
               <a href={pageIndex.startpage.href} className='index-row'>
@@ -476,7 +490,7 @@ export default function Notebook() {
                 </span>
                 <span className='leader' />
                 <span className='folio' data-page='startpage'>
-                  {folio('startpage')} ↗
+                  {folio('startpage')} <SketchArrow />
                 </span>
               </a>
               <a href={pageIndex.dotfiles.href} className='index-row'>
@@ -489,7 +503,7 @@ export default function Notebook() {
                 </span>
                 <span className='leader' />
                 <span className='folio' data-page='dotfiles'>
-                  {folio('dotfiles')} ↗
+                  {folio('dotfiles')} <SketchArrow />
                 </span>
               </a>
               <a href={pageIndex.officeInc.href} className='index-row'>
@@ -502,7 +516,7 @@ export default function Notebook() {
                 </span>
                 <span className='leader' />
                 <span className='folio' data-page='officeInc'>
-                  {folio('officeInc')} ↗
+                  {folio('officeInc')} <SketchArrow />
                 </span>
               </a>
             </div>
@@ -572,7 +586,7 @@ export default function Notebook() {
                 sometimes it grows unbounded and other days I prune it.
               </p>
               <a className='text-link' href={GARDEN}>
-                Wander through the garden ↗
+                Wander through the garden <SketchArrow />
               </a>
               <GardenPlant />
             </div>
@@ -583,7 +597,7 @@ export default function Notebook() {
               <h3>Axe Sharpening</h3>
               <span className='leader' />
               <span className='folio' data-page='axeSharpening'>
-                {folio('axeSharpening')} ↗
+                {folio('axeSharpening')} <SketchArrow />
               </span>
             </a>
             <a className='index-row' href={pageIndex.dotfilesNote.href}>
@@ -593,7 +607,7 @@ export default function Notebook() {
               <h3>Dotfiles</h3>
               <span className='leader' />
               <span className='folio' data-page='dotfilesNote'>
-                {folio('dotfilesNote')} ↗
+                {folio('dotfilesNote')} <SketchArrow />
               </span>
             </a>
             <a className='index-row' href={GARDEN}>
@@ -603,7 +617,7 @@ export default function Notebook() {
               <h3>The rest of the rabbit hole</h3>
               <span className='leader' />
               <span className='folio' data-page='gardenWebsite'>
-                {folio('gardenWebsite')} ↗
+                {folio('gardenWebsite')} <SketchArrow />
               </span>
             </a>
           </div>

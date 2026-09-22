@@ -19,11 +19,11 @@ test('notebook loads without runtime errors and writing lives in the garden', as
     page.getByRole('link', { name: 'Build one for your desk' })
   ).toHaveAttribute('href', 'https://nullbits.co/snap/');
   await expect(page.locator('.project-index .folio')).toHaveText([
-    'p.00 ↗',
-    'p.01 ↗',
-    'p.02 ↗',
-    'p.03 ↗',
-    'p.14 ↗',
+    'p.00',
+    'p.01',
+    'p.02',
+    'p.03',
+    'p.14',
   ]);
   await expect(page.locator('.section-heading > .folio')).toHaveText([
     'p.06',
@@ -737,4 +737,120 @@ test('chosen design has no comparison and key underline flows only on interactio
   await expect(underline).toHaveCSS('animation-name', 'none');
   const response = await page.goto('/preview/mainline');
   expect(response?.status()).toBe(404);
+});
+
+test('photo cycle starts and settles without a transform handoff jump', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const photos = page.getByRole('button', {
+    name: 'Swap SNAP-75 keyboard photos',
+  });
+  await photos.scrollIntoViewIfNeeded();
+  for (const direction of ['Next', 'Previous', 'Previous', 'Next']) {
+    const flipped = (await photos.getAttribute('aria-pressed')) === 'true';
+    const outgoing = photos.locator(
+      flipped ? '.polaroid-back' : '.polaroid-front'
+    );
+    const initial = await outgoing.evaluate(
+      (el) => getComputedStyle(el).transform
+    );
+    await page
+      .getByRole('button', { name: `${direction} SNAP-75 photo` })
+      .click();
+    const frames = await outgoing.evaluate(async (el) => {
+      const cycle = el
+        .getAnimations()
+        .find(
+          (animation) =>
+            animation instanceof CSSAnimation &&
+            animation.animationName === 'photo-cycle'
+        )!;
+      cycle.pause();
+      cycle.currentTime = 0;
+      const start = getComputedStyle(el).transform;
+      cycle.currentTime = Number(cycle.effect!.getTiming().duration);
+      const end = getComputedStyle(el).transform;
+      cycle.finish();
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      );
+      return {
+        start,
+        end,
+        settled: getComputedStyle(el).transform,
+        transitions: el
+          .getAnimations()
+          .filter((animation) => animation instanceof CSSTransition).length,
+      };
+    });
+    expect(frames.start).toBe(initial);
+    expect(frames.settled).toBe(frames.end);
+    expect(frames.transitions).toBe(0);
+    await expect(photos).not.toHaveClass(/swipe-/);
+    // Allow the incoming card's independent transition to settle before cycling again.
+    await expect
+      .poll(() =>
+        photos
+          .locator('.polaroid')
+          .evaluateAll(
+            (cards) => cards.flatMap((card) => card.getAnimations()).length
+          )
+      )
+      .toBe(0);
+  }
+});
+
+test('header crane returns to top without reloading and closes the mobile menu', async ({
+  page,
+}) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.locator('#now').scrollIntoViewIfNeeded();
+    await page.evaluate(() => {
+      document.body.dataset.navigationCheck = 'same-page';
+    });
+    if (width === 390)
+      await page.getByRole('button', { name: 'Open menu' }).click();
+    await page.getByRole('link', { name: 'Dom Lee home' }).click();
+    await expect(page).toHaveURL(/#top$/);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(2);
+    expect(
+      await page.evaluate(() => document.body.dataset.navigationCheck)
+    ).toBe('same-page');
+    if (width === 390)
+      await expect(
+        page.getByRole('button', { name: 'Open menu' })
+      ).toHaveAttribute('aria-expanded', 'false');
+  }
+});
+
+test('outbound arrows use ink SVGs instead of emoji glyphs on mobile', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  for (const name of [
+    'Into the garden',
+    'Build one for your desk',
+    'Wander through the garden',
+    'GitHub',
+  ]) {
+    const arrow = page
+      .getByRole('link', { name, exact: true })
+      .locator('svg.ink-link-arrow');
+    await expect(arrow).toHaveCount(1);
+    await expect(arrow).toHaveAttribute('aria-hidden', 'true');
+  }
+  await page
+    .getByRole('button', { name: 'worth a scribble', exact: true })
+    .click();
+  await expect(
+    page
+      .getByRole('link', { name: /Read my book notes/ })
+      .locator('svg.ink-link-arrow')
+  ).toHaveCount(1);
+  expect(await page.locator('.notebook').innerText()).not.toContain('↗');
 });

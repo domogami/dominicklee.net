@@ -21,7 +21,7 @@ export const personalNotes: PersonalNote[] = [
     title: 'Building Office Inc.',
     body: 'My current project is a mobile story game set on an office desk. Swipe paper cards to make choices, navigate office politics, and reach different endings.',
     annotation: 'a work in progress.',
-    link: { label: 'Peek at Office Inc. ↗', page: 'officeInc' },
+    link: { label: 'Peek at Office Inc.', page: 'officeInc' },
   },
   {
     id: 'done',
@@ -31,7 +31,7 @@ export const personalNotes: PersonalNote[] = [
     title: 'The first website I built',
     body: 'I kept my first website online as a little time capsule of where I started.',
     annotation: 'page zero, still here.',
-    link: { label: 'Visit the first version ↗', page: 'firstWebsite' },
+    link: { label: 'Visit the first version', page: 'firstWebsite' },
   },
   {
     id: 'event',
@@ -50,7 +50,7 @@ export const personalNotes: PersonalNote[] = [
     title: 'Life Worth Living',
     body: 'A recent read that helped me reflect on what matters beyond work. I collected my thoughts and passages to return to in the garden.',
     annotation: 'a book to keep thinking about.',
-    link: { label: 'Read my book notes ↗', page: 'lifeWorthLiving' },
+    link: { label: 'Read my book notes', page: 'lifeWorthLiving' },
   },
   {
     id: 'migrated',
