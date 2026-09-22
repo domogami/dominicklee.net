@@ -111,9 +111,9 @@ The entire invitation opens that mail address. Social destinations: GitHub `domo
 
 ## Search metadata and error copy
 
-**Title:** Dom Lee — My corner of the internet
+**Title:** Dom Lee — An open notebook
 
-**Description:** Dom’s corner of the internet: software, side projects, folded paper, calligraphy, and whatever I’m curious about lately.
+**Description:** My collection of side projects, software experiments, folded paper, calligraphy, and whatever I’m curious about lately.
 
 **404:** This page has been folded away. / Try the notebook, or wander through my digital garden.
 

@@ -1,8 +1,8 @@
 // Keep the search snippet and shared-link copy in sync here.
 export const siteMetadata = {
-  title: 'Dom Lee — My corner of the internet',
+  title: 'Dom Lee — An open notebook',
   description:
-    'Dom’s corner of the internet: software, side projects, folded paper, calligraphy, and whatever I’m curious about lately.',
+    'My collection of side projects, software experiments, folded paper, calligraphy, and whatever I’m curious about lately.',
   url: 'https://dominicklee.net/',
   image: 'https://dominicklee.net/images/notebook-preview.png',
   imageAlt:
