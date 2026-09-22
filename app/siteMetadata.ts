@@ -1,6 +1,6 @@
 // Keep the search snippet and shared-link copy in sync here.
 export const siteMetadata = {
-  title: 'Dom Lee — An open notebook',
+  title: 'Dom Lee · An open notebook',
   description:
     'My collection of side projects, software experiments, folded paper, calligraphy, and whatever I’m curious about lately.',
   url: 'https://dominicklee.net/',

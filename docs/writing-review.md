@@ -111,7 +111,7 @@ The entire invitation opens that mail address. Social destinations: GitHub `domo
 
 ## Search metadata and error copy
 
-**Title:** Dom Lee — An open notebook
+**Title:** Dom Lee · An open notebook
 
 **Description:** My collection of side projects, software experiments, folded paper, calligraphy, and whatever I’m curious about lately.
 
