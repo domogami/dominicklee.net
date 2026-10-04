@@ -80,8 +80,8 @@ body:has(.calculator-journal) {
   text-underline-offset: 4px;
 }
 .calculator-journal :focus-visible {
-  outline: 3px solid #c9903b;
-  outline-offset: 4px;
+  outline: 2px dashed var(--calc-accent);
+  outline-offset: 3px;
 }
 .calculator-journal ::selection {
   color: var(--calc-ink);

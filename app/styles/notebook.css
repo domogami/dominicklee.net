@@ -162,8 +162,8 @@ body:has(.notebook) {
   -webkit-tap-highlight-color: transparent;
 }
 .notebook :focus-visible {
-  outline: 3px solid #df9d3f;
-  outline-offset: 6px;
+  outline: 2px dashed currentColor;
+  outline-offset: 4px;
 }
 .notebook ::selection {
   background: #c0dfcf;

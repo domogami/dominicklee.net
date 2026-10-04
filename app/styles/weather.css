@@ -93,8 +93,8 @@ html:has(.weather-journal[data-motion='off']) {
   text-underline-offset: 4px;
 }
 .weather-journal :focus-visible {
-  outline: 3px solid #d99c44;
-  outline-offset: 5px;
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
 }
 .weather-journal ::selection {
   background: var(--tag);
