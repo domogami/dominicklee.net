@@ -21,6 +21,8 @@ The first two entries preserve the website generations explicitly requested by D
 | p.12  | Digital garden website           | https://domogami.github.io/                                    |
 | p.13  | Life Worth Living book notes     | https://domogami.github.io/influential-works/life-worth-living |
 | p.14  | Office Inc.                      | https://domogami.github.io/side-projects/office-inc            |
+| p.15  | Weather journal                  | /weather/                                                      |
+| p.16  | Calculator                       | /calculator/                                                   |
 
 The source of truth is `app/components/notebook/pageIndex.ts`. New destinations get the next unused number; retain old assignments when moving or renaming content. Do not recycle a retired number. Timeline stage numbers are an ordered list of milestones, not folios.
 

@@ -2,6 +2,7 @@ import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
 import SketchArrow from './SketchArrow';
+import { armHapticCue, haptic, TouchFeedbackSetting } from '../TouchFeedback';
 import StickyNotes from './StickyNotes';
 import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
@@ -67,7 +68,11 @@ export default function Notebook() {
   const activeMotion = motion && !reduced;
   const cyclePhoto = (direction: 'left' | 'right') => {
     if (swipeDirection) return;
-    if (activeMotion) setSwipeDirection(direction);
+    haptic('selection');
+    if (activeMotion) {
+      armHapticCue('photo-cycle');
+      setSwipeDirection(direction);
+    }
     setPhoto((value) => !value);
   };
   useEffect(() => {
@@ -294,7 +299,7 @@ export default function Notebook() {
             </p>
             <div className='hero-actions'>
               <a className='button button-teal' href='#works'>
-                See the works <span>↘</span>
+                See the works <SketchArrow direction='down-right' />
               </a>
               <a className='button button-outline' href={GARDEN}>
                 Into the garden{' '}
@@ -353,6 +358,9 @@ export default function Notebook() {
                 </button>
                 <button
                   className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+                  data-native-tap='none'
+                  data-haptic-cue='photo-cycle'
+                  data-haptic-animation='photo-cycle'
                   onAnimationEnd={(event) => {
                     if (event.animationName === 'photo-cycle') {
                       setSwipeDirection(null);
@@ -519,6 +527,32 @@ export default function Notebook() {
                   {folio('officeInc')} <SketchArrow />
                 </span>
               </a>
+              <a href={pageIndex.weather.href} className='index-row'>
+                <span className='index-symbol' aria-hidden='true'>
+                  ☀
+                </span>
+                <h3>Weather journal</h3>
+                <span className='row-description'>
+                  a little weather, a little wonder
+                </span>
+                <span className='leader' />
+                <span className='folio' data-page='weather'>
+                  {folio('weather')} <SketchArrow />
+                </span>
+              </a>
+              <a href={pageIndex.calculator.href} className='index-row'>
+                <span className='index-symbol' aria-hidden='true'>
+                  ±
+                </span>
+                <h3>Calculator</h3>
+                <span className='row-description'>
+                  a little room to work things out
+                </span>
+                <span className='leader' />
+                <span className='folio' data-page='calculator'>
+                  {folio('calculator')} <SketchArrow />
+                </span>
+              </a>
             </div>
           </div>
         </section>
@@ -664,7 +698,10 @@ export default function Notebook() {
             <button onClick={() => setMotion((v) => !v)} aria-pressed={!motion}>
               {!activeMotion ? 'Motion: quiet' : 'Motion: on'}
             </button>
-            <a href='#main'>Back to the top ↑</a>
+            <TouchFeedbackSetting compact />
+            <a href='#main'>
+              Back to the top <SketchArrow direction='up' />
+            </a>
           </div>
         </div>
       </footer>

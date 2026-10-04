@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="1.6" fill="#252b2e" opacity=".16"/></pattern>
+  </defs>
+  <rect width="512" height="512" fill="#efe7d7"/>
+  <rect width="512" height="512" fill="url(#dots)"/>
+  <ellipse cx="258" cy="266" rx="171" ry="141" fill="#dbe5d5" transform="rotate(-9 258 266)"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="306" cy="191" r="47" fill="#ecc16e" stroke="#9d681f" stroke-width="5"/>
+    <path d="M305 117l1-14m54 35 11-10m10 61 17 1m-42 52 10 13m-60 12v14m-55-41-10 11m-11-62-17 2m42-53-11-12" stroke="#9d681f" stroke-width="5"/>
+    <path d="M166 320c-51-7-56-63-10-79-9-68 77-83 107-29 43-27 91 5 82 44 49 13 34 72-14 68Z" fill="#efe7d7" stroke="#0e7c79" stroke-width="7"/>
+    <path d="M164 330q83-8 166 3M155 239q36-19 52 19" stroke="#0e7c79" stroke-width="3" opacity=".35"/>
+    <path d="M189 360q24 3 39 0m15 0q36 3 69-1" stroke="#0e7c79" stroke-width="5"/>
+  </g>
+</svg>

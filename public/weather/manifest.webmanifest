@@ -1,0 +1,31 @@
+{
+  "id": "/weather/",
+  "name": "Weather journal · Dom Lee",
+  "short_name": "Weather",
+  "description": "A hand-drawn little journal of the sky.",
+  "start_url": "/weather/",
+  "scope": "/weather/",
+  "display": "standalone",
+  "background_color": "#efe7d7",
+  "theme_color": "#efe7d7",
+  "icons": [
+    {
+      "src": "/weather/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/weather/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/weather/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

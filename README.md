@@ -24,6 +24,10 @@ The development site opens at http://localhost:3000. `npm start` serves the prod
 
 ## Archive and remaining projects
 
+`/weather/` is an installable weather journal with the notebook’s typography, dot grid and animated hand-drawn skies. It includes location/search, hourly and ten-day forecasts, rain estimates, air quality, U.S. alerts, day/night paper and offline reading. No API key is required; moon calculations use the bundled Astronomy Engine. See [Weather journal](docs/weather-journal.md) for provider limits, installation and validation.
+
+`/calculator/` brings the same paper and playful motion to everyday arithmetic, scientific functions, offline unit conversions and a private scratchpad. It has its own home-screen icon and works offline after setup. See [Calculator journal](docs/calculator-journal.md) for arithmetic conventions, installation and validation.
+
 `/archive/portfolio/` is a standalone document in `app/archive/portfolio.html`, served by a resource route with assets in `public/archive/portfolio/`. Its homepage markup was rendered from the original React homepage before replacement; its stylesheet, original images, and theme switch are local to that document. It does not mount inside the new application's DOM and does not load the new site's JavaScript or styles. Navigation uses full document links. Its writing link now points to the digital garden.
 
 `/startpage` and `/drinks` remain separate projects with their own legacy layout and route styles. The first Gatsby portfolio remains linked at https://doms-old-site.netlify.app/.

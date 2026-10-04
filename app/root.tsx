@@ -7,19 +7,26 @@ import {
   isRouteErrorResponse,
 } from 'react-router';
 import type { Route } from './+types/root';
+import TouchFeedback from './components/TouchFeedback';
+import SketchArrow from './components/notebook/SketchArrow';
+import touchFeedbackStyles from './styles/touch-feedback.css?url';
+export const links = () => [{ rel: 'stylesheet', href: touchFeedbackStyles }];
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
       <head>
         <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width,initial-scale=1' />
+        <meta
+          name='viewport'
+          content='width=device-width,initial-scale=1,viewport-fit=cover'
+        />
         <meta name='theme-color' content='#0e7c79' />
         <link rel='icon' href='/favicon.svg?v=hexagon' type='image/svg+xml' />
         <Meta />
         <Links />
       </head>
       <body>
-        {children}
+        <TouchFeedback>{children}</TouchFeedback>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -50,7 +57,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
           : 'Please refresh the page and try again.'}
       </p>
       <a href='/'>Back to the notebook</a> ·{' '}
-      <a href='https://domogami.github.io/'>Digital garden ↗</a>
+      <a href='https://domogami.github.io/'>
+        Digital garden <SketchArrow />
+      </a>
     </main>
   );
 }

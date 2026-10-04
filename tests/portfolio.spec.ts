@@ -24,6 +24,8 @@ test('notebook loads without runtime errors and writing lives in the garden', as
     'p.02',
     'p.03',
     'p.14',
+    'p.15',
+    'p.16',
   ]);
   await expect(page.locator('.section-heading > .folio')).toHaveText([
     'p.06',
@@ -660,7 +662,9 @@ test('journal key opens personal notes and restores keyboard focus', async ({
     await notes
       .getByRole('button', { name: 'made & loved', exact: true })
       .click();
-    await notes.getByRole('button', { name: '← back to the key' }).click();
+    await notes
+      .getByRole('button', { name: 'back to the key', exact: true })
+      .click();
     await expect(notes.locator('.key-source')).toHaveAttribute(
       'href',
       /bulletjournal.com/

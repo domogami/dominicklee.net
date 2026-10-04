@@ -52,6 +52,16 @@ export const pageIndex = {
     title: 'Office Inc.',
     href: 'https://domogami.github.io/side-projects/office-inc',
   },
+  weather: {
+    number: '15',
+    title: 'Weather journal',
+    href: '/weather/',
+  },
+  calculator: {
+    number: '16',
+    title: 'Calculator',
+    href: '/calculator/',
+  },
 } as const;
 
 export type NotebookPage = keyof typeof pageIndex;

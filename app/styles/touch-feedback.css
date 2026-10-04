@@ -1,0 +1,101 @@
+.ink-link-arrow {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+  vertical-align: -0.2em;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.native-tap-layer {
+  display: contents;
+  pointer-events: none;
+}
+input.native-tap-target {
+  position: fixed;
+  z-index: 10000;
+  appearance: auto;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+[data-native-tap-pressed] {
+  filter: brightness(0.96);
+}
+.touch-feedback-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 12px;
+  font-size: 13px;
+}
+.touch-feedback-setting small {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--muted, var(--calc-muted, #716b61));
+}
+.touch-feedback-setting.is-compact {
+  display: inline-flex;
+  padding: 0;
+  gap: 8px;
+  font-size: inherit;
+}
+input.ink-switch {
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 24px;
+  margin: 0;
+  border: 1.5px solid currentColor;
+  border-radius: 48% 44% 45% 43% / 70% 62% 68% 62%;
+  background: transparent;
+  color: var(--accent, var(--calc-accent, #0e7c79));
+  cursor: pointer;
+  touch-action: manipulation;
+}
+input.ink-switch::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 3.5px;
+  left: 4px;
+  border-radius: 47% 52% 44% 49%;
+  background: currentColor;
+  opacity: 0.5;
+  transition:
+    transform 140ms ease-out,
+    opacity 140ms ease-out;
+}
+input.ink-switch:checked::after {
+  transform: translateX(15px);
+  opacity: 1;
+}
+input.ink-switch:focus-visible {
+  outline: 2px dashed currentColor;
+  outline-offset: 4px;
+}
+[data-native-switch] input.ink-switch[switch] {
+  appearance: auto;
+  accent-color: var(--accent, var(--calc-accent, #0e7c79));
+  border: 0;
+}
+[data-native-switch] input.ink-switch[switch]::after {
+  content: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  input.ink-switch::after {
+    transition: none;
+  }
+}

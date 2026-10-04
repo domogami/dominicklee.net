@@ -1,4 +1,5 @@
 import SketchArrow from './SketchArrow';
+import { armHapticCue } from '../TouchFeedback';
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 
@@ -155,7 +156,10 @@ export function GardenPlant() {
       onPointerEnter={(event) => {
         if (event.pointerType === 'mouse') setReplay((value) => value + 1);
       }}
-      onClick={() => setReplay((value) => value + 1)}
+      onClick={() => {
+        armHapticCue('garden-plant');
+        setReplay((value) => value + 1);
+      }}
     >
       <svg key={replay} viewBox='0 0 120 144' fill='none' aria-hidden='true'>
         <path
@@ -180,6 +184,8 @@ export function GardenPlant() {
         />
         <path
           className='plant-leaf leaf-four'
+          data-haptic-cue='garden-plant'
+          data-haptic-animation='banner-outline'
           pathLength='1'
           d='M61 33Q57 11 79 6Q85 25 61 33Z'
         />

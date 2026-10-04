@@ -47,7 +47,7 @@ export default function StickyNotes() {
                 className='note-back'
                 onClick={() => setActive(null)}
               >
-                ← back to the key
+                <SketchArrow direction='left' /> back to the key
               </button>
               <p className='personal-note-kind'>
                 <span aria-hidden='true'>{note.mark}</span> {note.label}

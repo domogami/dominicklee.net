@@ -8,6 +8,18 @@ const handlerPath = '.netlify/v1/functions/react-router-server.mjs';
 await access('build/server/index.js');
 await access('build/client/favicon.svg');
 await access('build/client/images/notebook-preview.png');
+for (const asset of [
+  'manifest.webmanifest',
+  'sw.js',
+  'icon-192.png',
+  'icon-512.png',
+  'icon-maskable.png',
+  'apple-touch-icon.png',
+  'social.png',
+]) {
+  await access(`build/client/weather/${asset}`);
+  await access(`build/client/calculator/${asset}`);
+}
 const { default: handler, config } = await import(
   pathToFileURL(resolve(handlerPath))
 );

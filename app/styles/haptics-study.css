@@ -1,0 +1,182 @@
+.notebook.haptics-study {
+  min-height: 100svh;
+  background-color: #efe7d7;
+  background-image: radial-gradient(#a9a39266 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+  color: #292f32;
+  font:
+    400 13px/1.5 'Lexend',
+    sans-serif;
+}
+.touch-study-page {
+  width: min(100%, 480px);
+  margin-inline: auto;
+  padding: calc(18px + env(safe-area-inset-top)) 22px
+    calc(18px + env(safe-area-inset-bottom));
+}
+.touch-study-page header,
+.touch-study-page header a,
+.touch-study-page footer,
+.touch-study-row,
+.touch-study-visible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.touch-study-page header a {
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 11px;
+}
+.haptics-study .crane {
+  width: 30px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #0e7c79;
+}
+.touch-study-mark {
+  font:
+    500 18px/1.2 'Caveat',
+    cursive;
+  color: #0e7c79;
+}
+.touch-study-page h1 {
+  margin: 18px 0 6px;
+  font:
+    700 34px/1.15 'Poppins',
+    sans-serif;
+  letter-spacing: -1.4px;
+}
+.touch-study-page h1 span,
+.touch-study-page a {
+  color: #0e7c79;
+}
+.touch-study-page a {
+  text-decoration: none;
+}
+.touch-study-intro {
+  margin-bottom: 16px;
+}
+.touch-study-page section {
+  padding: 12px 0;
+  border-top: 1px dashed #8e9c9860;
+}
+.touch-study-page h2 {
+  margin: 0 0 7px;
+  font:
+    600 24px/1.2 'Caveat',
+    cursive;
+}
+.touch-study-row > span {
+  font:
+    400 10px/1.2 'IBM Plex Mono',
+    monospace;
+  color: #64736d;
+}
+.touch-study-page section p {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #64736d;
+}
+.touch-study-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  width: 100%;
+  padding: 7px 16px;
+  border: 1.5px solid #0e7c79;
+  border-radius: 6px 9px 5px 8px;
+  background: transparent;
+  color: #0e7c79;
+  font:
+    600 24px/1.2 'Caveat',
+    cursive;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.touch-study-target {
+  position: relative;
+  display: block;
+}
+.touch-study-target .touch-study-button {
+  pointer-events: none;
+}
+.touch-study-native-target {
+  /* Native appearance and a true finger tap are necessary on recent iOS.
+     Opacity keeps the control rendered; clip-path also clips its hit area. */
+  appearance: auto;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  clip-path: inset(0 round 6px 9px 5px 8px);
+  touch-action: manipulation;
+  cursor: pointer;
+}
+.touch-study-target:has(input:focus-visible) .touch-study-button,
+.touch-study-button:focus-visible {
+  outline: 2px dashed #0e7c79;
+  outline-offset: 4px;
+}
+.touch-study-target:has(input:active) .touch-study-button,
+.touch-study-button:active {
+  transform: translateY(1px) rotate(-0.3deg);
+}
+.touch-study-visible {
+  min-height: 44px;
+}
+.touch-study-visible input {
+  appearance: auto;
+  width: 42px;
+  height: 25px;
+  accent-color: #0e7c79;
+}
+.touch-study-result {
+  border-top: 1px dashed #8e9c9860;
+  padding-top: 12px;
+  font:
+    500 20px/1.2 'Caveat',
+    cursive;
+}
+.touch-study-footnote {
+  font-size: 10px;
+  color: #64736d;
+  margin: 8px 0;
+}
+.touch-study-page footer {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 14px;
+  font:
+    500 19px/1.2 'Caveat',
+    cursive;
+}
+@media (prefers-color-scheme: dark) {
+  .notebook.haptics-study {
+    background-color: #292f32;
+    background-image: radial-gradient(#b6bdaf33 0.8px, transparent 0.8px);
+    color: #efe7d7;
+  }
+  .touch-study-page h1 span,
+  .touch-study-page a,
+  .touch-study-mark,
+  .haptics-study .crane,
+  .touch-study-button {
+    color: #b9cd91;
+  }
+  .touch-study-button {
+    border-color: #b9cd91;
+  }
+  .touch-study-page section p,
+  .touch-study-row > span,
+  .touch-study-footnote {
+    color: #b0b5ac;
+  }
+}

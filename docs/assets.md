@@ -6,6 +6,8 @@
 - SNAP75 photographs: user-provided `IMG_4961.JPG` (top view) and `IMG_4962.JPG` (desk view). Optimized 1600px copies are shipped as `public/images/snap75-top.jpg` and `snap75-desk.jpg`; original files are not modified.
 - Banners, plant, timeline, paper airplane and social sketches: code-authored SVG/CSS. No external image service is required at runtime.
 - Favicon: `public/favicon.svg` combines the current paper-colored crane with the original rounded hexagon silhouette in teal. `public/favicon.ico` contains matching 16, 32, 48 and 256px fallbacks.
+- Weather illustrations and home-screen icon: original SVG/CSS in `app/components/weather/WeatherArt.tsx` and `public/weather/icon.svg`, with the existing crane geometry reused for the tap interaction. `scripts/generate-weather-assets.py` generates PNG icons and vector/PNG social artwork from these shapes and the existing licensed fonts.
+- Calculator artwork and home-screen icon: original SVG/CSS in `app/components/calculator/CalculatorJournal.tsx` and `public/calculator/icon.svg`, sharing the existing crane and fonts. `scripts/generate-calculator-assets.py` generates its PNG icons and vector/PNG social artwork.
 - `ColorSchemeIdea1.jpeg` and `ColorSchemeIdea2.jpeg`: existing root-level design references, retained unchanged; not used in the production page.
 
 ## Fonts

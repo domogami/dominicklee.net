@@ -1,0 +1,246 @@
+/* The two notebook tools share a viewport-sized shell, not a scrolling article. */
+html:has(.pocket-app),
+body:has(.pocket-app) {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.pocket-app {
+  --app-paper: #efe7d7;
+  --app-ink: #252b2e;
+  --app-accent: #0e7c79;
+  --app-rule: #c9c5b5;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+.pocket-app[data-theme='dark'] {
+  --app-paper: #2b3034;
+  --app-ink: #efe7d7;
+  --app-accent: #b6cf8e;
+  --app-rule: #505a5b;
+}
+.pocket-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 1060px;
+  margin: auto;
+  padding: env(safe-area-inset-top) max(22px, env(safe-area-inset-right)) 0
+    max(22px, env(safe-area-inset-left));
+}
+.pocket-header {
+  height: 66px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+.pocket-header h1 {
+  font:
+    600 19px/1.25 'Poppins',
+    sans-serif;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+.pocket-header > button:last-child,
+.pocket-header .pocket-settings {
+  border: 0;
+  padding: 10px;
+  background: none;
+  width: 44px;
+  height: 44px;
+}
+.pocket-settings svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.pocket-home {
+  color: var(--app-accent) !important;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pocket-home svg {
+  width: 40px;
+  height: 40px;
+  overflow: visible;
+}
+.pocket-home path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.home-hex {
+  stroke-width: 0.8;
+  opacity: 0.48;
+}
+.home-fold {
+  stroke-width: 0.85;
+  fill: currentColor;
+  fill-opacity: 0.15;
+}
+.pocket-app[data-motion='on'] .home-hex {
+  animation: pocket-ink 800ms ease-out both;
+}
+.pocket-app[data-motion='on'] .home-fold {
+  animation:
+    pocket-ink 650ms ease-out both,
+    pocket-wash 350ms ease-out both;
+  animation-delay:
+    calc(150ms + var(--stroke-order) * 90ms),
+    calc(650ms + var(--stroke-order) * 90ms);
+}
+.pocket-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+.pocket-panel {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-rule) transparent;
+  padding: 16px 2px 22px;
+}
+.pocket-panel[hidden] {
+  display: none !important;
+}
+.pocket-panel:focus-visible {
+  outline-offset: -3px;
+}
+.pocket-nav {
+  flex-shrink: 0;
+  border-top: 1px solid var(--app-rule);
+  padding: 4px 0 max(7px, env(safe-area-inset-bottom));
+  background: var(--app-paper);
+}
+.pocket-nav > div {
+  display: flex;
+  justify-content: space-around;
+  max-width: 640px;
+  margin: auto;
+}
+.pocket-nav button {
+  border: 0;
+  background: none;
+  min-height: 54px;
+  min-width: 58px;
+  padding: 7px 12px 4px;
+  color: var(--app-ink);
+  opacity: 0.57;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.pocket-nav button[aria-selected='true'] {
+  color: var(--app-accent);
+  opacity: 1;
+}
+.pocket-nav button > span {
+  font:
+    500 19px/1.1 'Caveat',
+    cursive;
+}
+.pocket-nav svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+.pocket-nav path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.pocket-app[data-motion='on'] .pocket-nav [aria-selected='true'] path {
+  animation: pocket-ink 600ms ease-out both;
+}
+.pocket-sr {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap;
+  border: 0 !important;
+}
+.pocket-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  border-top: 1px dashed var(--app-rule);
+  padding-top: 18px;
+  margin-top: 24px;
+  font-size: 12px;
+}
+@keyframes pocket-ink {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pocket-wash {
+  from {
+    fill-opacity: 0;
+  }
+  to {
+    fill-opacity: 0.15;
+  }
+}
+@media (max-width: 720px) {
+  .pocket-frame {
+    padding-inline: max(18px, env(safe-area-inset-left))
+      max(18px, env(safe-area-inset-right));
+  }
+  .pocket-header {
+    height: 56px;
+    gap: 6px;
+  }
+  .pocket-panel {
+    padding-top: 12px;
+  }
+}
+@media (max-height: 560px) {
+  .pocket-header {
+    height: 48px;
+  }
+  .pocket-nav button {
+    min-height: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pocket-app,
+  .pocket-app *,
+  .pocket-app *::before,
+  .pocket-app *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.pocket-app[data-motion='off'],
+.pocket-app[data-motion='off'] *,
+.pocket-app[data-motion='off'] *::before,
+.pocket-app[data-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
+}

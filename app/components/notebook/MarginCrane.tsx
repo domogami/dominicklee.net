@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
+import { armHapticCue } from '../TouchFeedback';
 import { AnimatedNote } from './NotebookDrawings';
 
 export default function MarginCrane({ motion }: { motion: boolean }) {
@@ -33,12 +34,17 @@ export default function MarginCrane({ motion }: { motion: boolean }) {
           aria-label='Replay crane folding animation'
           onClick={() => {
             if (motion) {
+              armHapticCue('margin-crane');
               setSeen(true);
               setReplay((value) => value + 1);
             }
           }}
         >
-          <Crane key={`${seen}-${replay}`} animated={seen && motion} />
+          <Crane
+            key={`${seen}-${replay}`}
+            animated={seen && motion}
+            hapticCue='margin-crane'
+          />
         </button>
         <AnimatedNote
           className='crane-caption'

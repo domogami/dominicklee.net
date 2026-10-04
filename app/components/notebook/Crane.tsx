@@ -12,9 +12,11 @@ const folds = [
 export default function Crane({
   className = '',
   animated = false,
+  hapticCue,
 }: {
   className?: string;
   animated?: boolean;
+  hapticCue?: string;
 }) {
   return (
     <svg
@@ -28,6 +30,8 @@ export default function Crane({
           key={d}
           d={d}
           pathLength='1'
+          data-haptic-cue={i === folds.length - 1 ? hapticCue : undefined}
+          data-haptic-animation='fold-draw'
           style={{ '--fold': i } as CSSProperties}
         />
       ))}
