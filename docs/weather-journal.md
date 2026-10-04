@@ -68,6 +68,8 @@ The viewport-sized shell has Now, Hours, Week and Details tabs. Now shows the pl
 
 `PocketChrome.tsx` and `pocket-app.css` share the navigation, safe-area handling and hand-drawn crane with the calculator. The SVG sky draws individual paths in sequence, then fades in its color, following the notebook plant’s animation. Rain has a quiet repeating motion after the drawing completes. Tap the sky to replay. Reduced motion renders a complete, still drawing.
 
+Home Screen apps use `100vh` only inside `(display-mode: standalone)`, avoiding WebKit's [installed-app viewport-height issue](https://bugs.webkit.org/show_bug.cgi?id=254868). Regular Safari retains `100dvh` for its expanding/collapsing browser controls. The status-bar and home-indicator insets remain inside the shared frame, with no additional bottom compensation. The standalone layout regression check simulates the undersized dynamic viewport and safe insets; physical iOS verification still requires the installed app.
+
 `tests/pocket-apps.spec.ts` verifies that primary screens fit short mobile viewports, phone landscape and tablets, plus tab keyboard behavior, drawing timing and replay.
 
 `tests/weather-forecast.spec.ts` covers forecast switching, linked hour/day previews, chart dragging and keyboard selection, missing data, truncated/expired forecasts and dates across time zones.

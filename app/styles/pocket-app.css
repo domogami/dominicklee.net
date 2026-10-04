@@ -15,6 +15,14 @@ body:has(.pocket-app) {
   overflow: hidden;
   padding: 0;
 }
+@media (display-mode: standalone) {
+  /* WebKit can exclude safe areas from dvh in Home Screen apps. vh includes
+     them; the frame and navigation each apply their own safe inset once.
+     https://bugs.webkit.org/show_bug.cgi?id=254868 */
+  .pocket-app {
+    height: 100vh;
+  }
+}
 .pocket-app[data-theme='dark'] {
   --app-paper: #2b3034;
   --app-ink: #efe7d7;

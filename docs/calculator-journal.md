@@ -41,6 +41,8 @@ Calculate, Convert and History have separate bottom tabs. The main screen fits t
 
 Shared shell: `app/components/notebook/PocketChrome.tsx` and `app/styles/pocket-app.css`. `tests/pocket-apps.spec.ts` checks short phone screens, landscape, tablets, keyboard tab navigation and preserved converter state.
 
+The shared shell uses `100vh` in Home Screen standalone mode to avoid an extra bottom gap from WebKit's dynamic viewport measurement. Regular Safari keeps `100dvh`, and the home-indicator inset remains intact. See the [weather layout notes](weather-journal.md#compact-app-layout) for the platform issue and validation limits.
+
 On desktop the calculator is centered in the available panel, with a 640px maximum working height. The number field reserves space for Caveat's overhanging final strokes, and single numbers and results reduce their font size to fit the available width. Long expressions remain editable in the normal scrolling text field. The expression field waits for saved state to finish loading before accepting edits. `tests/calculator-layout.spec.ts` checks tall desktop and short phone layouts, font ink metrics, and long number fitting.
 
 Safari direct-touch feedback is shared with the notebook and weather through `TouchFeedback.tsx` and `nativeTapTargets.ts`; see [touch feedback details](weather-journal.md#touch-feedback-and-pen-arrows). This uses native ticks on iPhone button taps, while Android retains custom patterns and feedback on explicitly replayed drawing finishes.
