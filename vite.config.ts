@@ -4,5 +4,7 @@ import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 export default defineConfig({
   plugins: [reactRouter(), netlify()],
+  // Bundle the ephemeris so Netlify never has to resolve its mixed ESM/CJS exports.
+  ssr: { noExternal: ['astronomy-engine'] },
   resolve: { alias: { '~': fileURLToPath(new URL('./app', import.meta.url)) } },
 });
