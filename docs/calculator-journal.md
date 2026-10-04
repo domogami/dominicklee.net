@@ -23,7 +23,7 @@ Calculations use JavaScript floating-point numbers, displaying up to 14 signific
 
 ## Installation and storage
 
-On an HTTPS deployment, open `/calculator/` in Safari, then **Share → Add to Home Screen** (and enable **Open as Web App** if offered). Visit once online to cache the page, code and fonts before trying offline. Desktop browsers can also install the manifest. Localhost supports service workers for development; plain HTTP over a LAN does not.
+On an HTTPS deployment, open `/calculator/` in Safari, then **Share → Add to Home Screen** (and enable **Open as Web App** if offered). The revised icon has a handwritten display and four distinct arithmetic marks on dark dotted paper. Separate dark/light SVGs and 1024px PNGs are in `public/calculator/`; regenerate the icon family with `python3 scripts/generate-app-icons.py`. Versioned installation links and worker cache v2 refresh the previous artwork. Visit once online to cache the page, code and fonts before trying offline. Desktop browsers can also install the manifest. Localhost supports service workers for development; plain HTTP over a LAN does not.
 
 Settings, the current expression, calculator memory and history are stored under `calculator-journal:v1` in this browser's local storage. They are not sent to a server or synced between devices. Browser storage can be cleared or evicted. The worker at `/calculator/sw.js` controls only `/calculator/`; weather has its own worker and cache. Full links back to the site and weather stay outside its offline navigation handling.
 

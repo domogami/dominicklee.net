@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Weather — a moon and cloud sketched on light dot paper</title>
+  <defs>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="1.15" fill="#252b2e" opacity=".13" />
+    </pattern>
+  </defs>
+  <rect width="512" height="512" fill="#efe7d7" />
+  <rect width="512" height="512" fill="url(#dots)" />
+  <g id="icon-mark" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M110 247C121 174 199 132 281 144C373 156 418 225 396 295C377 365 288 393 204 371C125 351 96 305 110 247Z" fill="#dbe5d5" />
+    <path d="M329 112C290 107 258 132 254 166C249 207 279 238 315 240C336 242 358 232 370 214C339 221 311 201 308 173C305 148 313 127 329 112Z" fill="#ecc16e" stroke="#252b2e" stroke-width="7" />
+    <path d="M316 120C284 123 267 145 266 169" fill="none" stroke="#252b2e" stroke-width="3" opacity=".34" />
+    <path d="M146 314C123 314 105 298 108 276C109 257 123 246 143 244C137 213 158 190 186 191C209 190 226 204 233 222C249 200 278 197 298 211C309 218 315 230 316 243C340 238 362 250 366 272C372 296 353 316 329 317C270 320 206 314 146 314Z" fill="#e3e8da" stroke="#252b2e" stroke-width="9" />
+    <path d="M143 244C157 240 169 247 174 257" fill="none" stroke="#252b2e" stroke-width="4" opacity=".38" />
+    <path d="M148 324C197 321 261 326 324 325" fill="none" stroke="#0e7c79" stroke-width="3" opacity=".45" />
+    <g fill="none" stroke="#0e7c79" stroke-width="9">
+      <path d="M183 349Q180 359 174 368" />
+      <path d="M248 350Q244 362 240 378" />
+      <path d="M311 350Q305 359 303 369" />
+    </g>
+  </g>
+</svg>

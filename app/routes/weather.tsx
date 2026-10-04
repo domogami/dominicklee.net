@@ -12,8 +12,12 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: notebook },
   { rel: 'stylesheet', href: weather },
   { rel: 'stylesheet', href: pocket },
-  { rel: 'manifest', href: '/weather/manifest.webmanifest' },
-  { rel: 'apple-touch-icon', href: '/weather/apple-touch-icon.png' },
+  { rel: 'manifest', href: '/weather/manifest.webmanifest?v=dark-sketch-2' },
+  {
+    rel: 'apple-touch-icon',
+    href: '/weather/apple-touch-icon.png?v=dark-sketch-2',
+    sizes: '180x180',
+  },
 ];
 export const meta: MetaFunction = () => [
   { title: 'Weather journal · Dom Lee' },

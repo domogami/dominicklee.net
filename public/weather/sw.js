@@ -1,6 +1,6 @@
 /* Scoped to /weather/. Never intercept the notebook or cache weather API replies.
  * Forecast snapshots and their timestamps are managed by the app, not this cache. */
-const CACHE = 'dom-weather-shell-v1';
+const CACHE = 'dom-weather-shell-v2';
 const SHELL = '/weather/';
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -9,9 +9,11 @@ self.addEventListener('install', (event) => {
       .then((cache) =>
         cache.addAll([
           SHELL,
-          '/weather/manifest.webmanifest',
-          '/weather/icon-192.png',
-          '/weather/icon-512.png',
+          '/weather/manifest.webmanifest?v=dark-sketch-2',
+          '/weather/icon-192.png?v=dark-sketch-2',
+          '/weather/icon-512.png?v=dark-sketch-2',
+          '/weather/icon.svg?v=dark-sketch-2',
+          '/weather/apple-touch-icon.png?v=dark-sketch-2',
           '/favicon.svg',
         ])
       )
@@ -82,7 +84,8 @@ self.addEventListener('fetch', (event) => {
     ![
       '/assets/',
       '/fonts/',
-      '/weather/icon-',
+      '/weather/manifest.webmanifest',
+      '/weather/icon',
       '/weather/apple-touch-icon',
     ].some((prefix) => url.pathname.startsWith(prefix)) &&
     url.pathname !== '/favicon.svg'

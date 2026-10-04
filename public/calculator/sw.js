@@ -1,5 +1,5 @@
 /* Calculator-only offline shell. Never intercept the notebook or weather app. */
-const CACHE = 'dom-calculator-shell-v1';
+const CACHE = 'dom-calculator-shell-v2';
 const SHELL = '/calculator/';
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -8,9 +8,11 @@ self.addEventListener('install', (event) => {
       .then((cache) =>
         cache.addAll([
           SHELL,
-          '/calculator/manifest.webmanifest',
-          '/calculator/icon-192.png',
-          '/calculator/icon-512.png',
+          '/calculator/manifest.webmanifest?v=dark-sketch-2',
+          '/calculator/icon-192.png?v=dark-sketch-2',
+          '/calculator/icon-512.png?v=dark-sketch-2',
+          '/calculator/icon.svg?v=dark-sketch-2',
+          '/calculator/apple-touch-icon.png?v=dark-sketch-2',
           '/favicon.svg',
         ])
       )
@@ -81,7 +83,8 @@ self.addEventListener('fetch', (event) => {
     ![
       '/assets/',
       '/fonts/',
-      '/calculator/icon-',
+      '/calculator/manifest.webmanifest',
+      '/calculator/icon',
       '/calculator/apple-touch-icon',
     ].some((prefix) => url.pathname.startsWith(prefix)) &&
     url.pathname !== '/favicon.svg'

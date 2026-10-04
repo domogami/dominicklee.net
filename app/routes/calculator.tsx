@@ -12,8 +12,15 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: notebook },
   { rel: 'stylesheet', href: calculator },
   { rel: 'stylesheet', href: pocket },
-  { rel: 'manifest', href: '/calculator/manifest.webmanifest' },
-  { rel: 'apple-touch-icon', href: '/calculator/apple-touch-icon.png' },
+  {
+    rel: 'manifest',
+    href: '/calculator/manifest.webmanifest?v=dark-sketch-2',
+  },
+  {
+    rel: 'apple-touch-icon',
+    href: '/calculator/apple-touch-icon.png?v=dark-sketch-2',
+    sizes: '180x180',
+  },
 ];
 export const meta: MetaFunction = () => [
   { title: 'Calculator · Dom Lee’s notebook' },

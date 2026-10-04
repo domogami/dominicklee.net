@@ -384,7 +384,11 @@ test('calculator and weather install separately and the calculator reopens and c
   await expect
     .poll(() =>
       page.evaluate(async () => {
-        const cache = await caches.open('dom-calculator-shell-v1');
+        const cacheName = (await caches.keys()).find((name) =>
+          name.startsWith('dom-calculator-shell-')
+        );
+        if (!cacheName) return {};
+        const cache = await caches.open(cacheName);
         const urls = (await cache.keys()).map((r) => r.url);
         return {
           route: urls.some(
@@ -392,6 +396,9 @@ test('calculator and weather install separately and the calculator reopens and c
           ),
           entry: urls.some((u) => u.includes('/assets/entry.client-')),
           fonts: urls.some((u) => u.includes('/fonts/')),
+          icon: urls.some(
+            (u) => new URL(u).pathname === '/calculator/icon.svg'
+          ),
           scopes: (await navigator.serviceWorker.getRegistrations())
             .map((r) => new URL(r.scope).pathname)
             .sort(),
@@ -402,6 +409,7 @@ test('calculator and weather install separately and the calculator reopens and c
       route: true,
       entry: true,
       fonts: true,
+      icon: true,
       scopes: ['/calculator/', '/weather/'],
     });
   await context.setOffline(true);

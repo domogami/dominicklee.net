@@ -353,7 +353,11 @@ test('installed shell reopens offline with a dated saved forecast', async ({
     .poll(() =>
       page.evaluate(async () => {
         const reg = await navigator.serviceWorker.getRegistration('/weather/');
-        const cache = await caches.open('dom-weather-shell-v1');
+        const cacheName = (await caches.keys()).find((name) =>
+          name.startsWith('dom-weather-shell-')
+        );
+        if (!cacheName) return { active: false };
+        const cache = await caches.open(cacheName);
         const urls = (await cache.keys()).map((r) => r.url);
         return {
           active: !!reg?.active,
@@ -362,12 +366,19 @@ test('installed shell reopens offline with a dated saved forecast', async ({
             (u) => u.includes('/assets/weather-') && u.endsWith('.js')
           ),
           fonts: urls.some((u) => u.includes('/fonts/')),
+          icon: urls.some((u) => new URL(u).pathname === '/weather/icon.svg'),
           resources: performance.getEntriesByType('resource').length,
           urls,
         };
       })
     )
-    .toMatchObject({ active: true, entry: true, route: true, fonts: true });
+    .toMatchObject({
+      active: true,
+      entry: true,
+      route: true,
+      fonts: true,
+      icon: true,
+    });
   await context.setOffline(true);
   await page.reload();
   await expect(page.locator('.current-temperature')).toHaveText('64°');

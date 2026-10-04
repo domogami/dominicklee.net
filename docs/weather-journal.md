@@ -42,7 +42,7 @@ Minutely precipitation is model data with geographic differences in resolution, 
 
 ## Home-screen installation
 
-After deploying over HTTPS, open `https://dominicklee.net/weather/` in Safari on iPhone or iPad. Choose **Share → Add to Home Screen** and enable **Open as Web App** if offered. The installed name is Weather, with a custom paper/cloud/sun icon. See [WebKit’s home-screen web app documentation](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/).
+After deploying over HTTPS, open `https://dominicklee.net/weather/` in Safari on iPhone or iPad. Choose **Share → Add to Home Screen** and enable **Open as Web App** if offered. The installed name is Weather, with a custom moon/cloud icon on dark dotted paper. Separate dark/light SVGs and 1024px PNGs are in `public/weather/`; regenerate the icon family with `python3 scripts/generate-app-icons.py`. Versioned installation links and worker cache v2 refresh the previous artwork. See [WebKit’s home-screen web app documentation](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/).
 
 The manifest uses `/weather/` as its ID, start URL and scope. `/weather` redirects to the trailing slash so the service-worker scope includes the page. Safe-area padding accommodates the status bar and home indicator; the layout responds to available width for tablet split views and phone landscape.
 
