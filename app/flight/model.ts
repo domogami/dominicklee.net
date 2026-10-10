@@ -619,6 +619,34 @@ export function regression(samples: Sample[]) {
     denominator: denom,
   };
 }
+export function compareClimbRates(samples: Sample[]) {
+  if (samples.length < 2) return undefined;
+  const duration = samples.at(-1)!.t - samples[0].t;
+  if (duration <= 0) return undefined;
+  const gain = samples.at(-1)!.altitude - samples[0].altitude;
+  const rates: number[] = [];
+  let left = 0;
+  // Trailing windows span at least 30 s, using actual timestamps. They overlap
+  // and describe variation within a segment, not independent performance runs.
+  for (let right = 1; right < samples.length; right++) {
+    while (samples[right].t - samples[left + 1].t >= 30) left++;
+    if (samples[right].t - samples[left].t >= 30 && right - left + 1 >= 6)
+      rates.push(regression(samples.slice(left, right + 1)).rate);
+  }
+  return {
+    gain,
+    duration,
+    endpoint: (60 * gain) / duration,
+    rolling: rates.length
+      ? {
+          median: median(rates),
+          min: Math.min(...rates),
+          max: Math.max(...rates),
+          count: rates.length,
+        }
+      : undefined,
+  };
+}
 export function weighted(
   samples: Sample[],
   values: (number | undefined)[],
@@ -645,6 +673,7 @@ export function weighted(
 export interface Segment {
   id: string;
   kind: 'cruise' | 'climb' | 'excluded';
+  quality: 'steady' | 'variable' | 'excluded';
   reason: string[];
   cautions: string[];
   samples: Sample[];
@@ -696,6 +725,7 @@ export function analyze(samples: Sample[], options: Options): Segment[] {
       duration = end - start;
     const fit = regression(ss),
       reason: string[] = [],
+      stability: string[] = [],
       cautions: string[] = [];
     const gs = weighted(
       ss,
@@ -720,20 +750,23 @@ export function analyze(samples: Sample[], options: Options): Segment[] {
     const speeds = ss
       .map((s) => s.gs ?? s.ias ?? s.cas ?? s.tas)
       .filter((v): v is number => v != null);
-    if (
-      speeds.length &&
-      Math.max(...speeds) - Math.min(...speeds) >
-        Math.max(10, (flightSpeed.value ?? 0) * 0.12)
-    )
-      reason.push('Speed varies too much for steady performance.');
+    const speedRange = speeds.length
+      ? Math.max(...speeds) - Math.min(...speeds)
+      : 0;
+    const speedLimit = Math.max(10, (flightSpeed.value ?? 0) * 0.12);
+    if (speeds.length && speedRange > speedLimit)
+      stability.push(
+        `Speed varies too much for steady performance (range ${speedRange.toFixed(1)} kt; limit ${speedLimit.toFixed(1)} kt).`
+      );
     const tracks = ss.map((s) => s.track).filter((v): v is number => v != null);
     if (tracks.length >= ss.length * 0.9) {
-      if (
-        Math.max(
-          ...tracks.map((v) => Math.abs(angleDifference(v, tracks[0])))
-        ) > 12
-      )
-        reason.push('Turning: track varies by more than 12°.');
+      const trackChange = Math.max(
+        ...tracks.map((v) => Math.abs(angleDifference(v, tracks[0])))
+      );
+      if (trackChange > 12)
+        stability.push(
+          `Turning: track varies by more than 12° (observed change ${trackChange.toFixed(1)}° from the first track).`
+        );
     } else
       cautions.push(
         'Track coverage is incomplete; straight flight cannot be fully checked.'
@@ -747,8 +780,9 @@ export function analyze(samples: Sample[], options: Options): Segment[] {
         mean(values) > 0 &&
         (Math.max(...values) - Math.min(...values)) / mean(values) > 0.1
       )
-        reason.push(
-          `${key === 'map' ? 'Manifold pressure' : key === 'rpm' ? 'RPM' : 'Fuel flow'} varies by more than 10%.`
+        stability.push(
+          `${key === 'map' ? 'Manifold pressure' : key === 'rpm' ? 'RPM' : 'Fuel flow'} varies by more than 10%.` +
+            ` Observed range is ${(((Math.max(...values) - Math.min(...values)) / mean(values)) * 100).toFixed(1)}% of the mean.`
         );
     }
     if (!ss.some((s) => s.rpm != null || s.map != null))
@@ -772,8 +806,12 @@ export function analyze(samples: Sample[], options: Options): Segment[] {
       reason.push(
         fit.rate <= -150
           ? 'Descent; excluded from cruise and climb.'
-          : 'Altitude trend is not steady cruise or climb.'
+          : `Altitude trend is not steady cruise or climb (slope ${fit.rate.toFixed(1)} ft/min; R² ${fit.r2.toFixed(3)}; residual RMS ${fit.residual.toFixed(1)} ft).`
       );
+    // Changing speed, heading or power prevents a steady cruise benchmark, but
+    // does not erase an otherwise well-resolved altitude gain in a climb.
+    if (kind === 'climb') cautions.push(...stability);
+    else reason.push(...stability);
     if (reason.length) kind = 'excluded';
     const weather = options.weather.find((w) => w.id === id);
     const conditions: Conditions = weather ?? options.manual;
@@ -808,6 +846,12 @@ export function analyze(samples: Sample[], options: Options): Segment[] {
     return {
       id,
       kind,
+      quality:
+        kind === 'excluded'
+          ? 'excluded'
+          : stability.length
+            ? 'variable'
+            : 'steady',
       reason,
       cautions,
       samples: ss,

@@ -4,6 +4,7 @@ import {
   airDataTas,
   altitudeFromPressure,
   analyze,
+  compareClimbRates,
   defaultOptions,
   defaultUnits,
   derive,
@@ -117,6 +118,7 @@ test('irregular sampling preserves climb slope and integrates fuel by time witho
     fuel: 6,
   }));
   expect(regression(ss).rate).toBeCloseTo(600, 8);
+  expect(compareClimbRates(ss)?.endpoint).toBeCloseTo(600, 8);
   expect(
     weighted(
       ss,
@@ -128,17 +130,102 @@ test('irregular sampling preserves climb slope and integrates fuel by time witho
     weighted(ss, [6, 6, undefined, undefined, 6, 6], 60).value
   ).toBeUndefined();
 });
-test('GPS-only analysis produces measured climb and groundspeed, leaves TAS and fuel unknown, and excludes turns', () => {
+test('both departures retain well-resolved climbs despite turns and changing groundspeed, while cruise still requires stability', () => {
+  const ss: Sample[] = Array.from({ length: 121 }, (_, i) => {
+    const t = i * 5;
+    return {
+      t,
+      absolute: false,
+      row: i + 1,
+      altitude:
+        t <= 120
+          ? 500 + t * 8
+          : t <= 240
+            ? 1460
+            : t <= 480
+              ? 1460 + (t - 240) * 9
+              : 3620,
+      gs: t <= 120 ? 70 : 55 + (t % 120) * 0.2,
+      track: t <= 120 ? 90 : (90 + (t % 120) * 0.5) % 360,
+    };
+  });
+  const segments = analyze(ss, defaultOptions);
+  const first = segments.find((s) => s.start === 0)!;
+  const returnClimbs = segments.filter((s) => s.start >= 240 && s.end <= 480);
+  expect(first.kind).toBe('climb');
+  expect(first.quality).toBe('steady');
+  expect(returnClimbs).toHaveLength(2);
+  for (const s of returnClimbs) {
+    expect(s.kind).toBe('climb');
+    expect(s.quality).toBe('variable');
+    expect(s.rate).toBeCloseTo(540, 8);
+    expect(s.reason).toEqual([]);
+    expect(s.cautions.join(' ')).toContain('Turning');
+    expect(s.cautions.join(' ')).toContain('Speed varies');
+    expect(s.fuel).toBeUndefined();
+  }
+  expect(segments.find((s) => s.start === 120)?.kind).toBe('excluded');
+});
+test('altitude jumps and poor GPS accuracy remain excluded even during an apparent climb', () => {
+  const ss: Sample[] = Array.from({ length: 25 }, (_, i) => ({
+    t: i * 5,
+    absolute: false,
+    row: i + 1,
+    altitude: 1000 + i * 45 + (i === 12 ? 1400 : 0),
+    gs: 75,
+    track: 90,
+  }));
+  const noisy = analyze(ss, defaultOptions)[0];
+  expect(noisy.kind).toBe('excluded');
+  expect(noisy.reason.join(' ')).toContain('Altitude trend');
+  const badGps = analyze(
+    ss.map((s, i) => ({
+      ...s,
+      altitude: 1000 + i * 45,
+      verticalError: i === 12 ? 80 : 5,
+    })),
+    defaultOptions
+  )[0];
+  expect(badGps.kind).toBe('excluded');
+  expect(badGps.reason.join(' ')).toContain('vertical error');
+});
+test('regression, endpoints and overlapping local regressions agree for a linear climb and reveal an endpoint error', () => {
+  const ss: Sample[] = Array.from({ length: 121 }, (_, i) => ({
+    t: i,
+    absolute: false,
+    row: i + 1,
+    altitude: 1000 + i * 10,
+  }));
+  const comparison = compareClimbRates(ss)!;
+  expect(regression(ss).rate).toBeCloseTo(600, 8);
+  expect(comparison.endpoint).toBeCloseTo(600, 8);
+  expect(comparison.rolling?.median).toBeCloseTo(600, 8);
+  expect(comparison.rolling?.min).toBeCloseTo(600, 8);
+  expect(comparison.rolling?.max).toBeCloseTo(600, 8);
+  const perturbed = ss.map((s, i) => ({
+    ...s,
+    altitude: s.altitude + (i === 120 ? 120 : 0),
+  }));
+  expect(compareClimbRates(perturbed)?.endpoint).toBeCloseTo(660, 8);
+  expect(regression(perturbed).rate).toBeLessThan(610);
+});
+test('GPS-only analysis produces measured climb and groundspeed, leaves TAS and fuel unknown, and flags turning climbs', () => {
   const csv = parseCsv(sampleCsv(true)),
     ss = normalize(csv, csv.mapping, csv.units, 0, false, 0).samples;
   const segments = analyze(ss, defaultOptions);
   const accepted = segments.filter((s) => s.kind !== 'excluded');
   expect(accepted.some((s) => s.kind === 'cruise')).toBe(true);
   expect(accepted.some((s) => s.kind === 'climb')).toBe(true);
-  expect(summary(segments, 'rate', 'climb')).toBeCloseTo(540, 0);
+  // Four 540 ft/min climbs and one 420 ft/min turning climb, equal durations.
+  expect(summary(segments, 'rate', 'climb')).toBeCloseTo(516, 0);
   expect(accepted.every((s) => s.tas == null && s.fuel == null)).toBe(true);
   expect(
-    segments.some((s) => s.reason.some((r) => r.includes('Turning')))
+    segments.some(
+      (s) =>
+        s.kind === 'climb' &&
+        s.quality === 'variable' &&
+        s.cautions.some((r) => r.includes('Turning'))
+    )
   ).toBe(true);
   const corrected = analyze(ss, {
     ...defaultOptions,
@@ -220,6 +307,12 @@ test('private supplied track log can be checked locally without becoming a publi
   expect(n.samples.length).toBeGreaterThan(7000);
   expect(ss.some((s) => s.kind === 'cruise')).toBe(true);
   expect(ss.some((s) => s.kind === 'climb')).toBe(true);
+  const start = n.samples[0].t;
+  const returnClimbs = ss.filter(
+    (s) => s.kind === 'climb' && s.start - start > 3600
+  );
+  expect(returnClimbs.length).toBeGreaterThanOrEqual(3);
+  expect(returnClimbs.some((s) => s.quality === 'variable')).toBe(true);
   expect(ss.every((s) => s.tas == null && s.fuel == null)).toBe(true);
   console.log(
     JSON.stringify(

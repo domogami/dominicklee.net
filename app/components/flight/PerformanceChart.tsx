@@ -1,4 +1,5 @@
 import type { Sample, Segment } from '~/flight/model';
+import { InfoTip } from './InfoTip';
 export const fmt = (n: number | undefined, d = 0) =>
   n == null
     ? '—'
@@ -22,6 +23,7 @@ export function PerformanceChart({
   selected,
   onSelect,
   empty,
+  explanation,
 }: {
   title: string;
   number: string;
@@ -31,6 +33,7 @@ export function PerformanceChart({
   selected?: string;
   onSelect: (id: string) => void;
   empty: string;
+  explanation: string;
 }) {
   const w = 520,
     h = 300,
@@ -52,7 +55,10 @@ export function PerformanceChart({
     <figure className='fp-chart'>
       <figcaption>
         <span className='fp-eyebrow'>FIG. {number}</span>
-        <h3>{title}</h3>
+        <div className='fp-chart-title'>
+          <h3>{title}</h3>
+          <InfoTip label={title}>{explanation}</InfoTip>
+        </div>
         <span className='fp-small'>
           {points.length} observed segment{points.length === 1 ? '' : 's'}
         </span>
@@ -60,7 +66,7 @@ export function PerformanceChart({
       {points.length ? (
         <svg
           viewBox={`0 0 ${w} ${h}`}
-          role='img'
+          role='group'
           aria-label={`${title}. ${xLabel} against ${yLabel}. Points are selectable in the segment table below.`}
         >
           {Array.from({ length: 6 }, (_, i) => {
@@ -97,14 +103,24 @@ export function PerformanceChart({
           {points.map((p) => (
             <g
               key={p.segment.id}
-              className={`fp-dot ${p.segment.kind} ${selected === p.segment.id ? 'selected' : ''}`}
+              className={`fp-dot ${p.segment.kind} ${p.segment.quality} ${selected === p.segment.id ? 'selected' : ''}`}
               onClick={() => onSelect(p.segment.id)}
+              role='button'
+              tabIndex={0}
+              aria-label={`${p.segment.id}: ${fmt(p.x, 1)} ${xLabel}, ${fmt(p.y, 1)} ${yLabel}. ${p.segment.quality} conditions. ${p.segment.cautions.join(' ')}`}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  onSelect(p.segment.id);
+                }
+              }}
               style={{ cursor: 'pointer' }}
             >
               <title>
                 {p.segment.id}: {fmt(p.x, 1)} {xLabel}; {fmt(p.y, 1)} {yLabel};{' '}
                 {p.segment.methods.join(' / ')}; OAT {fmt(p.segment.oat, 1)} °C;
-                RPM {fmt(p.segment.rpm)}
+                RPM {fmt(p.segment.rpm)}; {p.segment.quality} conditions.{' '}
+                {p.segment.cautions.join(' ')}
               </title>
               <circle
                 cx={x(p.x)}
@@ -126,6 +142,8 @@ export function PerformanceChart({
       <p className='fp-chart-note'>
         Each point is one accepted window. Select a segment to see its
         conditions and calculations.
+        {points.some((p) => p.segment.quality === 'variable') &&
+          ' Hollow points are observed climbs with changing heading, speed, or power.'}
       </p>
     </figure>
   );
@@ -157,6 +175,8 @@ export function FlightTimeline({
     y = (v: number) =>
       h - b - ((v - min) / Math.max(1, max - min)) * (h - t - b);
   const stride = Math.max(1, Math.floor(samples.length / 2000));
+  const current = segments.find((s) => s.id === selected);
+  const position = current?.samples[Math.floor(current.samples.length / 2)];
   return (
     <svg
       className='fp-timeline'
@@ -202,7 +222,7 @@ export function FlightTimeline({
           >
             <title>
               {s.id}: {s.kind}, {elapsed(s.start - start)}–
-              {elapsed(s.end - start)}
+              {elapsed(s.end - start)}; {s.quality} conditions
             </title>
           </rect>
         ))}
@@ -223,6 +243,25 @@ export function FlightTimeline({
       >
         Altitude · ft
       </text>
+      {position && (
+        <g
+          className='fp-timeline-plane'
+          style={{
+            transform: `translate(${x(position.t)}px, ${y(position.altitude)}px)`,
+          }}
+          aria-hidden='true'
+        >
+          <circle r='13' fill='var(--fp-surface)' stroke='var(--fp-teal)' />
+          <g
+            transform={`rotate(${current?.kind === 'climb' ? 55 : 90}) scale(.32) translate(-32,-32)`}
+          >
+            <path
+              d='M31 7c-2 0-3 4-3 8v10L8 38v5l20-5v13l-7 5v3l11-3 11 3v-3l-7-5V38l20 5v-5L36 25V15c0-4-2-8-5-8Z'
+              fill='var(--fp-teal)'
+            />
+          </g>
+        </g>
+      )}
     </svg>
   );
 }

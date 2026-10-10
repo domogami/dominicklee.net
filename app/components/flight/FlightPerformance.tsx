@@ -1,6 +1,10 @@
 import { useMemo, useRef, useState } from 'react';
+import FlightPlane, { PlaneMark } from './FlightPlane';
+import { Appearance, useFlightAppearance } from './Appearance';
+import { InfoTip } from './InfoTip';
 import {
   analyze,
+  compareClimbRates,
   defaultOptions,
   defaultUnits,
   fields,
@@ -53,6 +57,7 @@ function exportSegments(
     'reported_configuration',
     'segment',
     'phase',
+    'flight_stability',
     'accepted',
     'start_time',
     'end_time',
@@ -63,6 +68,7 @@ function exportSegments(
     'groundspeed_kt',
     'TAS_kt',
     'climb_rate_fpm',
+    'endpoint_climb_rate_fpm',
     'fuel_flow_US_gph',
     'fuel_used_US_gal',
     'still_air_nm_per_US_gal',
@@ -85,6 +91,7 @@ function exportSegments(
     configuration,
     s.id,
     s.kind,
+    s.quality,
     s.kind !== 'excluded',
     s.samples[0].absolute ? new Date(s.start * 1000).toISOString() : s.start,
     s.samples[0].absolute ? new Date(s.end * 1000).toISOString() : s.end,
@@ -95,6 +102,7 @@ function exportSegments(
     s.gs,
     s.tas,
     s.rate,
+    compareClimbRates(s.samples)?.endpoint,
     s.fuel,
     s.fuelUsed,
     s.efficiency,
@@ -116,23 +124,6 @@ function exportSegments(
     [headers, ...rows].map((r) => r.map(csvCell).join(',')).join('\n')
   );
 }
-function PlaneMark() {
-  return (
-    <svg viewBox='0 0 64 64' fill='none' aria-hidden='true'>
-      <path
-        d='M31 7c-2 0-3 4-3 8v10L8 38v5l20-5v13l-7 5v3l11-3 11 3v-3l-7-5V38l20 5v-5L36 25V15c0-4-2-8-5-8Z'
-        stroke='currentColor'
-        strokeWidth='1.5'
-        strokeLinejoin='round'
-      />
-      <path
-        d='M32 17v29M12 39l15-5m25 5-15-5'
-        stroke='currentColor'
-        strokeWidth='1'
-      />
-    </svg>
-  );
-}
 function NumericInput({
   label,
   value,
@@ -141,6 +132,7 @@ function NumericInput({
   min,
   max,
   step = 'any',
+  describedBy,
 }: {
   label: string;
   value: string | number;
@@ -149,6 +141,7 @@ function NumericInput({
   min?: number;
   max?: number;
   step?: string;
+  describedBy?: string;
 }) {
   return (
     <label className='fp-field'>
@@ -157,6 +150,7 @@ function NumericInput({
         <input
           type='number'
           aria-label={label}
+          aria-describedby={describedBy}
           value={value}
           onChange={(e) => set(e.target.value)}
           min={min}
@@ -169,6 +163,7 @@ function NumericInput({
   );
 }
 export default function FlightPerformance() {
+  const appearance = useFlightAppearance();
   const [csv, setCsv] = useState<Csv>();
   const [name, setName] = useState('');
   const [demo, setDemo] = useState(false);
@@ -353,7 +348,11 @@ export default function FlightPerformance() {
     }
   }
   return (
-    <div className='flight-app'>
+    <div
+      className='flight-app'
+      data-theme={appearance.theme}
+      data-motion={appearance.animated ? 'on' : 'off'}
+    >
       <header className='fp-header'>
         <a href='/flight-performance/' className='fp-brand'>
           <PlaneMark />
@@ -368,6 +367,7 @@ export default function FlightPerformance() {
             Dom’s notebook ↗
           </a>
         </nav>
+        <Appearance {...appearance} />
       </header>
       <main className='fp-shell'>
         <section className='fp-hero'>
@@ -385,15 +385,7 @@ export default function FlightPerformance() {
               fly.
             </p>
           </div>
-          <div className='fp-hero-note'>
-            <PlaneMark />
-            <p>
-              From the flight.
-              <br />
-              Into the handbook.
-            </p>
-            <span>CRUISE · CLIMB · FUEL</span>
-          </div>
+          <FlightPlane motion={appearance.animated} phase={active?.kind} />
         </section>
         <div className='fp-workspace' id='analysis'>
           <aside className='fp-controls' aria-label='Flight analysis settings'>
@@ -505,7 +497,7 @@ export default function FlightPerformance() {
                   min={0}
                 />
                 <NumericInput
-                  label='Min. window'
+                  label='Minimum segment length'
                   value={minDuration}
                   set={(v) => {
                     invalidate();
@@ -516,8 +508,23 @@ export default function FlightPerformance() {
                   unit='s'
                   min={30}
                   max={300}
+                  describedBy='fp-window-help'
                 />
               </div>
+              <p className='fp-small fp-window-help' id='fp-window-help'>
+                The shortest stretch of flight data a segment needs before it
+                can be used: {minDuration} seconds. We normally examine{' '}
+                {Math.max(120, minDuration)}-second windows, with at least 6
+                samples, and check for steady cruise or a clear altitude gain in
+                climb. Turning climbs remain visible with a conditions flag.
+                Longer minimums may leave fewer usable segments.{' '}
+                <InfoTip label='Minimum segment length'>
+                  The minimum is {minDuration} seconds; target windows are{' '}
+                  {Math.max(120, minDuration)} seconds. Short windows or fewer
+                  than six samples are rejected. Raising this setting can miss a
+                  brief climb; lowering it can expose more GPS noise.
+                </InfoTip>
+              </p>
               <label className='fp-field'>
                 <span>Power / configuration notes</span>
                 <input
@@ -727,7 +734,11 @@ export default function FlightPerformance() {
                 confirm the datum for your logger.
               </p>
               {weatherStatus && (
-                <p className='fp-weather-status' role='status'>
+                <p
+                  className='fp-weather-status'
+                  role='status'
+                  aria-label='Historical weather lookup'
+                >
                   {weatherStatus}
                 </p>
               )}
@@ -797,6 +808,7 @@ export default function FlightPerformance() {
             <div className='fp-metrics'>
               <Metric
                 label='Cruise true airspeed'
+                explanation='A duration-weighted mean of steady cruise windows with enough airspeed data. Recorded TAS takes priority, followed by GPS minus the wind vector, then instrument airspeed with pressure and temperature. Missing wind is never treated as calm. Cruise windows that turn or change speed or power are excluded.'
                 value={summary(accepted, 'tas', 'cruise')}
                 unit='kt'
                 detail={
@@ -807,16 +819,18 @@ export default function FlightPerformance() {
               />
               <Metric
                 label='Observed climb rate'
+                explanation='Altitude versus time is fitted with the regression formula in the math overview. A clear climb needs at least 150 ft/min, R² of 0.90, and residual RMS at most 80 ft. Turning or changing speed or power flags a climb as variable conditions instead of hiding it. This mean includes those windows and is not a best-rate-of-climb claim.'
                 value={summary(accepted, 'rate', 'climb')}
                 unit='ft/min'
                 detail={
                   climb.length
-                    ? `${climb.length} climb windows · mean`
-                    : 'Needs steady climb samples'
+                    ? `${climb.length} climb windows · ${climb.filter((s) => s.quality === 'variable').length} with variable conditions`
+                    : 'Needs a clear climb trend'
                 }
               />
               <Metric
                 label='Cruise fuel flow'
+                explanation='This mean requires measured total fuel flow over at least 90% of each steady cruise window. GPS, weather and Hobbs hours cannot supply fuel flow. A full-to-full refill can give a whole-interval average; aircraft POH tables can give estimates when the power setting and conditions are known.'
                 value={summary(accepted, 'fuel', 'cruise')}
                 unit='US gal/h'
                 decimals={1}
@@ -831,7 +845,17 @@ export default function FlightPerformance() {
               <div className='fp-profile-heading'>
                 <div>
                   <p className='fp-eyebrow'>THE FLIGHT, AT A GLANCE</p>
-                  <h3>Find the useful stretches.</h3>
+                  <div className='fp-chart-title'>
+                    <h3>Find the useful stretches.</h3>
+                    <InfoTip label='Flight profile and stability'>
+                      Colored bands mark accepted cruise and climb windows. Gray
+                      stretches can be ground time, descent, short windows, poor
+                      GPS data, or unstable cruise. A changing ground track or
+                      speed flags an otherwise clear climb as variable
+                      conditions. Selecting a window shows its exact reasons and
+                      math.
+                    </InfoTip>
+                  </div>
                 </div>
                 <div className='fp-legend'>
                   <span className='cruise'>Cruise</span>
@@ -874,7 +898,7 @@ export default function FlightPerformance() {
                   <p>
                     Upload a flight or try an example.
                     <br />
-                    We’ll find the steady climbs and quiet stretches of cruise.
+                    We’ll find the climbs and quiet stretches of cruise.
                   </p>
                 </div>
               )}
@@ -900,20 +924,29 @@ export default function FlightPerformance() {
                 <p className='fp-eyebrow'>PERFORMANCE PLATES</p>
                 <h3>The shape of your flight.</h3>
               </div>
-              <label className='fp-axis-select'>
-                Altitude axis
-                <select
-                  aria-label='Chart altitude axis'
-                  value={altitudeAxis}
-                  onChange={(e) =>
-                    setAltitudeAxis(e.target.value as typeof altitudeAxis)
-                  }
-                >
-                  <option value='altitude'>Recorded altitude</option>
-                  <option value='pressureAltitude'>Pressure altitude</option>
-                  <option value='densityAltitude'>Density altitude</option>
-                </select>
-              </label>
+              <div className='fp-altitude-controls'>
+                <label className='fp-axis-select'>
+                  Altitude axis
+                  <select
+                    aria-label='Chart altitude axis'
+                    value={altitudeAxis}
+                    onChange={(e) =>
+                      setAltitudeAxis(e.target.value as typeof altitudeAxis)
+                    }
+                  >
+                    <option value='altitude'>Recorded altitude</option>
+                    <option value='pressureAltitude'>Pressure altitude</option>
+                    <option value='densityAltitude'>Density altitude</option>
+                  </select>
+                </label>
+                <InfoTip label='Altitude axis'>
+                  Recorded altitude uses the file’s altitude, often GPS height.
+                  Pressure altitude needs static pressure or a mapped
+                  pressure-altitude field. Density altitude also needs
+                  temperature. A missing atmospheric value hides that point on
+                  that axis; GPS height is not silently substituted.
+                </InfoTip>
+              </div>
             </div>
             <div className='fp-charts'>
               <PerformanceChart
@@ -925,6 +958,7 @@ export default function FlightPerformance() {
                 selected={active?.id}
                 onSelect={setSelected}
                 empty='Cruise TAS appears when you add wind data or upload an instrument log with TAS.'
+                explanation='Each point is one steady cruise window, with true airspeed on the horizontal axis and its mean altitude on the vertical axis. Turns, excessive speed variation, or changing recorded power exclude cruise windows. TAS needs an instrument value or sufficient wind/atmospheric inputs. Different power, weight, and temperature can shift points; this is an observed comparison, not a fitted POH curve.'
               />
               <PerformanceChart
                 title='Rate of climb'
@@ -934,7 +968,8 @@ export default function FlightPerformance() {
                 points={points(climb, 'rate', altitudeAxis)}
                 selected={active?.id}
                 onSelect={setSelected}
-                empty='Accepted steady climbs appear here. Pressure and density altitude need atmospheric data.'
+                empty='Climbs with a clear altitude trend appear here. Pressure and density altitude need atmospheric data.'
+                explanation='Each point shows the full-window altitude/time regression in ft/min at the window’s mean altitude. Hollow points are clear climbs with turning, speed variation, or changing recorded power. They remain useful observations, but do not establish steady climb performance. Poor altitude fits or excessive recorded GPS error are still excluded. Select a point to compare regression, altitude gain/time, and rolling rates.'
               />
               <PerformanceChart
                 title='Cruise fuel economy'
@@ -945,6 +980,7 @@ export default function FlightPerformance() {
                 selected={active?.id}
                 onSelect={setSelected}
                 empty='This chart needs both TAS and a measured total fuel-flow column. GPS alone cannot provide fuel burn.'
+                explanation='Each point pairs time-weighted true airspeed with measured total fuel flow from the same steady cruise window. Both need at least 90% time coverage. No fuel-flow column means no point; zero is not substituted. Still-air economy is TAS divided by fuel flow, in nautical miles per US gallon. Refill averages and POH estimates describe different evidence and are not plotted as sensor measurements.'
               />
               <PerformanceChart
                 title='Speed over the ground'
@@ -955,6 +991,7 @@ export default function FlightPerformance() {
                 selected={active?.id}
                 onSelect={setSelected}
                 empty='Accepted level cruise appears here directly from GPS, before wind correction.'
+                explanation='Groundspeed measures travel over the earth, before wind correction. A tailwind can raise it and a headwind can lower it without an engine-performance change. Points use steady cruise windows and the selected altitude axis. Compare this graph with cruise TAS to understand the wind effect; groundspeed is not interchangeable with airspeed.'
               />
             </div>
             <p className='fp-observation-note'>
@@ -990,7 +1027,18 @@ export default function FlightPerformance() {
                           <th>TAS</th>
                           <th>Climb</th>
                           <th>Fuel</th>
-                          <th>Basis / quality</th>
+                          <th>
+                            Basis / quality{' '}
+                            <InfoTip label='Stability flags'>
+                              Cruise is excluded if speed range exceeds the
+                              larger of 10 kt or 12% of its mean, track changes
+                              by more than 12° from its first value, or recorded
+                              RPM, manifold pressure, or fuel flow varies by
+                              more than 10%. In a clear climb these become
+                              variable-condition flags. Missing engine data
+                              means power stability is unverified.
+                            </InfoTip>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1026,9 +1074,18 @@ export default function FlightPerformance() {
                               {s.kind !== 'excluded' && (
                                 <small>
                                   {s.cautions.length
-                                    ? 'Conditions need review'
+                                    ? s.quality === 'variable'
+                                      ? 'Variable conditions · observed climb'
+                                      : 'Conditions need review'
                                     : 'Measured inputs'}
                                 </small>
+                              )}
+                              {!!(s.reason.length || s.cautions.length) && (
+                                <InfoTip label={`${s.id} quality details`}>
+                                  {[...s.reason, ...s.cautions].join(' ')}{' '}
+                                  {s.quality === 'variable' &&
+                                    'This climb passes the altitude-trend checks and remains in the observed mean.'}
+                                </InfoTip>
                               )}
                             </td>
                           </tr>
@@ -1044,7 +1101,7 @@ export default function FlightPerformance() {
                 )}
                 {!!segments.length && !accepted.length && !showExcluded && (
                   <p className='fp-small'>
-                    No windows meet the steady-flight criteria. Show excluded
+                    No windows meet the flight-data criteria. Show excluded
                     windows to see the reasons, then review the mapping and
                     units.
                   </p>
@@ -1095,16 +1152,20 @@ export default function FlightPerformance() {
                   </li>
                   <li>
                     Climb: slope ≥150 ft/min, R² ≥0.90, and residual RMS ≤80 ft.
+                    Turns and changing speed or power are flagged as variable
+                    conditions; they do not discard a clear climb trend.
                   </li>
                   <li>
-                    Both: mean flight speed ≥{minSpeed} kt; speed range ≤the
-                    larger of 10 kt or 12% of the mean. Track must stay within
-                    12° of its first value when coverage permits.
+                    Both: mean flight speed ≥{minSpeed} kt. Steady cruise also
+                    requires speed range ≤the larger of 10 kt or 12% of the
+                    mean, and track within 12° of its first value when coverage
+                    permits.
                   </li>
                   <li>
                     RPM, manifold pressure, and fuel-flow ranges must each be
-                    ≤10% of their mean when recorded with sufficient coverage.
-                    GPS vertical error above 50 m excludes the window.
+                    ≤10% of their mean for steady cruise when recorded with
+                    sufficient coverage. GPS vertical error above 50 m excludes
+                    either phase.
                   </li>
                 </ul>
                 <p>
@@ -1112,6 +1173,14 @@ export default function FlightPerformance() {
                   Without engine data, power stability remains unknown. Wind
                   shear, turbulence, GPS bias, and pilot technique can affect a
                   steady-looking section.
+                </p>
+                <p>
+                  The observed-climb mean includes variable-condition windows.
+                  These describe what happened on this flight, including
+                  maneuvering; they do not establish straight-flight or
+                  constant-power climb performance. Hollow chart points mark
+                  these windows. Review the per-window flags before comparing
+                  aircraft or flights.
                 </p>
                 <p>
                   Flight detection uses groundspeed first, then IAS, CAS, or
@@ -1178,17 +1247,24 @@ export default function FlightPerformance() {
                 <div className='fp-equation'>
                   ROC = 60 Σ[(tᵢ − t̄)(hᵢ − h̄)] / Σ[(tᵢ − t̄)²]
                   <br />
+                  Endpoint ROC = 60 (h_last − h_first) / (t_last − t_first)
+                  <br />
                   Fuel used = Σ[(Fᵢ + Fᵢ₊₁) / 2 × Δtᵢ] / 3600
                   <br />
                   Still-air economy = TAS / fuel flow
                 </div>
                 <p>
                   Time is in seconds, altitude in feet, fuel flow in US gal/h.
-                  Regression reduces altitude noise. Fuel integration and metric
-                  means use trapezoids weighted by the actual time between
-                  samples; missing measurements are not interpolated across
-                  gaps. At least 90% of a window’s duration must be covered to
-                  report TAS or fuel flow.
+                  Regression fits all altitude samples. Endpoint ROC uses only
+                  the first and last readings, so noise at either end can change
+                  it. We also show the range and median of overlapping roughly
+                  30-second regression windows to reveal variation within the
+                  segment. These are comparisons of observed vertical speed, not
+                  different ways to identify engine power. Fuel integration and
+                  metric means use trapezoids weighted by the actual time
+                  between samples; missing measurements are not interpolated
+                  across gaps. At least 90% of a window’s duration must be
+                  covered to report TAS or fuel flow.
                 </p>
                 <p>
                   Top-line means weight accepted windows by duration. Cruise TAS
@@ -1198,6 +1274,33 @@ export default function FlightPerformance() {
                   engine power. No Vy, Vx, best-power cruise, service ceiling,
                   or aircraft-wide performance envelope is inferred from a
                   single track log.
+                </p>
+              </details>
+              <details className='fp-details'>
+                <summary>Fuel burn without a flow sensor</summary>
+                <p>
+                  A GPS track and weather cannot determine fuel burn. The most
+                  direct alternative is to start and finish with the tanks at
+                  the same verified level: gallons added to restore that level,
+                  plus any fuel added in between, divided by elapsed Hobbs hours
+                  gives average engine fuel burn over that interval. Hobbs
+                  readings alone only measure elapsed meter time.
+                </p>
+                <div className='fp-equation'>
+                  Average burn = refill gallons / elapsed Hobbs hours
+                </div>
+                <p>
+                  This average includes taxi, climb, cruise, and descent; it
+                  cannot identify each segment’s fuel flow. Fuel removed, leaks,
+                  inconsistent fill levels, or a Hobbs meter that does not
+                  follow engine running time affect the comparison.
+                </p>
+                <p>
+                  For a segment estimate, use the aircraft’s applicable POH
+                  fuel-consumption tables with known power setting, altitude,
+                  temperature, and the specified mixture procedure. That is a
+                  book estimate, not a measured result. This page leaves the
+                  measured fuel metric blank when fuel-flow data is absent.
                 </p>
               </details>
               <details className='fp-details'>
@@ -1234,6 +1337,13 @@ export default function FlightPerformance() {
                   rel='noreferrer'
                 >
                   FAA · performance & instruments ↗
+                </a>
+                <a
+                  href='https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  NIST · least-squares regression ↗
                 </a>
                 <a
                   href='https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/equation-of-state/'
@@ -1283,16 +1393,21 @@ function Metric({
   unit,
   detail,
   decimals = 0,
+  explanation,
 }: {
   label: string;
   value?: number;
   unit: string;
   detail: string;
   decimals?: number;
+  explanation: string;
 }) {
   return (
     <div className='fp-metric'>
-      <span className='fp-eyebrow'>{label}</span>
+      <span className='fp-metric-label'>
+        <span className='fp-eyebrow'>{label}</span>
+        <InfoTip label={label}>{explanation}</InfoTip>
+      </span>
       <div>
         <strong>{fmt(value, decimals)}</strong>
         <span>{unit}</span>
@@ -1316,6 +1431,7 @@ function WorkedMath({
   const sample = s.samples[index],
     d = s.derived[index],
     c = d.conditions;
+  const comparison = compareClimbRates(s.samples);
   const vector =
     sample.gs != null &&
     sample.track != null &&
@@ -1346,6 +1462,14 @@ function WorkedMath({
           ))}
         </ul>
       )}
+      {s.quality === 'variable' && (
+        <p className='fp-quality-note'>
+          <strong>Observed climb · variable conditions.</strong> The altitude
+          trend supports a climb, but heading, speed, or power changed. This
+          window is included in the observed-climb mean; use its flags below
+          when comparing performance.
+        </p>
+      )}
       <div className='fp-worked-facts'>
         <span>
           Recorded altitude <strong>{fmt(s.altitude)} ft</strong>
@@ -1373,6 +1497,23 @@ function WorkedMath({
         residual RMS = {fmt(s.fit.residual, 1)} ft. This is an observed climb
         rate, not a best-rate-of-climb claim.
       </p>
+      {comparison && (
+        <p>
+          <strong>Compare climb methods.</strong> Endpoint calculation: 60 ×{' '}
+          {fmt(comparison.gain, 1)} ft / {fmt(comparison.duration, 1)} s ={' '}
+          <strong>{fmt(comparison.endpoint, 1)} ft/min</strong>.
+          {comparison.rolling && (
+            <>
+              {' '}
+              Roughly 30-second rolling regressions: median{' '}
+              {fmt(comparison.rolling.median, 1)} ft/min, range{' '}
+              {fmt(comparison.rolling.min, 1)}–{fmt(comparison.rolling.max, 1)}{' '}
+              ft/min ({comparison.rolling.count} overlapping windows). The
+              full-window regression above remains the reported rate.
+            </>
+          )}
+        </p>
+      )}
       <p>
         <strong>Airspeed basis.</strong>{' '}
         {s.methods.join(' / ') || 'No supported TAS inputs.'} TAS coverage:{' '}
