@@ -24,6 +24,12 @@ The development site opens at http://localhost:3000. `npm start` serves the prod
 
 ## Archive and remaining projects
 
+`/flight-performance/` is an independent aircraft-performance notebook with its own layout, stylesheet, and navigation. It accepts comma, semicolon, and tab-separated flight CSVs, including ForeFlight exports with metadata preambles and scientific-notation epoch timestamps. Column and shared unit mapping are editable; uploaded records remain in the browser. It identifies steady cruise and climb windows, draws handbook-style observation charts, and includes worked calculations, quality notes, results CSV export, and a printable report.
+
+Historical winds aloft are requested explicitly through `/flight-performance/weather` from Open-Meteo's NOAA GFS archive. Only up to 12 selected midpoint locations, timestamps, and altitudes are submitted. Wind vectors are interpolated in time and height. Recorded TAS takes priority, followed by GPS plus wind, then CAS plus pressure and OAT (IAS is labeled as an approximation). Fuel burn requires recorded total fuel flow. These are observed results at the flight's conditions, not certified POH curves or standard-weight corrections. The page's math overview links to FAA, NASA, ForeFlight, and weather-provider references.
+
+Focused checks: `npm test -- tests/flight-model.spec.ts tests/flight-performance.spec.ts`. Set `FLIGHT_TEST_CSV` to a private local CSV path to validate a supplied ForeFlight log without adding it to public assets or repository fixtures. `FLIGHT_TEST_WEATHER` may point to a previously fetched local weather-result JSON for the optional private browser test; this fixture is replayed locally and makes no external weather request.
+
 `/weather/` is an installable weather journal with the notebook’s typography, dot grid and animated hand-drawn skies. It includes location/search, hourly and ten-day forecasts, rain estimates, air quality, U.S. alerts, day/night paper and offline reading. No API key is required; moon calculations use the bundled Astronomy Engine. See [Weather journal](docs/weather-journal.md) for provider limits, installation and validation.
 
 `/calculator/` brings the same paper and playful motion to everyday arithmetic, scientific functions, offline unit conversions and a private scratchpad. It has its own home-screen icon and works offline after setup. See [Calculator journal](docs/calculator-journal.md) for arithmetic conventions, installation and validation.
