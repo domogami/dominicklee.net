@@ -20,13 +20,16 @@ import {
 } from '~/components/TouchFeedback';
 import SketchArrow from '~/components/notebook/SketchArrow';
 import {
-  calculate,
+  calculateWithRepeat,
   conversions,
   convert,
   formatNumber,
   prettyExpression,
   preview,
+  isRepeatOperation,
+  repeatCalculation,
   type Angle,
+  type RepeatOperation,
 } from '~/calculator/math';
 
 type Entry = { id: string; expression: string; value: number; angle: Angle };
@@ -276,6 +279,7 @@ export default function CalculatorJournal() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [memory, setMemory] = useState<number | null>(null);
   const [committed, setCommitted] = useState(false);
+  const [repeat, setRepeat] = useState<RepeatOperation | null>(null);
   const [revision, setRevision] = useState(0);
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
@@ -299,6 +303,9 @@ export default function CalculatorJournal() {
   const display = committed
     ? answer
     : (result.value ?? (expression ? null : 0));
+  const single =
+    !expression ||
+    expression === (display === null ? '' : formatNumber(display));
 
   useLayoutEffect(() => {
     if (pendingCaret.current === null) return;
@@ -344,6 +351,8 @@ export default function CalculatorJournal() {
             .slice(0, 40)
         );
       setCommitted(saved.committed === true);
+      if (saved.committed === true && isRepeatOperation(saved.repeat))
+        setRepeat(saved.repeat);
     } catch {
       /* Storage is optional. */
     }
@@ -396,12 +405,13 @@ export default function CalculatorJournal() {
           memory,
           entries,
           committed,
+          repeat,
         })
       );
     } catch {
       /* Continue without persistence. */
     }
-  }, [settings, expression, answer, memory, entries, committed, ready]);
+  }, [settings, expression, answer, memory, entries, committed, repeat, ready]);
   useEffect(() => {
     const meta = document.querySelector('meta[name="theme-color"]'),
       previous = meta?.getAttribute('content');
@@ -422,6 +432,7 @@ export default function CalculatorJournal() {
     setError('');
     setStatus('');
     setCommitted(false);
+    setRepeat(null);
     caret.current = [position, position];
     pendingCaret.current = position;
   }
@@ -448,12 +459,25 @@ export default function CalculatorJournal() {
     );
   }
   function solve() {
-    if (committed) {
+    if (committed && !repeat) {
       haptic('selection');
       return;
     }
     try {
-      const value = calculate(expression, settings.angle, answer);
+      const calculation =
+        committed && repeat
+          ? repeatCalculation(answer, repeat)
+          : calculateWithRepeat(expression, settings.angle, answer);
+      const { value } = calculation;
+      const written =
+        'expression' in calculation ? calculation.expression : expression;
+      if ('repeat' in calculation) setRepeat(calculation.repeat);
+      if (written !== expression) {
+        edits.current = [...edits.current.slice(-49), expression];
+        setExpression(written);
+        caret.current = [written.length, written.length];
+        pendingCaret.current = written.length;
+      }
       if (settings.motion && !reduced) {
         haptic('tap');
         armHapticCue('calculator-answer', 'success');
@@ -462,7 +486,7 @@ export default function CalculatorJournal() {
         id:
           globalThis.crypto?.randomUUID?.() ??
           `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        expression,
+        expression: written,
         value,
         angle: settings.angle,
       };
@@ -474,8 +498,7 @@ export default function CalculatorJournal() {
         [
           entry,
           ...old.filter(
-            (e, i) =>
-              i !== 0 || e.expression !== expression || e.value !== value
+            (e, i) => i !== 0 || e.expression !== written || e.value !== value
           ),
         ].slice(0, 40)
       );
@@ -591,10 +614,7 @@ export default function CalculatorJournal() {
             <div className='calc-machine' aria-label='Calculator'>
               <div
                 className={`calc-display ${error ? 'has-error' : ''}`}
-                data-single={
-                  !expression ||
-                  expression === (display === null ? '' : formatNumber(display))
-                }
+                data-single={single}
               >
                 <div className='calc-display-label'>
                   <label className='pocket-sr' htmlFor='calc-expression'>
@@ -617,6 +637,10 @@ export default function CalculatorJournal() {
                   ref={input}
                   id='calc-expression'
                   disabled={!ready}
+                  title={committed && single ? 'Tap to copy result' : undefined}
+                  onPointerDown={(event) => {
+                    if (committed && single) event.preventDefault();
+                  }}
                   data-long={expression.length > 11}
                   style={
                     {
@@ -644,7 +668,10 @@ export default function CalculatorJournal() {
                       e.currentTarget.selectionEnd ?? expression.length,
                     ];
                   }}
-                  onClick={() => setCommitted(false)}
+                  onClick={() => {
+                    if (committed && single) void copyAnswer();
+                    else setCommitted(false);
+                  }}
                   onKeyDown={(e) => {
                     if (committed && !e.ctrlKey && !e.metaKey && !e.altKey) {
                       if (/^[0-9a-zA-Z.+\-*/^()%!π√]$/.test(e.key)) {
@@ -678,24 +705,35 @@ export default function CalculatorJournal() {
                   <span className='calc-equals-mark' aria-hidden='true'>
                     =
                   </span>
-                  <output
-                    key={revision}
-                    className={
-                      committed ? 'calc-answer is-written' : 'calc-answer'
-                    }
-                    data-long={
-                      display !== null && formatNumber(display).length > 11
-                    }
-                    aria-label='Result'
-                    style={
-                      {
-                        '--calc-output-characters':
-                          display === null ? 1 : formatNumber(display).length,
-                      } as CSSProperties
-                    }
+                  <button
+                    type='button'
+                    className='calc-answer-copy'
+                    aria-label='Copy displayed result'
+                    title='Tap to copy result'
+                    data-haptic='manual'
+                    disabled={display === null || single}
+                    tabIndex={single ? -1 : 0}
+                    onClick={copyAnswer}
                   >
-                    {display === null ? '—' : formatNumber(display)}
-                  </output>
+                    <output
+                      key={revision}
+                      className={
+                        committed ? 'calc-answer is-written' : 'calc-answer'
+                      }
+                      data-long={
+                        display !== null && formatNumber(display).length > 11
+                      }
+                      aria-label='Result'
+                      style={
+                        {
+                          '--calc-output-characters':
+                            display === null ? 1 : formatNumber(display).length,
+                        } as CSSProperties
+                      }
+                    >
+                      {display === null ? '—' : formatNumber(display)}
+                    </output>
+                  </button>
                 </div>
                 <div className='calc-answer-meta'>
                   <span id='calc-expression-help'>
@@ -712,7 +750,7 @@ export default function CalculatorJournal() {
                     disabled={display === null}
                     onClick={copyAnswer}
                   >
-                    Copy
+                    {status === 'Answer copied.' ? 'Copied' : 'Copy'}
                   </button>
                 </div>
                 {committed && (
@@ -1084,6 +1122,11 @@ export default function CalculatorJournal() {
                 <strong>Percent:</strong> 200 + 10% = 220; 200 − 10% = 180; 200
                 × 10% = 20. A percentage directly added to or subtracted from an
                 amount is relative to that amount.
+              </p>
+              <p>
+                <strong>Again:</strong> press equals or Enter again to repeat
+                the last operation. 5 + 2 gives 7, then 9, then 11. Tap the
+                answer to copy it; editing or clearing starts a new calculation.
               </p>
               <p>
                 <strong>Scientific:</strong> DEG uses degrees, RAD uses radians.

@@ -83,7 +83,13 @@ export function useWeather() {
         : 'auto',
       motion: saved.motion !== false,
       favorites: Array.isArray(saved.favorites)
-        ? saved.favorites.filter(validPlace).slice(0, 6)
+        ? Array.from(
+            new Map(
+              saved.favorites
+                .filter(validPlace)
+                .map((place) => [placeKey(place), place])
+            ).values()
+          ).slice(0, 6)
         : [],
     });
     setOffline(!navigator.onLine);

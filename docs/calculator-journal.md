@@ -7,6 +7,7 @@ The working area sits directly on the dot paper. Numerals and expressions use th
 ## Features
 
 - Editable expressions, live answers, parentheses, percentages, undo, keyboard input and a tactile paper keypad.
+- Repeated equals applies the last binary operation again: `5+2` gives `7`, then `9`, then `11`. Tap the displayed result to copy it, or use the Copy button; a copied confirmation appears without changing the calculation.
 - A separate scientific and memory sheet: powers, square roots, factorials, logarithms, trigonometry and inverse functions, with DEG/RAD modes.
 - Seven offline unit converters: length, weight, temperature, area, volume, speed and time. Volume uses US customary measures.
 - A scratchpad of the latest 40 answers, reusable results, clear/undo-clear, previous answer and calculator memory.
@@ -21,6 +22,8 @@ Percentages directly added to or subtracted from an amount are relative to that 
 
 Calculations use JavaScript floating-point numbers, displaying up to 14 significant digits. They are not arbitrary-precision arithmetic. Expression length is capped at 256 characters; undefined real operations, overflow and factorials above 170 receive readable errors. Temperature conversion rejects values below absolute zero.
 
+Repeat uses the final operation in the parsed expression, with its right operand evaluated once in the current angle/Ans context. For example, `2+3*4` repeats `+12`; `2*(3+4)` repeats `×7`. Relative percentages remain relative: `200+10%` gives `220`, then `242`. Plain numbers and standalone scientific functions do not invent a repeat operation. A new edit or clear resets the repeat; a completed calculation's repeat survives reopening. Repeats retain numeric precision internally and check overflow. Tapping the result copies its formatted value, including a committed single number; the expression remains editable, and a denied/unavailable clipboard produces an explicit message.
+
 ## Installation and storage
 
 On an HTTPS deployment, open `/calculator/` in Safari, then **Share → Add to Home Screen** (and enable **Open as Web App** if offered). The revised icon has a handwritten display and four distinct arithmetic marks on dark dotted paper. Separate dark/light SVGs and 1024px PNGs are in `public/calculator/`; regenerate the icon family with `python3 scripts/generate-app-icons.py`. Versioned installation links and worker cache v2 refresh the previous artwork. Visit once online to cache the page, code and fonts before trying offline. Desktop browsers can also install the manifest. Localhost supports service workers for development; plain HTTP over a LAN does not.
@@ -33,6 +36,7 @@ Settings, the current expression, calculator memory and history are stored under
 - Source SVG, PNG icons, standalone manifest and worker: `public/calculator/`.
 - `scripts/generate-calculator-assets.py` regenerates icons and social artwork with `fonttools[woff]` and `rsvg-convert`, using the existing licensed fonts. These tools are not app dependencies.
 - `tests/calculator-model.spec.ts` checks parser semantics, domain errors and unit conversions. `tests/calculator.spec.ts` covers interactions, persistence, responsive layout and offline reloads in the production build.
+- `tests/calculator-repeat.spec.ts` covers repeated equals, reopening, reset/error handling, compound/percentage operands, and pointer/keyboard result copying with clipboard failures.
 - Run `npm run check` and `npm test`. Real-device Safari installation remains a device-level check; browser emulation does not verify iOS home-screen installation.
 
 ## Compact app layout

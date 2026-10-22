@@ -1,11 +1,61 @@
 import { test, expect } from '@playwright/test';
 import {
   calculate,
+  calculateWithRepeat,
   CalculationError,
   convert,
   formatNumber,
   preview,
+  repeatCalculation,
+  isRepeatOperation,
 } from '../app/calculator/math';
+
+test('repeated equals freezes the final binary operation, including compound operands and relative percentages', () => {
+  const cases: [string, number, number, number][] = [
+    ['5+2', 7, 9, 11],
+    ['20-3', 17, 14, 11],
+    ['3*2', 6, 12, 24],
+    ['100/2', 50, 25, 12.5],
+    ['2^2', 4, 16, 256],
+    ['2+3*4', 14, 26, 38],
+    ['(2*(3+4))', 14, 98, 686],
+    ['200+10%', 220, 242, 266.2],
+    ['200-10%', 180, 162, 145.8],
+    ['200*10%', 20, 2, 0.2],
+    ['200+10%*2', 200.2, 200.4, 200.6],
+    ['10+-2', 8, 6, 4],
+    ['ans+sin(30)', 7.5, 8, 8.5],
+  ];
+  for (const [expression, first, second, third] of cases) {
+    const calculation = calculateWithRepeat(expression, 'deg', 7);
+    expect(calculation.value, expression).toBeCloseTo(first, 10);
+    expect(calculation.repeat, expression).not.toBeNull();
+    const again = repeatCalculation(calculation.value, calculation.repeat!);
+    expect(again.value, expression).toBeCloseTo(second, 10);
+    expect(calculate(again.expression), expression).toBeCloseTo(second, 10);
+    expect(
+      repeatCalculation(again.value, calculation.repeat!).value,
+      expression
+    ).toBeCloseTo(third, 10);
+  }
+  for (const expression of ['42', 'sqrt(9)', 'sin(30)', '50%', '-(2+3)'])
+    expect(calculateWithRepeat(expression).repeat, expression).toBeNull();
+  expect(
+    isRepeatOperation({ operator: 'eval', operand: 1, percent: false })
+  ).toBe(false);
+  expect(
+    isRepeatOperation({ operator: '+', operand: Infinity, percent: false })
+  ).toBe(false);
+  expect(
+    isRepeatOperation({ operator: '+', operand: 1e308, percent: true })
+  ).toBe(false);
+  expect(() =>
+    repeatCalculation(1e308, { operator: '*', operand: 10, percent: false })
+  ).toThrow(CalculationError);
+  expect(() =>
+    repeatCalculation(1, { operator: '/', operand: 0, percent: false })
+  ).toThrow('Division by zero');
+});
 
 test('arithmetic honors grouping, precedence, right-associative powers and implicit multiplication', () => {
   const cases: [string, number][] = [

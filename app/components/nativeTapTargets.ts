@@ -105,7 +105,11 @@ export function nativeTapTargets(preference: () => boolean) {
       if (!visible || right <= left || bottom <= top) continue;
       // Keep the native target inside the original scrolling ancestor so a
       // swipe starting on a forecast/disclosure still scrolls that panel.
-      const host = scrollHost ?? modal ?? document.body;
+      const host =
+        scrollHost ??
+        button.closest<HTMLElement>('[data-city-swipe]') ??
+        modal ??
+        document.body;
       const local = host !== document.body;
       if (local && getComputedStyle(host).position === 'static') {
         if (!positions.has(host)) positions.set(host, host.style.position);
@@ -131,12 +135,22 @@ export function nativeTapTargets(preference: () => boolean) {
         input.dataset.nativeTapLabel =
           button.getAttribute('aria-label') ?? button.textContent?.trim() ?? '';
         let trusted = false;
+        let start = { x: 0, y: 0 };
         let previous: HTMLElement | null = null;
         input.addEventListener('pointerdown', (e) => {
           trusted = e.isTrusted;
+          start = { x: e.clientX, y: e.clientY };
           previous = document.activeElement as HTMLElement;
           button.setAttribute('data-native-tap-pressed', '');
           // Do not prevent the native default action: Safari needs the real tap.
+        });
+        input.addEventListener('pointermove', (event) => {
+          if (
+            Math.hypot(event.clientX - start.x, event.clientY - start.y) > 12
+          ) {
+            trusted = false;
+            button.removeAttribute('data-native-tap-pressed');
+          }
         });
         const release = () => button.removeAttribute('data-native-tap-pressed');
         input.addEventListener('pointerup', release);

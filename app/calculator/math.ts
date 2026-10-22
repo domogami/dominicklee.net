@@ -1,4 +1,20 @@
 export type Angle = 'deg' | 'rad';
+export type RepeatOperation = {
+  operator: '+' | '-' | '*' | '/' | '^';
+  operand: number;
+  percent: boolean;
+};
+export function isRepeatOperation(value: unknown): value is RepeatOperation {
+  if (!value || typeof value !== 'object') return false;
+  const operation = value as RepeatOperation;
+  return (
+    ['+', '-', '*', '/', '^'].includes(operation.operator) &&
+    typeof operation.operand === 'number' &&
+    Number.isFinite(operation.operand) &&
+    typeof operation.percent === 'boolean' &&
+    (!operation.percent || Number.isFinite(operation.operand * 100))
+  );
+}
 export class CalculationError extends Error {}
 const fail = (message: string): never => {
   throw new CalculationError(message);
@@ -146,6 +162,17 @@ function directPercent(node: Node): boolean {
     return directPercent(node.child);
   return node.kind === 'postfix' && node.op === '%';
 }
+function binary(operator: string, a: number, b: number, percent: boolean) {
+  const delta = percent ? a * b : b;
+  if (operator === '+') return checked(a + delta);
+  if (operator === '-') return checked(a - delta);
+  if (operator === '*') return checked(a * b);
+  if (operator === '/')
+    return b === 0
+      ? fail('Division by zero has no finite answer.')
+      : checked(a / b);
+  return checked(Math.pow(a, b));
+}
 function run(node: Node, angle: Angle, answer: number): number {
   if (node.kind === 'number') return node.value;
   if (node.kind === 'constant')
@@ -158,15 +185,7 @@ function run(node: Node, angle: Angle, answer: number): number {
   if (node.kind === 'binary') {
     const a = run(node.left, angle, answer),
       b = run(node.right, angle, answer);
-    const delta = directPercent(node.right) ? a * b : b;
-    if (node.op === '+') return checked(a + delta);
-    if (node.op === '-') return checked(a - delta);
-    if (node.op === '*') return checked(a * b);
-    if (node.op === '/')
-      return b === 0
-        ? fail('Division by zero has no finite answer.')
-        : checked(a / b);
-    return checked(Math.pow(a, b));
+    return binary(node.op, a, b, directPercent(node.right));
   }
   const x = run(node.child, angle, answer);
   if (node.kind === 'unary') return node.op === '-' ? -x : x;
@@ -221,17 +240,55 @@ function run(node: Node, angle: Angle, answer: number): number {
   }
 }
 
-export function calculate(
-  input: string,
-  angle: Angle = 'deg',
-  answer = 0
-): number {
+function parse(input: string): Node {
   if (!input.trim()) fail('Write a little calculation first.');
   const parser = new Parser(tokenize(input));
   const tree = parser.expression();
   if (parser.peek().kind !== 'end')
     fail('There’s an extra closing parenthesis.');
-  return checked(run(tree, angle, answer));
+  return tree;
+}
+export function calculate(
+  input: string,
+  angle: Angle = 'deg',
+  answer = 0
+): number {
+  return checked(run(parse(input), angle, answer));
+}
+export function calculateWithRepeat(
+  input: string,
+  angle: Angle = 'deg',
+  answer = 0
+): { value: number; repeat: RepeatOperation | null } {
+  let tree = parse(input);
+  const value = checked(run(tree, angle, answer));
+  while (tree.kind === 'group') tree = tree.child;
+  return {
+    value,
+    repeat:
+      tree.kind === 'binary'
+        ? {
+            operator: tree.op as RepeatOperation['operator'],
+            operand: checked(run(tree.right, angle, answer)),
+            percent: directPercent(tree.right),
+          }
+        : null,
+  };
+}
+export function repeatCalculation(answer: number, operation: RepeatOperation) {
+  if (!isRepeatOperation(operation))
+    fail('Start a new calculation before repeating it.');
+  const value = binary(
+    operation.operator,
+    checked(answer),
+    operation.operand,
+    operation.percent
+  );
+  const written = `${formatNumber(operation.percent ? operation.operand * 100 : operation.operand)}${operation.percent ? '%' : ''}`;
+  return {
+    value,
+    expression: `${answer < 0 ? `(${formatNumber(answer)})` : formatNumber(answer)}${operation.operator}${operation.operand < 0 ? `(${written})` : written}`,
+  };
 }
 export function preview(
   input: string,

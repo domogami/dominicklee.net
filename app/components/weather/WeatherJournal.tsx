@@ -1,5 +1,16 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { InkSwitch, TouchFeedbackSetting } from '~/components/TouchFeedback';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type TouchEvent as ReactTouchEvent,
+} from 'react';
+import {
+  haptic,
+  InkSwitch,
+  TouchFeedbackSetting,
+} from '~/components/TouchFeedback';
 import SketchArrow from '~/components/notebook/SketchArrow';
 import {
   AppPanel,
@@ -624,6 +635,12 @@ export default function WeatherJournal() {
   }, [requested, w]);
   const [play, setPlay] = useState(0);
   const [systemReduced, setSystemReduced] = useState(false);
+  const citySwipe = useRef<{
+    x: number;
+    y: number;
+    id: number;
+  } | null>(null);
+  const ignoreCityClickUntil = useRef(0);
   const key = placeKey(prefs.place);
   useEffect(() => {
     setSelected(null);
@@ -647,6 +664,7 @@ export default function WeatherJournal() {
     };
   }, [dark]);
   const choose = (place: Place) => {
+    setSelected(null);
     setPrefs((p) => ({ ...p, place }));
     setSheet(null);
     setTab('now');
@@ -655,10 +673,65 @@ export default function WeatherJournal() {
   const bookmark = () =>
     setPrefs((p) => ({
       ...p,
-      favorites: saved
-        ? p.favorites.filter((f) => placeKey(f) !== key)
+      favorites: p.favorites.some((f) => placeKey(f) === placeKey(p.place))
+        ? p.favorites.filter((f) => placeKey(f) !== placeKey(p.place))
         : [...p.favorites.slice(-5), p.place],
     }));
+  const savedIndex = prefs.favorites.findIndex(
+    (place) => placeKey(place) === key
+  );
+  const switchCity = (direction: number) => {
+    const cities = prefs.favorites;
+    if (!cities.length) return;
+    const start = savedIndex < 0 ? (direction > 0 ? -1 : 0) : savedIndex;
+    const place = cities[(start + direction + cities.length) % cities.length];
+    if (placeKey(place) === key) return;
+    haptic('selection');
+    choose(place);
+  };
+  const swipe = {
+    onTouchStart: (event: ReactTouchEvent<HTMLElement>) => {
+      ignoreCityClickUntil.current = 0;
+      const touch = event.touches[0];
+      citySwipe.current =
+        !sheet && prefs.favorites.length && event.touches.length === 1
+          ? {
+              x: touch.clientX,
+              y: touch.clientY,
+              id: touch.identifier,
+            }
+          : null;
+    },
+    onTouchMove: (event: ReactTouchEvent<HTMLElement>) => {
+      const start = citySwipe.current;
+      const touch = event.touches[0];
+      if (!start) return;
+      if (
+        event.touches.length !== 1 ||
+        touch.identifier !== start.id ||
+        (Math.abs(touch.clientY - start.y) > 12 &&
+          Math.abs(touch.clientY - start.y) > Math.abs(touch.clientX - start.x))
+      )
+        citySwipe.current = null;
+    },
+    onTouchCancel: () => {
+      citySwipe.current = null;
+    },
+    onTouchEnd: (event: ReactTouchEvent<HTMLElement>) => {
+      const start = citySwipe.current;
+      citySwipe.current = null;
+      if (!start || event.touches.length) return;
+      const touch = Array.from(event.changedTouches).find(
+        (touch) => touch.identifier === start.id
+      );
+      if (!touch) return;
+      const dx = touch.clientX - start.x,
+        dy = touch.clientY - start.y;
+      if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      ignoreCityClickUntil.current = performance.now() + 400;
+      switchCity(dx < 0 ? 1 : -1);
+    },
+  };
   const selectedHour = selected?.kind === 'hour' ? selected.hour : null;
   const selectedDay = selected?.kind === 'day' ? selected.day : null;
   // Daily conditions summarize a whole day, illustrated in daylight. Only an
@@ -692,6 +765,15 @@ export default function WeatherJournal() {
       className='weather-journal pocket-app'
       data-theme={dark ? 'dark' : 'light'}
       data-motion={motion ? 'on' : 'off'}
+      onClickCapture={(event) => {
+        if (
+          performance.now() < ignoreCityClickUntil.current &&
+          (event.target as HTMLElement).closest('[data-city-swipe]')
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
     >
       <h1 className='pocket-sr'>Weather</h1>
       <div className='pocket-frame'>
@@ -734,6 +816,73 @@ export default function WeatherJournal() {
             </button>
           </div>
         </header>
+        {tab === 'now' && prefs.favorites.length > 0 && (
+          <div
+            className='weather-city-switcher'
+            role='group'
+            aria-label='Saved cities. Swipe across the sky to switch.'
+          >
+            <button
+              type='button'
+              aria-label='Previous saved city'
+              data-haptic='manual'
+              disabled={prefs.favorites.length === 1 && saved}
+              onClick={() => switchCity(-1)}
+            >
+              <SketchArrow direction='left' />
+            </button>
+            <div className='weather-city-dots'>
+              {prefs.favorites.map((place) => (
+                <button
+                  type='button'
+                  key={placeKey(place)}
+                  aria-label={`Show weather in ${[place.name, place.region, place.country].filter(Boolean).join(', ')}`}
+                  title={place.name}
+                  data-haptic='manual'
+                  aria-pressed={placeKey(place) === key}
+                  onClick={() => {
+                    haptic('selection');
+                    choose(place);
+                  }}
+                >
+                  <svg viewBox='0 0 16 16' aria-hidden='true'>
+                    <path d='M8 3C1 3 1 13 8 13s8-10 0-10Z' />
+                  </svg>
+                </button>
+              ))}
+            </div>
+            <button
+              type='button'
+              aria-label='Next saved city'
+              data-haptic='manual'
+              disabled={prefs.favorites.length === 1 && saved}
+              onClick={() => switchCity(1)}
+            >
+              <SketchArrow direction='right' />
+            </button>
+            <button
+              type='button'
+              className='weather-city-save'
+              aria-label={`${saved ? 'Remove' : 'Save'} ${prefs.place.name} ${saved ? 'from' : 'to'} saved cities`}
+              aria-pressed={saved}
+              title={saved ? 'Remove saved city' : 'Save this city'}
+              onClick={bookmark}
+            >
+              <svg viewBox='0 0 24 24' aria-hidden='true'>
+                <path d='m12 3 3 6 7 1-5 5 1 7-6-4-6 4 1-7-5-5 7-1Z' />
+              </svg>
+            </button>
+            <span
+              className='pocket-sr'
+              role='status'
+              aria-label='City selection'
+            >
+              {savedIndex < 0
+                ? `${prefs.place.name}, not saved`
+                : `${prefs.place.name}, saved city ${savedIndex + 1} of ${prefs.favorites.length}`}
+            </span>
+          </div>
+        )}
         {!!alerts?.alerts.length && (
           <button
             className='weather-alert-strip'
@@ -795,7 +944,11 @@ export default function WeatherJournal() {
                     </button>
                   )}
                 </div>
-                <div className='weather-art-space'>
+                <div
+                  className='weather-art-space'
+                  data-city-swipe={prefs.favorites.length ? '' : undefined}
+                  {...swipe}
+                >
                   {tab === 'now' && (
                     <WeatherArt
                       code={selectedDay?.code ?? sky.code}
@@ -807,7 +960,11 @@ export default function WeatherJournal() {
                     />
                   )}
                 </div>
-                <div className='weather-reading'>
+                <div
+                  className='weather-reading'
+                  data-city-swipe={prefs.favorites.length ? '' : undefined}
+                  {...swipe}
+                >
                   <h2
                     className='current-temperature'
                     aria-label={
@@ -1085,6 +1242,10 @@ export default function WeatherJournal() {
               {saved ? '★ Saved' : '☆ Save place'}
             </button>
           </div>
+          <p className='fine-print'>
+            Save up to six cities, then swipe across the sky or temperature to
+            switch. The dots and arrows work too.
+          </p>
           <PlaceSearch
             choose={choose}
             favorites={prefs.favorites}

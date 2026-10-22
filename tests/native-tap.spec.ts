@@ -235,6 +235,50 @@ test.describe('Safari direct tap targets', () => {
     await session.detach();
   });
 
+  test('result taps copy once through the native layer and keep repeated equals intact', async ({
+    page,
+  }) => {
+    await safariSwitches(page);
+    await page.addInitScript(() => {
+      (window as any).resultCopies = [];
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            (window as any).resultCopies.push(text);
+          },
+        },
+      });
+    });
+    await page.goto('/calculator/');
+    const field = page.getByLabel('Your calculation', { exact: true });
+    await field.fill('12+3');
+    const equals = page.getByRole('button', {
+      name: 'Calculate result',
+      exact: true,
+    });
+    await tap(page, equals);
+    await tap(
+      page,
+      page.getByRole('button', { name: 'Copy displayed result', exact: true })
+    );
+    await expect
+      .poll(() => page.evaluate(() => (window as any).resultCopies))
+      .toEqual(['15']);
+    await expect(field).toHaveValue('12+3');
+    await tap(page, equals);
+    await expect(
+      page.getByRole('status', { name: 'Result', exact: true })
+    ).toHaveText('18');
+    await field.fill('42');
+    await tap(page, equals);
+    const box = (await field.boundingBox())!;
+    await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+    await expect
+      .poll(() => page.evaluate(() => (window as any).resultCopies))
+      .toEqual(['15', '42']);
+  });
+
   test('notebook buttons use the same tap path while its photograph retains swipe handling', async ({
     page,
   }) => {

@@ -14,6 +14,7 @@ Forecasts sit directly on the dot paper without white panels. Temperatures, rain
 - Modeled air quality, particulate concentrations and grass pollen where available.
 - Sunrise, sunset, daylight progress, astronomically calculated moon phase, and a suggested two-hour outdoor window. The suggestion requires consecutive daylight hours, known rain/wind values and suitable conditions.
 - Optional device location, city/postal search, six bookmarked places, US/metric measurements and local persistence.
+- Swipe horizontally across the sky or temperature on Now to cycle through saved cities. A compact row of ink dots and previous/next arrows offers direct selection; its star saves or removes the current city. Saving starts in Places, and bookmarks remain local to this browser.
 - Paper switches at the selected place’s sunrise/sunset, including while the page stays open. Day/night overrides and reduced-motion support remain available.
 - Individually traced clouds, rain, snow, fog, sunlight and a phase-correct moon. Touch and keyboard activate the same interactions.
 - Official U.S. NWS alerts when coverage is available. A failed or unsupported lookup is never presented as “no alerts.”
@@ -73,6 +74,8 @@ Home Screen apps use `100vh` only inside `(display-mode: standalone)`, avoiding 
 `tests/pocket-apps.spec.ts` verifies that primary screens fit short mobile viewports, phone landscape and tablets, plus tab keyboard behavior, drawing timing and replay.
 
 `tests/weather-forecast.spec.ts` covers forecast switching, linked hour/day previews, chart dragging and keyboard selection, missing data, truncated/expired forecasts and dates across time zones.
+
+`tests/weather-cities.spec.ts` covers saved-city swipes, wraparound, arrows/dots, saving/removing and persistence, real touch events through the native haptic layer, vertical/short gesture rejection, and short portrait/landscape layouts including Home Screen insets. City changes reset forecast previews and use the existing per-location cache/request cancellation. The swipe surface is limited to the main illustration/temperature; forecast graph dragging and detail-panel scrolling keep their gestures. Native tap targets remain inside that surface, and drags cannot activate the covered replay button.
 
 ## Touch feedback and pen arrows
 

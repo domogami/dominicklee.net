@@ -908,7 +908,7 @@ html:has(.calculator-journal[data-motion='off']) {
 /* One tool per page keeps the keypad in reach on a phone. */
 .calculator-journal .calc-main-panel {
   overflow: hidden;
-  padding: 4px 0 10px;
+  padding: 4px 2px 10px;
 }
 .calculator-journal .calc-machine {
   display: flex;
@@ -945,6 +945,23 @@ html:has(.calculator-journal[data-motion='off']) {
   align-items: center;
   flex: 1;
   max-height: 135px;
+}
+.calc-answer-copy {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: right;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.calc-answer-copy .calc-answer {
+  display: block;
+}
+.calculator-journal .calc-answer-copy:not(:disabled) {
+  cursor: copy;
 }
 .calc-display .calc-answer {
   font-size: min(
