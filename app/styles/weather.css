@@ -1,9 +1,14 @@
 html:has(.weather-journal) {
   scroll-behavior: smooth;
-  background: #efe7d7;
+  background: #2b3034;
 }
 body:has(.weather-journal) {
   margin: 0;
+  background: inherit;
+}
+html[data-weather-theme='light']:has(.weather-journal),
+html:has(.weather-journal[data-theme='light']) {
+  background: #efe7d7;
 }
 html:has(.weather-journal[data-theme='dark']) {
   background: #2b3034;
@@ -47,7 +52,8 @@ html:has(.weather-journal[data-motion='off']) {
     max(22px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom))
     max(22px, env(safe-area-inset-left));
 }
-.weather-journal[data-theme='dark'] {
+.weather-journal[data-theme='dark'],
+html:not([data-weather-theme='light']) .weather-journal:not([data-theme]) {
   color-scheme: dark;
   --paper: #2b3034;
   --ink: #efe7d7;
@@ -63,6 +69,10 @@ html:has(.weather-journal[data-motion='off']) {
   --sky-wash: #354346;
   --shadow: rgba(0, 0, 0, 0.12);
   --tag: #414d40;
+  --app-paper: var(--paper);
+  --app-ink: var(--ink);
+  --app-accent: var(--accent);
+  --app-rule: var(--rule);
 }
 .weather-journal *,
 .weather-journal *::before,

@@ -11,6 +11,7 @@ import type { Route } from './+types/root';
 import TouchFeedback from './components/TouchFeedback';
 import SketchArrow from './components/notebook/SketchArrow';
 import touchFeedbackStyles from './styles/touch-feedback.css?url';
+import { weatherThemeScript, weatherThemeStyles } from './weather/theme';
 export const links = () => [{ rel: 'stylesheet', href: touchFeedbackStyles }];
 export function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
@@ -19,16 +20,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
     ? `/${app}/icon.svg?v=dark-sketch-2`
     : '/favicon.svg?v=hexagon';
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning={app === 'weather'}>
       <head>
         <meta charSet='utf-8' />
         <meta
           name='viewport'
           content='width=device-width,initial-scale=1,viewport-fit=cover'
         />
-        <meta name='theme-color' content='#0e7c79' />
+        <meta
+          name='theme-color'
+          content={app === 'weather' ? '#2b3034' : '#0e7c79'}
+        />
         <link rel='icon' href={favicon} type='image/svg+xml' />
         <Meta />
+        {app === 'weather' && (
+          <>
+            <style dangerouslySetInnerHTML={{ __html: weatherThemeStyles }} />
+            <script
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{ __html: weatherThemeScript }}
+            />
+          </>
+        )}
         <Links />
       </head>
       <body>

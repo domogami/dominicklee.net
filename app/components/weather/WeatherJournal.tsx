@@ -27,6 +27,7 @@ import {
 } from './Forecast';
 import WeatherArt, { WeatherIcon } from './WeatherArt';
 import { useWeather } from '~/weather/useWeather';
+import { initialWeatherTheme } from '~/weather/theme';
 import {
   SEATTLE,
   amount,
@@ -610,6 +611,7 @@ export default function WeatherJournal() {
     prefs,
     setPrefs,
     weather: w,
+    ready,
     now,
     loading,
     error,
@@ -635,6 +637,7 @@ export default function WeatherJournal() {
   }, [requested, w]);
   const [play, setPlay] = useState(0);
   const [systemReduced, setSystemReduced] = useState(false);
+  const [loadingTheme, setLoadingTheme] = useState<'light' | 'dark'>('dark');
   const citySwipe = useRef<{
     x: number;
     y: number;
@@ -646,23 +649,33 @@ export default function WeatherJournal() {
     setSelected(null);
   }, [key]);
   useEffect(() => {
+    setLoadingTheme(initialWeatherTheme());
+    return () => {
+      delete document.documentElement.dataset.weatherTheme;
+    };
+  }, []);
+  useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setSystemReduced(media.matches);
     update();
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
   }, []);
-  const naturalDay = w ? isDayAt(w, now) : true;
+  const naturalDay = w ? isDayAt(w, now) : loadingTheme === 'light';
   const dark = prefs.theme === 'auto' ? !naturalDay : prefs.theme === 'dark';
   const motion = prefs.motion && !systemReduced;
   useEffect(() => {
+    if (!ready) return;
+    const theme = dark ? 'dark' : 'light';
+    setLoadingTheme(theme);
+    document.documentElement.dataset.weatherTheme = theme;
     const meta = document.querySelector('meta[name="theme-color"]');
     const original = meta?.getAttribute('content');
     meta?.setAttribute('content', dark ? '#2b3034' : '#efe7d7');
     return () => {
       if (original) meta?.setAttribute('content', original);
     };
-  }, [dark]);
+  }, [dark, ready]);
   const choose = (place: Place) => {
     setSelected(null);
     setPrefs((p) => ({ ...p, place }));
@@ -763,7 +776,7 @@ export default function WeatherJournal() {
   return (
     <main
       className='weather-journal pocket-app'
-      data-theme={dark ? 'dark' : 'light'}
+      data-theme={ready ? (dark ? 'dark' : 'light') : undefined}
       data-motion={motion ? 'on' : 'off'}
       onClickCapture={(event) => {
         if (
