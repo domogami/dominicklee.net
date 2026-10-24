@@ -316,7 +316,18 @@ test.describe('saved city switching', () => {
         )
         .toBe(delayedTargets ? 'drawing' : 'Replay sky drawing');
       const drawing = (await page.locator('.weather-sketch').elementHandle())!;
-      await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      // Keep this swipe/tap sequence on Chromium's gesture driver. Playwright's
+      // touchscreen.tap sends touchStart/touchEnd concurrently, which can leave
+      // Linux Chromium without a compatibility click after a raw CDP swipe.
+      const touch = await page.context().newCDPSession(page);
+      try {
+        await touch.send('Input.synthesizeTapGesture', {
+          ...point,
+          gestureSourceType: 'touch',
+        });
+      } finally {
+        await touch.detach();
+      }
       try {
         await expect
           .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
