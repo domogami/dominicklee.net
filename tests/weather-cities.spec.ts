@@ -227,48 +227,83 @@ test.describe('saved city switching', () => {
     await expect(page.locator('.weather-city-dots button')).toHaveCount(1);
   });
 
-  test('the iPhone native tap layer stays inside the swipe surface and a drag does not activate its button', async ({
-    page,
-  }) => {
-    await page.addInitScript(() => {
-      Object.defineProperty(HTMLInputElement.prototype, 'switch', {
-        configurable: true,
-        get() {
-          return this.hasAttribute('switch');
-        },
+  for (const delayedTargets of [false, true]) {
+    test(`the iPhone native tap layer stays inside the swipe surface and a fresh tap replays once${delayedTargets ? ' before the new touch layer renders' : ''}`, async ({
+      page,
+    }) => {
+      await page.addInitScript(() => {
+        Object.defineProperty(HTMLInputElement.prototype, 'switch', {
+          configurable: true,
+          get() {
+            return this.hasAttribute('switch');
+          },
+        });
+        Object.defineProperty(navigator, 'vibrate', {
+          configurable: true,
+          value: undefined,
+        });
+        document.addEventListener(
+          'click',
+          (event) => {
+            if (
+              event.target instanceof Element &&
+              event.target.closest('button[aria-label^="Replay sky drawing"]')
+            )
+              (window as any).skyClicks = ((window as any).skyClicks || 0) + 1;
+          },
+          true
+        );
       });
-      Object.defineProperty(navigator, 'vibrate', {
-        configurable: true,
-        value: undefined,
-      });
-      document.addEventListener(
-        'click',
-        (event) => {
-          if (
-            event.target instanceof HTMLElement &&
-            event.target.closest('button[aria-label^="Replay sky drawing"]')
-          )
-            (window as any).skyClicks = ((window as any).skyClicks || 0) + 1;
-        },
-        true
-      );
+      await savedCities(page);
+      await page.goto('/weather/');
+      await expect(page.locator('.current-temperature')).toHaveText('64°');
+      await expect(
+        page.locator('.weather-art-space .native-tap-target')
+      ).toBeAttached();
+      await page.evaluate(() => document.fonts.ready);
+      // Keep animation-frame work paused while the next city loads. Its SVG
+      // remains tappable before the progressive native touch layer is measured.
+      if (delayedTargets) await page.clock.pauseAt(weatherNow + 1000);
+      await swipe(page, 'left');
+      await expect(page.locator('.weather-place')).toContainText('Kyoto');
+      await expect(page.locator('.current-temperature')).toHaveText('77°');
+      expect(await page.evaluate(() => (window as any).skyClicks || 0)).toBe(0);
+      const replay = page.getByRole('button', { name: /^Replay sky drawing/ });
+      if (!delayedTargets)
+        await expect(
+          page.locator('.weather-art-space .native-tap-target')
+        ).toBeAttached();
+      const box = (await replay.boundingBox())!;
+      const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+      await expect
+        .poll(() =>
+          page.evaluate(({ x, y }) => {
+            const hit = document.elementFromPoint(x, y);
+            return hit instanceof SVGElement
+              ? 'drawing'
+              : hit?.getAttribute('data-native-tap-label');
+          }, point)
+        )
+        .toBe(delayedTargets ? 'drawing' : 'Replay sky drawing');
+      const drawing = (await page.locator('.weather-sketch').elementHandle())!;
+      await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      await expect
+        .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
+        .toBe(1);
+      // Check the app's replay as well as event delivery: a swallowed click must
+      // not pass just because the document's capture listener counted it.
+      await expect
+        .poll(() => drawing.evaluate((el) => el.isConnected))
+        .toBe(false);
+      await drawing.dispose();
+      if (delayedTargets) {
+        await page.clock.runFor(32);
+        await expect(
+          page.locator('.weather-art-space .native-tap-target')
+        ).toBeAttached();
+      }
     });
-    await savedCities(page);
-    await page.goto('/weather/');
-    await expect(page.locator('.current-temperature')).toHaveText('64°');
-    await expect(
-      page.locator('.weather-art-space .native-tap-target')
-    ).toBeAttached();
-    await swipe(page, 'left');
-    await expect(page.locator('.weather-place')).toContainText('Kyoto');
-    expect(await page.evaluate(() => (window as any).skyClicks || 0)).toBe(0);
-    const replay = page.getByRole('button', { name: /^Replay sky drawing/ });
-    const box = (await replay.boundingBox())!;
-    await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
-    await expect
-      .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
-      .toBe(1);
-  });
+  }
 
   for (const viewport of [
     { width: 320, height: 568 },

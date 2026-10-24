@@ -191,10 +191,8 @@ test('retained projects render', async ({ page }) => {
   await expect(page.locator('body')).toHaveClass('theme--Dark');
 });
 
-test('copy stays between grid rows at narrow and wide sizes', async ({
-  page,
-}) => {
-  for (const width of [320, 390, 768, 1024, 1440]) {
+for (const width of [320, 390, 768, 1024, 1440]) {
+  test(`copy stays between grid rows at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
@@ -239,8 +237,8 @@ test('copy stays between grid rows at narrow and wide sizes', async ({
         `${selector} at ${width}px`
       ).toBeLessThan(1);
     }
-  }
-});
+  });
+}
 
 test('hobby erases independently while the single-line prefix stays fixed', async ({
   page,
@@ -723,6 +721,15 @@ test('chosen design has no comparison and key underline flows only on interactio
   expect(
     await underline.evaluate((el) => getComputedStyle(el).backgroundImage)
   ).toContain('data:image/svg+xml');
+  // This checks the underline, not scrolling. Keep browser/Playwright scrolling
+  // instant so it cannot move the link away from the stationary pointer.
+  await page.addStyleTag({
+    content: 'html { scroll-behavior: auto !important; }',
+  });
+  await page.evaluate(() => document.fonts.ready);
+  await link.evaluate((el) =>
+    el.scrollIntoView({ block: 'center', behavior: 'instant' })
+  );
   await link.hover();
   await expect(underline).toHaveCSS('animation-name', 'key-wave-flow');
   const phase = await underline.evaluate(
@@ -730,9 +737,14 @@ test('chosen design has no comparison and key underline flows only on interactio
   );
   await expect
     .poll(() =>
-      underline.evaluate((el) => getComputedStyle(el).backgroundPositionX)
+      underline.evaluate(
+        (el, initial) =>
+          el.closest('a')!.matches(':hover') &&
+          getComputedStyle(el).backgroundPositionX !== initial,
+        phase
+      )
     )
-    .not.toBe(phase);
+    .toBe(true);
   await page.mouse.move(0, 0);
   await expect(underline).toHaveCSS('animation-name', 'none');
   await link.focus();
