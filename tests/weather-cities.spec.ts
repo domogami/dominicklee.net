@@ -230,7 +230,7 @@ test.describe('saved city switching', () => {
   for (const delayedTargets of [false, true]) {
     test(`the iPhone native tap layer stays inside the swipe surface and a fresh tap replays once${delayedTargets ? ' before the new touch layer renders' : ''}`, async ({
       page,
-    }) => {
+    }, testInfo) => {
       await page.addInitScript(() => {
         Object.defineProperty(HTMLInputElement.prototype, 'switch', {
           configurable: true,
@@ -242,6 +242,36 @@ test.describe('saved city switching', () => {
           configurable: true,
           value: undefined,
         });
+        const events: unknown[] = [];
+        (window as any).weatherTapEvents = events;
+        for (const type of [
+          'pointerdown',
+          'pointerup',
+          'pointercancel',
+          'touchstart',
+          'touchend',
+          'touchcancel',
+          'click',
+          'change',
+        ]) {
+          document.addEventListener(
+            type,
+            (event) => {
+              const target = event.target as Element;
+              events.push({
+                type,
+                time: performance.now(),
+                target: target.tagName,
+                label:
+                  target.getAttribute?.('data-native-tap-label') ??
+                  target.closest?.('button')?.getAttribute('aria-label'),
+                trusted: event.isTrusted,
+              });
+              if (events.length > 80) events.shift();
+            },
+            true
+          );
+        }
         document.addEventListener(
           'click',
           (event) => {
@@ -287,9 +317,23 @@ test.describe('saved city switching', () => {
         .toBe(delayedTargets ? 'drawing' : 'Replay sky drawing');
       const drawing = (await page.locator('.weather-sketch').elementHandle())!;
       await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
-      await expect
-        .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
-        .toBe(1);
+      try {
+        await expect
+          .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
+          .toBe(1);
+      } catch (error) {
+        const diagnostics = {
+          delayedTargets,
+          redrawn: await drawing.evaluate((el) => !el.isConnected),
+          events: await page.evaluate(() => (window as any).weatherTapEvents),
+        };
+        await testInfo.attach('weather-input-events', {
+          body: JSON.stringify(diagnostics, null, 2),
+          contentType: 'application/json',
+        });
+        console.error('Weather tap diagnostics:', JSON.stringify(diagnostics));
+        throw error;
+      }
       // Check the app's replay as well as event delivery: a swallowed click must
       // not pass just because the document's capture listener counted it.
       await expect

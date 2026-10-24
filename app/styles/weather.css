@@ -1092,6 +1092,10 @@ details[open] > summary .expand-mark {
   padding: 2px 0;
   font-size: 11px;
 }
+.weather-journal [data-city-swipe] {
+  /* Horizontal gestures belong to the city deck; keep vertical pan and zoom. */
+  touch-action: pan-y pinch-zoom;
+}
 .weather-art-space {
   flex: 1;
   min-height: 100px;
