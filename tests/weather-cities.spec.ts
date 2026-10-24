@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type CDPSession, type Page } from '@playwright/test';
 import { weatherFixture, weatherNow } from './weather-fixture';
 import { SEATTLE } from '../app/weather/model';
 
@@ -17,6 +17,17 @@ const london = {
   longitude: -0.128,
 };
 const cities = [SEATTLE, kyoto, london];
+// A gesture sequence needs one input session through its resulting click.
+// Playwright closes these sessions with each test's page/context.
+const touchDrivers = new WeakMap<Page, Promise<CDPSession>>();
+function touchDriver(page: Page) {
+  let driver = touchDrivers.get(page);
+  if (!driver) {
+    driver = page.context().newCDPSession(page);
+    touchDrivers.set(page, driver);
+  }
+  return driver;
+}
 
 async function savedCities(page: Page, favoriteCount = 3) {
   await page.clock.setFixedTime(weatherNow);
@@ -62,7 +73,7 @@ async function swipe(
   await page.evaluate(() => document.fonts.ready);
   const box = (await page.locator(surface).boundingBox())!;
   const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-  const session = await page.context().newCDPSession(page);
+  const session = await touchDriver(page);
   await session.send('Input.dispatchTouchEvent', {
     type: 'touchStart',
     touchPoints: [point],
@@ -91,7 +102,6 @@ async function swipe(
     type: 'touchEnd',
     touchPoints: [],
   });
-  await session.detach();
 }
 
 test.describe('saved city switching', () => {
@@ -316,18 +326,13 @@ test.describe('saved city switching', () => {
         )
         .toBe(delayedTargets ? 'drawing' : 'Replay sky drawing');
       const drawing = (await page.locator('.weather-sketch').elementHandle())!;
-      // Keep this swipe/tap sequence on Chromium's gesture driver. Playwright's
-      // touchscreen.tap sends touchStart/touchEnd concurrently, which can leave
-      // Linux Chromium without a compatibility click after a raw CDP swipe.
-      const touch = await page.context().newCDPSession(page);
-      try {
-        await touch.send('Input.synthesizeTapGesture', {
-          ...point,
-          gestureSourceType: 'touch',
-        });
-      } finally {
-        await touch.detach();
-      }
+      // Keep the same driver alive through both gestures and their resulting
+      // click; detaching between commands can discard pending gesture work.
+      const touch = await touchDriver(page);
+      await touch.send('Input.synthesizeTapGesture', {
+        ...point,
+        gestureSourceType: 'touch',
+      });
       try {
         await expect
           .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
