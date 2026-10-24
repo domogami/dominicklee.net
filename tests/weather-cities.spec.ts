@@ -17,7 +17,7 @@ const london = {
   longitude: -0.128,
 };
 const cities = [SEATTLE, kyoto, london];
-// A gesture sequence needs one input session through its resulting click.
+// Reuse one CDP driver for controlled swipes on each page.
 // Playwright closes these sessions with each test's page/context.
 const touchDrivers = new WeakMap<Page, Promise<CDPSession>>();
 function touchDriver(page: Page) {
@@ -74,33 +74,21 @@ async function swipe(
   const box = (await page.locator(surface).boundingBox())!;
   const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
   const session = await touchDriver(page);
-  await session.send('Input.dispatchTouchEvent', {
-    type: 'touchStart',
-    touchPoints: [point],
-  });
-  for (const fraction of [0.2, 0.5, 0.8, 1]) {
-    await session.send('Input.dispatchTouchEvent', {
-      type: 'touchMove',
-      touchPoints: [
-        {
-          x:
-            point.x +
-            (direction === 'left'
-              ? -110
-              : direction === 'right'
-                ? 110
-                : direction === 'short'
-                  ? 20
-                  : 0) *
-              fraction,
-          y: point.y + (direction === 'vertical' ? -65 : 0) * fraction,
-        },
-      ],
-    });
-  }
-  await session.send('Input.dispatchTouchEvent', {
-    type: 'touchEnd',
-    touchPoints: [],
+  // End a controlled swipe with the finger at rest. A raw high-velocity lift
+  // creates a native Linux fling that consumes the next tap to stop scrolling.
+  await session.send('Input.synthesizeScrollGesture', {
+    ...point,
+    xDistance:
+      direction === 'left'
+        ? -110
+        : direction === 'right'
+          ? 110
+          : direction === 'short'
+            ? 20
+            : 0,
+    yDistance: direction === 'vertical' ? -65 : 0,
+    preventFling: true,
+    gestureSourceType: 'touch',
   });
 }
 
@@ -240,7 +228,7 @@ test.describe('saved city switching', () => {
   for (const delayedTargets of [false, true]) {
     test(`the iPhone native tap layer stays inside the swipe surface and a fresh tap replays once${delayedTargets ? ' before the new touch layer renders' : ''}`, async ({
       page,
-    }, testInfo) => {
+    }) => {
       await page.addInitScript(() => {
         Object.defineProperty(HTMLInputElement.prototype, 'switch', {
           configurable: true,
@@ -252,36 +240,6 @@ test.describe('saved city switching', () => {
           configurable: true,
           value: undefined,
         });
-        const events: unknown[] = [];
-        (window as any).weatherTapEvents = events;
-        for (const type of [
-          'pointerdown',
-          'pointerup',
-          'pointercancel',
-          'touchstart',
-          'touchend',
-          'touchcancel',
-          'click',
-          'change',
-        ]) {
-          document.addEventListener(
-            type,
-            (event) => {
-              const target = event.target as Element;
-              events.push({
-                type,
-                time: performance.now(),
-                target: target.tagName,
-                label:
-                  target.getAttribute?.('data-native-tap-label') ??
-                  target.closest?.('button')?.getAttribute('aria-label'),
-                trusted: event.isTrusted,
-              });
-              if (events.length > 80) events.shift();
-            },
-            true
-          );
-        }
         document.addEventListener(
           'click',
           (event) => {
@@ -326,30 +284,12 @@ test.describe('saved city switching', () => {
         )
         .toBe(delayedTargets ? 'drawing' : 'Replay sky drawing');
       const drawing = (await page.locator('.weather-sketch').elementHandle())!;
-      // Keep the same driver alive through both gestures and their resulting
-      // click; detaching between commands can discard pending gesture work.
-      const touch = await touchDriver(page);
-      await touch.send('Input.synthesizeTapGesture', {
-        ...point,
-        gestureSourceType: 'touch',
-      });
-      try {
-        await expect
-          .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
-          .toBe(1);
-      } catch (error) {
-        const diagnostics = {
-          delayedTargets,
-          redrawn: await drawing.evaluate((el) => !el.isConnected),
-          events: await page.evaluate(() => (window as any).weatherTapEvents),
-        };
-        await testInfo.attach('weather-input-events', {
-          body: JSON.stringify(diagnostics, null, 2),
-          contentType: 'application/json',
-        });
-        console.error('Weather tap diagnostics:', JSON.stringify(diagnostics));
-        throw error;
-      }
+      // Use Playwright's tap driver: Chromium's synthetic gesture API emits
+      // touch events without the compatibility click on Linux.
+      await page.touchscreen.tap(point.x, point.y);
+      await expect
+        .poll(() => page.evaluate(() => (window as any).skyClicks || 0))
+        .toBe(1);
       // Check the app's replay as well as event delivery: a swallowed click must
       // not pass just because the document's capture listener counted it.
       await expect
