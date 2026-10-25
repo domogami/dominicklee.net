@@ -16,7 +16,7 @@
     "test:install": "playwright install chromium"
   },
   "dependencies": {
-    "@domlee/ui": "git+https://github.com/domogami/Domino-UI.git#f5590dc2310e6e5c05d28a1038e9fa6f290db0b5",
+    "@domlee/ui": "git+https://github.com/domogami/Domino-UI.git#23d55fcd039bdddbb677986f787f81f65850139e",
     "@react-router/node": "^8.4.0",
     "@react-router/serve": "^8.4.0",
     "astronomy-engine": "2.1.19",

@@ -792,6 +792,112 @@ test('chosen design has no comparison and key underline flows only on interactio
   expect(response?.status()).toBe(404);
 });
 
+test('departing photo paints beyond its gallery until it tucks beneath the stack', async ({
+  page,
+}, info) => {
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+    await stack.scrollIntoViewIfNeeded();
+    const outgoing = await stack
+      .locator('.dm-polaroid-stack__photo[data-current="true"]')
+      .elementHandle();
+    await stack
+      .getByRole('button', { name: 'Previous photo', exact: true })
+      .click();
+    const excursion = await outgoing!.evaluate((card) => {
+      const animation = card
+        .getAnimations()
+        .find(
+          (animation) =>
+            animation instanceof CSSAnimation &&
+            animation.animationName === 'dm-polaroid-cycle'
+        )!;
+      animation.pause();
+      const duration = Number(animation.effect!.getTiming().duration);
+      animation.currentTime = duration * 0.48;
+      const gallery = card.closest('.dm-polaroid-stack')!;
+      const stage = card.closest('.dm-polaroid-stack__stage')!;
+      const clippers: string[] = [];
+      for (
+        let ancestor = card.parentElement;
+        ancestor;
+        ancestor = ancestor.parentElement
+      ) {
+        const css = getComputedStyle(ancestor);
+        if (
+          css.overflowX !== 'visible' ||
+          css.overflowY !== 'visible' ||
+          css.clipPath !== 'none' ||
+          /paint|strict|content/.test(css.contain)
+        ) {
+          clippers.push(ancestor.className || ancestor.tagName);
+        }
+      }
+      let paintsAboveStory: boolean | undefined;
+      if (innerWidth >= 1000) {
+        const story = card
+          .closest('.featured-project')!
+          .querySelector('.project-story .grid-copy')!;
+        const print = card.getBoundingClientRect();
+        const text = story.getBoundingClientRect();
+        const x =
+          (Math.max(print.left, text.left) +
+            Math.min(print.right, text.right)) /
+          2;
+        const y =
+          (Math.max(print.top, text.top) +
+            Math.min(print.bottom, text.bottom)) /
+          2;
+        // Make the print hit-testable only for this paint-order probe; this
+        // does not change its geometry, stacking context, or rendered pixels.
+        const previous = (card as HTMLElement).style.pointerEvents;
+        (card as HTMLElement).style.pointerEvents = 'auto';
+        const hit = document.elementFromPoint(x, y);
+        paintsAboveStory = hit !== null && card.contains(hit);
+        (card as HTMLElement).style.pointerEvents = previous;
+      }
+      return {
+        duration,
+        paintsAboveStory,
+        cardRight: card.getBoundingClientRect().right,
+        cardWidth: card.getBoundingClientRect().width,
+        galleryRight: gallery.getBoundingClientRect().right,
+        stageWidth: stage.getBoundingClientRect().width,
+        clippers,
+      };
+    });
+    expect(excursion.duration).toBe(480);
+    expect(excursion.cardRight).toBeGreaterThan(
+      excursion.galleryRight + excursion.stageWidth * 0.8
+    );
+    expect(excursion.cardWidth).toBeGreaterThan(excursion.stageWidth * 0.95);
+    expect(excursion.clippers).toEqual([]);
+    if (width >= 1000) expect(excursion.paintsAboveStory).toBe(true);
+    await page.screenshot({
+      path: info.outputPath(`photo-excursion-${width}.png`),
+    });
+    await outgoing!.evaluate((card) => {
+      card
+        .getAnimations()
+        .find(
+          (animation) =>
+            animation instanceof CSSAnimation &&
+            animation.animationName === 'dm-polaroid-cycle'
+        )!
+        .finish();
+    });
+    await photoSettled(stack);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true);
+  }
+});
+
 test('photo cycle starts and settles without a transform handoff jump', async ({
   page,
 }) => {

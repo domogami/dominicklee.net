@@ -2822,11 +2822,6 @@ html:has(.notebook.motion-paused) {
   box-shadow: 0 0 0 4px var(--teal);
 }
 
-/* Keep a departing card from widening the mobile page. */
-.notebook .works {
-  overflow-x: clip;
-}
-
 /* The shared stack owns photo geometry and motion. Only notebook context is
    mapped here, so adding photos needs no new classes or animation rules. */
 .notebook .notebook-photo-stack {
