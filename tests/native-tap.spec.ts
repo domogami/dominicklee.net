@@ -294,16 +294,27 @@ test.describe('Safari direct tap targets', () => {
       page.getByRole('button', { name: 'Close menu', exact: true })
     );
     const next = page.getByRole('button', {
-      name: 'Next SNAP-75 photo',
+      name: 'Next photo',
       exact: true,
     });
     await next.scrollIntoViewIfNeeded();
     await tap(page, next);
-    await expect(page.locator('.photo-counter')).toContainText('Photo 2 of 2');
-    await expect(
-      page.locator(
-        '.native-tap-target[data-native-tap-label="Swap SNAP-75 keyboard photos"]'
-      )
-    ).toHaveCount(0);
+    await expect(page.locator('.dm-polaroid-stack__count')).toContainText(
+      /Photo\s*2\s*\/\s*of\s*2/
+    );
+    const surface = page.locator('.dm-polaroid-stack__surface');
+    await expect(surface).toHaveAttribute('data-native-tap', 'none');
+    const label = await surface.getAttribute('aria-label');
+    expect(
+      await page
+        .locator('.native-tap-target')
+        .evaluateAll(
+          (targets, label) =>
+            targets.some(
+              (target) => target.getAttribute('data-native-tap-label') === label
+            ),
+          label
+        )
+    ).toBe(false);
   });
 });

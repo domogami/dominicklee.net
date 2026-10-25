@@ -2,7 +2,8 @@ import { pageIndex, folio, type NotebookPage } from './pageIndex';
 import { useEffect, useRef, useState } from 'react';
 import Crane from './Crane';
 import SketchArrow from './SketchArrow';
-import { armHapticCue, haptic, TouchFeedbackSetting } from '../TouchFeedback';
+import { TouchFeedbackSetting } from '../TouchFeedback';
+import NotebookPhotoStack from './NotebookPhotoStack';
 import StickyNotes from './StickyNotes';
 import MarginCrane from './MarginCrane';
 import HobbyTagline from './HobbyTagline';
@@ -53,31 +54,11 @@ export default function Notebook() {
   const [activePage, setActivePage] = useState<NotebookPage>('home');
   const [motion, setMotion] = useState(true);
   const [reduced, setReduced] = useState(false);
-  const [photo, setPhoto] = useState(false);
-  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
-    null
-  );
-  const photoGesture = useRef<{ id: number; x: number; y: number } | null>(
-    null
-  );
-  const suppressPhotoClick = useRef(false);
   const [headerCraneKey, setHeaderCraneKey] = useState(0);
   const menuButton = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLDivElement>(null);
   const activeMotion = motion && !reduced;
-  const cyclePhoto = (direction: 'left' | 'right') => {
-    if (swipeDirection) return;
-    haptic('selection');
-    if (activeMotion) {
-      armHapticCue('photo-cycle');
-      setSwipeDirection(direction);
-    }
-    setPhoto((value) => !value);
-  };
-  useEffect(() => {
-    if (!activeMotion) setSwipeDirection(null);
-  }, [activeMotion]);
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReduced(media.matches);
@@ -341,110 +322,7 @@ export default function Notebook() {
               page='works'
             />
             <div className='featured-project'>
-              <div
-                className='polaroid-gallery'
-                role='group'
-                aria-label='SNAP-75 photo gallery'
-              >
-                <button
-                  type='button'
-                  className='photo-arrow photo-arrow-previous'
-                  aria-label='Previous SNAP-75 photo'
-                  onClick={() => cyclePhoto('right')}
-                >
-                  <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
-                    <path d='M34 17 C25 14 15 18 6 16 M16 6 Q11 12 6 16 Q11 20 16 25' />
-                  </svg>
-                </button>
-                <button
-                  className={`polaroid-stack ${photo ? 'is-flipped' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
-                  data-native-tap='none'
-                  data-haptic-cue='photo-cycle'
-                  data-haptic-animation='photo-cycle'
-                  onAnimationEnd={(event) => {
-                    if (event.animationName === 'photo-cycle') {
-                      setSwipeDirection(null);
-                    }
-                  }}
-                  onPointerDown={(event) => {
-                    suppressPhotoClick.current = false;
-                    if (event.pointerType === 'mouse' || !event.isPrimary)
-                      return;
-                    photoGesture.current = {
-                      id: event.pointerId,
-                      x: event.clientX,
-                      y: event.clientY,
-                    };
-                    event.currentTarget.setPointerCapture(event.pointerId);
-                  }}
-                  onPointerUp={(event) => {
-                    const start = photoGesture.current;
-                    if (!start || start.id !== event.pointerId) return;
-                    photoGesture.current = null;
-                    const dx = Math.abs(event.clientX - start.x);
-                    const dy = Math.abs(event.clientY - start.y);
-                    suppressPhotoClick.current = Math.max(dx, dy) > 10;
-                    if (dx >= 40 && dx > dy * 1.5) {
-                      cyclePhoto(event.clientX < start.x ? 'left' : 'right');
-                    }
-                  }}
-                  onPointerCancel={() => {
-                    photoGesture.current = null;
-                    suppressPhotoClick.current = true;
-                  }}
-                  onClick={(event) => {
-                    // A swipe also generates a click; don't swap straight back.
-                    if (
-                      !swipeDirection &&
-                      (event.detail === 0 || !suppressPhotoClick.current)
-                    ) {
-                      setPhoto((v) => !v);
-                    }
-                  }}
-                  aria-label='Swap SNAP-75 keyboard photos'
-                  aria-pressed={photo}
-                >
-                  <span className='polaroid polaroid-back'>
-                    <img
-                      src='/images/snap75-top.jpg'
-                      alt='SNAP-75 keyboard from above, with two OLED displays and colorful keycaps'
-                      width='1600'
-                      height='898'
-                      loading='lazy'
-                    />
-                    <span>every little detail.</span>
-                  </span>
-                  <span className='polaroid polaroid-front'>
-                    <img
-                      src='/images/snap75-desk.jpg'
-                      alt='Hand-soldered SNAP-75 keyboard on my desk'
-                      width='1600'
-                      height='898'
-                      loading='lazy'
-                    />
-                    <span>the first one I ever soldered</span>
-                  </span>
-                </button>
-                <button
-                  type='button'
-                  className='photo-arrow photo-arrow-next'
-                  aria-label='Next SNAP-75 photo'
-                  onClick={() => cyclePhoto('left')}
-                >
-                  <svg viewBox='0 0 40 32' fill='none' aria-hidden='true'>
-                    <path d='M6 16 C15 18 25 14 34 16 M24 6 Q29 12 34 16 Q29 20 24 25' />
-                  </svg>
-                </button>
-                <span
-                  className='photo-counter'
-                  role='status'
-                  aria-live='polite'
-                  aria-atomic='true'
-                >
-                  <span aria-hidden='true'>{photo ? '2/2' : '1/2'}</span>
-                  <span className='sr-only'>Photo {photo ? 2 : 1} of 2</span>
-                </span>
-              </div>
+              <NotebookPhotoStack quiet={!activeMotion} />
               <div className='project-story'>
                 <p className='eyebrow status'>
                   × &nbsp; Made &amp; loved · featured build ·{' '}

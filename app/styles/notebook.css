@@ -560,66 +560,6 @@ body:has(.notebook) {
   align-items: center;
   padding: 32px 8px 64px;
 }
-.notebook .polaroid-stack {
-  touch-action: pan-y pinch-zoom;
-  user-select: none;
-  display: block;
-  position: relative;
-  aspect-ratio: 1.42;
-  width: 100%;
-  border: 0;
-  padding: 0;
-  background: none;
-  color: var(--ink);
-  isolation: isolate;
-}
-.notebook .polaroid {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  background: #f3edde;
-  padding: 12px 12px 8px;
-  box-shadow: 2px 10px 24px #0004;
-  transition:
-    transform 0.55s cubic-bezier(0.2, 0.65, 0.3, 1),
-    z-index 0s 0.2s;
-}
-.notebook .polaroid img {
-  width: 100%;
-  height: calc(100% - 48px);
-  object-fit: cover;
-  display: block;
-}
-.notebook .polaroid > span {
-  font:
-    27px/48px 'Caveat',
-    cursive;
-  white-space: nowrap;
-  text-align: center;
-}
-.notebook .polaroid-front {
-  transform: rotate(-3deg);
-  z-index: 2;
-}
-.notebook .polaroid-back {
-  transform: rotate(4deg) translate(10px, -10px);
-  z-index: 1;
-}
-.notebook .polaroid-stack .tape {
-  left: 16px;
-  top: -12px;
-  width: 112px;
-  height: 32px;
-}
-.notebook .polaroid-stack.is-flipped .polaroid-front {
-  transform: rotate(-7deg) translate(-10px, 10px);
-  z-index: 1;
-}
-.notebook .polaroid-stack.is-flipped .polaroid-back {
-  transform: rotate(1deg) translate(0, -4px);
-  z-index: 3;
-}
 .notebook .status {
   color: var(--mint);
   font-size: 10px;
@@ -922,9 +862,6 @@ body:has(.notebook) {
 }
 .notebook.motion-paused .write-in path {
   stroke-dashoffset: 0;
-}
-.notebook.motion-paused .polaroid {
-  transition: none;
 }
 .notebook.motion-paused .crane-animated path {
   fill-opacity: 1;
@@ -1232,16 +1169,6 @@ body:has(.notebook) {
     gap: 48px;
     padding: 16px 4px 32px;
   }
-  .notebook .polaroid-stack {
-    max-width: 500px;
-    aspect-ratio: 1.3;
-  }
-  .notebook .polaroid {
-    padding: 9px 9px 6px;
-  }
-  .notebook .polaroid > span {
-    font-size: 24px;
-  }
   .notebook .project-story {
     width: 100%;
   }
@@ -1420,11 +1347,6 @@ html:has(.notebook.motion-paused) {
     height: auto;
     padding: 32px 4px;
     gap: 64px;
-  }
-  .notebook .polaroid-stack {
-    height: 320px;
-    aspect-ratio: auto;
-    flex-shrink: 0;
   }
   .notebook .project-story {
     padding-top: 0;
@@ -2905,128 +2827,29 @@ html:has(.notebook.motion-paused) {
   overflow-x: clip;
 }
 
-/* The outgoing photograph travels around the stack, then settles underneath. */
-.notebook .polaroid-stack.swipe-left {
-  --swipe-distance: -105%;
-  --swipe-tilt: -12deg;
-}
-.notebook .polaroid-stack.swipe-right {
-  --swipe-distance: 105%;
-  --swipe-tilt: 12deg;
-}
-.notebook .polaroid-front {
-  --resting-photo: rotate(-3deg);
-  --departing-photo: rotate(-3deg);
-}
-.notebook .polaroid-back {
-  --resting-photo: rotate(4deg) translate(10px, -10px);
-  --departing-photo: rotate(1deg) translate(0, -4px);
-}
-.notebook .is-flipped .polaroid-front {
-  --resting-photo: rotate(-7deg) translate(-10px, 10px);
-}
-.notebook .is-flipped .polaroid-back {
-  --resting-photo: rotate(1deg) translate(0, -4px);
-}
-.notebook
-  .polaroid-stack:is(.swipe-left, .swipe-right).is-flipped
-  .polaroid-front,
-.notebook
-  .polaroid-stack:is(.swipe-left, .swipe-right):not(.is-flipped)
-  .polaroid-back {
-  /* The outgoing card has one transform owner; a transition would resume
-     underneath the animation and jump when it is removed. */
-  transition: none;
-  animation: photo-cycle 480ms cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-@keyframes photo-cycle {
-  0% {
-    transform: var(--departing-photo);
-    z-index: 4;
-  }
-  48% {
-    transform: translateX(var(--swipe-distance)) rotate(var(--swipe-tilt));
-    z-index: 4;
-  }
-  49% {
-    z-index: 1;
-  }
-  100% {
-    transform: var(--resting-photo);
-    z-index: 1;
-  }
-}
-
-.notebook .polaroid-gallery {
-  position: relative;
+/* The shared stack owns photo geometry and motion. Only notebook context is
+   mapped here, so adding photos needs no new classes or animation rules. */
+.notebook .notebook-photo-stack {
+  --dm-paper: var(--paper);
+  --dm-ink: var(--ink);
+  --dm-accent: var(--mint);
+  --dm-focus: var(--mint);
+  --dm-border: color-mix(in srgb, var(--ink) 24%, transparent);
+  --dm-sage: var(--mint);
+  --dm-muted: var(--mint);
+  --dm-surface: #f3edde;
+  --dm-surface-raised: #f3edde;
+  --dm-font-hand: 'Caveat', cursive;
+  --dm-font-body: 'Lexend', sans-serif;
   width: 100%;
   min-width: 0;
-  padding: 0 48px 64px;
+  max-width: 560px;
+  padding-bottom: var(--notebook-photo-grid-space, 0px);
+  justify-self: center;
+  align-self: center;
 }
-.notebook .photo-arrow {
-  position: absolute;
-  top: calc(50% - 54px);
-  width: 44px;
-  height: 44px;
-  padding: 8px;
-  border: 0;
-  background: transparent;
-  color: var(--mint);
-  cursor: pointer;
-  z-index: 5;
-  transition: transform 180ms ease;
-}
-.notebook .photo-arrow svg {
+.notebook .notebook-photo-stack > .dm-polaroid-stack {
   width: 100%;
-  height: 100%;
-}
-.notebook .photo-arrow path {
-  stroke: currentColor;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.notebook .photo-arrow-previous {
-  left: -12px;
-}
-.notebook .photo-arrow-next {
-  right: -18px;
-}
-.notebook .photo-arrow-previous:hover {
-  transform: translateX(-3px);
-}
-.notebook .photo-arrow-next:hover {
-  transform: translateX(3px);
-}
-.notebook .photo-counter {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  color: var(--mint);
-  font:
-    18px/32px 'Caveat',
-    cursive;
-}
-@media (max-width: 600px) {
-  .notebook .polaroid-gallery {
-    padding-inline: 40px;
-  }
-  .notebook .polaroid-gallery .polaroid > span {
-    font-size: clamp(17px, 4.5vw, 24px);
-  }
-}
-.notebook .photo-counter .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
 }
 
 /* A small stack below the hero keeps the crane's panel uncluttered. */

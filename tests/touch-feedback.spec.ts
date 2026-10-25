@@ -60,6 +60,44 @@ test.describe('mobile pen arrows and touch feedback', () => {
     serviceWorkers: 'block',
   });
 
+  test('shared photo selections pulse once and respect the notebook preference', async ({
+    page,
+  }) => {
+    await motor(page);
+    await page.goto('/');
+    const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+    const surface = stack.locator('.dm-polaroid-stack__surface');
+    const next = stack.getByRole('button', { name: 'Next photo', exact: true });
+    await next.scrollIntoViewIfNeeded();
+    await resetPulses(page);
+    await next.tap();
+    await expect(stack).toHaveAttribute('data-index', '1');
+    expect((await pulses(page)).map((pulse) => pulse.pattern)).toEqual([4]);
+    await expect
+      .poll(() =>
+        stack.evaluate((el) => el.getAnimations({ subtree: true }).length)
+      )
+      .toBe(0);
+    // The adapter reports accepted selections, without a second finish cue.
+    expect((await pulses(page)).map((pulse) => pulse.pattern)).toEqual([4]);
+    await resetPulses(page);
+    await surface.tap();
+    await expect(stack).toHaveAttribute('data-index', '0');
+    expect((await pulses(page)).map((pulse) => pulse.pattern)).toEqual([4]);
+    await expect(stack).toHaveAttribute('data-state', 'idle');
+    const setting = page.getByRole('checkbox', {
+      name: 'Touch feedback',
+      exact: true,
+    });
+    await setting.tap();
+    await expect(setting).not.toBeChecked();
+    await surface.scrollIntoViewIfNeeded();
+    await resetPulses(page);
+    await surface.tap();
+    await expect(stack).toHaveAttribute('data-index', '1');
+    expect(await pulses(page)).toEqual([]);
+  });
+
   test('arrows are SVG strokes and the city caret stays centered on a small phone', async ({
     page,
   }, info) => {

@@ -3,7 +3,32 @@ import {
   folio,
   type NotebookPage,
 } from '../app/components/notebook/pageIndex';
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
+
+const photoAlts = [
+  'Hand-soldered SNAP-75 keyboard on my desk',
+  'SNAP-75 keyboard from above, with two OLED displays and colorful keycaps',
+];
+
+function currentPhoto(stack: Locator) {
+  return stack.locator('.dm-polaroid-stack__photo[data-current="true"] img');
+}
+
+async function photoSettled(stack: Locator) {
+  await expect
+    .poll(() =>
+      stack.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter(
+              (animation) =>
+                animation.playState === 'running' || animation.pending
+            ).length
+      )
+    )
+    .toBe(0);
+}
 
 test('notebook loads without runtime errors and writing lives in the garden', async ({
   page,
@@ -93,18 +118,21 @@ test('photo stack works on touch and motion can be stopped', async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  const photos = page.getByRole('button', {
-    name: 'Swap SNAP-75 keyboard photos',
-  });
-  await photos.click();
-  await expect(photos).toHaveAttribute('aria-pressed', 'true');
-  await photos.click();
-  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+  const surface = stack.locator('.dm-polaroid-stack__surface');
+  await surface.click();
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[1]);
+  await photoSettled(stack);
+  await surface.click();
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[0]);
   await page.getByRole('button', { name: 'Motion: on' }).click();
   await expect(page.locator('.notebook')).toHaveClass(/motion-paused/);
   await expect(
     page.getByRole('button', { name: 'Motion: quiet' })
   ).toHaveAttribute('aria-pressed', 'true');
+  await surface.click();
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[1]);
+  await photoSettled(stack);
 });
 
 test('reduced motion is respected', async ({ page }) => {
@@ -288,7 +316,7 @@ test('notebook drawings reveal on entry and separators follow the grid', async (
   page,
 }) => {
   await page.goto('/');
-  await expect(page.locator('.polaroid-stack .tape')).toHaveCount(0);
+  await expect(page.locator('.notebook-photo-stack .tape')).toHaveCount(0);
   await page.locator('#now').scrollIntoViewIfNeeded();
   await expect(page.locator('.folded-banner')).toHaveClass(/is-drawn/);
   await page.locator('#garden').scrollIntoViewIfNeeded();
@@ -520,11 +548,10 @@ test('polaroids swipe both ways without double swapping or blocking page scrolli
   const touch = await page.context().newCDPSession(page);
   await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true });
   await page.goto('/');
-  const photos = page.getByRole('button', {
-    name: 'Swap SNAP-75 keyboard photos',
-  });
-  await photos.scrollIntoViewIfNeeded();
-  const box = (await photos.boundingBox())!;
+  const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+  const surface = stack.locator('.dm-polaroid-stack__surface');
+  await surface.scrollIntoViewIfNeeded();
+  const box = (await surface.boundingBox())!;
   const x = box.x + box.width / 2;
   const y = box.y + box.height / 2;
   async function swipe(dx: number, dy: number) {
@@ -543,52 +570,47 @@ test('polaroids swipe both ways without double swapping or blocking page scrolli
       touchPoints: [],
     });
   }
-  await swipe(-90, 0);
-  await expect(photos).toHaveAttribute('aria-pressed', 'true');
-  await expect(photos).not.toHaveClass(/swipe-left/);
-  await swipe(90, 0);
-  await expect(photos).toHaveAttribute('aria-pressed', 'false');
-  await expect(photos).not.toHaveClass(/swipe-right/);
-  await swipe(90, 0);
-  await expect(photos).toHaveAttribute('aria-pressed', 'true');
-  await expect(photos).not.toHaveClass(/swipe-right/);
-  await swipe(90, 0);
-  await expect(photos).toHaveAttribute('aria-pressed', 'false');
-  await expect(photos).not.toHaveClass(/swipe-right/);
+  for (const [dx, index] of [
+    [-90, 1],
+    [90, 0],
+    [90, 1],
+    [90, 0],
+  ]) {
+    await swipe(dx, 0);
+    await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[index]);
+    await photoSettled(stack);
+  }
   const before = await page.evaluate(() => window.scrollY);
   await swipe(0, -110);
-  await expect(photos).toHaveAttribute('aria-pressed', 'false');
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[0]);
   await expect
     .poll(() => page.evaluate(() => window.scrollY))
     .toBeGreaterThan(before);
-  await photos.focus();
+  await surface.focus();
   await page.keyboard.press('Space');
-  await expect(photos).toHaveAttribute('aria-pressed', 'true');
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[1]);
 });
 
 test('desktop photos stay still on hover and clicks retain the selected card', async ({
   page,
 }) => {
   await page.goto('/');
-  const photos = page.getByRole('button', {
-    name: 'Swap SNAP-75 keyboard photos',
+  const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+  const surface = stack.locator('.dm-polaroid-stack__surface');
+  await surface.scrollIntoViewIfNeeded();
+  const first = stack.locator('.dm-polaroid-stack__photo').filter({
+    has: page.locator('img[alt="Hand-soldered SNAP-75 keyboard on my desk"]'),
   });
-  await photos.scrollIntoViewIfNeeded();
-  const front = photos.locator('.polaroid-front');
-  const back = photos.locator('.polaroid-back');
-  const original = await front.evaluate((el) => getComputedStyle(el).transform);
-  await photos.hover();
-  await expect(front).toHaveCSS('transform', original);
-  await expect(front).toHaveCSS('z-index', '2');
-  await photos.click();
-  await expect(photos).toHaveAttribute('aria-pressed', 'true');
-  await expect(back).toHaveCSS('z-index', '3');
+  const original = await first.evaluate((el) => getComputedStyle(el).transform);
+  await surface.hover();
+  await expect(first).toHaveCSS('transform', original);
+  await surface.click();
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[1]);
+  await photoSettled(stack);
   await page.mouse.move(0, 0);
-  await expect(back).toHaveCSS('z-index', '3');
-  await photos.click();
-  await expect(photos).toHaveAttribute('aria-pressed', 'false');
-  await expect(front).toHaveCSS('z-index', '2');
-  await expect(back).toHaveCSS('z-index', '1');
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[1]);
+  await surface.click();
+  await expect(currentPhoto(stack)).toHaveAttribute('alt', photoAlts[0]);
 });
 
 test('photo arrows loop and counter stays in sync with clicks at mobile and desktop sizes', async ({
@@ -597,28 +619,43 @@ test('photo arrows loop and counter stays in sync with clicks at mobile and desk
   for (const width of [320, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    const gallery = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
-    const counter = gallery.getByRole('status');
-    const photos = gallery.getByRole('button', {
-      name: 'Swap SNAP-75 keyboard photos',
+    const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+    const counter = stack.locator('.dm-polaroid-stack__count');
+    const surface = stack.locator('.dm-polaroid-stack__surface');
+    const next = stack.getByRole('button', {
+      name: 'Next photo',
+      exact: true,
     });
-    await expect(counter).toContainText('1/2');
-    await gallery.getByRole('button', { name: 'Next SNAP-75 photo' }).click();
-    await expect(counter).toContainText('2/2');
-    await expect(photos).not.toHaveClass(/swipe-left/);
-    await gallery.getByRole('button', { name: 'Next SNAP-75 photo' }).click();
-    await expect(counter).toContainText('1/2');
-    await expect(photos).not.toHaveClass(/swipe-left/);
-    await gallery
-      .getByRole('button', { name: 'Previous SNAP-75 photo' })
-      .click();
-    await expect(counter).toContainText('2/2');
-    await expect(photos).not.toHaveClass(/swipe-right/);
-    await photos.click();
-    await expect(counter).toContainText('1/2');
+    const previous = stack.getByRole('button', {
+      name: 'Previous photo',
+      exact: true,
+    });
+    await expect(counter).toContainText(/Photo\s*1\s*\/\s*of\s*2/);
+    for (const [control, index] of [
+      [next, 1],
+      [next, 0],
+      [previous, 1],
+    ] as const) {
+      await control.click();
+      await expect(currentPhoto(stack)).toHaveAttribute(
+        'alt',
+        photoAlts[index]
+      );
+      await expect(counter).toContainText(
+        new RegExp(`Photo\\s*${index + 1}\\s*\/\\s*of\\s*2`)
+      );
+      await photoSettled(stack);
+    }
+    await surface.click();
+    await expect(counter).toContainText(/Photo\s*1\s*\/\s*of\s*2/);
+    await photoSettled(stack);
+    const ratio = await currentPhoto(stack).evaluate(
+      (image) => image.clientWidth / image.clientHeight
+    );
+    expect(ratio).toBeCloseTo(1600 / 898, 1);
     expect(
       await page.evaluate(
-        () => document.documentElement.scrollWidth <= window.innerWidth
+        () => document.documentElement.scrollWidth <= innerWidth
       )
     ).toBe(true);
   }
@@ -760,28 +797,32 @@ test('photo cycle starts and settles without a transform handoff jump', async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  const photos = page.getByRole('button', {
-    name: 'Swap SNAP-75 keyboard photos',
-  });
-  await photos.scrollIntoViewIfNeeded();
+  const stack = page.getByRole('group', { name: 'SNAP-75 photo gallery' });
+  await stack.scrollIntoViewIfNeeded();
   for (const direction of ['Next', 'Previous', 'Previous', 'Next']) {
-    const flipped = (await photos.getAttribute('aria-pressed')) === 'true';
-    const outgoing = photos.locator(
-      flipped ? '.polaroid-back' : '.polaroid-front'
+    const outgoing = stack.locator(
+      '.dm-polaroid-stack__photo[data-current="true"]'
     );
     const initial = await outgoing.evaluate(
       (el) => getComputedStyle(el).transform
     );
-    await page
-      .getByRole('button', { name: `${direction} SNAP-75 photo` })
+    // Retain this exact node across the shared component's index change.
+    const outgoingNode = await outgoing.elementHandle();
+    await stack
+      .getByRole('button', {
+        name: `${direction} photo`,
+        exact: true,
+      })
       .click();
-    const frames = await outgoing.evaluate(async (el) => {
+    const frames = await outgoingNode!.evaluate(async (el) => {
       const cycle = el
         .getAnimations()
         .find(
           (animation) =>
-            animation instanceof CSSAnimation &&
-            animation.animationName === 'photo-cycle'
+            animation.effect instanceof KeyframeEffect &&
+            animation.effect
+              .getKeyframes()
+              .some((frame) => frame.transform !== undefined)
         )!;
       cycle.pause();
       cycle.currentTime = 0;
@@ -792,29 +833,11 @@ test('photo cycle starts and settles without a transform handoff jump', async ({
       await new Promise((resolve) =>
         requestAnimationFrame(() => requestAnimationFrame(resolve))
       );
-      return {
-        start,
-        end,
-        settled: getComputedStyle(el).transform,
-        transitions: el
-          .getAnimations()
-          .filter((animation) => animation instanceof CSSTransition).length,
-      };
+      return { start, end, settled: getComputedStyle(el).transform };
     });
     expect(frames.start).toBe(initial);
     expect(frames.settled).toBe(frames.end);
-    expect(frames.transitions).toBe(0);
-    await expect(photos).not.toHaveClass(/swipe-/);
-    // Allow the incoming card's independent transition to settle before cycling again.
-    await expect
-      .poll(() =>
-        photos
-          .locator('.polaroid')
-          .evaluateAll(
-            (cards) => cards.flatMap((card) => card.getAnimations()).length
-          )
-      )
-      .toBe(0);
+    await photoSettled(stack);
   }
 });
 
