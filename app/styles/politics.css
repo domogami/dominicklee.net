@@ -142,7 +142,7 @@ body:has(.politics-app) {
   font: 11px var(--dm-font-mono);
   color: var(--dm-sidebar-accent);
 }
-.pg-active-link > span:last-child {
+.pg-active-link > .dm-sketch-arrow {
   margin-left: auto;
   color: var(--dm-sidebar-accent);
 }

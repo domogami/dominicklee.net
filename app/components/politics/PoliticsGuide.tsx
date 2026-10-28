@@ -7,6 +7,7 @@ import {
   Input,
   RadioGroup,
   Select,
+  SketchArrow,
   Tabs,
   Textarea,
   ThemeProvider,
@@ -35,7 +36,7 @@ function Links({ sources }: { sources: Source[] }) {
       {sources.map((s, i) => (
         <li key={`${s.url}-${i}`}>
           <a href={s.url} {...external}>
-            {s.label} <span aria-hidden='true'>↗</span>
+            {s.label} <SketchArrow />
           </a>
           {s.kind && <small>{s.kind.replaceAll('-', ' ')}</small>}
         </li>
@@ -64,7 +65,7 @@ function Cited({ text, sources }: { text: string; sources: Source[] }) {
                     {i > 0 ? '; ' : ''}
                     {source ? (
                       <a href={source.url} {...external}>
-                        {label} ↗
+                        {label} <SketchArrow />
                       </a>
                     ) : (
                       label
@@ -425,7 +426,7 @@ function NotebookGuide() {
                         {...external}
                         aria-label={`Source for ${fact.text}`}
                       >
-                        source ↗
+                        source <SketchArrow />
                       </a>
                     </>
                   )}
@@ -737,7 +738,7 @@ function NotebookGuide() {
           and Seattle’s applicable courts. The printed pamphlet covers other
           districts, too.{' '}
           <a href='https://votewa.gov/' {...external}>
-            Verify your exact ballot ↗
+            Verify your exact ballot <SketchArrow />
           </a>
         </span>
       </div>
@@ -944,7 +945,7 @@ function NotebookGuide() {
         <div className='pg-rail-inner' id='politics-navigation'>
           <div className='pg-rail-label'>A PAGE FOR MAKING SENSE</div>
           <a className='pg-active-link' href='/politics/' aria-current='page'>
-            <span>17</span> Politics <span aria-hidden='true'>↗</span>
+            <span>17</span> Politics <SketchArrow />
           </a>
           <nav aria-label='Politics index'>
             <button onClick={() => selectSection('all')}>
@@ -970,9 +971,11 @@ function NotebookGuide() {
           </div>
           <div className='pg-rail-bottom'>
             <a href='https://votewa.gov/' {...external}>
-              Your official ballot ↗
+              Your official ballot <SketchArrow />
             </a>
-            <a href='/'>← Back to the notebook</a>
+            <a href='/'>
+              <SketchArrow direction='left' /> Back to the notebook
+            </a>
             {ready && <ThemeToggle compact />}
             <span className='pg-rail-date'>p.17 / politics</span>
           </div>
@@ -1019,8 +1022,9 @@ function NotebookGuide() {
                 variant='secondary'
                 disabled={!ready}
                 onClick={exportNotebook}
+                trailingIcon={<SketchArrow />}
               >
-                Export backup ↗
+                Export backup
               </Button>
               <Button
                 ref={importOpener}
@@ -1055,7 +1059,7 @@ function NotebookGuide() {
           <footer className='pg-footer'>
             <span>Made with Domino UI. Read with curiosity.</span>
             <a href='https://kingcounty.gov/elections' {...external}>
-              King County Elections ↗
+              King County Elections <SketchArrow />
             </a>
           </footer>
         </main>
