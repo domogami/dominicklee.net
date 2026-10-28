@@ -30,9 +30,13 @@ test.beforeEach(async ({ page }) => {
 async function placeInViewport(control: Locator) {
   // Positioning the fixture is setup only. Scroll behavior below is exercised
   // with browser-generated touch events, never a scripted scroll assertion.
-  await control.evaluate((element) =>
-    element.scrollIntoView({ block: 'center', behavior: 'instant' })
-  );
+  await control.evaluate(async (element) => {
+    await document.fonts.ready;
+    element.scrollIntoView({ block: 'center', behavior: 'instant' });
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    );
+  });
   await expect(control).toBeVisible();
 }
 
@@ -43,15 +47,32 @@ async function touchSwipeUp(page: Page, start: Locator) {
   const before = await page.evaluate(() => scrollY);
   const session = await page.context().newCDPSession(page);
   try {
-    // Browser-generated touch scrolling preserves hit testing and avoids a
-    // fling continuing into the following disclosure/content assertion.
-    await session.send('Input.synthesizeScrollGesture', {
-      x,
-      y,
-      yDistance: -180,
-      gestureSourceType: 'touch',
-      speed: 450,
-      preventFling: true,
+    await expect
+      .poll(() =>
+        start.evaluate(
+          (element, point) =>
+            element.contains(document.elementFromPoint(point.x, point.y)),
+          { x, y }
+        )
+      )
+      .toBe(true);
+    // Use the native event sequence that is supported by Linux headless too.
+    // Holding the final position removes fling momentum before the next check.
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y }],
+    });
+    for (const distance of [12, 35, 70, 120, 180]) {
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x, y: y - distance }],
+      });
+      await page.waitForTimeout(30);
+    }
+    await page.waitForTimeout(120);
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
     });
     await expect
       .poll(() => page.evaluate(() => scrollY))
