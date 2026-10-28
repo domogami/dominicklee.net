@@ -919,7 +919,7 @@ function NotebookGuide() {
     </section>
   );
   return (
-    <div className='politics-app'>
+    <div className='politics-app' data-native-tap='none'>
       <a className='pg-skip' href='#politics-main'>
         Skip to the voting guide
       </a>

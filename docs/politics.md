@@ -24,7 +24,7 @@ Export produces a versioned JSON backup. Import validates schema, size and candi
 
 The implementation uses the actual `@domlee/ui` library: Button, Input, Select, Badge, Tabs, RadioGroup, Textarea, Dialog, Chevron, ThemeProvider and ThemeToggle. Fonts and semantic tokens are consumed from the package. App-specific layout and the original ballot sketch belong to this route.
 
-Pinned upstream revision: `23d55fcd039bdddbb677986f787f81f65850139e`, the existing production-site dependency. The politics section uses the same pinned Git package as the portfolio’s shared Polaroid stack; no library downgrade or component copy is included in this release. The manifest and lockfile preserve HTTPS access for clean builds.
+Pinned upstream revision: `7421c4f955fc396e8d5fc533815f4c5339df302c`, the existing production-site dependency. The politics section uses the same pinned Git package as the portfolio’s shared Polaroid stack; no library downgrade or component copy is included in this release. The manifest and lockfile preserve HTTPS access for clean builds.
 
 The existing root touch-feedback provider remains the only feedback controller. Theme preference is separate (`politics-theme`), and leaving the route restores the previous document theme. The original portfolio and in-progress name study are preserved.
 
@@ -39,3 +39,5 @@ Desktop Chrome and mobile Chrome emulation are automated checks. They do not est
 Rollback: remove the route entry, the new politics component/data/style/route files, the politics test/config/docs, the `@domlee/ui` dependency and its unused transitive dependency, and the vendor package. Do not remove unrelated local changes. Preserve exported notebooks before changing the storage schema.
 
 Final local result (October 28, 2026): typecheck, production build, Netlify handler/static-asset smoke check and all 8 focused desktop/mobile Chrome checks passed. Desktop and mobile screenshots were visually inspected. Release checks were repeated successfully with a clean Node 24 install and the current production-site UI dependency before publication. The shared stylesheet uses the same module import as the homepage to keep server and browser stylesheet references consistent.
+
+Safari scroll safety (October 28, 2026): the reading surface opts out of auxiliary native-switch overlays. The retained root controller consumes `isNativeTapTargetEligible` from `@domlee/ui/native-tap-policy`, excluding collapsed/nested disclosure bodies, summaries, expandable controls and ancestor opt-outs before geometry measurements. Nonzero WebKit rectangles do not prove a hidden control is visible. New regression checks exercise genuine Chromium touch drags on expanded judge headers and reading content; WebKit hit-testing verifies the problematic overlay layer is absent. Mobile chevrons retain at least a 24px right inset. Physical iPhone pan behavior remains a device check.

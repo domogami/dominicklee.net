@@ -567,6 +567,9 @@ body:has(.politics-app) {
   padding: 20px 24px;
   gap: 24px;
 }
+.pg-race > summary > div {
+  min-width: 0;
+}
 .pg-race > summary h2 {
   font-size: 17px;
   margin-top: 5px;
@@ -1188,17 +1191,21 @@ body:has(.politics-app) {
     max-width: none;
   }
   .pg-race > summary {
-    padding: 16px;
-    gap: 12px;
-    align-items: start;
+    padding: 16px 24px 16px 16px;
+    gap: 16px;
+    align-items: center;
   }
   .pg-race > summary h2 {
     font-size: 16px;
   }
   .pg-race-choice {
     font-size: 0;
-    max-width: 24px;
-    padding-top: 8px;
+    gap: 0;
+    width: 28px;
+    min-width: 28px;
+    max-width: 28px;
+    justify-content: center;
+    padding-top: 0;
   }
   .pg-race-choice .dm-chevron {
     font-size: initial;

@@ -193,7 +193,7 @@ test.describe('Safari direct tap targets', () => {
     ).toHaveCount(0);
   });
 
-  test('a swipe beginning on a native target scrolls the forecast panel instead of activating its button', async ({
+  test('a native disclosure scrolls the forecast panel instead of activating on a swipe', async ({
     page,
   }) => {
     await safariSwitches(page);
@@ -209,8 +209,15 @@ test.describe('Safari direct tap targets', () => {
     await tap(page, page.getByRole('tab', { name: 'Week', exact: true }));
     const panel = page.locator('#weather-panel-week');
     const summary = panel.locator('summary').first();
-    await expect(panel.locator('.native-tap-target').first()).toBeAttached();
     const box = (await summary.boundingBox())!;
+    expect(
+      await summary.evaluate((element) => {
+        const r = element.getBoundingClientRect();
+        return element.contains(
+          document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)
+        );
+      })
+    ).toBe(true);
     const session = await page.context().newCDPSession(page);
     const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
     await session.send('Input.dispatchTouchEvent', {
@@ -285,14 +292,14 @@ test.describe('Safari direct tap targets', () => {
     await safariSwitches(page);
     await page.goto('/');
     const menu = page.getByRole('button', { name: 'Open menu', exact: true });
-    await tap(page, menu);
+    await expect(
+      page.locator('.native-tap-target[data-native-tap-label="Open menu"]')
+    ).toHaveCount(0);
+    await menu.tap();
     await expect(
       page.getByRole('button', { name: 'Close menu', exact: true })
     ).toHaveAttribute('aria-expanded', 'true');
-    await tap(
-      page,
-      page.getByRole('button', { name: 'Close menu', exact: true })
-    );
+    await page.getByRole('button', { name: 'Close menu', exact: true }).tap();
     const next = page.getByRole('button', {
       name: 'Next photo',
       exact: true,

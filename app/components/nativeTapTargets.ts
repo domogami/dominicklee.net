@@ -1,3 +1,5 @@
+import { isNativeTapTargetEligible } from '@domlee/ui/native-tap-policy';
+
 /** Progressive enhancement for Safari's native, direct-touch switch feedback.
  * The real buttons retain their semantics, focus and keyboard handlers. Native
  * targets are siblings in a separate layer, never interactive button children.
@@ -47,14 +49,11 @@ export function nativeTapTargets(preference: () => boolean) {
     const modal = document.querySelector<HTMLElement>('dialog[open]');
     const keep = new Set<HTMLElement>();
     const controls = document.querySelectorAll<HTMLElement>(
-      'button, summary, [role="button"]'
+      'button, [role="button"]'
     );
     for (const button of controls) {
       if (
-        button.matches(
-          ':disabled, [aria-disabled="true"], [data-haptic="none"], [data-native-tap="none"]'
-        ) ||
-        button.closest('[hidden], [inert], [aria-hidden="true"]') ||
+        !isNativeTapTargetEligible(button) ||
         (modal && !modal.contains(button))
       )
         continue;
@@ -164,9 +163,11 @@ export function nativeTapTargets(preference: () => boolean) {
             !trusted ||
             !active() ||
             !button.isConnected ||
-            button.matches(':disabled, [aria-disabled="true"]')
-          )
+            !isNativeTapTargetEligible(button)
+          ) {
+            trusted = false;
             return;
+          }
           trusted = false;
           // Preserve caret editing when a keypad tap was made while typing.
           const focus =
@@ -234,6 +235,9 @@ export function nativeTapTargets(preference: () => boolean) {
         'inert',
         'disabled',
         'aria-disabled',
+        'aria-expanded',
+        'aria-hidden',
+        'role',
         'open',
         'data-haptic',
         'data-native-tap',
