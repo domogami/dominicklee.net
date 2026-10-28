@@ -11,6 +11,7 @@ export default [
   route('weather/search', 'routes/weather.search.ts'),
   route('weather/alerts', 'routes/weather.alerts.ts'),
   route('calculator', 'routes/calculator.tsx'),
+  route('politics', 'routes/politics.tsx'),
   route('flight-performance', 'routes/flight-performance.tsx'),
   route('flight-performance/weather', 'routes/flight-performance.weather.ts'),
   route('studies/haptics', 'routes/haptics-study.tsx'),

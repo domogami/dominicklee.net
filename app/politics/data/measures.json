@@ -1,0 +1,254 @@
+[
+  {
+    "id": "ip26-645",
+    "number": "IP26-645",
+    "title": "Income-tax repeal",
+    "summary": "Repeals the planned 9.9% tax on Washington taxable income above $1 million and prohibits income-measured state/local taxes. [AG explanation]",
+    "currentLaw": "The 2026 law taxes 2028 income, with first payments in 2029. Couples share the $1 million deduction. Five percent goes to Fair Start for Kids; the remainder to the general fund. [AG explanation; Enacted law]",
+    "yes": "Repeal the tax and adopt the broader income-tax prohibition.",
+    "no": "Keep the 2026 tax law and its scheduled collections.",
+    "history": [
+      "March 2026: Legislature enacted ESSB 6346; governor signed March 30. [Enacted law]",
+      "July 22, 2026: Repeal initiative certified. [House summary]"
+    ],
+    "tradeoffs": [
+      {
+        "label": "Supporters' argument",
+        "text": "Avoid a new tax, protect investment and prevent expansion below today's threshold. [Campaign arguments]"
+      },
+      {
+        "label": "Opponents' argument",
+        "text": "Retain service funding and ask high earners to contribute more. [Campaign arguments]"
+      },
+      {
+        "label": "Where revenue goes",
+        "text": "No fixed education share or district-specific return is mandated. School-meal language states legislative intent. [Enacted law]"
+      }
+    ],
+    "fiscal": "OFM's July ballot estimate: $11.432 billion less revenue in SFY2027–31, including $377 million less Fair Start funding; $150.47 million net agency savings. [OFM fiscal statement]",
+    "caveat": "AG says accompanying non-income-tax credits and exemptions survive repeal. Particular service cuts depend on later budgets. Campaign $13 billion claims use a different figure than the official ballot estimate.",
+    "sources": [
+      {
+        "label": "Full initiative",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/Finaltext_IP26-645_fulltext.pdf",
+        "kind": "law"
+      },
+      {
+        "label": "AG explanation",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/ExStmt_IP26-645.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Enacted law",
+        "url": "https://lawfilesext.leg.wa.gov/biennium/2025-26/Htm/Bills/Session%20Laws/Senate/6346-S.SL.htm",
+        "kind": "law"
+      },
+      {
+        "label": "House summary",
+        "url": "https://leg.wa.gov/media/ucubvqsd/2026-summary-of-initiative-26-645.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "OFM fiscal statement",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/FIS%20-%20Initiative%20645%20-%20FINAL.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Campaign arguments",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-09/IP26-645%20VP%20page%209.17.pdf",
+        "kind": "advocacy"
+      }
+    ]
+  },
+  {
+    "id": "il26-001",
+    "number": "IL26-001",
+    "title": "Parental rights in public schools",
+    "summary": "Restores the 2024 parental-rights list in RCW 28A.605.005, reversing its 2025 revisions. [House summary]",
+    "currentLaw": "Parents already have materials access and sex-education opt-outs. Education-record requests generally allow up to 45 days, with separate health/privacy rules. [Current law]",
+    "yes": "Restore broader school-record access, 10-business-day requests and medical-service notices. [Proposal]",
+    "no": "Keep the revised 2025 rights list and privacy provisions. [Current law]",
+    "history": [
+      "2024: Legislature enacted Initiative 2081. [House summary]",
+      "2025: HB 1296 revised its rights list. [House summary]",
+      "2026: Legislature took no action; initiative proceeds to voters. [House summary]"
+    ],
+    "tradeoffs": [
+      {
+        "label": "Supporters' argument",
+        "text": "Faster access and medical notices strengthen family involvement and school trust. [Campaign arguments]"
+      },
+      {
+        "label": "Opponents' argument",
+        "text": "Broader disclosure and narrower abuse exceptions could endanger vulnerable students or deter counseling. [Campaign arguments]"
+      },
+      {
+        "label": "Legal distinction",
+        "text": "Rewrites one statute, not all HB 1296. Separate employee-abuse notification and teacher protections remain. [Proposal; Separate abuse-notice law; Teacher protections]"
+      }
+    ],
+    "fiscal": "OFM: no state fiscal or revenue effect; local policy-update costs may be minor but are indeterminate. [OFM fiscal statement]",
+    "caveat": "No explicit pronoun/gender-change reporting clause. Broader records access may disclose sensitive information. Removing rights from this list does not itself repeal independent protections.",
+    "sources": [
+      {
+        "label": "Proposal",
+        "url": "https://lawfilesext.leg.wa.gov/biennium/2025-26/Htm/Initiatives/Initiatives/INITIATIVE%20IL26-001.htm",
+        "kind": "law"
+      },
+      {
+        "label": "Current law",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=28A.605.005",
+        "kind": "law"
+      },
+      {
+        "label": "AG explanation",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/ExStat_IL26-001.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "House summary",
+        "url": "https://leg.wa.gov/media/sw0bmjtf/2026-summary-of-initiative-26-001.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Separate abuse-notice law",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=28A.320.160",
+        "kind": "law"
+      },
+      {
+        "label": "Teacher protections",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=28A.400.312",
+        "kind": "law"
+      },
+      {
+        "label": "OFM fiscal statement",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/Initiative%20Measure%20NoIL26-001_FIS_FINAL.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Campaign arguments",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-08/IL26-001%20VP%20page.pdf",
+        "kind": "advocacy"
+      }
+    ]
+  },
+  {
+    "id": "il26-638",
+    "number": "IL26-638",
+    "title": "Girls' school-sports eligibility",
+    "summary": "Restricts covered female-only school competitions and requires healthcare-provider sex verification. [House summary]",
+    "currentLaw": "WIAA rule 18.16.0 allows participation consistent with gender identity. [WIAA handbook]",
+    "yes": "Exclude students defined as biologically male from girls' competitions; require female-category athletes to provide medical verification. [Proposal]",
+    "no": "Keep current eligibility rules without this new verification mandate.",
+    "history": [
+      "2025: Filed as an initiative to the Legislature. [House summary]",
+      "2026: Legislature took no action; proposal proceeds to voters. [House summary]"
+    ],
+    "tradeoffs": [
+      {
+        "label": "Supporters' argument",
+        "text": "Sex-based eligibility protects fairness, safety and female athletes' opportunities. [Campaign arguments]"
+      },
+      {
+        "label": "Opponents' argument",
+        "text": "Excludes transgender girls and adds privacy, access and participation barriers for female-category athletes. [Campaign arguments]"
+      },
+      {
+        "label": "Scope",
+        "text": "Covered K–12 interschool competitions, including participating private schools; not a general college, recreation or PE ban. [House summary; Proposal]"
+      }
+    ],
+    "fiscal": "OFM: approximately $21,000 one-time state guidance cost; local rule-update costs indeterminate; no revenue effect. [OFM fiscal statement]",
+    "caveat": "Requires verification using listed biological criteria but specifies no particular exam, test or hormone threshold. Claims that invasive exams are certain—or existing records always suffice—go beyond explicit text. [Proposal]",
+    "sources": [
+      {
+        "label": "Proposal",
+        "url": "https://lawfilesext.leg.wa.gov/biennium/2025-26/Htm/Initiatives/Initiatives/INITIATIVE%20IL26-638.htm",
+        "kind": "law"
+      },
+      {
+        "label": "House summary",
+        "url": "https://leg.wa.gov/media/rtyf5u54/2026-summary-of-initiative-26-638.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "WIAA handbook",
+        "url": "https://wiaa-dna4aga5arc0gyeb.westus2-01.azurewebsites.net/results/handbook/26-27/26-27%20Handbook.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "OFM fiscal statement",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-07/Initiative%20Measure%20NoIL26-638_FIS_FINAL.pdf",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Campaign arguments",
+        "url": "https://www.sos.wa.gov/sites/default/files/2026-08/IL26-638%20VP%20page.pdf",
+        "kind": "advocacy"
+      }
+    ]
+  },
+  {
+    "id": "seattle-prop1-2026",
+    "number": "Seattle Proposition 1",
+    "title": "Seattle Transit Measure",
+    "scope": "City of Seattle · includes Queen Anne",
+    "summary": "Replaces the expiring transit sales tax with authority for up to 0.3% for up to ten years, supporting transit service, access and related projects. [Official ballot explanation]",
+    "currentLaw": "The current 0.15% transit sales tax, approved in 2020, expires March 31, 2027. [Official ballot explanation]",
+    "yes": "Authorize the city to enact a replacement transit tax, no earlier than April 1, 2027. [Ordinance 127474]",
+    "no": "Reject this replacement; the existing transit tax still expires. Other transit funding remains, but this city supplement would end without another funding decision.",
+    "history": [
+      "2020: Voters approved the current six-year transit tax. [Official ballot explanation]",
+      "July 21, 2026: Council passed the replacement measure unanimously. [Council announcement]",
+      "July 30, 2026: Mayor signed Ordinance 127474. [Legislative record]"
+    ],
+    "tradeoffs": [
+      {
+        "label": "Supporters' argument",
+        "text": "More frequent buses, later/weekend service and more subsidized ORCA passes improve access while reducing car dependence. [Yes campaign]"
+      },
+      {
+        "label": "Opponents' argument",
+        "text": "Doubling this sales-tax component burdens household budgets; improve spending accountability and fare collection first. [Pamphlet opposition]"
+      },
+      {
+        "label": "Oversight",
+        "text": "Transit Advisory Board oversight and annual/midterm reporting are required. [Official ballot explanation]"
+      }
+    ],
+    "fiscal": "City estimate: approximately $138 million annually. The component rises from 15¢ to 30¢ per $100 of taxable purchases if the full rate is enacted—an added 15¢. [Council announcement; arithmetic]",
+    "caveat": "The proposition grants taxing authority; a future ordinance enacts the tax. Household-cost and service-expansion estimates depend on spending and implementation. This is separate from Seattle's 2024 property-tax transportation levy.",
+    "sources": [
+      {
+        "label": "Official ballot explanation",
+        "url": "https://info.kingcounty.gov/kcelections/Vote/contests/ballotmeasures.aspx?cid=102258&groupname=City&lang=en-US",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Ordinance 127474",
+        "url": "https://kingcounty.gov/-/media/king-county/depts/elections/how-to-vote/ballots/whats-on-the-ballot/ballot-measures/2026/11/seattle",
+        "kind": "law"
+      },
+      {
+        "label": "Legislative record",
+        "url": "https://seattle.legistar.com/LegislationDetail.aspx?FullText=1&GUID=38404165-6329-483B-BC51-CF585E31DC1F&ID=8072490",
+        "kind": "law"
+      },
+      {
+        "label": "Council announcement",
+        "url": "https://council.seattle.gov/2026/07/21/city-council-sends-updated-seattle-transit-measure-to-november-ballot/",
+        "kind": "official-analysis"
+      },
+      {
+        "label": "Yes campaign",
+        "url": "https://hoponboardseattle.org/",
+        "kind": "advocacy"
+      },
+      {
+        "label": "Pamphlet opposition",
+        "url": "https://info.kingcounty.gov/kcelections/Vote/contests/ballotmeasures.aspx?cid=102258&groupname=City&lang=en-US",
+        "kind": "advocacy"
+      }
+    ]
+  }
+]
