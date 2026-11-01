@@ -1,15 +1,8 @@
-import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
+import { Crane, NavTrail } from '@domlee/ui';
 
 export function SketchHome() {
   const [replay, setReplay] = useState(0);
-  const folds = [
-    'M10 31 15 28 14 25Z',
-    'M16 24 27 47 30 37Z',
-    'M31 28 40 17 43 26 34 30 31 35Z',
-    'M29 47 34 33 36 44Z',
-    'M36 31 56 20 48 48 38 44Z',
-    'M50 48 53 38 62 37Z',
-  ];
   return (
     <a
       className='pocket-home'
@@ -20,23 +13,22 @@ export function SketchHome() {
         if (e.pointerType === 'mouse') setReplay((v) => v + 1);
       }}
     >
-      <svg key={replay} viewBox='0 0 70 66' fill='none' aria-hidden='true'>
-        <path
-          className='home-hex'
-          pathLength='1'
-          d='M35 3 64 18l-1 31-29 15L6 48 5 18Z'
-        />
-        {folds.map((d, i) => (
-          <path
-            key={d}
-            className='home-fold'
-            d={d}
-            pathLength='1'
-            style={{ '--stroke-order': i } as CSSProperties}
-          />
-        ))}
-      </svg>
+      <Crane replayKey={replay} animate />
     </a>
+  );
+}
+
+/** A closed paper edge with room for every stroke, including the bottom. */
+export function PocketOutline() {
+  return (
+    <svg
+      className='pocket-outline'
+      viewBox='0 0 1000 1000'
+      preserveAspectRatio='none'
+      aria-hidden='true'
+    >
+      <path d='M24 5 Q495 3 976 5 Q994 5 994 24 L995 975 Q995 993 975 994 Q500 996 25 994 Q6 994 6 975 L5 25 Q5 6 24 5Z' />
+    </svg>
   );
 }
 
@@ -81,9 +73,22 @@ export function AppTabs<T extends string>({
   prefix: string;
 }) {
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const trail = useRef<HTMLDivElement>(null);
   return (
     <nav className='pocket-nav' aria-label={label}>
-      <div role='tablist' aria-label={label}>
+      <div
+        className='dm-nav-trail-host'
+        ref={trail}
+        role='tablist'
+        aria-label={label}
+      >
+        <NavTrail
+          containerRef={trail}
+          activeKey={active}
+          activeSelector='[aria-selected="true"]'
+          itemSelector='[role="tab"]'
+          iconSelector='svg'
+        />
         {tabs.map((tab, i) => (
           <button
             key={tab.id}

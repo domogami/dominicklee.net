@@ -6,6 +6,7 @@ import {
 } from 'react-router';
 import WeatherJournal from '~/components/weather/WeatherJournal';
 import pocket from '~/styles/pocket-app.css?url';
+import '@domlee/ui/styles.css';
 import notebook from '~/styles/notebook.css?url';
 import weather from '~/styles/weather.css?url';
 export const links: LinksFunction = () => [

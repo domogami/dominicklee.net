@@ -1,4 +1,11 @@
-/* The two notebook tools share a viewport-sized shell, not a scrolling article. */
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Kalam-Bold.ttf') format('truetype');
+}
+/* Domino notebook shell: only content panels scroll; fixed chrome stays outside them. */
 html:has(.pocket-app),
 body:has(.pocket-app) {
   height: 100%;
@@ -6,13 +13,16 @@ body:has(.pocket-app) {
   overscroll-behavior: none;
 }
 .pocket-app {
-  --app-paper: #efe7d7;
-  --app-ink: #252b2e;
-  --app-accent: #0e7c79;
-  --app-rule: #c9c5b5;
+  --app-paper: var(--dm-paper);
+  --app-ink: var(--dm-ink);
+  --app-accent: var(--dm-accent);
+  --app-rule: var(--dm-border);
+  --pocket-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --pocket-nav-height: calc(68px + var(--pocket-safe-bottom));
+  color: var(--app-ink);
   height: 100dvh;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
   padding: 0;
 }
 @media (display-mode: standalone) {
@@ -23,12 +33,6 @@ body:has(.pocket-app) {
     height: 100vh;
   }
 }
-.pocket-app[data-theme='dark'] {
-  --app-paper: #2b3034;
-  --app-ink: #efe7d7;
-  --app-accent: #b6cf8e;
-  --app-rule: #505a5b;
-}
 .pocket-frame {
   display: flex;
   flex-direction: column;
@@ -36,8 +40,9 @@ body:has(.pocket-app) {
   width: 100%;
   max-width: 1060px;
   margin: auto;
-  padding: env(safe-area-inset-top) max(22px, env(safe-area-inset-right)) 0
-    max(22px, env(safe-area-inset-left));
+  padding: max(8px, env(safe-area-inset-top))
+    max(28px, env(safe-area-inset-right)) var(--pocket-nav-height)
+    max(28px, env(safe-area-inset-left));
 }
 .pocket-header {
   height: 66px;
@@ -48,9 +53,7 @@ body:has(.pocket-app) {
   align-items: center;
 }
 .pocket-header h1 {
-  font:
-    600 19px/1.25 'Poppins',
-    sans-serif;
+  font: 600 19px/1.25 var(--dm-font-heading);
   letter-spacing: -0.04em;
   text-align: center;
 }
@@ -129,10 +132,49 @@ body:has(.pocket-app) {
   outline-offset: -3px;
 }
 .pocket-nav {
-  flex-shrink: 0;
-  border-top: 1px solid var(--app-rule);
-  padding: 4px 0 max(7px, env(safe-area-inset-bottom));
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 40;
+  min-height: var(--pocket-nav-height);
+  padding: 5px max(20px, env(safe-area-inset-right))
+    calc(7px + var(--pocket-safe-bottom)) max(20px, env(safe-area-inset-left));
   background: var(--app-paper);
+}
+.pocket-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0 max(26px, calc((100% - 1004px) / 2)) auto;
+  border-top: 1px solid var(--app-rule);
+  transform: rotate(-0.15deg);
+  opacity: 0.7;
+}
+.pocket-outline {
+  position: absolute;
+  inset: max(5px, env(safe-area-inset-top)) 7px 4px;
+  width: calc(100% - 14px);
+  height: calc(100% - max(5px, env(safe-area-inset-top)) - 4px);
+  pointer-events: none;
+  overflow: visible;
+  z-index: 45;
+  fill: none;
+  stroke: var(--app-rule);
+  stroke-width: 1;
+}
+.pocket-outline path {
+  vector-effect: non-scaling-stroke;
+}
+.pocket-app .pocket-nav .dm-nav-trail {
+  --dm-nav-surface: color-mix(in srgb, var(--app-accent) 8%, transparent);
+  --dm-nav-accent: var(--app-accent);
+  border-radius: var(--dm-radius);
+}
+.pocket-app .pocket-nav .dm-nav-trail::before {
+  width: 20px;
+  height: 2px;
+  left: 50%;
+  top: auto;
+  bottom: 2px;
+  transform: translateX(-50%) rotate(-2deg);
 }
 .pocket-nav > div {
   display: flex;
@@ -158,9 +200,7 @@ body:has(.pocket-app) {
   opacity: 1;
 }
 .pocket-nav button > span {
-  font:
-    500 19px/1.1 'Caveat',
-    cursive;
+  font: 500 19px/1.1 var(--dm-font-hand);
 }
 .pocket-nav svg {
   width: 22px;
@@ -217,8 +257,8 @@ body:has(.pocket-app) {
 }
 @media (max-width: 720px) {
   .pocket-frame {
-    padding-inline: max(18px, env(safe-area-inset-left))
-      max(18px, env(safe-area-inset-right));
+    padding-inline: max(22px, env(safe-area-inset-left))
+      max(22px, env(safe-area-inset-right));
   }
   .pocket-header {
     height: 56px;
@@ -251,4 +291,74 @@ body:has(.pocket-app) {
 .pocket-app[data-motion='off'] *::after {
   animation: none !important;
   transition: none !important;
+}
+
+/* Bind the tools to Domino's canonical colors while retaining their chart names. */
+.weather-journal[data-theme] {
+  --paper: var(--dm-paper);
+  --ink: var(--dm-ink);
+  --muted: var(--dm-muted);
+  --accent: var(--dm-accent);
+  --rule: var(--dm-border);
+  --dot: var(--dm-grid-color);
+  --tag: color-mix(in srgb, var(--dm-accent) 10%, var(--dm-paper));
+}
+.calculator-journal[data-theme] {
+  --calc-paper: var(--dm-paper);
+  --calc-ink: var(--dm-ink);
+  --calc-muted: var(--dm-muted);
+  --calc-accent: var(--dm-accent);
+  --calc-rule: var(--dm-border);
+  --calc-dot: var(--dm-grid-color);
+}
+/* Keep the weather's existing pre-hydration night palette. */
+html:not([data-weather-theme='light']) .weather-journal:not([data-theme]) {
+  --dm-paper: #2b3034;
+  --dm-ink: #efe7d7;
+  --dm-accent: #b6cf8e;
+  --dm-border: #50565a;
+}
+@media (min-width: 1100px) {
+  .pocket-outline {
+    left: calc((100% - 1060px) / 2);
+    width: 1060px;
+  }
+}
+@media (max-height: 560px) {
+  .pocket-app {
+    --pocket-nav-height: calc(60px + var(--pocket-safe-bottom));
+  }
+}
+
+.pocket-home .dm-crane {
+  color: var(--app-accent);
+}
+/* Reserve exactly the space used by the fixed bar, including font rounding. */
+.pocket-app {
+  --pocket-nav-height: calc(70px + var(--pocket-safe-bottom));
+}
+.pocket-nav {
+  height: var(--pocket-nav-height);
+}
+.pocket-nav button {
+  height: 58px;
+  min-height: 0;
+}
+@media (max-height: 560px) {
+  .pocket-app {
+    --pocket-nav-height: calc(62px + var(--pocket-safe-bottom));
+  }
+  .pocket-nav button {
+    height: 50px;
+    min-height: 0;
+    gap: 2px;
+  }
+  .pocket-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+  .pocket-nav button > span {
+    font-size: 17px;
+    line-height: 1;
+  }
 }

@@ -6,6 +6,7 @@ import {
 } from 'react-router';
 import CalculatorJournal from '~/components/calculator/CalculatorJournal';
 import pocket from '~/styles/pocket-app.css?url';
+import '@domlee/ui/styles.css';
 import notebook from '~/styles/notebook.css?url';
 import calculator from '~/styles/calculator.css?url';
 export const links: LinksFunction = () => [

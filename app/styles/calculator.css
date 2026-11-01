@@ -1166,8 +1166,9 @@ html:has(.calculator-journal[data-motion='off']) {
     );
   }
   .calc-display[data-single='true'] input {
+    /* Keep the complete ascender/descender inside the shorter display too. */
     font-size: min(
-      62px,
+      clamp(44px, calc(25dvh - 94px), 62px),
       calc((100cqw - 44px) / var(--calc-input-characters, 1) * 1.7)
     );
   }
@@ -1238,4 +1239,115 @@ html:has(.calculator-journal[data-motion='off']) {
       max(24px, env(safe-area-inset-bottom))
       max(22px, env(safe-area-inset-left));
   }
+}
+
+/* The pocket calculator uses Domino's live palette and drawing vocabulary. */
+.calculator-journal[data-theme] {
+  --calc-paper: var(--dm-paper, #efe7d7);
+  --calc-ink: var(--dm-ink, #252b2e);
+  --calc-muted: var(--dm-muted, #696b63);
+  --calc-accent: var(--dm-accent, #0e7c79);
+  --calc-rule: var(--dm-border, #c8c0b1);
+  --calc-dot: var(--dm-grid-color, #252b2e26);
+  --calc-danger: var(--dm-danger, #a34e36);
+  --calc-tag: color-mix(in srgb, var(--calc-accent) 10%, var(--calc-paper));
+  --calc-pencil: color-mix(in srgb, var(--calc-ink) 34%, transparent);
+  font-family: var(--dm-font-body, 'Lexend', sans-serif);
+}
+.calculator-journal .calc-machine {
+  /* The last row has a little breathing room inside the complete ink frame. */
+  padding: 2px 4px 5px;
+}
+.calculator-journal .calc-display {
+  border-bottom: 1px solid var(--calc-rule);
+  border-radius: 0 0 13px 3px;
+  background: linear-gradient(
+    180deg,
+    transparent 48%,
+    color-mix(in srgb, var(--calc-accent) 3%, transparent)
+  );
+}
+.calculator-journal .calc-display input {
+  font-family: var(--dm-font-hand, 'Caveat', cursive);
+}
+.calculator-journal .calc-science-trigger.dm-button {
+  border: 0;
+  border-radius: var(--dm-radius, 3px 7px 5px 4px);
+  background: transparent;
+  box-shadow: none;
+  padding: 5px 7px;
+}
+.calculator-journal .calc-science-trigger.dm-button:hover {
+  background: var(--calc-tag);
+  box-shadow: none;
+  transform: none;
+}
+.calculator-journal .calc-key-outline {
+  inset: 2px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  overflow: visible;
+}
+.calculator-journal .calc-keypad > button {
+  border-radius: var(--dm-radius, 3px 7px 5px 4px);
+  font-family: var(--dm-font-lettered, 'Kalam', cursive);
+  --key-line: color-mix(in srgb, var(--calc-ink) 38%, transparent);
+}
+.calculator-journal .calc-keypad > .calc-operator {
+  font-family: var(--dm-font-hand, 'Caveat', cursive);
+  --key-line: color-mix(in srgb, var(--calc-accent) 65%, transparent);
+}
+.calculator-journal .calc-keypad > .calc-equal-key {
+  font-family: var(--dm-font-hand, 'Caveat', cursive);
+  --key-wash: color-mix(in srgb, var(--calc-accent) 15%, transparent);
+  --key-line: var(--calc-accent);
+}
+.calculator-journal .calc-keypad > button:focus-visible {
+  outline-offset: -2px;
+}
+.calculator-journal .calc-converter .dm-field__label {
+  font: 500 21px/1.2 var(--dm-font-hand, 'Caveat', cursive);
+  color: var(--calc-muted);
+}
+.calculator-journal .calc-converter .dm-input {
+  border-radius: var(--dm-radius, 3px 7px 5px 4px);
+  border-color: var(--calc-rule);
+  background: color-mix(in srgb, var(--calc-accent) 3%, var(--calc-paper));
+  box-shadow: none;
+  font: 400 16px/1.5 var(--dm-font-body, 'Lexend', sans-serif);
+}
+.calculator-journal .calc-converter .dm-select {
+  padding-right: 35px;
+}
+.calculator-journal .calc-unit-pair .calc-icon-button.dm-button {
+  box-shadow: none;
+  border: 0;
+  color: var(--calc-accent);
+}
+.calculator-journal .calc-paper-button.dm-button {
+  display: inline-flex;
+  gap: 9px;
+  background: var(--calc-tag);
+  border-color: var(--calc-accent);
+  border-radius: var(--dm-radius, 3px 7px 5px 4px);
+  box-shadow: none;
+  font: 600 22px/1.2 var(--dm-font-hand, 'Caveat', cursive);
+}
+.calculator-journal .calc-history-empty .calc-history-sketch {
+  display: block;
+  width: 128px;
+  height: 110px;
+  margin: auto;
+  color: var(--calc-accent);
+}
+.calculator-journal .calc-history li {
+  border-bottom-style: solid;
+}
+.calculator-journal .calc-preference-options .dm-button {
+  box-shadow: none;
+  font: 500 21px/1.2 var(--dm-font-hand, 'Caveat', cursive);
+}
+.calculator-journal .calc-preference-options .dm-button[aria-pressed='true'] {
+  border-color: var(--calc-accent);
+  background: var(--calc-tag);
 }

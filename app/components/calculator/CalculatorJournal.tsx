@@ -6,9 +6,11 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
+import { Button, Input, NotebookSketch, Select } from '@domlee/ui';
 import {
   AppPanel,
   AppTabs,
+  PocketOutline,
   SettingsGlyph,
   SketchHome,
 } from '~/components/notebook/PocketChrome';
@@ -112,43 +114,44 @@ function Converter({ useResult }: { useResult: (value: number) => void }) {
   return (
     <section className='calc-converter' aria-labelledby='converter-title'>
       <h2 id='converter-title'>Convert units</h2>
-      <label className='calc-field'>
-        What are we measuring?
-        <select
-          value={category}
-          onChange={(e) => chooseCategory(e.target.value)}
+      <Select
+        label='What are we measuring?'
+        fieldClassName='calc-field'
+        value={category}
+        onChange={(e) => chooseCategory(e.target.value)}
+      >
+        {Object.entries(conversions).map(([id, c]) => (
+          <option key={id} value={id}>
+            {c.label}
+          </option>
+        ))}
+      </Select>
+      <Input
+        label='Value'
+        fieldClassName='calc-field'
+        type='text'
+        inputMode='decimal'
+        value={input}
+        maxLength={32}
+        onChange={(e) => setInput(e.target.value)}
+        autoComplete='off'
+        spellCheck={false}
+      />
+      <div className='calc-unit-pair'>
+        <Select
+          label='From'
+          fieldClassName='calc-field'
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
         >
-          {Object.entries(conversions).map(([id, c]) => (
-            <option key={id} value={id}>
-              {c.label}
+          {units.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.label}
             </option>
           ))}
-        </select>
-      </label>
-      <label className='calc-field'>
-        Value
-        <input
-          type='text'
-          inputMode='decimal'
-          value={input}
-          maxLength={32}
-          onChange={(e) => setInput(e.target.value)}
-          autoComplete='off'
-          spellCheck={false}
-        />
-      </label>
-      <div className='calc-unit-pair'>
-        <label className='calc-field'>
-          From
-          <select value={from} onChange={(e) => setFrom(e.target.value)}>
-            {units.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button
+        </Select>
+        <Button
+          variant='ghost'
           className='calc-icon-button'
           aria-label='Swap units'
           onClick={() => {
@@ -157,17 +160,19 @@ function Converter({ useResult }: { useResult: (value: number) => void }) {
           }}
         >
           <SketchArrow direction='swap' />
-        </button>
-        <label className='calc-field'>
-          To
-          <select value={to} onChange={(e) => setTo(e.target.value)}>
-            {units.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        </Button>
+        <Select
+          label='To'
+          fieldClassName='calc-field'
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+        >
+          {units.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.label}
+            </option>
+          ))}
+        </Select>
       </div>
       <div className='calc-conversion-answer' aria-live='polite'>
         <span className='calc-eyebrow'>That’s about</span>
@@ -179,13 +184,14 @@ function Converter({ useResult }: { useResult: (value: number) => void }) {
       <p className='calc-error' role='status'>
         {error}
       </p>
-      <button
+      <Button
+        variant='secondary'
         className='calc-paper-button'
         disabled={value === null}
         onClick={() => value !== null && useResult(value)}
       >
         Use in a calculation <SketchArrow />
-      </button>
+      </Button>
       <p className='calc-fine-print'>
         Volume measures use US customary units. No connection needed.
       </p>
@@ -592,6 +598,7 @@ export default function CalculatorJournal() {
       data-theme={dark ? 'dark' : 'light'}
       data-motion={motion ? 'on' : 'off'}
     >
+      <PocketOutline />
       <div className='pocket-frame'>
         <header className='pocket-header'>
           <SketchHome />
@@ -771,8 +778,9 @@ export default function CalculatorJournal() {
               </div>
 
               <div className='calc-tools-row'>
-                <button
-                  className='calc-text-button'
+                <Button
+                  variant='ghost'
+                  className='calc-text-button calc-science-trigger'
                   onClick={() => setDialog('science')}
                   aria-haspopup='dialog'
                 >
@@ -780,7 +788,7 @@ export default function CalculatorJournal() {
                   <span className='calc-science-unit'>
                     {settings.angle.toUpperCase()}
                   </span>
-                </button>
+                </Button>
                 <div className='calc-brackets'>
                   <button
                     onClick={() => insert('(')}
@@ -902,17 +910,13 @@ export default function CalculatorJournal() {
                   </>
                 ) : (
                   <div className='calc-history-empty'>
-                    <svg
-                      viewBox='0 0 140 100'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      aria-hidden='true'
-                    >
-                      <path d='M22 9 111 13l-5 75-92-5Zm17 24 40 2M37 47l52 2M35 61l32 2M87 71l33-45 9 8-35 42-10 5Z' />
-                      <path d='m119 29 6 5M86 72l8 4' />
-                    </svg>
+                    <NotebookSketch
+                      variant='notebook'
+                      animate={motion}
+                      quiet={!motion}
+                      interactive={false}
+                      className='calc-history-sketch'
+                    />
                     <p>Nothing scribbled yet.</p>
                     <span>Your last 40 answers will appear here.</span>
                     <button
@@ -1061,7 +1065,8 @@ export default function CalculatorJournal() {
             <legend>Paper & light</legend>
             <div className='calc-preference-options'>
               {(['auto', 'light', 'dark'] as const).map((t) => (
-                <button
+                <Button
+                  variant='ghost'
                   key={t}
                   aria-pressed={settings.theme === t}
                   onClick={() => setSettings((s) => ({ ...s, theme: t }))}
@@ -1071,7 +1076,7 @@ export default function CalculatorJournal() {
                     : t === 'light'
                       ? 'Day'
                       : 'Night'}
-                </button>
+                </Button>
               ))}
             </div>
           </fieldset>

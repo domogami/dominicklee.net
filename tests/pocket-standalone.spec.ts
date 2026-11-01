@@ -26,7 +26,7 @@ async function installedViewport(
             visit(rule.cssRules);
           } else if (rule instanceof CSSStyleRule) {
             rule.style.cssText = rule.style.cssText.replace(
-              /env\(safe-area-inset-(top|right|bottom|left)\)/g,
+              /env\(safe-area-inset-(top|right|bottom|left)(?:,[^)]*)?\)/g,
               (_, side: keyof typeof insets) => `${insets[side]}px`
             );
             if (rule.style.height === '100dvh') {
@@ -84,10 +84,9 @@ test.describe('Home Screen app height', () => {
         expect(await bottom(page)).toBeCloseTo(viewport.height, 0);
 
         await installedViewport(page, viewport, false);
-        expect(await bottom(page)).toBeCloseTo(
-          viewport.height - viewport.top - viewport.bottom,
-          0
-        );
+        // Fixed navigation remains anchored even if WebKit reports a smaller
+        // content viewport. It must not inherit the app frame's short height.
+        expect(await bottom(page)).toBeCloseTo(viewport.height, 0);
         await installedViewport(page, viewport, true);
         expect(await bottom(page)).toBeCloseTo(viewport.height, 0);
 
@@ -103,9 +102,22 @@ test.describe('Home Screen app height', () => {
           )
         ).toBe(true);
         const panel = page.getByRole('tabpanel');
-        expect(
-          await panel.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
-        ).toBe(true);
+        if (app === 'weather') {
+          const today = (await panel
+            .locator('.weather-today-page')
+            .boundingBox())!;
+          const content = (await panel.boundingBox())!;
+          expect(today.y + today.height).toBeLessThanOrEqual(
+            content.y + content.height + 1
+          );
+          await expect(
+            page.locator('.forecast-glance-items button').last()
+          ).toBeInViewport({ ratio: 1 });
+        } else {
+          expect(
+            await panel.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
+          ).toBe(true);
+        }
         await page.screenshot({
           path: info.outputPath(`${app}-standalone.png`),
           animations: 'disabled',

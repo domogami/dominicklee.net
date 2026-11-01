@@ -2124,3 +2124,119 @@ details[open] > summary .expand-mark {
     font-size: 17px;
   }
 }
+
+/* Today stays a complete notebook page; the same scroll opens the week below. */
+.weather-journal .weather-now-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-block: 16px;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+}
+.weather-now-panel::-webkit-scrollbar {
+  display: none;
+}
+.weather-today-page {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.weather-today-page .weather-now {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  width: 100%;
+}
+.weather-journal .weather-scroll-cue {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  min-height: 26px;
+  padding: 0 10px 3px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 18px/1 var(--dm-font-hand);
+}
+.weather-scroll-cue svg {
+  height: 16px;
+  width: 16px;
+}
+.weather-overview-week {
+  max-width: 640px;
+  margin: 20px auto 0;
+  padding: 24px 12px 28px;
+  border: 1px solid var(--rule);
+  border-radius: 12px 9px 14px 7px;
+  background: color-mix(in srgb, var(--paper) 94%, var(--dm-accent));
+}
+.week-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font: 9px/1.5 var(--dm-font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.weather-overview-week .section-heading {
+  margin-bottom: 18px;
+}
+.weather-overview-week .section-heading h2 {
+  font-size: 30px;
+}
+.weather-overview-week .forecast-day {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+}
+.weather-overview-week .forecast-day summary {
+  min-height: 64px;
+  gap: 5px;
+  padding-inline: 0;
+}
+.weather-overview-week .forecast-day summary > strong {
+  font-size: 21px;
+}
+.weather-overview-week .range-track {
+  height: 4px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-radius: 5px;
+}
+.weather-overview-week .range-track > span {
+  background: linear-gradient(90deg, var(--rain), var(--accent));
+  height: 4px;
+  border-radius: 5px;
+}
+.weather-journal .week-explore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px auto 0;
+  color: var(--accent);
+  background: transparent;
+  font: 21px/1.25 var(--dm-font-hand);
+}
+@media (min-width: 900px) and (min-height: 650px) {
+  .weather-overview-week {
+    max-width: 740px;
+    padding-inline: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .weather-journal .weather-now-panel {
+    scroll-behavior: auto;
+  }
+}
+.weather-journal[data-motion='off'] .weather-now-panel {
+  scroll-behavior: auto;
+}
+@media (max-width: 599px) and (max-height: 590px) {
+  .hourly-section :is(.forecast-axis, .forecast-plot) {
+    height: 90px;
+  }
+}

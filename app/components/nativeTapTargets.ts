@@ -105,8 +105,8 @@ export function nativeTapTargets(preference: () => boolean) {
       // Keep the native target inside the original scrolling ancestor so a
       // swipe starting on a forecast/disclosure still scrolls that panel.
       const host =
-        scrollHost ??
         button.closest<HTMLElement>('[data-city-swipe]') ??
+        scrollHost ??
         modal ??
         document.body;
       const local = host !== document.body;

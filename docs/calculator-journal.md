@@ -1,6 +1,6 @@
 # Calculator journal
 
-`/calculator/` is a pocket calculator on the same paper as the notebook and weather journal. It uses the existing Poppins, Caveat, Kalam, Lexend and IBM Plex Mono fonts, dot grid, teal/sage palette and crane. It adds no runtime dependencies or third-party requests.
+`/calculator/` is a pocket calculator on the same paper as the notebook and weather journal. It uses the existing Poppins, Caveat, Kalam, Lexend and IBM Plex Mono fonts, dot grid, teal/sage palette and crane. It uses the shared `@domlee/ui` library for tokens, navigation motion, converter controls and sketch artwork; calculations stay local and make no third-party requests.
 
 The working area sits directly on the dot paper. Numerals and expressions use the site's handwriting fonts; keys have individually drawn SVG pencil outlines, faint green operator shading and a small press animation. There are no white panels or raised plastic keys.
 
@@ -43,7 +43,7 @@ Settings, the current expression, calculator memory and history are stored under
 
 Calculate, Convert and History have separate bottom tabs. The main screen fits the full keypad in the available viewport, with scientific functions and memory in a dialog rather than extending the page. Selecting a scientific function or recalling memory returns to the calculation. Conversions retain their input across tab changes. History scrolls in its own panel; useful keyboard and arithmetic notes live in Settings. Repeated single-number previews are visually collapsed into one editable number.
 
-Shared shell: `app/components/notebook/PocketChrome.tsx` and `app/styles/pocket-app.css`. `tests/pocket-apps.spec.ts` checks short phone screens, landscape, tablets, keyboard tab navigation and preserved converter state.
+Shared shell: `app/components/notebook/PocketChrome.tsx` and `app/styles/pocket-app.css`. Domino UI provides the crane, moving tab selection, controls and palette. The complete page and keypad outlines leave stroke clearance on all sides. Navigation is fixed to the viewport with safe-area padding applied once, following the Christiane app’s layout; only content panels scroll. `tests/pocket-apps.spec.ts` checks short phone screens, landscape, tablets, keyboard tab navigation and preserved converter state.
 
 The shared shell uses `100vh` in Home Screen standalone mode to avoid an extra bottom gap from WebKit's dynamic viewport measurement. Regular Safari keeps `100dvh`, and the home-indicator inset remains intact. See the [weather layout notes](weather-journal.md#compact-app-layout) for the platform issue and validation limits.
 

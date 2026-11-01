@@ -17,7 +17,9 @@ import {
   AppTabs,
   SettingsGlyph,
   SketchHome,
+  PocketOutline,
 } from '~/components/notebook/PocketChrome';
+import { Button } from '@domlee/ui';
 import MoonDrawing from './MoonDrawing';
 import {
   DailyForecastGraph,
@@ -238,7 +240,11 @@ function Week({
   selected,
   onSelect,
   onPreview,
+  overview = false,
+  onExplore,
 }: {
+  overview?: boolean;
+  onExplore?: () => void;
   weather: Weather;
   units: Units;
   now: number;
@@ -247,6 +253,7 @@ function Week({
   onPreview: () => void;
 }) {
   const [all, setAll] = useState(false);
+  const sectionId = overview ? 'overview-week' : 'week';
   const days = w.days.filter(
     (d) => dateKey(d.time, w.timezone) >= dateKey(now, w.timezone)
   );
@@ -254,23 +261,26 @@ function Week({
     high = Math.max(...days.map((d) => d.high).filter(finite));
   return (
     <section
-      className='weather-section week-section'
-      id='week'
-      aria-labelledby='week-title'
+      className={`weather-section week-section${overview ? ' weather-overview-week' : ''}`}
+      id={sectionId}
+      aria-labelledby={`${sectionId}-title`}
     >
       <div className='section-heading'>
         <div>
-          <h2 id='week-title'>The week ahead</h2>
+          <span className='week-eyebrow'>Your forecast, unfolded</span>
+          <h2 id={`${sectionId}-title`}>The week ahead</h2>
         </div>
       </div>
-      <DailyForecastGraph
-        weather={w}
-        units={units}
-        now={now}
-        selected={selected}
-        onSelect={onSelect}
-        onPreview={onPreview}
-      />
+      {!overview && (
+        <DailyForecastGraph
+          weather={w}
+          units={units}
+          now={now}
+          selected={selected}
+          onSelect={onSelect}
+          onPreview={onPreview}
+        />
+      )}
       <div className='day-list'>
         {days.slice(0, all ? 10 : 7).map((d) => (
           <details
@@ -338,6 +348,11 @@ function Week({
           </details>
         ))}
       </div>
+      {overview && (
+        <Button variant='ghost' className='week-explore' onClick={onExplore}>
+          Explore the weekly graph <SketchArrow />
+        </Button>
+      )}
       {days.length > 7 && (
         <button
           className='text-button more-days'
@@ -788,6 +803,7 @@ export default function WeatherJournal() {
         }
       }}
     >
+      <PocketOutline />
       <h1 className='pocket-sr'>Weather</h1>
       <div className='pocket-frame'>
         <header className='pocket-header'>
@@ -938,127 +954,171 @@ export default function WeatherJournal() {
             className='weather-now-panel'
           >
             {w && sky ? (
-              <section
-                className='weather-now'
-                aria-label={selected ? 'Forecast preview' : 'Current weather'}
-              >
-                <div className='weather-peek'>
-                  {selected && (
-                    <button
-                      onClick={() => setSelected(null)}
-                      className='text-button'
-                      aria-label='Back to now'
-                    >
-                      {dayName(previewTime, w.timezone, now)}{' '}
-                      {selectedDay
-                        ? '· day forecast'
-                        : clockTime(previewTime, w.timezone)}{' '}
-                      · Back to now <SketchArrow direction='undo' />
-                    </button>
-                  )}
-                </div>
-                <div
-                  className='weather-art-space'
-                  data-city-swipe={prefs.favorites.length ? '' : undefined}
-                  {...swipe}
-                >
-                  {tab === 'now' && (
-                    <WeatherArt
-                      code={selectedDay?.code ?? sky.code}
-                      time={previewTime}
-                      latitude={prefs.place.latitude}
-                      day={skyDay}
-                      playing={play}
-                      onPlay={() => setPlay((v) => v + 1)}
-                    />
-                  )}
-                </div>
-                <div
-                  className='weather-reading'
-                  data-city-swipe={prefs.favorites.length ? '' : undefined}
-                  {...swipe}
-                >
-                  <h2
-                    className='current-temperature'
+              <>
+                <div className='weather-today-page'>
+                  <section
+                    className='weather-now'
                     aria-label={
-                      selectedDay
-                        ? `Daily forecast high ${temperature(selectedDay.high, prefs.units)}, low ${temperature(selectedDay.low, prefs.units)}`
-                        : `${selected ? 'Forecast' : 'Current'} temperature ${temperature(sky.temperature, prefs.units)}`
+                      selected ? 'Forecast preview' : 'Current weather'
                     }
                   >
-                    {selectedDay && (
-                      <span className='forecast-high-label'>high </span>
-                    )}
-                    {temperature(
-                      selectedDay ? selectedDay.high : sky.temperature,
-                      prefs.units
-                    )}
-                  </h2>
-                  <p className='current-condition'>{c.label}</p>
-                  <p className='feels-like'>
-                    {!selectedDay && (
-                      <>
-                        Feels {temperature(sky.feels, prefs.units)}{' '}
-                        <span aria-hidden='true'>·</span>{' '}
-                      </>
-                    )}
-                    H {temperature(today?.high, prefs.units)} / L{' '}
-                    {temperature(today?.low, prefs.units)}
-                  </p>
-                </div>
-                <div className='weather-quick-look'>
-                  <button
-                    onClick={() => setTab(selectedDay ? 'week' : 'hours')}
-                    aria-label='See rain forecast'
-                  >
-                    <WeatherMark kind='rain' />
-                    <span>
-                      {percent(
-                        selectedDay
-                          ? selectedDay.rain
-                          : selectedHour
-                            ? selectedHour.rain
-                            : w.hours.find(
-                                (h) => h.time <= now && h.time + 3600 > now
-                              )?.rain
+                    <div className='weather-peek'>
+                      {selected && (
+                        <button
+                          onClick={() => setSelected(null)}
+                          className='text-button'
+                          aria-label='Back to now'
+                        >
+                          {dayName(previewTime, w.timezone, now)}{' '}
+                          {selectedDay
+                            ? '· day forecast'
+                            : clockTime(previewTime, w.timezone)}{' '}
+                          · Back to now <SketchArrow direction='undo' />
+                        </button>
                       )}
-                    </span>
-                  </button>
-                  <span
-                    className='weather-sun-note'
-                    title={!skyDay ? `${lunar.light}% illuminated` : undefined}
-                  >
-                    {!skyDay
-                      ? lunar.name
-                      : nextSun && (
+                    </div>
+                    <div
+                      className='weather-art-space'
+                      data-city-swipe={prefs.favorites.length ? '' : undefined}
+                      {...swipe}
+                    >
+                      {tab === 'now' && (
+                        <WeatherArt
+                          code={selectedDay?.code ?? sky.code}
+                          time={previewTime}
+                          latitude={prefs.place.latitude}
+                          day={skyDay}
+                          playing={play}
+                          onPlay={() => setPlay((v) => v + 1)}
+                        />
+                      )}
+                    </div>
+                    <div
+                      className='weather-reading'
+                      data-city-swipe={prefs.favorites.length ? '' : undefined}
+                      {...swipe}
+                    >
+                      <h2
+                        className='current-temperature'
+                        aria-label={
+                          selectedDay
+                            ? `Daily forecast high ${temperature(selectedDay.high, prefs.units)}, low ${temperature(selectedDay.low, prefs.units)}`
+                            : `${selected ? 'Forecast' : 'Current'} temperature ${temperature(sky.temperature, prefs.units)}`
+                        }
+                      >
+                        {selectedDay && (
+                          <span className='forecast-high-label'>high </span>
+                        )}
+                        {temperature(
+                          selectedDay ? selectedDay.high : sky.temperature,
+                          prefs.units
+                        )}
+                      </h2>
+                      <p className='current-condition'>{c.label}</p>
+                      <p className='feels-like'>
+                        {!selectedDay && (
                           <>
-                            {nextSun.label}{' '}
-                            {clockTime(nextSun.time!, w.timezone)}
+                            Feels {temperature(sky.feels, prefs.units)}{' '}
+                            <span aria-hidden='true'>·</span>{' '}
                           </>
                         )}
-                  </span>
+                        H {temperature(today?.high, prefs.units)} / L{' '}
+                        {temperature(today?.low, prefs.units)}
+                      </p>
+                    </div>
+                    <div className='weather-quick-look'>
+                      <button
+                        onClick={() => setTab(selectedDay ? 'week' : 'hours')}
+                        aria-label='See rain forecast'
+                      >
+                        <WeatherMark kind='rain' />
+                        <span>
+                          {percent(
+                            selectedDay
+                              ? selectedDay.rain
+                              : selectedHour
+                                ? selectedHour.rain
+                                : w.hours.find(
+                                    (h) => h.time <= now && h.time + 3600 > now
+                                  )?.rain
+                          )}
+                        </span>
+                      </button>
+                      <span
+                        className='weather-sun-note'
+                        title={
+                          !skyDay ? `${lunar.light}% illuminated` : undefined
+                        }
+                      >
+                        {!skyDay
+                          ? lunar.name
+                          : nextSun && (
+                              <>
+                                {nextSun.label}{' '}
+                                {clockTime(nextSun.time!, w.timezone)}
+                              </>
+                            )}
+                      </span>
+                      <button
+                        onClick={() => setTab(selectedDay ? 'week' : 'details')}
+                        aria-label='See wind details'
+                      >
+                        <WeatherMark kind='wind' />
+                        <span>
+                          {speed(
+                            selectedDay ? selectedDay.wind : sky.wind,
+                            prefs.units
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                    <ForecastStrip
+                      weather={w}
+                      units={prefs.units}
+                      now={now}
+                      latitude={prefs.place.latitude}
+                      selected={selected}
+                      onSelect={setSelected}
+                    />
+                  </section>
                   <button
-                    onClick={() => setTab(selectedDay ? 'week' : 'details')}
-                    aria-label='See wind details'
+                    className='weather-scroll-cue'
+                    onClick={() => {
+                      const panel =
+                        document.getElementById('weather-panel-now');
+                      const week = document.getElementById('overview-week');
+                      if (panel && week)
+                        panel.scrollTo({
+                          top:
+                            panel.scrollTop +
+                            week.getBoundingClientRect().top -
+                            panel.getBoundingClientRect().top -
+                            16,
+                          behavior: motion ? 'smooth' : 'instant',
+                        });
+                    }}
                   >
-                    <WeatherMark kind='wind' />
-                    <span>
-                      {speed(
-                        selectedDay ? selectedDay.wind : sky.wind,
-                        prefs.units
-                      )}
-                    </span>
+                    The week ahead <SketchArrow direction='down-right' />
                   </button>
                 </div>
-                <ForecastStrip
-                  weather={w}
-                  units={prefs.units}
-                  now={now}
-                  latitude={prefs.place.latitude}
-                  selected={selected}
-                  onSelect={setSelected}
-                />
-              </section>
+                {tab === 'now' && (
+                  <Week
+                    overview
+                    weather={w}
+                    units={prefs.units}
+                    now={now}
+                    selected={selected}
+                    onSelect={setSelected}
+                    onPreview={() =>
+                      document.getElementById('weather-panel-now')?.scrollTo({
+                        top: 0,
+                        behavior: motion ? 'smooth' : 'instant',
+                      })
+                    }
+                    onExplore={() => setTab('week')}
+                  />
+                )}
+              </>
             ) : (
               <section className='weather-empty' aria-busy={loading}>
                 <WeatherIcon code={2} />
@@ -1095,7 +1155,7 @@ export default function WeatherJournal() {
             )}
           </AppPanel>
           <AppPanel prefix='weather' id='week' active={tab}>
-            {w ? (
+            {w && tab === 'week' ? (
               <Week
                 weather={w}
                 units={prefs.units}

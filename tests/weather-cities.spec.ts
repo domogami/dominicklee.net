@@ -344,6 +344,13 @@ test.describe('saved city switching', () => {
         .evaluate((el) => ({
           height: el.clientHeight,
           content: el.scrollHeight,
+          todayHeight: el
+            .querySelector('.weather-today-page')!
+            .getBoundingClientRect().height,
+          glanceBottom: el
+            .querySelector('.forecast-glance')!
+            .getBoundingClientRect().bottom,
+          bottom: el.getBoundingClientRect().bottom,
           parts: Array.from(el.querySelector('.weather-now')!.children).map(
             (part) => ({
               name: part.className,
@@ -351,8 +358,11 @@ test.describe('saved city switching', () => {
             })
           ),
         }));
-      expect(layout.content, JSON.stringify(layout)).toBeLessThanOrEqual(
-        layout.height + 1
+      // The overview now continues into the week; today still fits one page.
+      expect(layout.content).toBeGreaterThan(layout.height);
+      expect(layout.todayHeight).toBeLessThanOrEqual(layout.height + 1);
+      expect(layout.glanceBottom, JSON.stringify(layout)).toBeLessThanOrEqual(
+        layout.bottom + 1
       );
       await expect(
         page.getByRole('tab', { name: 'Now', exact: true })

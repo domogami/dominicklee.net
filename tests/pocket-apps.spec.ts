@@ -36,9 +36,20 @@ async function fitsScreen(page: Page, selector: string) {
     }))
   ).toEqual({ width: true, height: true });
   const panel = page.locator(selector);
-  expect(
-    await panel.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
-  ).toBe(true);
+  if (selector === '#weather-panel-now') {
+    const today = (await panel.locator('.weather-today-page').boundingBox())!;
+    const viewport = (await panel.boundingBox())!;
+    expect(today.y + today.height).toBeLessThanOrEqual(
+      viewport.y + viewport.height + 1
+    );
+    expect(await panel.evaluate((el) => el.scrollHeight)).toBeGreaterThan(
+      viewport.height
+    );
+  } else {
+    expect(
+      await panel.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
+    ).toBe(true);
+  }
   const nav = await page.getByRole('tablist').boundingBox();
   const content = await panel.boundingBox();
   expect(content!.y + content!.height).toBeLessThanOrEqual(nav!.y + 1);
