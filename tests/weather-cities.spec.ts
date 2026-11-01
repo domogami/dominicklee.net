@@ -335,22 +335,23 @@ test.describe('saved city switching', () => {
       if ('safe' in viewport) {
         await page.addStyleTag({
           content:
-            '.pocket-frame{padding-top:44px}.pocket-nav{padding-bottom:34px}',
+            '.pocket-app{--pocket-safe-top:44px;--pocket-safe-bottom:34px}',
         });
       }
       await page.locator('.forecast-glance-items button').last().click();
       const layout = await page
         .locator('#weather-panel-now')
         .evaluate((el) => ({
-          height: el.clientHeight,
-          content: el.scrollHeight,
+          height: window.innerHeight,
+          content: document.documentElement.scrollHeight,
           todayHeight: el
             .querySelector('.weather-today-page')!
             .getBoundingClientRect().height,
           glanceBottom: el
             .querySelector('.forecast-glance')!
             .getBoundingClientRect().bottom,
-          bottom: el.getBoundingClientRect().bottom,
+          bottom: document.querySelector('.pocket-nav')!.getBoundingClientRect()
+            .top,
           parts: Array.from(el.querySelector('.weather-now')!.children).map(
             (part) => ({
               name: part.className,

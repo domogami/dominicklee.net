@@ -1,33 +1,30 @@
 import { expect, test } from '@playwright/test';
 import { weatherFixture, weatherNow } from './weather-fixture';
 
-// An injected inset exercises Home Screen layout without pretending that a
-// desktop simulator can verify Safari's physical home indicator.
+// Inject safe-area values without pretending to emulate iOS viewport behavior.
 const viewports = [
-  { width: 390, height: 844, safe: 0 },
-  { width: 390, height: 844, safe: 34 },
-  { width: 390, height: 600, safe: 34 },
-  { width: 844, height: 390, safe: 34 },
-  { width: 1440, height: 900, safe: 0 },
+  { width: 390, height: 844, top: 0, bottom: 0 },
+  { width: 393, height: 852, top: 59, bottom: 34 },
+  { width: 390, height: 600, top: 44, bottom: 34 },
+  { width: 852, height: 393, top: 0, bottom: 21 },
+  { width: 1440, height: 900, top: 0, bottom: 0 },
 ];
 
-test.describe('Domino pocket app frame', () => {
+test.describe('Christiane-style pocket shell', () => {
   test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
-  for (const route of ['weather', 'calculator'] as const) {
-    for (const viewport of viewports) {
-      test(`${route} retains its bottom chrome and ink at ${viewport.width}x${viewport.height}, inset ${viewport.safe}`, async ({
+  for (const route of ['weather', 'calculator'])
+    for (const v of viewports) {
+      test(`${route} keeps chrome outside main at ${v.width}x${v.height}, safe ${v.top}/${v.bottom}`, async ({
         page,
       }) => {
-        await page.setViewportSize(viewport);
-        if (route === 'weather') {
-          await page.clock.setFixedTime(weatherNow);
-          await page.route('**/weather/api?*', (r) =>
-            r.fulfill({ json: weatherFixture() })
-          );
-          await page.route('**/weather/alerts?*', (r) =>
-            r.fulfill({ json: { status: 'ok', alerts: [] } })
-          );
-        }
+        await page.setViewportSize(v);
+        await page.clock.setFixedTime(weatherNow);
+        await page.route('**/weather/api?*', (r) =>
+          r.fulfill({ json: weatherFixture() })
+        );
+        await page.route('**/weather/alerts?*', (r) =>
+          r.fulfill({ json: { status: 'ok', alerts: [] } })
+        );
         await page.goto(`/${route}/`);
         if (route === 'weather')
           await expect(page.locator('.current-temperature')).toHaveText('64°');
@@ -36,94 +33,147 @@ test.describe('Domino pocket app frame', () => {
             'aria-busy',
             'false'
           );
-        await page.locator('.pocket-app').evaluate((el, safe) => {
+        await page.locator('.pocket-app').evaluate((el, v) => {
+          (el as HTMLElement).style.setProperty(
+            '--pocket-safe-top',
+            `${v.top}px`
+          );
           (el as HTMLElement).style.setProperty(
             '--pocket-safe-bottom',
-            `${safe}px`
+            `${v.bottom}px`
           );
-        }, viewport.safe);
-        await page.evaluate(() => document.fonts.ready);
-        const nav = page.locator('.pocket-nav');
-        const navBox = (await nav.boundingBox())!;
-        expect(
-          Math.abs(navBox.y + navBox.height - viewport.height)
-        ).toBeLessThan(1);
-        expect(await nav.evaluate((el) => getComputedStyle(el).position)).toBe(
-          'fixed'
-        );
-        const padding = await nav.evaluate((el) =>
-          parseFloat(getComputedStyle(el).paddingBottom)
-        );
-        expect(padding).toBe(7 + viewport.safe);
-        const lastTab = (await nav.getByRole('tab').last().boundingBox())!;
-        expect(lastTab.y + lastTab.height).toBeLessThanOrEqual(
-          viewport.height - viewport.safe
-        );
-        // A transform/filter/paint containment on any ancestor would pin this
-        // navigation to a content box instead of the screen on iOS.
-        const containingAncestors = await nav.evaluate((el) => {
-          const affected: string[] = [];
-          for (
-            let parent = el.parentElement;
-            parent;
-            parent = parent.parentElement
-          ) {
-            const css = getComputedStyle(parent);
-            if (
-              css.transform !== 'none' ||
-              css.filter !== 'none' ||
-              css.perspective !== 'none' ||
-              /paint|layout|strict|content/.test(css.contain)
-            )
-              affected.push(parent.className || parent.tagName);
-          }
-          return affected;
+        }, v);
+        await page.evaluate(async () => {
+          await document.fonts.ready;
+          await new Promise(requestAnimationFrame);
+          await new Promise(requestAnimationFrame);
         });
-        expect(containingAncestors).toEqual([]);
-        const outline = (await page
-          .locator('.pocket-outline path')
-          .boundingBox())!;
-        expect(outline.x).toBeGreaterThan(0);
-        expect(outline.y).toBeGreaterThan(0);
-        expect(outline.x + outline.width).toBeLessThan(viewport.width);
-        expect(outline.y + outline.height).toBeLessThan(viewport.height);
-        expect(viewport.height - outline.y - outline.height).toBeLessThan(16);
+        const nav = page.locator('.pocket-nav');
+        const shell = await nav.evaluate((el) => {
+          const unsafe: string[] = [];
+          for (let p = el.parentElement; p; p = p.parentElement) {
+            const s = getComputedStyle(p);
+            if (
+              [s.overflowX, s.overflowY].some((x) =>
+                /^(hidden|clip|auto|scroll)$/.test(x)
+              ) ||
+              s.transform !== 'none' ||
+              s.filter !== 'none' ||
+              s.perspective !== 'none' ||
+              /paint|layout|strict|content/.test(s.contain)
+            )
+              unsafe.push(p.className || p.tagName);
+          }
+          const r = el.getBoundingClientRect(),
+            s = getComputedStyle(el);
+          return {
+            unsafe,
+            main: Boolean(el.closest('main')),
+            siblingMain: el.parentElement?.querySelector(
+              ':scope > main.pocket-frame'
+            )?.tagName,
+            position: s.position,
+            bottom: r.bottom,
+            viewportBottom:
+              (visualViewport?.offsetTop || 0) +
+              (visualViewport?.height || innerHeight),
+            padding: parseFloat(s.paddingBottom),
+          };
+        });
+        expect(shell.unsafe).toEqual([]);
+        expect(shell.main).toBe(false);
+        expect(shell.siblingMain).toBe('MAIN');
+        expect(shell.position).toBe('fixed');
+        expect(shell.bottom).toBeCloseTo(shell.viewportBottom, 0);
+        expect(shell.padding).toBe(7 + v.bottom);
+        await expect(page.locator('.pocket-outline')).toHaveCount(0);
+        const paint = await page.locator('.pocket-header').evaluate((el) => {
+          const s = getComputedStyle(el);
+          return {
+            filter: s.filter,
+            backdrop: s.getPropertyValue('backdrop-filter'),
+            webkit: s.getPropertyValue('-webkit-backdrop-filter'),
+          };
+        });
+        expect(paint.filter).toBe('none');
+        expect(['', 'none']).toContain(paint.backdrop);
+        expect(['', 'none']).toContain(paint.webkit);
+        const navBox = (await nav.boundingBox())!;
+        for (const tab of await nav.getByRole('tab').all()) {
+          const r = (await tab.boundingBox())!;
+          expect(r.y).toBeGreaterThanOrEqual(navBox.y);
+          expect(r.y + r.height).toBeLessThanOrEqual(v.height - v.bottom + 1);
+          expect(
+            await tab.evaluate((el) => {
+              const r = el.getBoundingClientRect(),
+                hit = document.elementFromPoint(
+                  r.x + r.width / 2,
+                  r.y + r.height / 2
+                ),
+                label = el.getAttribute('aria-label') || el.textContent?.trim();
+              return Boolean(
+                hit &&
+                (el.contains(hit) ||
+                  hit.getAttribute('data-native-tap-label') === label)
+              );
+            })
+          ).toBe(true);
+        }
         expect(
           await page.evaluate(() => document.documentElement.scrollWidth)
-        ).toBeLessThanOrEqual(viewport.width);
-        if (route === 'calculator') {
+        ).toBeLessThanOrEqual(v.width);
+        if (route === 'weather') {
+          await expect(
+            page.locator('.forecast-glance-items button')
+          ).toHaveCount(7);
+          await expect(
+            page.locator('.forecast-glance-items button small')
+          ).toHaveCount(7);
+          const bounds = await page
+            .locator('.forecast-glance-items')
+            .evaluate((el) => {
+              const top = document
+                .querySelector('.pocket-nav')!
+                .getBoundingClientRect().top;
+              return Array.from(
+                el.querySelectorAll('button, button small')
+              ).map((item) => ({
+                bottom: item.getBoundingClientRect().bottom,
+                top,
+              }));
+            });
+          for (const r of bounds)
+            expect(r.bottom).toBeLessThanOrEqual(r.top + 1);
+        } else {
           const equals = page.getByRole('button', {
-            name: 'Calculate result',
-            exact: true,
-          });
-          const buttonBox = (await equals.boundingBox())!;
-          const keyInk = (await equals
-            .locator('.calc-key-outline path')
-            .first()
-            .boundingBox())!;
-          expect(keyInk.y + keyInk.height).toBeLessThan(
-            buttonBox.y + buttonBox.height
-          );
-          expect(buttonBox.y + buttonBox.height).toBeLessThanOrEqual(navBox.y);
-          expect(buttonBox.y).toBeGreaterThan(0);
+              name: 'Calculate result',
+              exact: true,
+            }),
+            r = (await equals.boundingBox())!,
+            ink = (await equals
+              .locator('.calc-key-outline path')
+              .first()
+              .boundingBox())!;
+          expect(ink.y + ink.height).toBeLessThan(r.y + r.height);
+          expect(r.y + r.height).toBeLessThanOrEqual(navBox.y);
           await expect(equals).toBeInViewport({ ratio: 1 });
           const field = page.getByLabel('Your calculation', { exact: true });
           await field.fill('858');
-          const inkFits = await field.evaluate((el: HTMLInputElement) => {
-            const css = getComputedStyle(el);
-            const ctx = document.createElement('canvas').getContext('2d')!;
-            ctx.font = `${css.fontWeight} ${css.fontSize} ${css.fontFamily}`;
-            return (
-              ctx.measureText(el.value).width +
-                parseFloat(css.letterSpacing) * el.value.length +
-                parseFloat(css.paddingLeft) +
-                parseFloat(css.paddingRight) <=
-              el.clientWidth
-            );
-          });
-          expect(inkFits).toBe(true);
+          expect(
+            await field.evaluate((el: HTMLInputElement) => {
+              const s = getComputedStyle(el),
+                ctx = document.createElement('canvas').getContext('2d')!;
+              ctx.font = `${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;
+              return (
+                ctx.measureText(el.value).width +
+                  parseFloat(s.letterSpacing) * el.value.length +
+                  parseFloat(s.paddingLeft) +
+                  parseFloat(s.paddingRight) <=
+                el.clientWidth
+              );
+            })
+          ).toBe(true);
         }
       });
     }
-  }
 });

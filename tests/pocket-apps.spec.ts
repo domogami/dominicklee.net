@@ -30,28 +30,29 @@ async function nightSky(page: Page) {
 
 async function fitsScreen(page: Page, selector: string) {
   expect(
-    await page.evaluate(() => ({
-      width: document.documentElement.scrollWidth <= innerWidth,
-      height: document.documentElement.scrollHeight <= innerHeight,
-    }))
-  ).toEqual({ width: true, height: true });
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth
+    )
+  ).toBe(true);
   const panel = page.locator(selector);
   if (selector === '#weather-panel-now') {
     const today = (await panel.locator('.weather-today-page').boundingBox())!;
-    const viewport = (await panel.boundingBox())!;
-    expect(today.y + today.height).toBeLessThanOrEqual(
-      viewport.y + viewport.height + 1
-    );
-    expect(await panel.evaluate((el) => el.scrollHeight)).toBeGreaterThan(
-      viewport.height
-    );
+    const nav = (await page.locator('.pocket-nav').boundingBox())!;
+    expect(today.y + today.height).toBeLessThanOrEqual(nav.y + 1);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollHeight)
+    ).toBeGreaterThan(await page.evaluate(() => innerHeight));
   } else {
     expect(
       await panel.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
     ).toBe(true);
   }
   const nav = await page.getByRole('tablist').boundingBox();
-  const content = await panel.boundingBox();
+  const content = await (
+    selector === '#weather-panel-now'
+      ? panel.locator('.weather-today-page')
+      : panel
+  ).boundingBox();
   expect(content!.y + content!.height).toBeLessThanOrEqual(nav!.y + 1);
 }
 

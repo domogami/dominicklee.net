@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Crane, NavTrail } from '@domlee/ui';
 
 export function SketchHome() {
@@ -18,18 +18,30 @@ export function SketchHome() {
   );
 }
 
-/** A closed paper edge with room for every stroke, including the bottom. */
-export function PocketOutline() {
-  return (
-    <svg
-      className='pocket-outline'
-      viewBox='0 0 1000 1000'
-      preserveAspectRatio='none'
-      aria-hidden='true'
-    >
-      <path d='M24 5 Q495 3 976 5 Q994 5 994 24 L995 975 Q995 993 975 994 Q500 996 25 994 Q6 994 6 975 L5 25 Q5 6 24 5Z' />
-    </svg>
-  );
+/** Measure the chrome above today's page, without locking the document. */
+export function usePocketFrame() {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const frame = ref.current;
+    if (!frame) return;
+    const measure = () => {
+      const body = frame.querySelector('.pocket-body');
+      if (!body) return;
+      const top = Math.ceil(body.getBoundingClientRect().top + window.scrollY);
+      const value = `${top}px`;
+      if (frame.style.getPropertyValue('--pocket-chrome-height') !== value)
+        frame.style.setProperty('--pocket-chrome-height', value);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(frame);
+    window.addEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
+  return ref;
 }
 
 export function SettingsGlyph() {

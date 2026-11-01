@@ -20,8 +20,12 @@ for (const width of [320, 390, 768, 1440]) {
     const panel = page.locator('#weather-panel-now');
     const week = page.locator('#overview-week');
     await expect(week.locator('.forecast-day')).toHaveCount(7);
+    expect(
+      await page.evaluate(() => getComputedStyle(document.body).overflowY)
+    ).toBe('visible');
     expect((await week.boundingBox())!.y).toBeGreaterThanOrEqual(
-      (await panel.boundingBox())!.y + (await panel.boundingBox())!.height
+      (await page.locator('.weather-today-page').boundingBox())!.y +
+        (await page.locator('.weather-today-page').boundingBox())!.height
     );
     await page.screenshot({
       path: info.outputPath(`weather-today-${width}.png`),
@@ -48,9 +52,9 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(
       page.getByRole('button', { name: 'Back to now', exact: true })
     ).toBeVisible();
-    await panel.evaluate((el) => {
-      el.scrollTop = el.scrollHeight;
-    });
+    await page.evaluate(() =>
+      window.scrollTo(0, document.documentElement.scrollHeight)
+    );
     await page.screenshot({
       path: info.outputPath(`weather-week-${width}.png`),
       animations: 'disabled',

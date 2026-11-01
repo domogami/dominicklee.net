@@ -10,7 +10,6 @@ import { Button, Input, NotebookSketch, Select } from '@domlee/ui';
 import {
   AppPanel,
   AppTabs,
-  PocketOutline,
   SettingsGlyph,
   SketchHome,
 } from '~/components/notebook/PocketChrome';
@@ -592,14 +591,13 @@ export default function CalculatorJournal() {
   });
 
   return (
-    <main
+    <div
       className='calculator-journal pocket-app'
       aria-busy={!ready}
       data-theme={dark ? 'dark' : 'light'}
       data-motion={motion ? 'on' : 'off'}
     >
-      <PocketOutline />
-      <div className='pocket-frame'>
+      <main className='pocket-frame'>
         <header className='pocket-header'>
           <SketchHome />
           <h1>Calculator</h1>
@@ -946,24 +944,24 @@ export default function CalculatorJournal() {
             </section>
           </AppPanel>
         </div>
-        <AppTabs<'calculate' | 'convert' | 'history'>
-          tabs={[
-            { id: 'calculate', label: 'Calculate' },
-            { id: 'convert', label: 'Convert' },
-            { id: 'history', label: 'History' },
-          ]}
-          active={mode}
-          select={setMode}
-          label='Calculator navigation'
-          prefix='calc'
-        />
         <p className='pocket-sr' role='status'>
           {status || error}
         </p>
         <noscript>
           <p>Enable JavaScript to use the calculator.</p>
         </noscript>
-      </div>
+      </main>
+      <AppTabs<'calculate' | 'convert' | 'history'>
+        tabs={[
+          { id: 'calculate', label: 'Calculate' },
+          { id: 'convert', label: 'Convert' },
+          { id: 'history', label: 'History' },
+        ]}
+        active={mode}
+        select={setMode}
+        label='Calculator navigation'
+        prefix='calc'
+      />
       {dialog === 'science' && (
         <Dialog title='Scientific & memory' close={() => setDialog(null)}>
           <div id='calc-science' className='calc-science'>
@@ -1159,6 +1157,6 @@ export default function CalculatorJournal() {
           </div>
         </Dialog>
       )}
-    </main>
+    </div>
   );
 }

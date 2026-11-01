@@ -17,7 +17,7 @@ import {
   AppTabs,
   SettingsGlyph,
   SketchHome,
-  PocketOutline,
+  usePocketFrame,
 } from '~/components/notebook/PocketChrome';
 import { Button } from '@domlee/ui';
 import MoonDrawing from './MoonDrawing';
@@ -640,6 +640,7 @@ export default function WeatherJournal() {
     'places' | 'settings' | 'alerts' | 'rain' | null
   >(null);
   const [tab, setTab] = useState<WeatherTab>('now');
+  const frame = usePocketFrame();
   const [requested, setSelected] = useState<ForecastSelection | null>(null);
   const selected = useMemo<ForecastSelection | null>(() => {
     if (!requested || !w) return null;
@@ -789,7 +790,7 @@ export default function WeatherJournal() {
     .filter((event) => event.time && event.time > previewTime)
     .sort((a, b) => a.time! - b.time!)[0];
   return (
-    <main
+    <div
       className='weather-journal pocket-app'
       data-theme={ready ? (dark ? 'dark' : 'light') : undefined}
       data-motion={motion ? 'on' : 'off'}
@@ -803,9 +804,8 @@ export default function WeatherJournal() {
         }
       }}
     >
-      <PocketOutline />
       <h1 className='pocket-sr'>Weather</h1>
-      <div className='pocket-frame'>
+      <main className='pocket-frame' ref={frame}>
         <header className='pocket-header'>
           <SketchHome />
           <button
@@ -1084,15 +1084,12 @@ export default function WeatherJournal() {
                   <button
                     className='weather-scroll-cue'
                     onClick={() => {
-                      const panel =
-                        document.getElementById('weather-panel-now');
                       const week = document.getElementById('overview-week');
-                      if (panel && week)
-                        panel.scrollTo({
+                      if (week)
+                        window.scrollTo({
                           top:
-                            panel.scrollTop +
+                            window.scrollY +
                             week.getBoundingClientRect().top -
-                            panel.getBoundingClientRect().top -
                             16,
                           behavior: motion ? 'smooth' : 'instant',
                         });
@@ -1110,7 +1107,7 @@ export default function WeatherJournal() {
                     selected={selected}
                     onSelect={setSelected}
                     onPreview={() =>
-                      document.getElementById('weather-panel-now')?.scrollTo({
+                      window.scrollTo({
                         top: 0,
                         behavior: motion ? 'smooth' : 'instant',
                       })
@@ -1288,20 +1285,20 @@ export default function WeatherJournal() {
             </details>
           </AppPanel>
         </div>
-        <AppTabs<WeatherTab>
-          tabs={weatherTabs}
-          active={tab}
-          select={setTab}
-          label='Weather navigation'
-          prefix='weather'
-        />
         <noscript>
           <p>
             Enable JavaScript for forecasts, or visit{' '}
             <a href='https://www.weather.gov/'>weather.gov</a>.
           </p>
         </noscript>
-      </div>
+      </main>
+      <AppTabs<WeatherTab>
+        tabs={weatherTabs}
+        active={tab}
+        select={setTab}
+        label='Weather navigation'
+        prefix='weather'
+      />
       {sheet === 'places' && (
         <Sheet title='Places' close={() => setSheet(null)}>
           <div className='weather-save-place'>
@@ -1461,6 +1458,6 @@ export default function WeatherJournal() {
           </div>
         </Sheet>
       )}
-    </main>
+    </div>
   );
 }

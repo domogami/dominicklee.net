@@ -107,6 +107,7 @@ export function nativeTapTargets(preference: () => boolean) {
       const host =
         button.closest<HTMLElement>('[data-city-swipe]') ??
         scrollHost ??
+        button.closest<HTMLElement>('.pocket-nav') ??
         modal ??
         document.body;
       const local = host !== document.body;
