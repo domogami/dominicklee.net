@@ -2240,3 +2240,9 @@ details[open] > summary .expand-mark {
     height: 90px;
   }
 }
+/* Leave room for all six hour cards beside an alert on narrow phones. */
+@media (max-width: 350px) and (max-height: 590px) {
+  .hourly-section :is(.forecast-axis, .forecast-plot) {
+    height: 68px;
+  }
+}
