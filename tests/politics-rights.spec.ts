@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
 
 test('school-rights comparison keeps source links beside both versions and distinguishes retained protections', async ({
   page,
-}, info) => {
+}) => {
   const comparison = page.locator('#il26-001-comparison');
   await expect(
     comparison.getByRole('heading', {
@@ -58,7 +58,7 @@ test('school-rights comparison keeps source links beside both versions and disti
   const proposed = rows.first().locator('.pg-change-proposed');
   const currentBox = (await current.boundingBox())!;
   const proposedBox = (await proposed.boundingBox())!;
-  if (info.project.name === 'desktop') {
+  if ((page.viewportSize()?.width ?? 0) > 700) {
     expect(Math.abs(currentBox.y - proposedBox.y)).toBeLessThanOrEqual(1);
     expect(proposedBox.x).toBeGreaterThan(currentBox.x + currentBox.width - 1);
   } else {
