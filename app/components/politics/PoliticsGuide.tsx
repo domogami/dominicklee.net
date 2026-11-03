@@ -44,6 +44,20 @@ function Links({ sources }: { sources: Source[] }) {
     </ul>
   );
 }
+function ComparisonSources({ sources }: { sources: Source[] }) {
+  if (!sources.length) return null;
+  return (
+    <ul className='pg-change-sources' aria-label='Direct sources'>
+      {sources.map((source, index) => (
+        <li key={`${source.url}-${index}`}>
+          <a href={source.url} {...external}>
+            {source.label} <SketchArrow />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
 function Cited({ text, sources }: { text: string; sources: Source[] }) {
   return (
     <>
@@ -380,7 +394,12 @@ function NotebookGuide() {
     const m = measures.find(
       (item) => key === item.id || key.startsWith(item.id + ':')
     );
-    if (m) return `${m.number} · ${m.title}`;
+    if (m) {
+      const change = m.comparison?.rows.find(
+        (row) => key === `${m.id}:change:${row.id}`
+      );
+      return `${m.number} · ${change?.topic ?? m.title}`;
+    }
     for (const r of races) {
       const c = r.candidates.find(
         (item) =>
@@ -646,6 +665,116 @@ function NotebookGuide() {
               <Cited text={m.currentLaw} sources={m.sources} />
             </p>
           </div>
+          {m.comparison && (
+            <section
+              className='pg-rights-comparison'
+              id={`${m.id}-comparison`}
+              aria-labelledby={`${m.id}-comparison-title`}
+            >
+              <div className='pg-comparison-heading'>
+                <span className='pg-eyebrow'>CURRENT LAW → IF YES PASSES</span>
+                <h3 id={`${m.id}-comparison-title`}>
+                  What gets stronger or weaker?
+                </h3>
+                <p>{m.comparison.introduction}</p>
+                {m.comparison.clarification && (
+                  <aside
+                    className='pg-comparison-clarification'
+                    aria-labelledby={`${m.id}-clarification-title`}
+                  >
+                    <h4 id={`${m.id}-clarification-title`}>
+                      {m.comparison.clarification.question}
+                    </h4>
+                    <p>{m.comparison.clarification.text}</p>
+                    <ComparisonSources
+                      sources={m.comparison.clarification.sources}
+                    />
+                  </aside>
+                )}
+                <p className='pg-comparison-legend'>
+                  Each label describes the particular right or safeguard in that
+                  row. It is not an overall endorsement of Yes or No. “Mixed”
+                  marks a tradeoff or uncertainty; “protected elsewhere” means a
+                  separate law remains in force.
+                </p>
+                <p className='pg-comparison-checked'>
+                  Text checked {m.comparison.checked}. No keeps current law.
+                </p>
+              </div>
+              <nav
+                className='pg-change-index'
+                aria-label='Jump to a type of change'
+              >
+                {(
+                  [
+                    ['stronger', 'Stronger'],
+                    ['weaker', 'Weaker'],
+                    ['mixed', 'Mixed / uncertain'],
+                    ['unchanged', 'Protected elsewhere'],
+                  ] as const
+                ).map(([direction, label]) => {
+                  const rows = m.comparison!.rows.filter(
+                    (row) => row.direction === direction
+                  );
+                  return rows.length ? (
+                    <a href={`#${m.id}-change-${rows[0].id}`} key={direction}>
+                      {label} <span>{rows.length}</span>
+                    </a>
+                  ) : null;
+                })}
+              </nav>
+              <div className='pg-change-list'>
+                {m.comparison.rows.map((row) => {
+                  const noteKey = `${m.id}:change:${row.id}`;
+                  return (
+                    <article
+                      className='pg-change-row'
+                      id={`${m.id}-change-${row.id}`}
+                      key={row.id}
+                      data-direction={row.direction}
+                      data-change-id={row.id}
+                      aria-labelledby={`${m.id}-change-${row.id}-title`}
+                    >
+                      <header className='pg-change-heading'>
+                        <h4 id={`${m.id}-change-${row.id}-title`}>
+                          {row.topic}
+                        </h4>
+                        <Badge tone='neutral'>{row.label}</Badge>
+                      </header>
+                      <div className='pg-change-columns'>
+                        <div className='pg-change-current'>
+                          <h5>Current law · if No</h5>
+                          <p>{row.current}</p>
+                          <ComparisonSources sources={row.currentSources} />
+                        </div>
+                        <div className='pg-change-proposed'>
+                          <h5>If Yes passes</h5>
+                          <p>{row.proposed}</p>
+                          <ComparisonSources sources={row.proposedSources} />
+                        </div>
+                      </div>
+                      <div className='pg-change-meaning'>
+                        <h5>What that means</h5>
+                        <p>{row.meaning}</p>
+                        <ComparisonSources sources={row.meaningSources} />
+                        {noteButton(
+                          {
+                            key: noteKey,
+                            title: `${m.number}: ${row.topic}`,
+                            context: row.meaning,
+                          },
+                          true
+                        )}
+                        {note(noteKey) && (
+                          <p className='pg-note-preview'>{note(noteKey)}</p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
           <div className='pg-tradeoffs'>
             {m.tradeoffs.map((item) => (
               <div key={item.label}>

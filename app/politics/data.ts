@@ -1,5 +1,6 @@
 import inventory from './data/candidates.json';
 import measureData from './data/measures.json';
+import { parentalRightsComparison } from './parentalRightsComparison';
 import type { Candidate, Fact, Measure, Race, Source } from './types';
 const facts = (values: unknown): Fact[] =>
   Array.isArray(values)
@@ -63,7 +64,11 @@ export const races: Race[] = inventory.races.map((r) => {
     }),
   };
 });
-export const measures = measureData as Measure[];
+export const measures = measureData.map((measure) =>
+  measure.id === 'il26-001'
+    ? { ...measure, comparison: parentalRightsComparison }
+    : measure
+) as Measure[];
 export const guideSources: Source[] = [
   {
     label: 'King County · full candidate roster',

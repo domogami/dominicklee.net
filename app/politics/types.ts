@@ -45,4 +45,25 @@ export type Measure = {
   fiscal: string;
   caveat: string;
   sources: Source[];
+  comparison?: {
+    checked: string;
+    introduction: string;
+    clarification?: {
+      question: string;
+      text: string;
+      sources: Source[];
+    };
+    rows: {
+      id: string;
+      topic: string;
+      direction: 'stronger' | 'weaker' | 'mixed' | 'unchanged';
+      label: string;
+      current: string;
+      proposed: string;
+      meaning: string;
+      currentSources: Source[];
+      proposedSources: Source[];
+      meaningSources: Source[];
+    }[];
+  };
 };

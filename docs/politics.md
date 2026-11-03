@@ -12,11 +12,15 @@ Route: `/politics/` (canonical target `https://dominicklee.net/politics/`). Dom 
 
 Research snapshot: October 28, 2026. State and local measures were checked against initiative/ordinance text, official explanations, fiscal analyses and attributed pro/con statements. The county roster is the source for candidate names, office positions, order and filed campaign websites. Historical social statements carry dates; no policy position is inferred from an account link alone. No Firecrawl was used.
 
+IL26-001 comparison updated November 2, 2026: `app/politics/parentalRightsComparison.ts` provides a visible, topic-by-topic current-law / If Yes comparison. Labels refer to the specific parental right or child-protection safeguard, never a net score or voting recommendation. Definite statutory changes are separated from possible interpretation, especially the change from a reported allegation to an undefined “deemed committed” trigger. Every column has direct sources with subsection locators; independently operative abuse-notice, bullying, sexual-harassment, attendance, nondiscrimination and other laws are linked beside the explanation. This update does not claim the candidate research was refreshed.
+
 The detailed measure comparison and candidate method notes are in `docs/politics-research/`. Original research working files are retained in the `Politics/research/` workspace. Runtime data is bundled in `app/politics/data/`; no live source scrape occurs when a visitor opens the guide. Recheck the roster and material legal/fiscal changes before any later election release.
 
 ## Notebook behavior
 
 Choices, candidate notes, measure notes and annotations on individual bullets persist in `localStorage`, key `dom-politics:2026-general:v1`. There is no account or cross-device sync. Choices and notes are not sent to the server by this feature. Same-origin JavaScript can access browser storage; exports contain the user's private choices and notes.
+
+Each legal-comparison topic also accepts an annotation using the stable key `il26-001:change:<topic-id>`. It uses the existing notebook schema, backup and persistence behavior. Current law and the proposal appear side by side on desktop, then stack within each topic on narrow screens; no nested scrolling or disclosure overlay is added.
 
 Export produces a versioned JSON backup. Import validates schema, size and candidate/measure IDs, then asks before replacing the current notebook. Clear asks before removing the notebook. Storage failure keeps the session usable and displays an export reminder. A storage event updates an open second tab. Nothing is preselected. Marking this guide does not submit an official ballot.
 
