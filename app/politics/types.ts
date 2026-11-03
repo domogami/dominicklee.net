@@ -1,4 +1,10 @@
 export type Source = { label: string; url: string; kind?: string };
+export type VoteMeaning = {
+  introduction: string;
+  yes: { title: string; text: string; sources: Source[] }[];
+  no: { title: string; text: string; sources: Source[] }[];
+  eitherWay: { title: string; text: string; sources: Source[] }[];
+};
 export type Fact = {
   text: string;
   url?: string;
@@ -45,6 +51,7 @@ export type Measure = {
   fiscal: string;
   caveat: string;
   sources: Source[];
+  voteMeaning?: VoteMeaning;
   comparison?: {
     checked: string;
     introduction: string;

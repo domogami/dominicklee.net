@@ -118,3 +118,98 @@ test('a comparison annotation stays attached to its topic after reload', async (
     page.locator('.native-tap-target, .dm-native-tap-target')
   ).toHaveCount(0);
 });
+
+test('full Yes and No explanations retain distinct legal outcomes and reflow without scroll overlays', async ({
+  page,
+}) => {
+  const section = page.locator('#il26-001-vote-meaning');
+  await expect(
+    section.getByRole('heading', { name: 'Your vote, fully explained' })
+  ).toBeVisible();
+  const yes = section.locator('[data-vote="yes"]');
+  const no = section.locator('[data-vote="no"]');
+  await expect(yes).toContainText('10 business days');
+  await expect(no).toContainText('45 days');
+  await expect(yes).toContainText(/deemed/);
+  await expect(no).toContainText(/report/);
+  const shared = section.locator('#il26-001-vote-shared');
+  await expect(shared).toContainText(/employee|contractor/);
+  await expect(shared).toContainText(/bullying/);
+  for (const panel of [yes, no, shared]) {
+    const items = panel.locator(':scope > .pg-vote-meaning-items > li');
+    expect(await items.count()).toBeGreaterThan(0);
+    for (const item of await items.all()) {
+      expect(await item.locator('a').count()).toBeGreaterThan(0);
+      await expect(item.locator('a').first()).toHaveAttribute(
+        'href',
+        /^https:\/\//
+      );
+      await expect(item.locator('a').first().locator('svg')).toHaveCount(1);
+    }
+  }
+  const yesBox = (await yes.boundingBox())!;
+  const noBox = (await no.boundingBox())!;
+  if ((page.viewportSize()?.width ?? 0) > 700) {
+    expect(Math.abs(yesBox.y - noBox.y)).toBeLessThanOrEqual(1);
+    expect(noBox.x).toBeGreaterThan(yesBox.x + yesBox.width - 1);
+  } else {
+    expect(Math.abs(yesBox.x - noBox.x)).toBeLessThanOrEqual(1);
+    expect(noBox.y).toBeGreaterThanOrEqual(yesBox.y + yesBox.height - 1);
+  }
+  await page.setViewportSize({ width: 320, height: 800 });
+  const smallYes = (await yes.boundingBox())!;
+  const smallNo = (await no.boundingBox())!;
+  expect(smallNo.y).toBeGreaterThanOrEqual(smallYes.y + smallYes.height - 1);
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth
+    )
+  ).toBeLessThanOrEqual(1);
+  expect(
+    await section.evaluate((container) =>
+      [...container.querySelectorAll<HTMLElement>('*')].some((element) => {
+        const style = getComputedStyle(element);
+        return (
+          ['auto', 'scroll'].includes(style.overflowY) &&
+          element.scrollHeight > element.clientHeight + 1
+        );
+      })
+    )
+  ).toBe(false);
+  await expect(
+    page.locator('.native-tap-target, .dm-native-tap-target')
+  ).toHaveCount(0);
+  await expect(
+    section.getByRole('link', { name: 'Compare by topic' })
+  ).toHaveAttribute('href', '#il26-001-comparison');
+});
+
+test('notes on a vote explanation survive reload without changing the ballot choice', async ({
+  page,
+}) => {
+  const measure = page.locator('#il26-001');
+  await measure.getByRole('radio', { name: 'No', exact: true }).check();
+  const yes = measure.locator('[data-vote="yes"]');
+  await yes
+    .getByRole('button', {
+      name: 'Annotate IL26-001: Everything Yes means',
+      exact: true,
+    })
+    .click();
+  const dialog = page.getByRole('dialog');
+  const annotation = 'Check the notice trigger and confidentiality sources.';
+  await dialog.getByLabel('Your annotation', { exact: true }).fill(annotation);
+  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await page.reload();
+  await expect(yes.locator('.pg-note-preview')).toHaveText(annotation);
+  await expect(
+    measure.getByRole('radio', { name: 'No', exact: true })
+  ).toBeChecked();
+  const saved = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem('dom-politics:2026-general:v1')!)
+  );
+  expect(saved.notes['il26-001:vote:yes']).toBe(annotation);
+  expect(saved.choices['il26-001']).toBe('no');
+});

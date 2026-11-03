@@ -395,6 +395,12 @@ function NotebookGuide() {
       (item) => key === item.id || key.startsWith(item.id + ':')
     );
     if (m) {
+      const vote = [
+        ['yes', 'Everything Yes means'],
+        ['no', 'Everything No means'],
+        ['shared', 'What stays true either way'],
+      ].find(([id]) => key === `${m.id}:vote:${id}`);
+      if (vote) return `${m.number} · ${vote[1]}`;
       const change = m.comparison?.rows.find(
         (row) => key === `${m.id}:change:${row.id}`
       );
@@ -659,6 +665,105 @@ function NotebookGuide() {
               </p>
             </div>
           </div>
+          {m.voteMeaning && (
+            <section
+              className='pg-vote-meaning'
+              id={`${m.id}-vote-meaning`}
+              aria-labelledby={`${m.id}-vote-meaning-title`}
+            >
+              <header className='pg-vote-meaning-heading'>
+                <span className='pg-eyebrow'>READ BY VOTE</span>
+                <h3 id={`${m.id}-vote-meaning-title`}>
+                  Your vote, fully explained
+                </h3>
+                <p>{m.voteMeaning.introduction}</p>
+              </header>
+              <nav
+                className='pg-vote-meaning-index'
+                aria-label='Jump to a vote explanation'
+              >
+                <a href={`#${m.id}-vote-yes`}>Yes means</a>
+                <a href={`#${m.id}-vote-no`}>No means</a>
+                <a href={`#${m.id}-vote-shared`}>Either way</a>
+                {m.comparison && (
+                  <a href={`#${m.id}-comparison`}>Compare by topic</a>
+                )}
+              </nav>
+              <div className='pg-vote-meaning-columns'>
+                {(
+                  [
+                    ['yes', 'Everything Yes means', m.voteMeaning.yes],
+                    ['no', 'Everything No means', m.voteMeaning.no],
+                  ] as const
+                ).map(([vote, title, items]) => {
+                  const noteKey = `${m.id}:vote:${vote}`;
+                  return (
+                    <article
+                      className='pg-vote-meaning-panel'
+                      id={`${m.id}-vote-${vote}`}
+                      key={vote}
+                      data-vote={vote}
+                      aria-labelledby={`${m.id}-vote-${vote}-title`}
+                    >
+                      <h4 id={`${m.id}-vote-${vote}-title`}>{title}</h4>
+                      <ul className='pg-vote-meaning-items'>
+                        {items.map((item) => (
+                          <li key={item.title}>
+                            <p>
+                              <strong>{item.title}</strong> {item.text}
+                            </p>
+                            <ComparisonSources sources={item.sources} />
+                          </li>
+                        ))}
+                      </ul>
+                      <div className='pg-vote-meaning-note'>
+                        {noteButton(
+                          { key: noteKey, title: `${m.number}: ${title}` },
+                          true
+                        )}
+                        {note(noteKey) && (
+                          <p className='pg-note-preview'>{note(noteKey)}</p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+              <section
+                className='pg-vote-meaning-shared'
+                id={`${m.id}-vote-shared`}
+                aria-labelledby={`${m.id}-vote-shared-title`}
+              >
+                <h4 id={`${m.id}-vote-shared-title`}>
+                  What stays true either way
+                </h4>
+                <ul className='pg-vote-meaning-items'>
+                  {m.voteMeaning.eitherWay.map((item) => (
+                    <li key={item.title}>
+                      <p>
+                        <strong>{item.title}</strong> {item.text}
+                      </p>
+                      <ComparisonSources sources={item.sources} />
+                    </li>
+                  ))}
+                </ul>
+                <div className='pg-vote-meaning-note'>
+                  {noteButton(
+                    {
+                      key: `${m.id}:vote:shared`,
+                      title: `${m.number}: What stays true either way`,
+                    },
+                    true
+                  )}
+                  {note(`${m.id}:vote:shared`) && (
+                    <p className='pg-note-preview'>
+                      {note(`${m.id}:vote:shared`)}
+                    </p>
+                  )}
+                </div>
+              </section>
+            </section>
+          )}
           <div className='pg-current-law'>
             <h3>Where things stand</h3>
             <p>

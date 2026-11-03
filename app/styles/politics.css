@@ -455,6 +455,103 @@ body:has(.politics-app) {
   font-size: 12px;
   line-height: 1.85;
 }
+.pg-vote-meaning {
+  margin: 28px 0;
+  scroll-margin-top: 32px;
+}
+.pg-measure-body .pg-vote-meaning-heading h3 {
+  font-size: 21px;
+  margin: 8px 0 12px;
+}
+.pg-vote-meaning-heading p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.pg-vote-meaning-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 12px 0 16px;
+}
+.pg-vote-meaning-index a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-size: 12px;
+}
+.pg-vote-meaning-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.pg-vote-meaning-panel,
+.pg-vote-meaning-shared {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius);
+  scroll-margin-top: 32px;
+}
+.politics-app .pg-vote-meaning-panel > h4,
+.politics-app .pg-vote-meaning-shared > h4 {
+  font: 600 18px/1.5 var(--dm-font-heading);
+  letter-spacing: -0.02em;
+  text-transform: none;
+  margin: 0 0 20px;
+}
+.pg-vote-meaning-items {
+  padding: 0 0 0 18px;
+  margin: 0;
+}
+.pg-vote-meaning-items > li {
+  padding-left: 2px;
+  margin: 0 0 20px;
+  min-width: 0;
+}
+.pg-vote-meaning-items > li:last-child {
+  margin-bottom: 0;
+}
+.pg-vote-meaning-items > li::marker {
+  color: var(--dm-accent);
+}
+.pg-vote-meaning-items p {
+  font-size: 12px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.pg-vote-meaning-items strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pg-vote-meaning-shared {
+  margin-top: 20px;
+  background: var(--dm-paper);
+}
+.pg-vote-meaning-shared > .pg-vote-meaning-items {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 36px;
+}
+.pg-vote-meaning-note {
+  border-top: 1px dashed var(--dm-border);
+  padding-top: 12px;
+  margin-top: 20px;
+}
+.pg-vote-meaning-note .pg-note-preview {
+  margin-top: 12px;
+}
+@media (max-width: 700px) {
+  .pg-vote-meaning-columns,
+  .pg-vote-meaning-shared > .pg-vote-meaning-items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pg-vote-meaning-panel,
+  .pg-vote-meaning-shared {
+    padding: 16px;
+  }
+}
 .pg-rights-comparison {
   margin-top: 28px;
   scroll-margin-top: 32px;

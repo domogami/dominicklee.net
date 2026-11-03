@@ -14,6 +14,8 @@ Research snapshot: October 28, 2026. State and local measures were checked again
 
 IL26-001 comparison updated November 2, 2026: `app/politics/parentalRightsComparison.ts` provides a visible, topic-by-topic current-law / If Yes comparison. Labels refer to the specific parental right or child-protection safeguard, never a net score or voting recommendation. Definite statutory changes are separated from possible interpretation, especially the change from a reported allegation to an undefined “deemed committed” trigger. Every column has direct sources with subsection locators; independently operative abuse-notice, bullying, sexual-harassment, attendance, nondiscrimination and other laws are linked beside the explanation. This update does not claim the candidate research was refreshed.
 
+The same measure also has full “Everything Yes means” and “Everything No means” reading paths, with a shared-protections section, at `#il26-001-vote-meaning`. `app/politics/schoolVoteMeaning.ts` reuses the reviewed comparison text and locators for the 14 topics that change, then adds enactment, routine notices, interpretation/severability, the official timing assumptions, fiscal effects and constitutional amendment rules. In particular, the two-year rule is not an absolute freeze or an expiration date: Article II section 41 permits legislative amendments with two-thirds support and the prescribed governor review, and permits direct voter amendment or repeal. No retains the current framework without making it permanent. Every bullet has adjacent direct sources.
+
 The detailed measure comparison and candidate method notes are in `docs/politics-research/`. Original research working files are retained in the `Politics/research/` workspace. Runtime data is bundled in `app/politics/data/`; no live source scrape occurs when a visitor opens the guide. Recheck the roster and material legal/fiscal changes before any later election release.
 
 ## Notebook behavior
@@ -21,6 +23,8 @@ The detailed measure comparison and candidate method notes are in `docs/politics
 Choices, candidate notes, measure notes and annotations on individual bullets persist in `localStorage`, key `dom-politics:2026-general:v1`. There is no account or cross-device sync. Choices and notes are not sent to the server by this feature. Same-origin JavaScript can access browser storage; exports contain the user's private choices and notes.
 
 Each legal-comparison topic also accepts an annotation using the stable key `il26-001:change:<topic-id>`. It uses the existing notebook schema, backup and persistence behavior. Current law and the proposal appear side by side on desktop, then stack within each topic on narrow screens; no nested scrolling or disclosure overlay is added.
+
+The Yes, No and shared outcome panels accept notes at `il26-001:vote:yes`, `il26-001:vote:no` and `il26-001:vote:shared`. Reading or annotating a panel does not select or change a ballot choice.
 
 Export produces a versioned JSON backup. Import validates schema, size and candidate/measure IDs, then asks before replacing the current notebook. Clear asks before removing the notebook. Storage failure keeps the session usable and displays an export reminder. A storage event updates an open second tab. Nothing is preselected. Marking this guide does not submit an official ballot.
 
